@@ -8,6 +8,6 @@ public interface IUIInputSet : IInputSet
     public event Action OnLeftMouseClick;
     public event Action OnRightMouseClick;
     public event Action OnPause;
-    public Vector2 Point { get;}
-    public Vector2 ScrollWheelValue { get;}
+    public event Action<Vector2> OnPoint;
+    public event Action<Vector2> OnScrollWheelValue;
 }

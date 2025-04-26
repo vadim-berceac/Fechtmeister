@@ -14,23 +14,26 @@ public class UIInput : MonoBehaviour, IUIInputSet
    private InputAction _onLeftMouseClick;
    private InputAction _onRightMouseClick;
    private InputAction _point;
-   private InputAction _scrollWheel;
-   private InputAction _pause;
+   private InputAction _onScrollWheel;
+   private InputAction _onPause;
    
    public event Action OnSubmit;
    public event Action OnCancel;
    public event Action OnLeftMouseClick;
    public event Action OnRightMouseClick;
    public event Action OnPause;
-   public Vector2 Point { get; private set; }
-   public Vector2 ScrollWheelValue { get; private set; }
+   public event Action<Vector2> OnPoint;
+   public event Action<Vector2> OnScrollWheelValue;
 
    private void Awake()
    {
       FindActions();
       Enable();
       Subscribe();
+      
+#if UNITY_EDITOR
       Debug.LogWarning("UIInput: Awake");
+#endif
    }
 
    public void FindActions()
@@ -46,11 +49,11 @@ public class UIInput : MonoBehaviour, IUIInputSet
       _onLeftMouseClick = inputActionAsset.FindAction(uiActionsNames.LeftMouseClick);
       _onRightMouseClick = inputActionAsset.FindAction(uiActionsNames.RightMouseClick);
       _point = inputActionAsset.FindAction(uiActionsNames.Point);
-      _scrollWheel = inputActionAsset.FindAction(uiActionsNames.ScrollWheel);
-      _pause = inputActionAsset.FindAction(uiActionsNames.Pause);
+      _onScrollWheel = inputActionAsset.FindAction(uiActionsNames.ScrollWheel);
+      _onPause = inputActionAsset.FindAction(uiActionsNames.Pause);
 
       _actions.Clear();
-      _actions.AddRange(new[] { _onSubmit, _onCancel, _onLeftMouseClick, _onRightMouseClick, _point, _scrollWheel, _pause });
+      _actions.AddRange(new[] { _onSubmit, _onCancel, _onLeftMouseClick, _onRightMouseClick, _point, _onScrollWheel, _onPause });
    }
    
    public void Enable()
@@ -79,10 +82,10 @@ public class UIInput : MonoBehaviour, IUIInputSet
       _point.performed += OnPointCTX;
       _point.canceled += OnPointCTXCancel;
       
-      _scrollWheel.performed += OnScrollWheelCTX;
-      _scrollWheel.canceled += OnScrollWheelValueCancel;
+      _onScrollWheel.performed += OnOnScrollWheelCtx;
+      _onScrollWheel.canceled += OnOnScrollWheelValueCancel;
       
-      _pause.performed += OnPauseCTX;
+      _onPause.performed += OnOnPauseCtx;
    }
 
    public void Unsubscribe()
@@ -95,10 +98,10 @@ public class UIInput : MonoBehaviour, IUIInputSet
       _point.performed -= OnPointCTX;
       _point.canceled -= OnPointCTXCancel;
       
-      _scrollWheel.performed -= OnScrollWheelCTX;
-      _scrollWheel.canceled -= OnScrollWheelValueCancel;
+      _onScrollWheel.performed -= OnOnScrollWheelCtx;
+      _onScrollWheel.canceled -= OnOnScrollWheelValueCancel;
       
-      _pause.performed -= OnPauseCTX;
+      _onPause.performed -= OnOnPauseCtx;
    }
 
    private void OnSubmitCTX(InputAction.CallbackContext ctx)
@@ -123,25 +126,25 @@ public class UIInput : MonoBehaviour, IUIInputSet
 
    private void OnPointCTX(InputAction.CallbackContext ctx)
    {
-      Point = ctx.ReadValue<Vector2>();
+      OnPoint?.Invoke(ctx.ReadValue<Vector2>());
    }
 
    private void OnPointCTXCancel(InputAction.CallbackContext ctx)
    {
-      Point = Vector2.zero;
+      OnPoint?.Invoke(Vector2.zero);
    }
 
-   private void OnScrollWheelCTX(InputAction.CallbackContext ctx)
+   private void OnOnScrollWheelCtx(InputAction.CallbackContext ctx)
    {
-      ScrollWheelValue = ctx.ReadValue<Vector2>();
+      OnScrollWheelValue?.Invoke(ctx.ReadValue<Vector2>());
    }
 
-   private void OnScrollWheelValueCancel(InputAction.CallbackContext ctx)
+   private void OnOnScrollWheelValueCancel(InputAction.CallbackContext ctx)
    {
-      ScrollWheelValue = Vector2.zero;
+      OnScrollWheelValue?.Invoke(Vector2.zero);
    }
 
-   private void OnPauseCTX(InputAction.CallbackContext ctx)
+   private void OnOnPauseCtx(InputAction.CallbackContext ctx)
    {
       OnPause?.Invoke();
    }
@@ -150,6 +153,17 @@ public class UIInput : MonoBehaviour, IUIInputSet
    {
       Unsubscribe();
       Disable();
+   }
+   
+   private void OnDestroy()
+   {
+      OnSubmit = null;
+      OnCancel = null;
+      OnLeftMouseClick = null;
+      OnRightMouseClick = null;
+      OnPause = null;
+      OnPoint = null;
+      OnScrollWheelValue = null;
    }
 }
 
