@@ -58,6 +58,7 @@ public class SceneCamera : MonoBehaviour, IInputHandler
             sceneCameraData.CharacterCameraController.Target.TrackingTarget = null;
             sceneCameraData.SceneCamera.gameObject.SetActive(true);
             sceneCameraData.CharacterCamera.gameObject.SetActive(false);
+            return;
         }
         HasTarget = true;
         sceneCameraData.CharacterCameraController.Target.TrackingTarget = target;

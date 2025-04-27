@@ -14,6 +14,14 @@ public class NextCharacterButton : MonoBehaviour
    public void SelectNext()
    {
       var character = _sceneCharacterContainer.GetNextCharacter();
-      character.CameraTarget.SetTarget();
+      character.Select(true);
+   }
+
+   public void ResetSelection()
+   {
+      foreach (var character in _sceneCharacterContainer.Characters)
+      {
+         character.Select(false);
+      }
    }
 }
