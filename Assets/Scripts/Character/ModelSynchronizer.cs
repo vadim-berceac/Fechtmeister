@@ -24,7 +24,7 @@ public class ModelSynchronizer : MonoBehaviour
 }
 
 [System.Serializable]
-public struct CombinedBone
+public class CombinedBone
 {
     [field: SerializeField] public string BoneName { get; private set; }
     [field: SerializeField] public Transform Transform { get; private set; }
