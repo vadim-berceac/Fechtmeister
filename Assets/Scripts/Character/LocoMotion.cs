@@ -51,7 +51,6 @@ public class LocoMotion : IInputHandler
 
     private void OnMove(Vector2 move)
     {
-        Debug.Log($"OnMove: {move} " + _locoMotionSettings.Animator.gameObject.transform.parent.name);
         _locoMotionSettings.Animator.SetFloat(_locoMotionSettings.InputX, move.x);
         _locoMotionSettings.Animator.SetFloat(_locoMotionSettings.InputY, move.y);
     }
