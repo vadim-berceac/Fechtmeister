@@ -13,6 +13,7 @@ public class NextCharacterButton : MonoBehaviour
 
    public void SelectNext()
    {
+      ResetSelection();
       var character = _sceneCharacterContainer.GetNextCharacter();
       character.Select(true);
    }
