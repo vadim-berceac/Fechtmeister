@@ -46,7 +46,7 @@ public class SceneCamera : MonoBehaviour, IInputHandler
         }
         _targetYaw = _targetYaw.ClampAngle(float.MinValue, float.MaxValue);
         _targetPitch = _targetPitch.ClampAngle(sceneCameraData.BottomClamp, sceneCameraData.TopClamp);
-        sceneCameraData.CharacterCameraController.Target.TrackingTarget.transform.rotation 
+        sceneCameraData.CharacterCameraController.Target.TrackingTarget.transform.localRotation 
             = Quaternion.Euler(_targetPitch, _targetYaw, 0.0f);
     }
 

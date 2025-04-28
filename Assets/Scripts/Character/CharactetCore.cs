@@ -42,6 +42,11 @@ public class CharacterCore : MonoBehaviour
         Initialize();
     }
 
+    private void FixedUpdate()
+    {
+        _locoMotion.OnAnimatorMove();
+    }
+
     private void OnEnable()
     {
         _sceneRegistrar.Add();
@@ -49,7 +54,7 @@ public class CharacterCore : MonoBehaviour
 
     private void Initialize()
     {
-        _locoMotion = new LocoMotion(LocoMotionSettings);
+        _locoMotion = new LocoMotion(LocoMotionSettings, transform);
         _cameraTarget = new CameraTarget(CameraTargetSettings, _sceneCamera);
         _sceneRegistrar = new SceneRegistrar(this, _sceneCharacterContainer);
     }

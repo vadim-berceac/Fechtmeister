@@ -6,11 +6,13 @@ public class LocoMotion : IInputHandler
     public IInputSet InputSet { get; private set; }
     
     private readonly LocoMotionSettings _locoMotionSettings;
+    private readonly Transform _character;
     private ICharacterInputSet _characterInputSet;
 
-    public LocoMotion(LocoMotionSettings locoMotionSettings)
+    public LocoMotion(LocoMotionSettings locoMotionSettings, Transform character)
     {
         _locoMotionSettings = locoMotionSettings;
+        _character = character;
     }
 
     public void SetupInputSet(IInputSet inputSet)
@@ -38,7 +40,6 @@ public class LocoMotion : IInputHandler
             return;
         }
         _characterInputSet.OnMove += OnMove;
-        _characterInputSet.OnMove += RotateCharacter;
     }
 
     private void Unsubscribe()
@@ -48,7 +49,6 @@ public class LocoMotion : IInputHandler
             return;
         }
         _characterInputSet.OnMove -= OnMove;
-        _characterInputSet.OnMove -= RotateCharacter;
     }
 
     private void OnMove(Vector2 move)
@@ -57,14 +57,28 @@ public class LocoMotion : IInputHandler
         _locoMotionSettings.Animator.SetFloat(_locoMotionSettings.InputY, move.y);
     }
     
-    private void RotateCharacter(Vector2 input)
+    public void OnAnimatorMove()
     {
-        if (input.sqrMagnitude < 0.01f) return;
-        Vector3 inputDirection = new Vector3(input.x, 0, input.y).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(inputDirection);
-        Quaternion newRotation = Quaternion.Slerp(_locoMotionSettings.Rigidbody.rotation, targetRotation, _locoMotionSettings.RotationSpeed * Time.fixedDeltaTime);
-        _locoMotionSettings.Rigidbody.MoveRotation(newRotation);
-        Debug.Log($"Applied Rotation: {_locoMotionSettings.Rigidbody.rotation}");
+        var deltaPosition = _locoMotionSettings.Animator.deltaPosition;
+        var deltaRotation = _locoMotionSettings.Animator.deltaRotation;
+
+        var motion = deltaPosition;
+        if (!_locoMotionSettings.CharacterController.isGrounded)
+        {
+            motion.y -= 9.81f * Time.deltaTime; 
+        }
+        _locoMotionSettings.CharacterController.Move(motion);
+
+        if (deltaRotation == Quaternion.identity)
+        {
+           return;
+        }
+        var targetRotation = _character.rotation * deltaRotation;
+        _character.rotation = Quaternion.RotateTowards(
+            _character.rotation,
+            targetRotation,
+            _locoMotionSettings.RotationSpeed * Time.deltaTime
+        );
     }
 }
 
@@ -74,8 +88,8 @@ public struct LocoMotionSettings
     [field: Header("Animator")]
     [field: SerializeField] public Animator Animator { get; private set; }
     
-    [field: Header("Rigidbody")]
-    [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
+    [field: Header("Character Controller")]
+    [field: SerializeField] public CharacterController CharacterController { get; private set; }
     
     [field: Header("Animation Params")]
     [field: SerializeField] public float RotationSpeed { get; private set; }
