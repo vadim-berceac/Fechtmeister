@@ -56,30 +56,6 @@ public class LocoMotion : IInputHandler
         _locoMotionSettings.Animator.SetFloat(_locoMotionSettings.InputX, move.x);
         _locoMotionSettings.Animator.SetFloat(_locoMotionSettings.InputY, move.y);
     }
-    
-    public void OnAnimatorMove()
-    {
-        var deltaPosition = _locoMotionSettings.Animator.deltaPosition;
-        var deltaRotation = _locoMotionSettings.Animator.deltaRotation;
-
-        var motion = deltaPosition;
-        if (!_locoMotionSettings.CharacterController.isGrounded)
-        {
-            motion.y -= 9.81f * Time.deltaTime; 
-        }
-        _locoMotionSettings.CharacterController.Move(motion);
-
-        if (deltaRotation == Quaternion.identity)
-        {
-           return;
-        }
-        var targetRotation = _character.rotation * deltaRotation;
-        _character.rotation = Quaternion.RotateTowards(
-            _character.rotation,
-            targetRotation,
-            _locoMotionSettings.RotationSpeed * Time.deltaTime
-        );
-    }
 }
 
 [System.Serializable]

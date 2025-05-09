@@ -42,11 +42,6 @@ public class CharacterCore : MonoBehaviour
         Initialize();
     }
 
-    private void FixedUpdate()
-    {
-        _locoMotion.OnAnimatorMove();
-    }
-
     private void OnEnable()
     {
         _sceneRegistrar.Add();
