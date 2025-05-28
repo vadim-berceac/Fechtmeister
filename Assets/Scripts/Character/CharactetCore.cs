@@ -3,9 +3,6 @@ using Zenject;
 
 public class CharacterCore : MonoBehaviour
 {
-    [field: SerializeField] private CameraTargetSettings CameraTargetSettings { get; set; }
-   
-    private CameraTarget _cameraTarget;
     private SceneCharacterContainer _sceneCharacterContainer;
     private SceneCamera _sceneCamera;
 
@@ -23,25 +20,15 @@ public class CharacterCore : MonoBehaviour
     {
         if (value)
         {
-            _cameraTarget.SetTarget();
+            _sceneCamera.SetTarget(transform);
             return;
         }
-        _cameraTarget.ResetTarget();
-    }
-
-    private void Awake()
-    {
-        Initialize();
+        _sceneCamera.SetTarget(null);
     }
 
     private void OnEnable()
     {
         _sceneCharacterContainer.Add(this);
-    }
-
-    private void Initialize()
-    {
-        _cameraTarget = new CameraTarget(CameraTargetSettings, _sceneCamera);
     }
 
     private void OnDisable()

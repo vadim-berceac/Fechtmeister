@@ -6,6 +6,7 @@ public class SceneCamera : MonoBehaviour, IInputHandler
 {
     [field: SerializeField] private SceneCameraData sceneCameraData;
     private PlayerInput _playerInput;
+    private Transform _trackingTarget;
     private Transform _target;
     private float _targetYaw;
     private float _targetPitch;
@@ -23,6 +24,12 @@ public class SceneCamera : MonoBehaviour, IInputHandler
 #if UNITY_EDITOR
         Debug.LogWarning("SceneCamera: Awake");
 #endif
+        if (_trackingTarget == null)
+        {
+            var trackingObject = new GameObject("Tracking Object");
+            _trackingTarget = trackingObject.transform;
+        }
+        sceneCameraData.CharacterCameraController.Target.TrackingTarget = _trackingTarget;
     }
 
     private void OnEnable()
@@ -31,10 +38,23 @@ public class SceneCamera : MonoBehaviour, IInputHandler
         _playerInput.OnLook += Rotate;
     }
 
+    private void LateUpdate()
+    {
+        UpdateTrackingTarget();
+    }
+
+    private void UpdateTrackingTarget()
+    {
+        if (_target == null)
+        {
+            return;
+        }
+        _trackingTarget.transform.position = _target.transform.position;
+    }
+
     private void Rotate(Vector2 value)
     {
-        if (!sceneCameraData.CharacterCamera.gameObject.activeInHierarchy 
-            || sceneCameraData.CharacterCameraController.Target.TrackingTarget == null)
+        if (!sceneCameraData.CharacterCamera.gameObject.activeInHierarchy)
         {
             return;
         }
@@ -55,13 +75,13 @@ public class SceneCamera : MonoBehaviour, IInputHandler
         if (target == null)
         {
             HasTarget = false;
-            sceneCameraData.CharacterCameraController.Target.TrackingTarget = null;
+            _target = null;
             sceneCameraData.SceneCamera.gameObject.SetActive(true);
             sceneCameraData.CharacterCamera.gameObject.SetActive(false);
             return;
         }
         HasTarget = true;
-        sceneCameraData.CharacterCameraController.Target.TrackingTarget = target;
+        _target = target;
         sceneCameraData.SceneCamera.gameObject.SetActive(false);
         sceneCameraData.CharacterCamera.gameObject.SetActive(true);
     }
