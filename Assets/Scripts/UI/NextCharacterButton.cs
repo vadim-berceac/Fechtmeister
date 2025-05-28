@@ -20,7 +20,7 @@ public class NextCharacterButton : MonoBehaviour
 
    public void ResetSelection()
    {
-      foreach (var character in _sceneCharacterContainer.Characters)
+      foreach (var character in _sceneCharacterContainer.GetCharacters())
       {
          character.Select(false);
       }

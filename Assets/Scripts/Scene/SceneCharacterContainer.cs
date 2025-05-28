@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class SceneCharacterContainer : MonoBehaviour
 {
-   public HashSet<CharacterCore> Characters { get; private set; } = new HashSet<CharacterCore>();
-   private CharacterCore _currentCharacter = null;
+   private readonly HashSet<CharacterCore> _characters  = new ();
+   private CharacterCore _currentCharacter;
    
    public CharacterCore GetNextCharacter()
    {
-      if (Characters.Count == 0)
+      if (_characters.Count == 0)
          return null;
 
       if (_currentCharacter == null)
       {
-         _currentCharacter = Characters.First();
+         _currentCharacter = _characters.First();
          return _currentCharacter;
       }
 
-      var iterator = Characters.GetEnumerator();
+      var iterator = _characters.GetEnumerator();
       var foundCurrent = false;
       CharacterCore nextCharacter = null;
 
@@ -34,7 +34,26 @@ public class SceneCharacterContainer : MonoBehaviour
             foundCurrent = true;
          }
       }
-      _currentCharacter = nextCharacter ?? Characters.First();
+      _currentCharacter = nextCharacter ?? _characters.First();
       return _currentCharacter;
+   }
+
+   public HashSet<CharacterCore> GetCharacters()
+   {
+      return _characters;
+   }
+
+   public void Add(CharacterCore character)
+   {
+      _characters.Add(character);
+   }
+
+   public void Remove(CharacterCore character)
+   {
+      if (!_characters.Contains(character))
+      {
+         return;
+      }
+      _characters.Remove(character);
    }
 }
