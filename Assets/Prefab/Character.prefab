@@ -95,15 +95,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e305f5648a7bc114488a778dd84896f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <LocoMotionSettings>k__BackingField:
+  <LocomotionSettings>k__BackingField:
     <Animator>k__BackingField: {fileID: 6502283926946306806}
-    <CharacterController>k__BackingField: {fileID: 6829832979991591507}
-    <RotationSpeed>k__BackingField: 90
-    <MaxSlopeAngle>k__BackingField: 5
-    <InputY>k__BackingField: InputY
-    <InputX>k__BackingField: InputX
-  <CameraTargetSettings>k__BackingField:
-    <Target>k__BackingField: {fileID: 8106359924363902097}
+    <SpeedCurve>k__BackingField:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.33333334
+        outSlope: 0.33333334
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: 1
+        inSlope: 0.33333334
+        outSlope: 0.33333334
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!1 &5455542353462452707
 GameObject:
   m_ObjectHideFlags: 0

@@ -83,13 +83,15 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         _onInteract.performed += OnInteractCTX;
         _onJump.performed += OnJumpCTX;
         _onSneak.performed += OnSneakCTX;
-        _onSprint.performed += OnSprintCTX;
         _onDrawWeapon.performed += OnDrawWeaponCTX;
         _onHoldTarget.performed += OnHoldTargetCTX;
         _onOpenInventory.performed += OnOpenInventoryCTX;
         _onWeaponSelect0.performed += OnWeaponSelect0CTX;
         _onWeaponSelect1.performed += OnWeaponSelect1CTX;
         _onWeaponSelect2.performed += OnWeaponSelect2CTX;
+        
+        _onSprint.performed += OnSprintCTX;
+        _onSprint.canceled += OnSprintCTXCancel;
         
         _onMove.performed += OnMoveCTX;
         _onMove.canceled += OnMoveCTXCancel;
@@ -104,13 +106,15 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         _onInteract.performed -= OnInteractCTX;
         _onJump.performed -= OnJumpCTX;
         _onSneak.performed -= OnSneakCTX;
-        _onSprint.performed -= OnSprintCTX;
         _onDrawWeapon.performed -= OnDrawWeaponCTX;
         _onHoldTarget.performed -= OnHoldTargetCTX;
         _onOpenInventory.performed -= OnOpenInventoryCTX;
         _onWeaponSelect0.performed -= OnWeaponSelect0CTX;
         _onWeaponSelect1.performed -= OnWeaponSelect1CTX;
         _onWeaponSelect2.performed -= OnWeaponSelect2CTX;
+        
+        _onSprint.performed -= OnSprintCTX;
+        _onSprint.canceled -= OnSprintCTXCancel;
         
         _onMove.performed -= OnMoveCTX;
         _onMove.canceled -= OnMoveCTXCancel;
@@ -156,6 +160,11 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     }
 
     private void OnSprintCTX(InputAction.CallbackContext ctx)
+    {
+        OnSprint?.Invoke();
+    }
+
+    private void OnSprintCTXCancel(InputAction.CallbackContext ctx)
     {
         OnSprint?.Invoke();
     }
