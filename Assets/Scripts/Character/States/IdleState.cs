@@ -6,7 +6,7 @@ public class IdleState : State
 {
     public override void EnterState(CharacterCore character)
     {
-        
+        character.LocomotionSettings.Animator.CrossFade(AnimationParams.IdleStateName, enterTransitionDuration, animationLayer);
     }
 
     [BurstCompile]

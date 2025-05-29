@@ -25,6 +25,7 @@ public class CharacterCore : MonoBehaviour
         CharacterInputHandler = new CharacterInputHandler();
         
         CurrentState = StatesContainer.IdleState;
+        CurrentState.EnterState(this);
     }
 
     public void Select(bool value)
@@ -66,5 +67,4 @@ public class CharacterCore : MonoBehaviour
 public struct LocomotionSettings
 {
     [field: SerializeField] public Animator Animator { get; private set; }
-    [field: SerializeField] public AnimationCurve SpeedCurve { get; private set; }
 }

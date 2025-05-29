@@ -6,7 +6,7 @@ public class RunState: State
 {
     public override void EnterState(CharacterCore character)
     {
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.CurrentSpeed, 1);
+        character.LocomotionSettings.Animator.CrossFade(AnimationParams.RunStateName, enterTransitionDuration, animationLayer);
     }
 
     [BurstCompile]
@@ -34,6 +34,6 @@ public class RunState: State
 
     public override void ExitState(CharacterCore character)
     {
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.CurrentSpeed, 0);
+        
     }
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 946f9e152f97a284eb2ef4db0f0cdef0
+guid: 67be4b8cd1e62134883a1d8f66bb397c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,13 +31,13 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Sword Walk Forward
+      name: Sword Walk Backwards
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 65
+      lastFrame: 75
       wrapMode: 0
-      orientationOffsetY: -15
+      orientationOffsetY: -12
       level: 0
       cycleOffset: 0
       loop: 0

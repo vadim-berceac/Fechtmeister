@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856caca7b1586994594ad20122806aad, type: 3}
   m_Name: RunState
   m_EditorClassIdentifier: 
+  enterTransitionDuration: 1
+  animationLayer: 0

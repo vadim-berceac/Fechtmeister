@@ -2,7 +2,11 @@ using UnityEngine;
 
 public static class AnimationParams
 {
-    public static readonly string InputX = "InputX";
-    public static readonly string InputY = "InputY";
-    public static readonly string CurrentSpeed = "CurrentSpeed";
+    public const string IdleStateName = "Idle";
+    public const string WalkStateName = "Walk";
+    public const string RunStateName = "Run";
+    public const string WeaponOnStateName = "WeaponOn";
+    public const string WeaponOffStateName = "WeaponOff";
+    public const string InputX = "InputX";
+    public const string InputY = "InputY";
 }
