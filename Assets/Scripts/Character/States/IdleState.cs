@@ -12,6 +12,7 @@ public class IdleState : State
     [BurstCompile]
     public override void UpdateState(CharacterCore character)
     {
+        base.UpdateState(character);
         CheckSwitch(character);
     }
 

@@ -463,12 +463,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665f8f6aadaaf8b4a89af19172dc1e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneCameraData:
+  <SceneCameraData>k__BackingField:
     <MainCamera>k__BackingField: {fileID: 7352995877908432290}
     <CharacterCamera>k__BackingField: {fileID: 1066199408642122102}
     <SceneCamera>k__BackingField: {fileID: 3160999561519942610}
     <CharacterCameraController>k__BackingField: {fileID: 8875728143264652359}
-    <TopClamp>k__BackingField: 30
+    <TopClamp>k__BackingField: 25
     <BottomClamp>k__BackingField: -5
-    <RotationCoefficient>k__BackingField: 0.2
-    <Threshold>k__BackingField: 0.01
+    <RotationCoefficient>k__BackingField: 0.7
+    <Threshold>k__BackingField: 1

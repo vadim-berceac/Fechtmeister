@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enterTransitionDuration: 1
   animationLayer: 0
+  updateRotationByCamera: 1

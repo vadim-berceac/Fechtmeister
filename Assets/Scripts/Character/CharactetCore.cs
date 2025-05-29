@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class CharacterCore : MonoBehaviour
@@ -6,7 +7,7 @@ public class CharacterCore : MonoBehaviour
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
     
     private SceneCharacterContainer _sceneCharacterContainer;
-    private SceneCamera _sceneCamera;
+    public SceneCamera SceneCamera { get; private set; }
     public CharacterInputHandler CharacterInputHandler { get; private set; }
 
     private ICharacterInputSet _inputByPlayer;
@@ -18,7 +19,7 @@ public class CharacterCore : MonoBehaviour
     [Inject]
     private void Construct(SceneCamera sceneCamera, SceneCharacterContainer sceneCharacterContainer, PlayerInput playerInput, StatesContainer statesContainer)
     {
-        _sceneCamera = sceneCamera;
+        SceneCamera = sceneCamera;
         _sceneCharacterContainer = sceneCharacterContainer;
         _inputByPlayer = playerInput;
         StatesContainer = statesContainer;
@@ -32,11 +33,11 @@ public class CharacterCore : MonoBehaviour
     {
         if (value)
         {
-            _sceneCamera.SetTarget(transform);
+            SceneCamera.SetTarget(transform);
             CharacterInputHandler.SetupInputSet(_inputByPlayer);
             return;
         }
-        _sceneCamera.SetTarget(null);
+        SceneCamera.SetTarget(null);
         CharacterInputHandler.SetupInputSet(null);
     }
 
@@ -67,4 +68,5 @@ public class CharacterCore : MonoBehaviour
 public struct LocomotionSettings
 {
     [field: SerializeField] public Animator Animator { get; private set; }
+    [field: SerializeField] public CharacterController CharacterController { get; private set; }
 }

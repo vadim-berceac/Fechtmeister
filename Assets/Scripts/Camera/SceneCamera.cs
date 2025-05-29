@@ -4,10 +4,10 @@ using Zenject;
 
 public class SceneCamera : MonoBehaviour, IInputHandler
 {
-    [field: SerializeField] private SceneCameraData sceneCameraData;
+    [field: SerializeField] public SceneCameraData SceneCameraData { get; private set; }
     private PlayerInput _playerInput;
     private Transform _trackingTarget;
-    private Transform _target;
+    public Transform Target { get; private set; }
     private float _targetYaw;
     private float _targetPitch;
     public IInputSet InputSet { get; private set; }
@@ -29,7 +29,7 @@ public class SceneCamera : MonoBehaviour, IInputHandler
             var trackingObject = new GameObject("Tracking Object");
             _trackingTarget = trackingObject.transform;
         }
-        sceneCameraData.CharacterCameraController.Target.TrackingTarget = _trackingTarget;
+        SceneCameraData.CharacterCameraController.Target.TrackingTarget = _trackingTarget;
     }
 
     private void OnEnable()
@@ -45,28 +45,28 @@ public class SceneCamera : MonoBehaviour, IInputHandler
 
     private void UpdateTrackingTarget()
     {
-        if (_target == null)
+        if (Target == null)
         {
             return;
         }
-        _trackingTarget.transform.position = _target.transform.position;
+        _trackingTarget.transform.position = Target.transform.position;
     }
 
     private void Rotate(Vector2 value)
     {
-        if (!sceneCameraData.CharacterCamera.gameObject.activeInHierarchy)
+        if (!SceneCameraData.CharacterCamera.gameObject.activeInHierarchy)
         {
             return;
         }
         
-        if (value.sqrMagnitude >= sceneCameraData.Threshold)
+        if (value.sqrMagnitude >= SceneCameraData.Threshold)
         {
-            _targetYaw += value.x * sceneCameraData.RotationCoefficient;
-            _targetPitch += value.y * sceneCameraData.RotationCoefficient;
+            _targetYaw += value.x * SceneCameraData.RotationCoefficient;
+            _targetPitch += value.y * SceneCameraData.RotationCoefficient;
         }
         _targetYaw = _targetYaw.ClampAngle(float.MinValue, float.MaxValue);
-        _targetPitch = _targetPitch.ClampAngle(sceneCameraData.BottomClamp, sceneCameraData.TopClamp);
-        sceneCameraData.CharacterCameraController.Target.TrackingTarget.transform.localRotation 
+        _targetPitch = _targetPitch.ClampAngle(SceneCameraData.BottomClamp, SceneCameraData.TopClamp);
+        SceneCameraData.CharacterCameraController.Target.TrackingTarget.transform.localRotation 
             = Quaternion.Euler(_targetPitch, _targetYaw, 0.0f);
     }
 
@@ -75,15 +75,15 @@ public class SceneCamera : MonoBehaviour, IInputHandler
         if (target == null)
         {
             HasTarget = false;
-            _target = null;
-            sceneCameraData.SceneCamera.gameObject.SetActive(true);
-            sceneCameraData.CharacterCamera.gameObject.SetActive(false);
+            Target = null;
+            SceneCameraData.SceneCamera.gameObject.SetActive(true);
+            SceneCameraData.CharacterCamera.gameObject.SetActive(false);
             return;
         }
         HasTarget = true;
-        _target = target;
-        sceneCameraData.SceneCamera.gameObject.SetActive(false);
-        sceneCameraData.CharacterCamera.gameObject.SetActive(true);
+        Target = target;
+        SceneCameraData.SceneCamera.gameObject.SetActive(false);
+        SceneCameraData.CharacterCamera.gameObject.SetActive(true);
     }
 
     public void SetupInputSet(IInputSet inputSet)

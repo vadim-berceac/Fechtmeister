@@ -12,6 +12,7 @@ public class WalkState : State
     [BurstCompile]
     public override void UpdateState(CharacterCore character)
     {
+        base.UpdateState(character);
         CheckSwitch(character);
         
         character.LocomotionSettings.Animator.SetFloat(AnimationParams.InputX,character.CharacterInputHandler.InputX);

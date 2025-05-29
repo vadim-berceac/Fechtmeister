@@ -8,6 +8,7 @@ public class CharacterInputHandler : IInputHandler
     public bool IsSprint { get; private set; }
     public float InputX { get; private set; }
     public float InputY { get; private set; }
+    public float LookX { get; private set; }
     
     private bool _isSubscribed;
     
@@ -35,6 +36,7 @@ public class CharacterInputHandler : IInputHandler
         
         _characterInputSet.OnMove += OnMove;
         _characterInputSet.OnSprint += OnSprint;
+        _characterInputSet.OnLook += OnLook;
     }
 
     private void Unsubscribe()
@@ -47,12 +49,18 @@ public class CharacterInputHandler : IInputHandler
         
         _characterInputSet.OnMove -= OnMove;
         _characterInputSet.OnSprint -= OnSprint;
+        _characterInputSet.OnLook -= OnLook;
     }
 
     private void OnMove(Vector2 move)
     {
         InputX = move.x;
         InputY = move.y;
+    }
+
+    private void OnLook(Vector2 look)
+    {
+        LookX = look.x;
     }
 
     private void OnSprint()
