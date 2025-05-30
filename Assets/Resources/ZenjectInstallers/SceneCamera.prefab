@@ -468,7 +468,7 @@ MonoBehaviour:
     <CharacterCamera>k__BackingField: {fileID: 1066199408642122102}
     <SceneCamera>k__BackingField: {fileID: 3160999561519942610}
     <CharacterCameraController>k__BackingField: {fileID: 8875728143264652359}
-    <TopClamp>k__BackingField: 25
+    <TopClamp>k__BackingField: 20
     <BottomClamp>k__BackingField: -5
-    <RotationCoefficient>k__BackingField: 0.7
+    <RotationCoefficient>k__BackingField: 0.15
     <Threshold>k__BackingField: 1

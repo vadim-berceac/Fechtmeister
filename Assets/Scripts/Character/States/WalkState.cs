@@ -6,7 +6,7 @@ public class WalkState : State
 {
     public override void EnterState(CharacterCore character)
     {
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.WalkStateName, enterTransitionDuration, animationLayer);
+        character.LocomotionSettings.Animator.CrossFade(AnimationParams.WalkStateName, EnterTransitionDuration, AnimationLayer);
     }
 
     [BurstCompile]

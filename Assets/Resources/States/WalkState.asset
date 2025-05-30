@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c559fd4bce7cefe4b9a0885aa56b8f44, type: 3}
   m_Name: WalkState
   m_EditorClassIdentifier: 
-  enterTransitionDuration: 0.3
-  animationLayer: 0
-  updateRotationByCamera: 1
+  <EnterTransitionDuration>k__BackingField: 0.3
+  <AnimationLayer>k__BackingField: 0
+  <RotationByCamera>k__BackingField: 1
+  <RotationSpeed>k__BackingField: 15
+  <UseGravity>k__BackingField: 1
+  <GroundLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 1

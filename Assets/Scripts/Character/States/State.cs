@@ -2,27 +2,33 @@ using UnityEngine;
 
 public abstract class State : ScriptableObject
 {
-    [field: SerializeField] protected float enterTransitionDuration;
-    [field: SerializeField] protected int animationLayer;
-    [field: SerializeField] protected bool updateRotationByCamera;
+    [field: Header("Animation")]
+    [field: SerializeField] protected float EnterTransitionDuration {get; private set;}
+    [field: SerializeField] protected int AnimationLayer {get; private set;}
+    
+    [field: Header("Locomotion")]
+    [field: SerializeField] protected bool RotationByCamera {get; private set;}
+    [field: SerializeField] protected float RotationSpeed {get; private set;}
+    
+    [field: Header("Gravity")]
+    [field: SerializeField] protected bool UseGravity {get; private set;}
+    [field: SerializeField] protected LayerMask GroundLayer {get; private set;}
+    
     public abstract void EnterState(CharacterCore character);
 
     public virtual void UpdateState(CharacterCore character)
     {
-        UpdateRotationByCamera(character);
+        character.UpdateRotationByCamera(RotationByCamera, RotationSpeed);
     }
+
+    public virtual void FixedUpdateState(CharacterCore character)
+    {
+        character.SetFallSpeed(character.ApplyGravitation(UseGravity, character.CurrentFallSpeed, true));
+        character.SetGrounded(character.CheckIsGrounded(UseGravity, GroundLayer));
+        Debug.Log(character.Grounded);
+    }
+    
     public abstract void CheckSwitch(CharacterCore character);
     public abstract void ExitState(CharacterCore character);
-
-    private void UpdateRotationByCamera(CharacterCore character)
-    {
-        if (!updateRotationByCamera)
-        {
-            return;
-        }
-        if (character.SceneCamera.Target == character.transform)
-        {
-            character.transform.rotation = Quaternion.Euler(0, character.SceneCamera.SceneCameraData.MainCamera.eulerAngles.y, 0);
-        }
-    }
+   
 }
