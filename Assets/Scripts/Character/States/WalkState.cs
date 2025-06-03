@@ -31,6 +31,11 @@ public class WalkState : State
         {
             character.SetState(character.StatesContainer.RunState);
         }
+
+        if (character.CharacterInputHandler.IsWeaponDraw)
+        {
+            character.SetState(character.StatesContainer.WeaponOnState);
+        }
     }
 
     public override void ExitState(CharacterCore character)

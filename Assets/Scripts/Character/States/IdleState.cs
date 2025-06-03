@@ -23,6 +23,11 @@ public class IdleState : State
         {
             character.SetState(character.StatesContainer.WalkState);
         }
+        
+        if (character.CharacterInputHandler.IsWeaponDraw)
+        {
+            character.SetState(character.StatesContainer.WeaponOnState);
+        }
     }
 
     public override void ExitState(CharacterCore character)

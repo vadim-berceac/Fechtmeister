@@ -4,6 +4,8 @@ using Zenject;
 
 public class CharacterCore : MonoBehaviour
 {
+    [field: Header("Temp")]
+    [field: SerializeField] public int CurrentWeaponIndex { get; set; }
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
     

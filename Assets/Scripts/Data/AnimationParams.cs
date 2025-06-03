@@ -9,4 +9,6 @@ public static class AnimationParams
     public const string WeaponOffStateName = "WeaponOff";
     public const string InputX = "InputX";
     public const string InputY = "InputY";
+    public const string WeaponType = "WeaponType";
+    public const string OneShotPlayed = "OneShotPlayed";
 }
