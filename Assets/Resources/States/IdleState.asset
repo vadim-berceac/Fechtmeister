@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deb165ba43da5654892ec70557012b05, type: 3}
   m_Name: IdleState
   m_EditorClassIdentifier: 
-  <EnterTransitionDuration>k__BackingField: 0.15
+  <EnterTransitionDuration>k__BackingField: 0.05
   <AnimationLayer>k__BackingField: 0
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
