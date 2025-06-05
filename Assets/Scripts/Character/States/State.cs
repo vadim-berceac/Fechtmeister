@@ -25,7 +25,6 @@ public abstract class State : ScriptableObject
     {
         character.SetFallSpeed(character.ApplyGravitation(UseGravity, character.CurrentFallSpeed, true));
         character.SetGrounded(character.CheckIsGrounded(UseGravity, GroundLayer));
-        Debug.Log(character.Grounded);
     }
     
     public abstract void CheckSwitch(CharacterCore character);

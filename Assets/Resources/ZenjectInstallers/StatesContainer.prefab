@@ -47,5 +47,8 @@ MonoBehaviour:
   <IdleState>k__BackingField: {fileID: 11400000, guid: 62ed07c883800b94fa69de8d714f1054, type: 2}
   <WalkState>k__BackingField: {fileID: 11400000, guid: ee1ffc359507240468187f817d2f7542, type: 2}
   <RunState>k__BackingField: {fileID: 11400000, guid: fb496ec28d1e69647b6be4f256b7bead, type: 2}
+  <CombatIdleState>k__BackingField: {fileID: 11400000, guid: 60105d481ee029c4e847d2ec68a39310, type: 2}
+  <CombatWalkState>k__BackingField: {fileID: 11400000, guid: 7c837a58a8fe2d645808ac5718396222, type: 2}
+  <CombatRunState>k__BackingField: {fileID: 11400000, guid: c35d23be77c94e94bb9fea82597fc017, type: 2}
   <WeaponOnState>k__BackingField: {fileID: 11400000, guid: e8c25eeb3133eaf41adf2b0ad63ccdb6, type: 2}
-  <WeaponOffState>k__BackingField: {fileID: 0}
+  <WeaponOffState>k__BackingField: {fileID: 11400000, guid: 074a65ef7f083d4469e5204f0e4d0c55, type: 2}

@@ -1,6 +1,39 @@
+using Unity.Burst;
 using UnityEngine;
 
-public class CombatIdleState
+[CreateAssetMenu(fileName = "CombatIdleState", menuName = "States/CombatIdleState")]
+public class CombatIdleState : State
 {
-    
+    public override void EnterState(CharacterCore character)
+    {
+        character.LocomotionSettings.Animator.StopPlayback();
+        character.LocomotionSettings.Animator.CrossFade(AnimationParams.IdleStateName, EnterTransitionDuration);
+    }
+
+    [BurstCompile]
+    public override void UpdateState(CharacterCore character)
+    {
+        base.UpdateState(character);
+        CheckSwitch(character);
+    }
+
+    public override void CheckSwitch(CharacterCore character)
+    {
+        //атака, блок, аим, или убрать оружие
+        if (!character.CharacterInputHandler.IsWeaponDraw)
+        {
+            character.SetState(character.StatesContainer.WeaponOffState);
+        }
+        
+        if (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 ||
+            Mathf.Abs(character.CharacterInputHandler.InputY) > 0)
+        {
+            character.SetState(character.StatesContainer.CombatWalkState);
+        }
+    }
+
+    public override void ExitState(CharacterCore character)
+    {
+        
+    }
 }

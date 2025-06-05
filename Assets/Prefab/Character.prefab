@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9086983287782165238}
   - component: {fileID: 6829832979991591507}
   - component: {fileID: 6502283926946306806}
+  - component: {fileID: 301124297547184519}
   - component: {fileID: 5391477331367181792}
   m_Layer: 0
   m_Name: Character
@@ -83,6 +84,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &301124297547184519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131212000758676167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff13c9b085de8d428425fd407bbdaff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5391477331367181792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e305f5648a7bc114488a778dd84896f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CurrentWeaponIndex>k__BackingField: 0
   <LocomotionSettings>k__BackingField:
     <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}

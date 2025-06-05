@@ -22,8 +22,7 @@ public class WeaponOnState : State
     {
         if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0)
         {
-            //character.SetState(character.StatesContainer.IdleState);
-            //выход в комбат идл
+            character.SetState(character.StatesContainer.CombatIdleState);
         }
     }
 
