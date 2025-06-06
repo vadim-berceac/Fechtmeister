@@ -6,6 +6,10 @@ public class WeaponOnState : State
 {
     public override void EnterState(CharacterCore character)
     {
+        if (character.CurrentWeaponIndex == 0)
+        {
+            character.SetWeaponIndex(1);
+        }
         character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, character.CurrentWeaponIndex);
         character.LocomotionSettings.Animator.StopPlayback();
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.WeaponOnStateName, EnterTransitionDuration);

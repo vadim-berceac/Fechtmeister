@@ -1,7 +1,7 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
+[RequireComponent(typeof(CharacterPresetLoader))]
 public class CharacterCore : MonoBehaviour
 {
     [field: Header("Temp")]
@@ -23,6 +23,10 @@ public class CharacterCore : MonoBehaviour
     //Gravity
     public float CurrentFallSpeed { get; private set; }
     public bool Grounded { get; private set; }
+    
+    //creating
+    public CharacterPresetLoader PresetLoader { get; private set; }
+    public CharacterSkinHandler SkinHandler { get; private set; }
 
     [Inject]
     private void Construct(SceneCamera sceneCamera, SceneCharacterContainer sceneCharacterContainer, PlayerInput playerInput, StatesContainer statesContainer)
@@ -33,6 +37,9 @@ public class CharacterCore : MonoBehaviour
         StatesContainer = statesContainer;
         CashedTransform = transform;
         CharacterInputHandler = new CharacterInputHandler();
+        
+        PresetLoader = GetComponent<CharacterPresetLoader>();
+        SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData.CharacterSkinData);
         
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);
@@ -65,6 +72,11 @@ public class CharacterCore : MonoBehaviour
     public void SetGrounded(bool value)
     {
         Grounded = value;
+    }
+
+    public void SetWeaponIndex(int index)
+    {
+        CurrentWeaponIndex = index;
     }
 
     private void Update()
