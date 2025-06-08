@@ -6,6 +6,7 @@ public class CharacterInputHandler : IInputHandler
     private ICharacterInputSet _characterInputSet;
 
     public bool IsSprint { get; private set; }
+    public bool IsJump { get; private set; }
     public bool IsWeaponDraw { get; private set; }
     public float InputX { get; private set; }
     public float InputY { get; private set; }
@@ -36,6 +37,7 @@ public class CharacterInputHandler : IInputHandler
         _isSubscribed = true;
         
         _characterInputSet.OnMove += OnMove;
+        _characterInputSet.OnJump += OnJump;
         _characterInputSet.OnSprint += OnSprint;
         _characterInputSet.OnLook += OnLook;
         _characterInputSet.OnDrawWeapon += OnWeaponDraw;
@@ -50,6 +52,7 @@ public class CharacterInputHandler : IInputHandler
         _isSubscribed = false;
         
         _characterInputSet.OnMove -= OnMove;
+        _characterInputSet.OnJump -= OnJump;
         _characterInputSet.OnSprint -= OnSprint;
         _characterInputSet.OnLook -= OnLook;
         _characterInputSet.OnDrawWeapon -= OnWeaponDraw;
@@ -59,6 +62,11 @@ public class CharacterInputHandler : IInputHandler
     {
         InputX = move.x;
         InputY = move.y;
+    }
+
+    private void OnJump()
+    {
+        IsJump = !IsJump;
     }
 
     private void OnLook(Vector2 look)

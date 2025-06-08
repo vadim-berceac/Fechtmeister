@@ -7,6 +7,7 @@ public class RunState: State
     public override void EnterState(CharacterCore character)
     {
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.RunStateName, EnterTransitionDuration, AnimationLayer);
+        character.LocomotionSettings.Animator.SetFloat(AnimationParams.Speed, 2);
     }
 
     [BurstCompile]
@@ -35,6 +36,11 @@ public class RunState: State
         if (character.CharacterInputHandler.IsWeaponDraw)
         {
             character.SetState(character.StatesContainer.WeaponOnState);
+        }
+        
+        if (character.CharacterInputHandler.IsJump)
+        {
+            character.SetState(character.StatesContainer.JumpState);
         }
     }
 

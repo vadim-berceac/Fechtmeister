@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class CharacterSkinHandler
 {
+    private const string BlankSkinnedMeshName = "blankSkinnedMesh";
     private readonly Transform _transform;
     private readonly CharacterSkinData _characterSkinData;
     private SkinnedMeshRenderer _blankRenderer;
-    private List<SkinnedMeshRenderer> _temporaryBlankRenderers;
+    private List<SkinnedMeshRenderer> _renderersInstances;
 
     public CharacterSkinHandler(Transform transform, CharacterSkinData characterSkinData)
     {
@@ -15,21 +16,23 @@ public class CharacterSkinHandler
         _characterSkinData = characterSkinData;
         
         InitializeRenderer();
-        SetupBaseSkin();
-        ApplyAdditionalSkins();
     }
     
     private void InitializeRenderer()
     {
         _blankRenderer = _transform.GetComponentsInChildren<SkinnedMeshRenderer>()
-            .FirstOrDefault(renderer1 => renderer1.gameObject.name.Contains("blankSkinnedMesh"));
-        _temporaryBlankRenderers = new List<SkinnedMeshRenderer>();
+            .FirstOrDefault(renderer1 => renderer1.gameObject.name.Contains(BlankSkinnedMeshName));
+        _renderersInstances = new List<SkinnedMeshRenderer>();
+        
+        SetupBaseSkin();
+        ApplyAdditionalSkins();
     }
     
     private void SetupBaseSkin()
     {
         _transform.localScale = new Vector3(_characterSkinData.SizeMode, _characterSkinData.SizeMode,_characterSkinData.SizeMode);
-        ApplySkin(_characterSkinData.SkinData[0], _blankRenderer);
+        _blankRenderer.ApplySkin(_characterSkinData.SkinData[0]);
+        _renderersInstances.Add(_blankRenderer);
     }
     
     private void ApplyAdditionalSkins()
@@ -39,24 +42,23 @@ public class CharacterSkinHandler
         for (var i = 1; i < _characterSkinData.SkinData.Count; i++)
         {
             var newRendererObject = Object.Instantiate(_blankRenderer, _blankRenderer.transform.parent);
-            _temporaryBlankRenderers.Add(newRendererObject);
-            ApplySkin(_characterSkinData.SkinData[i], newRendererObject);
+            _renderersInstances.Add(newRendererObject);
+            newRendererObject.ApplySkin(_characterSkinData.SkinData[i]);
         }
     }
-    
-    private static void ApplySkin(SkinData skinData, SkinnedMeshRenderer targetRenderer)
-    {
-        Debug.Log(0);
-        if (skinData == null || targetRenderer == null) return;
-        Debug.Log(1);
-        if (skinData.SkinnedMeshRenderer != null)
-        {
-            targetRenderer.ChangeCharacterSkin(skinData.SkinnedMeshRenderer);
-        }
 
-        if (skinData.SkinMaterial != null)
+    public void ClearRenderersInstances()
+    {
+        if (_renderersInstances == null || _renderersInstances.Count < 1) return;
+        foreach (var renderer in _renderersInstances)
         {
-            targetRenderer.sharedMaterial = skinData.SkinMaterial;
+            if (renderer.name.Contains(BlankSkinnedMeshName))
+            {
+                renderer.ApplySkin(null);
+                continue;
+            }
+            Object.Destroy(renderer.gameObject);
         }
+        _renderersInstances.Clear();
     }
 }

@@ -7,6 +7,7 @@ public class IdleState : State
     public override void EnterState(CharacterCore character)
     {
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.IdleStateName, EnterTransitionDuration, AnimationLayer);
+        character.LocomotionSettings.Animator.SetFloat(AnimationParams.Speed, 0);
     }
 
     [BurstCompile]
@@ -27,6 +28,11 @@ public class IdleState : State
         if (character.CharacterInputHandler.IsWeaponDraw)
         {
             character.SetState(character.StatesContainer.WeaponOnState);
+        }
+
+        if (character.CharacterInputHandler.IsJump)
+        {
+            character.SetState(character.StatesContainer.JumpState);
         }
     }
 

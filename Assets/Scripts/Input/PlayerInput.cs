@@ -81,7 +81,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     {
         _onAttack.performed += OnAttackCTX;
         _onInteract.performed += OnInteractCTX;
-        _onJump.performed += OnJumpCTX;
         _onSneak.performed += OnSneakCTX;
         _onDrawWeapon.performed += OnDrawWeaponCTX;
         _onHoldTarget.performed += OnHoldTargetCTX;
@@ -96,6 +95,9 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         _onMove.performed += OnMoveCTX;
         _onMove.canceled += OnMoveCTXCancel;
         
+        _onJump.performed += OnJumpCTX;
+        _onJump.canceled += OnJumpCTXCancel;
+        
         _onLook.performed += OnLookCTX;
         _onLook.canceled += OnLookCTXCancel;
     }
@@ -104,7 +106,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     {
         _onAttack.performed -= OnAttackCTX;
         _onInteract.performed -= OnInteractCTX;
-        _onJump.performed -= OnJumpCTX;
         _onSneak.performed -= OnSneakCTX;
         _onDrawWeapon.performed -= OnDrawWeaponCTX;
         _onHoldTarget.performed -= OnHoldTargetCTX;
@@ -118,6 +119,9 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         
         _onMove.performed -= OnMoveCTX;
         _onMove.canceled -= OnMoveCTXCancel;
+        
+        _onJump.performed -= OnJumpCTX;
+        _onJump.canceled -= OnJumpCTXCancel;
         
         _onLook.performed -= OnLookCTX;
         _onLook.canceled -= OnLookCTXCancel;
@@ -150,6 +154,11 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     }
 
     private void OnJumpCTX(InputAction.CallbackContext ctx)
+    {
+        OnJump?.Invoke();
+    }
+    
+    private void OnJumpCTXCancel(InputAction.CallbackContext ctx)
     {
         OnJump?.Invoke();
     }
