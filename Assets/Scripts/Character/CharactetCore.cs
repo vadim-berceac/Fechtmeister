@@ -27,6 +27,7 @@ public class CharacterCore : MonoBehaviour
     //creating
     public CharacterPresetLoader PresetLoader { get; private set; }
     public CharacterSkinHandler SkinHandler { get; private set; }
+    public CharacterBonesContainer BonesContainer { get; private set; }
 
     [Inject]
     private void Construct(SceneCamera sceneCamera, SceneCharacterContainer sceneCharacterContainer, PlayerInput playerInput, StatesContainer statesContainer)
@@ -40,6 +41,7 @@ public class CharacterCore : MonoBehaviour
         
         PresetLoader = GetComponent<CharacterPresetLoader>();
         SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData.CharacterSkinData);
+        BonesContainer = new CharacterBonesContainer(CashedTransform);
         
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);
