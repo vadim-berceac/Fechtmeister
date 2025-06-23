@@ -5,7 +5,7 @@ using Zenject;
 public class CharacterCore : MonoBehaviour
 {
     [field: Header("Temp")]
-    [field: SerializeField] public int CurrentWeaponIndex { get; set; }
+    [field: SerializeField] public WeaponData TempWeaponData { get; set; } // переместить в инвентарь
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
     
@@ -45,6 +45,8 @@ public class CharacterCore : MonoBehaviour
         
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);
+
+        var test = new WeaponInstance(TempWeaponData, BonesContainer);
     }
 
     public void Select(bool value)
@@ -74,11 +76,6 @@ public class CharacterCore : MonoBehaviour
     public void SetGrounded(bool value)
     {
         Grounded = value;
-    }
-
-    public void SetWeaponIndex(int index)
-    {
-        CurrentWeaponIndex = index;
     }
 
     private void Update()

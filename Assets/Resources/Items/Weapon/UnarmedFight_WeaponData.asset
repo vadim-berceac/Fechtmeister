@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d986c9d13b35d94489cd77f093f1dd32, type: 3}
+  m_Name: UnarmedFight_WeaponData
+  m_EditorClassIdentifier: 
+  <ItemName>k__BackingField: Unarmed Fight
+  <ItemDescription>k__BackingField: Unarmed Fight
+  <ItemIcon>k__BackingField: {fileID: 0}
+  <EquippedModelPrefab>k__BackingField: {fileID: 400879153211841282, guid: 80cf297667bf374429d26c6513aa2fce, type: 3}
+  <GroundedModelPrefab>k__BackingField: {fileID: 0}
+  <AnimationType>k__BackingField: 1
+  <BoneData>k__BackingField:
+  - <BonesType>k__BackingField: 17
+    <Position>k__BackingField: {x: 0, y: 0, z: 0}
+    <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+  - <BonesType>k__BackingField: 0
+    <Position>k__BackingField: {x: 0, y: 0, z: 0}
+    <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+    <Scale>k__BackingField: {x: 1, y: 1, z: 1}

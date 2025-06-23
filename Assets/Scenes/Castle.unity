@@ -3486,6 +3486,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5391477331367181792, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: <TempWeaponData>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: ad6037888d95c194b96b2c1029dce683, type: 2}
     - target: {fileID: 9086983287782165238, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.291
@@ -3551,6 +3555,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5391477331367181792, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: <TempWeaponData>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d5b7864b639eab4ab9abcd769ab3e6e, type: 2}
     - target: {fileID: 5391477331367181792, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: <CurrentWeaponIndex>k__BackingField
       value: 2

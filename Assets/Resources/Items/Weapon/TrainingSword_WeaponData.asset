@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d986c9d13b35d94489cd77f093f1dd32, type: 3}
+  m_Name: TrainingSword_WeaponData
+  m_EditorClassIdentifier: 
+  <ItemName>k__BackingField: Training Sword
+  <ItemDescription>k__BackingField: Training Sword
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}
+  <EquippedModelPrefab>k__BackingField: {fileID: 7926834445009811899, guid: 519e81294e98a1647888ad490c166f9e, type: 3}
+  <GroundedModelPrefab>k__BackingField: {fileID: 1367150234210506725, guid: 463724ae3fadb4447a9edf6b2bbea06a, type: 3}
+  <AnimationType>k__BackingField: 2
+  <BoneData>k__BackingField:
+  - <BonesType>k__BackingField: 17
+    <Position>k__BackingField: {x: 0, y: 0, z: 0}
+    <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+  - <BonesType>k__BackingField: 0
+    <Position>k__BackingField: {x: 0, y: 0, z: 0}
+    <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+    <Scale>k__BackingField: {x: 1, y: 1, z: 1}

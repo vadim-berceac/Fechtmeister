@@ -54,10 +54,11 @@ public class CharacterBonesContainer
     }
 }
 
+[System.Serializable]
 public struct BoneTransform
 {
-    public CharacterBones.Type BonesType { get; private set; }
-    public Transform Transform { get; private set; }
+    [field: SerializeField] public CharacterBones.Type BonesType { get; private set; }
+    [field: SerializeField] public Transform Transform { get; private set; }
     public BoneTransform(Transform transform, CharacterBones.Type boneType)
     {
         Transform = transform;
@@ -65,10 +66,11 @@ public struct BoneTransform
     }
 }
 
-public struct BoneData
+[System.Serializable]
+public class BoneData
 {
-    public CharacterBones.Type BonesType { get; private set; }
-    public Vector3 Position { get; private set; }
-    public Quaternion Rotation { get; private set; }
-    public Vector3 Scale { get; private set; }
+    [field: SerializeField] public CharacterBones.Type BonesType { get; private set; }
+    [field: SerializeField] public Vector3 Position { get; private set; }
+    [field: SerializeField] public Quaternion Rotation { get; private set; }
+    [field: SerializeField] public Vector3 Scale { get; private set; }
 }
