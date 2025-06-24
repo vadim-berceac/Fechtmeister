@@ -6,6 +6,12 @@ public class CharacterCore : MonoBehaviour
 {
     [field: Header("Temp")]
     [field: SerializeField] public WeaponData TempWeaponData { get; set; } // переместить в инвентарь
+
+    public WeaponInstance TestWeaponInstance;
+    
+    
+    
+    
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
     
@@ -46,7 +52,7 @@ public class CharacterCore : MonoBehaviour
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);
 
-        var test = new WeaponInstance(TempWeaponData, BonesContainer);
+        TestWeaponInstance = new WeaponInstance(TempWeaponData, BonesContainer);
     }
 
     public void Select(bool value)

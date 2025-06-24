@@ -28,6 +28,7 @@ public class WeaponOnState : State
 
     public override void ExitState(CharacterCore character)
     {
-        
+        //тест
+        character.TestWeaponInstance.AttachToBone(character.TestWeaponInstance.ItemData.BoneData[character.TestWeaponInstance.ItemData.ActiveBoneIndex].BonesType);
     }
 }

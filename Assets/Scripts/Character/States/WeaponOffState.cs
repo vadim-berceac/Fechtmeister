@@ -29,5 +29,8 @@ public class WeaponOffState : State
     public override void ExitState(CharacterCore character)
     {
         character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, 0);
+        
+        //тест
+        character.TestWeaponInstance.AttachToBone(character.TestWeaponInstance.ItemData.BoneData[character.TestWeaponInstance.ItemData.NotActiveBoneIndex].BonesType);
     }
 }
