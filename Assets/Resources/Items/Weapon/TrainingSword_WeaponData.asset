@@ -20,11 +20,10 @@ MonoBehaviour:
   <AnimationType>k__BackingField: 2
   <BoneData>k__BackingField:
   - <BonesType>k__BackingField: 17
-    <Position>k__BackingField: {x: 0, y: 0, z: 0}
-    <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 1}
+    <Position>k__BackingField: {x: 0.044, y: 0.056, z: 0.012}
+    <Rotation>k__BackingField: {x: 0.49797782, y: -0.50706226, z: -0.47203308, w: -0.5216232}
     <Scale>k__BackingField: {x: 1, y: 1, z: 1}
   - <BonesType>k__BackingField: 0
     <Position>k__BackingField: {x: -0.189, y: 0.092, z: 0.11}
     <Rotation>k__BackingField: {x: -0.93839, y: -0.02841637, z: -0.04713269, w: 0.34116733}
     <Scale>k__BackingField: {x: 1, y: 1, z: 1}
-  <NotActiveBoneIndex>k__BackingField: 1

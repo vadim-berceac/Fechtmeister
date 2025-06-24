@@ -16,6 +16,11 @@ public class WeaponOnState : State
     {
         base.UpdateState(character);
         CheckSwitch(character);
+        
+        if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.ActionCurve) <= 0)
+        {
+            character.TestWeaponInstance.AttachToBone(character.TestWeaponInstance.ItemData.BoneData[0].BonesType);
+        }
     }
 
     public override void CheckSwitch(CharacterCore character)
@@ -28,7 +33,6 @@ public class WeaponOnState : State
 
     public override void ExitState(CharacterCore character)
     {
-        //тест
-        character.TestWeaponInstance.AttachToBone(character.TestWeaponInstance.ItemData.BoneData[character.TestWeaponInstance.ItemData.ActiveBoneIndex].BonesType);
+        
     }
 }

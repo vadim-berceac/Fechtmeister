@@ -8,8 +8,6 @@ public interface IItemData
     public GameObject EquippedModelPrefab { get; set; }
     public GameObject GroundedModelPrefab { get; set; }
     public BoneData[] BoneData { get; set; }
-    public int ActiveBoneIndex { get; set; }
-    public int NotActiveBoneIndex { get; set; }
     
     public BoneData GetBoneData(CharacterBones.Type bone);
 }

@@ -16,5 +16,6 @@ public struct AnimationParams
     public const string InputY = "InputY";
     public const string WeaponType = "WeaponType";
     public const string OneShotPlayed = "OneShotPlayed";
+    public const string ActionCurve  = "ActionCurve";
     public const string Speed = "Speed";
 }

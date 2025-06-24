@@ -13,7 +13,7 @@ public class WeaponInstance : IItemInstance
         
         CreateInstance();
         
-        AttachToBone(ItemData.BoneData[ItemData.NotActiveBoneIndex].BonesType);
+        AttachToBone(ItemData.BoneData[1].BonesType);
     }
     
     public void CreateInstance()
