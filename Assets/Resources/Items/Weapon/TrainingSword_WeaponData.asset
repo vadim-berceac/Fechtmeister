@@ -27,3 +27,6 @@ MonoBehaviour:
     <Position>k__BackingField: {x: -0.189, y: 0.092, z: 0.11}
     <Rotation>k__BackingField: {x: -0.93839, y: -0.02841637, z: -0.04713269, w: 0.34116733}
     <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+  <IKBoneData>k__BackingField:
+    <IKBoneName>k__BackingField: Handle
+    <CharacterBoneConnected>k__BackingField: 16

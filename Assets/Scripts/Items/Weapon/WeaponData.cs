@@ -11,6 +11,7 @@ public class WeaponData : ScriptableObject, IItemData
     [field: SerializeField] public GameObject GroundedModelPrefab { get; set; }
     [field: SerializeField] public int AnimationType { get; set; }
     [field: SerializeField] public BoneData[] BoneData { get; set; }
+    [field: SerializeField] public IKBoneData IKBoneData { get; set; }
 
     public BoneData GetBoneData(CharacterBones.Type bone)
     {

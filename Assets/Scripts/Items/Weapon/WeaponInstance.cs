@@ -1,3 +1,4 @@
+using ModestTree;
 using UnityEngine;
 
 public class WeaponInstance : IItemInstance
@@ -5,6 +6,8 @@ public class WeaponInstance : IItemInstance
     public IItemData ItemData { get; set; }
     public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public Transform Instance { get; set; }
+    public Transform IKBoneTransform { get; set; }
+    public WeaponDamageComponent DamageComponent { get; set; }
 
     public WeaponInstance(IItemData itemData, CharacterBonesContainer characterBonesContainer)
     {
@@ -23,6 +26,10 @@ public class WeaponInstance : IItemInstance
             return;
         }
         Instance = Object.Instantiate(ItemData.EquippedModelPrefab).transform;
+        
+        TryToFindIKBoneTransform();
+
+        DamageComponent = Instance.gameObject.AddComponent<WeaponDamageComponent>();
     }
 
     public void AttachToBone(CharacterBones.Type boneType)
@@ -41,6 +48,21 @@ public class WeaponInstance : IItemInstance
         Instance.SetLocalPositionAndRotation(boneData.Position, boneData.Rotation);
         
         Instance.localScale = boneData.Scale;
+    }
+
+    public void TryToFindIKBoneTransform()
+    {
+        if (ItemData.IKBoneData.IKBoneName.IsEmpty())
+        {
+            return;
+        }
+        IKBoneTransform = Instance.FindChildRecursive(ItemData.IKBoneData.IKBoneName);
+
+        if (IKBoneTransform == null)
+        {
+            return;
+        }
+        Debug.LogWarning(IKBoneTransform.name + " can connect to" + ItemData.IKBoneData.CharacterBoneConnected);
     }
 
     public void DestroyInstance()

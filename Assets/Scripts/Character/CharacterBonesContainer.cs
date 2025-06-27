@@ -74,3 +74,10 @@ public class BoneData
     [field: SerializeField] public Quaternion Rotation { get; private set; }
     [field: SerializeField] public Vector3 Scale { get; private set; }
 }
+
+[System.Serializable]
+public class IKBoneData
+{
+    [field: SerializeField] public string IKBoneName { get; private set; }
+    [field: SerializeField] public CharacterBones.Type CharacterBoneConnected { get; private set; }
+}
