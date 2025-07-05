@@ -19,7 +19,7 @@ public class WeaponOnState : State
         
         if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.ActionCurve) <= 0)
         {
-            character.TestWeaponInstance.AttachToBone(character.TestWeaponInstance.ItemData.BoneData[0].BonesType);
+            character.WeaponSystem.InstanceInHands.AttachToBone(character.WeaponSystem.InstanceInHands.ItemData.BoneData[0].BonesType);
         }
     }
 
