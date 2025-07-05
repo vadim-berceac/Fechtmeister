@@ -6,9 +6,11 @@ public interface IItemInstance
     public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public Transform Instance { get; set; }
     public Transform IKBoneTransform { get; set; }
+    public Transform[] ItemDecorations { get; set; }
     
     public void CreateInstance();
-    public void AttachToBone(CharacterBones.Type boneType); // получаем BoneData из ItemData, получаем BoneTransform из CharacterBonesContainer, совмещаем
-    public void TryToFindIKBoneTransform();
+    public void CreateDecorations();
+    public void AttachToBone(Transform instance, BoneData boneData); 
+    public Transform TryToFindIKBoneTransform();
     public void DestroyInstance();
 }

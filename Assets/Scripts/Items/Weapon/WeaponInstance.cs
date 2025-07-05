@@ -8,6 +8,7 @@ public class WeaponInstance : IItemInstance
     public Transform Instance { get; set; }
     public Transform IKBoneTransform { get; set; }
     public WeaponDamageComponent DamageComponent { get; set; }
+    public Transform[] ItemDecorations { get; set; }
 
     public WeaponInstance(IItemData itemData, CharacterBonesContainer characterBonesContainer)
     {
@@ -15,8 +16,7 @@ public class WeaponInstance : IItemInstance
         CharacterBonesContainer = characterBonesContainer;
         
         CreateInstance();
-        
-        AttachToBone(ItemData.BoneData[1].BonesType);
+        CreateDecorations();
     }
     
     public void CreateInstance()
@@ -27,42 +27,48 @@ public class WeaponInstance : IItemInstance
         }
         Instance = Object.Instantiate(ItemData.EquippedModelPrefab).transform;
         
-        TryToFindIKBoneTransform();
+        IKBoneTransform = TryToFindIKBoneTransform();
 
         DamageComponent = Instance.gameObject.AddComponent<WeaponDamageComponent>();
+        
+        AttachToBone(Instance, ItemData.BoneData[1]);
     }
 
-    public void AttachToBone(CharacterBones.Type boneType)
+    public void CreateDecorations()
     {
-        var boneData = ItemData.GetBoneData(boneType);
+        if (ItemData.ItemDecorationData == null)
+        {
+            return;
+        }
+        
+        ItemDecorations = new Transform[ItemData.ItemDecorationData.Length];
+
+        foreach (var decoration in ItemData.ItemDecorationData)
+        {
+            ItemDecorations[ItemData.ItemDecorationData.IndexOf(decoration)] = Object.Instantiate(decoration.ItemPrefab).transform;
+            AttachToBone(ItemDecorations[ItemData.ItemDecorationData.IndexOf(decoration)], decoration.BoneData);
+        }
+    }
+
+    public void AttachToBone(Transform instance, BoneData boneData)
+    {
         if (boneData == null)
         {
-            Debug.LogWarning(ItemData.ItemName + " doesn't have a bone for " + boneType);
             return;
         }
 
-        var boneTransform = CharacterBonesContainer.GetBoneTransform(boneType);
+        var boneTransform = CharacterBonesContainer.GetBoneTransform(boneData.BonesType);
         
-        Instance.parent = boneTransform.Transform;
+        instance.parent = boneTransform.Transform;
         
-        Instance.SetLocalPositionAndRotation(boneData.Position, boneData.Rotation);
+        instance.SetLocalPositionAndRotation(boneData.Position, boneData.Rotation);
         
-        Instance.localScale = boneData.Scale;
+        instance.localScale = boneData.Scale;
     }
 
-    public void TryToFindIKBoneTransform()
+    public Transform TryToFindIKBoneTransform()
     {
-        if (ItemData.IKBoneData.IKBoneName.IsEmpty())
-        {
-            return;
-        }
-        IKBoneTransform = Instance.FindChildRecursive(ItemData.IKBoneData.IKBoneName);
-
-        if (IKBoneTransform == null)
-        {
-            return;
-        }
-        Debug.LogWarning(IKBoneTransform.name + " can connect to" + ItemData.IKBoneData.CharacterBoneConnected);
+        return ItemData.IKBoneData.IKBoneName.IsEmpty()? null : Instance.FindChildRecursive(ItemData.IKBoneData.IKBoneName);
     }
 
     public void DestroyInstance()
@@ -75,5 +81,16 @@ public class WeaponInstance : IItemInstance
         }
         Instance.parent = null;
         Object.Destroy(Instance.gameObject);
+
+        if (ItemDecorations == null || ItemDecorations.Length == 0)
+        {
+            return;
+        }
+
+        foreach (var decoration in ItemDecorations)
+        {
+            Object.Destroy(decoration.gameObject);
+        }
+        ItemDecorations = null;
     }
 }

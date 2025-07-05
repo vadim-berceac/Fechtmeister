@@ -12,6 +12,7 @@ public class WeaponData : ScriptableObject, IItemData
     [field: SerializeField] public int AnimationType { get; set; }
     [field: SerializeField] public BoneData[] BoneData { get; set; }
     [field: SerializeField] public IKBoneData IKBoneData { get; set; }
+    [field: SerializeField] public ItemDecorationData[] ItemDecorationData { get; set; }
 
     public BoneData GetBoneData(CharacterBones.Type bone)
     {

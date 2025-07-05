@@ -9,6 +9,7 @@ public interface IItemData
     public GameObject GroundedModelPrefab { get; set; }
     public BoneData[] BoneData { get; set; }
     public IKBoneData IKBoneData { get; set; }
+    public ItemDecorationData[] ItemDecorationData { get; set; }
     
     public BoneData GetBoneData(CharacterBones.Type bone);
 }
