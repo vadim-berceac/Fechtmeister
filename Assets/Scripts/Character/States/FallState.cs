@@ -1,12 +1,12 @@
 using Unity.Burst;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "JumpState", menuName = "States/JumpState")]
-public class JumpState : State
+[CreateAssetMenu(fileName = "FallState", menuName = "States/FallState")]
+public class FallState :  State
 {
     public override void EnterState(CharacterCore character)
     {
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.JumpStateName, EnterTransitionDuration, AnimationLayer);
+        character.LocomotionSettings.Animator.CrossFade(AnimationParams.FallStateName, EnterTransitionDuration, AnimationLayer);
     }
 
     [BurstCompile]
@@ -18,8 +18,7 @@ public class JumpState : State
 
     public override void CheckSwitch(CharacterCore character)
     {
-        if (character.Gravity.Grounded && !character.CharacterInputHandler.IsWeaponDraw 
-                               && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0)
+        if (character.Gravity.Grounded)
         {
             character.SetState(character.StatesContainer.IdleState);
         }

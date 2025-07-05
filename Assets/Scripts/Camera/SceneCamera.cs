@@ -21,9 +21,6 @@ public class SceneCamera : MonoBehaviour, IInputHandler
     
     private void Awake()
     {
-#if UNITY_EDITOR
-        Debug.LogWarning("SceneCamera: Awake");
-#endif
         if (_trackingTarget == null)
         {
             var trackingObject = new GameObject("Tracking Object");

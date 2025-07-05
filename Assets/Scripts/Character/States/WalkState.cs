@@ -42,6 +42,11 @@ public class WalkState : State
         {
             character.SetState(character.StatesContainer.JumpState);
         }
+        
+        if (!character.Gravity.Grounded)
+        {
+            character.SetState(character.StatesContainer.FallState);
+        }
     }
 
     public override void ExitState(CharacterCore character)

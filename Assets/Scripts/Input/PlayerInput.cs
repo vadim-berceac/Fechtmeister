@@ -41,10 +41,6 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         FindActions();
         Enable();
         Subscribe();
-        
-#if UNITY_EDITOR
-        Debug.LogWarning("PlayerInput: Awake");
-#endif
     }
 
     public void FindActions()

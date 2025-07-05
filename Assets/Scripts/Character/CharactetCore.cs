@@ -26,9 +26,7 @@ public class CharacterCore : MonoBehaviour
     public StatesContainer StatesContainer { get; private set; }
     public State CurrentState { get; private set; }
     
-    //Gravity
-    public float CurrentFallSpeed { get; private set; }
-    public bool Grounded { get; private set; }
+    public CharacterGravity Gravity { get; private set; }
     
     //creating
     public CharacterPresetLoader PresetLoader { get; private set; }
@@ -44,6 +42,7 @@ public class CharacterCore : MonoBehaviour
         StatesContainer = statesContainer;
         CashedTransform = transform;
         CharacterInputHandler = new CharacterInputHandler();
+        Gravity = new CharacterGravity();
         
         PresetLoader = GetComponent<CharacterPresetLoader>();
         SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData.CharacterSkinData);
@@ -72,16 +71,6 @@ public class CharacterCore : MonoBehaviour
         CurrentState.ExitState(this);
         CurrentState = state;
         CurrentState.EnterState(this);
-    }
-
-    public void SetFallSpeed(float speed)
-    {
-        CurrentFallSpeed = speed;
-    }
-
-    public void SetGrounded(bool value)
-    {
-        Grounded = value;
     }
 
     private void Update()
@@ -115,6 +104,11 @@ public struct LocomotionSettings
 [System.Serializable]
 public struct GravitySettings
 {
+    [field: Header("Grounding settings")]
     [field: SerializeField] public Vector3 GroundOffset { get; private set; }
     [field: SerializeField] public float CheckSphereRadius { get; private set; }
+    
+    [field: Header("Falling settings")]
+    [field: SerializeField] public bool ImmuneToFallDamage { get; private set; }
+    [field: SerializeField] public float FallDamageThreshold { get; private set; }
 }

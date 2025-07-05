@@ -12,6 +12,7 @@ public struct AnimationParams
     public const string Attack2StateName = "Attack2";
     public const string BlockStateName = "Block";
     public const string AimStateName = "Aim";
+    public const string FallStateName = "Fall";
     public const string InputX = "InputX";
     public const string InputY = "InputY";
     public const string WeaponType = "WeaponType";

@@ -47,7 +47,7 @@ public static class CharacterCoreExtensions
         }
 
         var moveVector = currentFallSpeed * Time.fixedDeltaTime * Vector3.up;
-        var previousPosition = character.CashedTransform.position;
+        var previousPosition = character.LocomotionSettings.CharacterController.transform.position;
         character.LocomotionSettings.CharacterController.Move(moveVector);
         var newPosition = character.CashedTransform.position;
 
@@ -70,32 +70,38 @@ public static class CharacterCoreExtensions
         var spherePos = character.CashedTransform.position + character.GravitySettings.GroundOffset;
         var hitColliders = new Collider[32]; 
         var hitsCount = Physics.OverlapSphereNonAlloc(spherePos, character.GravitySettings.CheckSphereRadius, hitColliders, layerMask);
-
         return hitsCount > 0;
     }
     
-    // [BurstCompile]
-    // private void UpdateFallDetection()
-    // {
-    //     var currentHeight = CashedTransform.position.y;
-    //     
-    //     if (!IsGrounded)
-    //     {
-    //         _maxHeightReached = Mathf.Max(_maxHeightReached, currentHeight);
-    //     }
-    //     
-    //     if (IsGrounded && !_wasGroundedLastFrame)
-    //     {
-    //         _landingSfx.PlayRandomAtPoint(CashedTransform.position);
-    //         var fallDistance = _maxHeightReached - currentHeight;
-    //         if (fallDistance > GravitationSettings.FallDamageThreshold && !GravitationSettings.ImmuneToFallDamage)
-    //         {
-    //             OnFallDamage?.Invoke(fallDistance);
-    //         }
-    //
-    //         _maxHeightReached = currentHeight; 
-    //     }
-    //
-    //     _wasGroundedLastFrame = IsGrounded;
-    // }
+    [BurstCompile]
+    public static void UpdateFallDetection(this CharacterCore character,  bool useGravity)
+    {
+        if (!useGravity)
+        {
+            return;
+        }
+        
+        var currentHeight = character.CashedTransform.position.y;
+        
+        if (!character.Gravity.Grounded)
+        {
+            character.Gravity.SetMaxHeightReached(Mathf.Max(character.Gravity.MaxHeightReached, currentHeight));
+        }
+        
+        if (character.Gravity.Grounded && !character.Gravity.WasGroundedLastFrame)
+        {
+            //_landingSfx.PlayRandomAtPoint(CashedTransform.position);
+            Debug.LogWarning("Проигрываем звук приземления");
+            var fallDistance = character.Gravity.MaxHeightReached - currentHeight;
+            if (fallDistance > character.GravitySettings.FallDamageThreshold && !character.GravitySettings.ImmuneToFallDamage)
+            {
+                //OnFallDamage?.Invoke(fallDistance);
+                Debug.LogWarning("Наносим урон от падения");
+            }
+
+            character.Gravity.SetMaxHeightReached(currentHeight);
+        }
+
+        character.Gravity.SetWasGroundedLastFrame(character.Gravity.Grounded);
+    }
 }

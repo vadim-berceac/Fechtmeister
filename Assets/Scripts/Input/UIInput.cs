@@ -30,10 +30,6 @@ public class UIInput : MonoBehaviour, IUIInputSet
       FindActions();
       Enable();
       Subscribe();
-      
-#if UNITY_EDITOR
-      Debug.LogWarning("UIInput: Awake");
-#endif
    }
 
    public void FindActions()

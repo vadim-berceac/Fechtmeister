@@ -5,6 +5,7 @@ public abstract class State : ScriptableObject
     [field: Header("Animation")]
     [field: SerializeField] protected float EnterTransitionDuration {get; private set;}
     [field: SerializeField] protected int AnimationLayer {get; private set;}
+    [field: SerializeField] protected bool ApplyRootMotion {get; private set;}
     
     [field: Header("Locomotion")]
     [field: SerializeField] protected bool RotationByCamera {get; private set;}
@@ -13,8 +14,11 @@ public abstract class State : ScriptableObject
     [field: Header("Gravity")]
     [field: SerializeField] protected bool UseGravity {get; private set;}
     [field: SerializeField] protected LayerMask GroundLayer {get; private set;}
-    
-    public abstract void EnterState(CharacterCore character);
+
+    public virtual void EnterState(CharacterCore character)
+    {
+        character.LocomotionSettings.Animator.applyRootMotion = ApplyRootMotion;
+    }
 
     public virtual void UpdateState(CharacterCore character)
     {
@@ -23,8 +27,9 @@ public abstract class State : ScriptableObject
 
     public virtual void FixedUpdateState(CharacterCore character)
     {
-        character.SetFallSpeed(character.ApplyGravitation(UseGravity, character.CurrentFallSpeed, true));
-        character.SetGrounded(character.CheckIsGrounded(UseGravity, GroundLayer));
+        character.Gravity.SetFallSpeed(character.ApplyGravitation(UseGravity, character.Gravity.CurrentFallSpeed, true));
+        character.Gravity.SetGrounded(character.CheckIsGrounded(UseGravity, GroundLayer));
+        character.UpdateFallDetection(UseGravity);
     }
     
     public abstract void CheckSwitch(CharacterCore character);

@@ -48,6 +48,7 @@ MonoBehaviour:
   <WalkState>k__BackingField: {fileID: 11400000, guid: ee1ffc359507240468187f817d2f7542, type: 2}
   <RunState>k__BackingField: {fileID: 11400000, guid: fb496ec28d1e69647b6be4f256b7bead, type: 2}
   <JumpState>k__BackingField: {fileID: 11400000, guid: eb19ddd0ef4d6ef45b720b711652d434, type: 2}
+  <FallState>k__BackingField: {fileID: 11400000, guid: 55102c75fe1069b43a42c547a36b0127, type: 2}
   <CombatIdleState>k__BackingField: {fileID: 11400000, guid: 60105d481ee029c4e847d2ec68a39310, type: 2}
   <CombatWalkState>k__BackingField: {fileID: 11400000, guid: 7c837a58a8fe2d645808ac5718396222, type: 2}
   <CombatRunState>k__BackingField: {fileID: 11400000, guid: c35d23be77c94e94bb9fea82597fc017, type: 2}

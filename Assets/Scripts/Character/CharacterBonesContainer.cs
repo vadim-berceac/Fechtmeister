@@ -24,8 +24,6 @@ public class CharacterBonesContainer
             var boneType = (CharacterBones.Type)i;
             _bones.Add(new BoneTransform(boneTrans, boneType));
         }
-        
-        Debug.Log(_bones.Count);
     }
     
     public BoneTransform GetBoneTransform(CharacterBones.Type boneType)
