@@ -10,9 +10,10 @@ public class WeaponInstance : IItemInstance
     public WeaponDamageComponent DamageComponent { get; set; }
     public Transform[] ItemDecorations { get; set; }
 
-    public WeaponInstance(IItemData itemData, CharacterBonesContainer characterBonesContainer)
+    public WeaponInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer)
     {
         ItemData = itemData;
+        itemData = null;
         CharacterBonesContainer = characterBonesContainer;
         
         CreateInstance();

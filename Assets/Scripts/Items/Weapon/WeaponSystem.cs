@@ -23,13 +23,13 @@ public class WeaponSystem : IItemInstancesContainer
 
         if (emptyInstance >= 0)
         {
-            Instances[emptyInstance] = new WeaponInstance(item, CharacterBonesContainer);
+            Instances[emptyInstance] = new WeaponInstance(ref item, CharacterBonesContainer);
             return;
         }
         
         OnItemUnEquipped?.Invoke(Instances[0].ItemData);
         DestroyInstance(0);
-        Instances[0] = new WeaponInstance(item, CharacterBonesContainer);
+        Instances[0] = new WeaponInstance(ref item, CharacterBonesContainer);
     }
 
     public void SelectInstance(int itemIndex)

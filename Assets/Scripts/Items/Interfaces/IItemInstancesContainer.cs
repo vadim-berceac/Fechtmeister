@@ -8,6 +8,5 @@ public interface IItemInstancesContainer
     public Action<IItemData> OnItemUnEquipped { get; set; }
     
     public void Equip(IItemData item);
-    public int GetEmptyInstance();
     public void DestroyInstance(int index);
 }

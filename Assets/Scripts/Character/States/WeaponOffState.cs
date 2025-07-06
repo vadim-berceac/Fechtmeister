@@ -19,8 +19,7 @@ public class WeaponOffState : State
         
         if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.ActionCurve) <= 0)
         {
-            character.WeaponSystem.InstanceInHands.AttachToBone(character.WeaponSystem.InstanceInHands.Instance,
-                character.WeaponSystem.InstanceInHands.ItemData.BoneData[1]);
+           character.Inventory.WeaponOff();
         }
     }
 

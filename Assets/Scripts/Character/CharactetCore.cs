@@ -4,7 +4,7 @@ using Zenject;
 [RequireComponent(typeof(CharacterPresetLoader))]
 public class CharacterCore : MonoBehaviour
 {
-    [field: Header("Temp")]
+    [field: Header("Test")]
     [field: SerializeField] public WeaponData TempWeaponData { get; set; } // переместить в инвентарь
     
     
@@ -29,7 +29,7 @@ public class CharacterCore : MonoBehaviour
     public CharacterPresetLoader PresetLoader { get; private set; }
     public CharacterSkinHandler SkinHandler { get; private set; }
     public CharacterBonesContainer BonesContainer { get; private set; }
-    public WeaponSystem WeaponSystem { get; private set; }
+    public Inventory Inventory { get; private set; }
 
     [Inject]
     private void Construct(SceneCamera sceneCamera, SceneCharacterContainer sceneCharacterContainer, PlayerInput playerInput, StatesContainer statesContainer)
@@ -49,9 +49,9 @@ public class CharacterCore : MonoBehaviour
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);
         
-        WeaponSystem = new WeaponSystem(3, BonesContainer);
-        WeaponSystem.Equip(TempWeaponData);
-        WeaponSystem.SelectInstance(0);
+        Inventory = new Inventory(BonesContainer, 3);
+        Inventory.EquipWeapon(TempWeaponData);
+        Inventory.SelectWeaponInstance(0);
     }
 
     public void Select(bool value)
@@ -91,5 +91,6 @@ public class CharacterCore : MonoBehaviour
     private void OnDisable()
     {
         _sceneCharacterContainer.Remove(this);
+        Inventory.Destroy();
     }
 }
