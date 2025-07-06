@@ -19,9 +19,15 @@ public class JumpState : State
     public override void CheckSwitch(CharacterCore character)
     {
         if (character.Gravity.Grounded && !character.CharacterInputHandler.IsWeaponDraw 
-                               && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0)
+                               && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0.25)
         {
             character.SetState(character.StatesContainer.IdleState);
+        }
+        
+        if (!character.Gravity.Grounded
+            && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0)
+        {
+            character.SetState(character.StatesContainer.FallState);
         }
     }
 
