@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CharacterName>k__BackingField: Boba
   <CharacterSkinData>k__BackingField: {fileID: 11400000, guid: fb1428a73bbe05d4e9309820737fc050, type: 2}
+  <EquippedWeapons>k__BackingField:
+  - {fileID: 11400000, guid: 0d5b7864b639eab4ab9abcd769ab3e6e, type: 2}

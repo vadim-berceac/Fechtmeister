@@ -1,3 +1,4 @@
+using Unity.Burst;
 using UnityEngine;
 
 public class CharacterInputHandler : IInputHandler
@@ -11,9 +12,19 @@ public class CharacterInputHandler : IInputHandler
     public float InputX { get; private set; }
     public float InputY { get; private set; }
     public float LookX { get; private set; }
+   
+    private float _targetInputX;
+    private float _targetInputY;
+    
+    private readonly float _smoothingSpeed; 
     
     private bool _isSubscribed;
-    
+
+    public CharacterInputHandler(float smoothingSpeed)
+    {
+        _smoothingSpeed = smoothingSpeed;
+    }
+
     public void SetupInputSet(IInputSet inputSet)
     {
         if (inputSet == null)
@@ -27,6 +38,20 @@ public class CharacterInputHandler : IInputHandler
         _characterInputSet = (ICharacterInputSet)InputSet;
         Subscribe();
     }
+    
+    [BurstCompile]
+    public void SmoothInput(float deltaTime)
+    {
+        if (InputSet == null || _characterInputSet == null)
+        {
+            return;
+        }
+        InputX = Mathf.Lerp(InputX, _targetInputX, _smoothingSpeed * deltaTime);
+        InputY = Mathf.Lerp(InputY, _targetInputY, _smoothingSpeed * deltaTime);
+       
+        if (Mathf.Abs(InputX - _targetInputX) < 0.01f) InputX = _targetInputX;
+        if (Mathf.Abs(InputY - _targetInputY) < 0.01f) InputY = _targetInputY;
+    }
 
     private void Subscribe()
     {
@@ -35,7 +60,7 @@ public class CharacterInputHandler : IInputHandler
             return;
         }
         _isSubscribed = true;
-        
+
         _characterInputSet.OnMove += OnMove;
         _characterInputSet.OnJump += OnJump;
         _characterInputSet.OnSprint += OnSprint;
@@ -50,7 +75,7 @@ public class CharacterInputHandler : IInputHandler
             return;
         }
         _isSubscribed = false;
-        
+
         _characterInputSet.OnMove -= OnMove;
         _characterInputSet.OnJump -= OnJump;
         _characterInputSet.OnSprint -= OnSprint;
@@ -60,8 +85,8 @@ public class CharacterInputHandler : IInputHandler
 
     private void OnMove(Vector2 move)
     {
-        InputX = move.x;
-        InputY = move.y;
+        _targetInputX = move.x;
+        _targetInputY = move.y;
     }
 
     private void OnJump()

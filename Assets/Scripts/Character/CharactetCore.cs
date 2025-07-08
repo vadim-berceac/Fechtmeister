@@ -4,15 +4,9 @@ using Zenject;
 [RequireComponent(typeof(CharacterPresetLoader))]
 public class CharacterCore : MonoBehaviour
 {
-    [field: Header("Test")]
-    [field: SerializeField] public WeaponData TempWeaponData { get; set; } // переместить в инвентарь
-    
-    
-    
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
     
-    private SceneCharacterContainer _sceneCharacterContainer;
     public SceneCamera SceneCamera { get; private set; }
     public CharacterInputHandler CharacterInputHandler { get; private set; }
     public Transform CashedTransform { get; private set; }
@@ -26,6 +20,7 @@ public class CharacterCore : MonoBehaviour
     public CharacterGravity Gravity { get; private set; }
     
     //creating
+    private SceneCharacterContainer _sceneCharacterContainer;
     public CharacterPresetLoader PresetLoader { get; private set; }
     public CharacterSkinHandler SkinHandler { get; private set; }
     public CharacterBonesContainer BonesContainer { get; private set; }
@@ -39,7 +34,7 @@ public class CharacterCore : MonoBehaviour
         _inputByPlayer = playerInput;
         StatesContainer = statesContainer;
         CashedTransform = transform;
-        CharacterInputHandler = new CharacterInputHandler();
+        CharacterInputHandler = new CharacterInputHandler(LocomotionSettings.InputSmoothingSpeed);
         Gravity = new CharacterGravity();
         
         PresetLoader = GetComponent<CharacterPresetLoader>();
@@ -49,9 +44,7 @@ public class CharacterCore : MonoBehaviour
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);
         
-        Inventory = new Inventory(BonesContainer, 3);
-        Inventory.EquipWeapon(TempWeaponData);
-        Inventory.SelectWeaponInstance(0);
+        Inventory = new Inventory(BonesContainer, PresetLoader, 3);
     }
 
     public void Select(bool value)
@@ -75,6 +68,7 @@ public class CharacterCore : MonoBehaviour
 
     private void Update()
     {
+        CharacterInputHandler.SmoothInput(Time.deltaTime);
         CurrentState.UpdateState(this);
     }
 

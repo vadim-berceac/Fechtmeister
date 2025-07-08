@@ -6,7 +6,8 @@ public class WeaponOffState : State
 {
     public override void EnterState(CharacterCore character)
     {
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, character.TempWeaponData.AnimationType);
+        character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, 
+            ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData).AnimationType);
         character.LocomotionSettings.Animator.StopPlayback();
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.WeaponOffStateName, EnterTransitionDuration);
     }

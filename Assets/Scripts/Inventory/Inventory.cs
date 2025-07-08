@@ -1,41 +1,61 @@
 public class Inventory
 {
-    private readonly WeaponSystem _weaponSystem;
+    private readonly CharacterPresetLoader _characterPresetLoader;
+    public WeaponSystem WeaponSystem { get; set; }
     private readonly ArmorSystem _armorSystem;
     private readonly InventoryBag _inventoryBag;
 
-    public Inventory(CharacterBonesContainer characterBonesContainer, int weaponSystemInstancesCount)
+    public Inventory(CharacterBonesContainer characterBonesContainer, CharacterPresetLoader characterPresetLoader, int weaponSystemInstancesCount)
     {
-        _weaponSystem = new WeaponSystem(weaponSystemInstancesCount, characterBonesContainer);
-        _weaponSystem.OnItemUnEquipped += OnItemUnEquipped;
+        _characterPresetLoader = characterPresetLoader;
+        WeaponSystem = new WeaponSystem(weaponSystemInstancesCount, characterBonesContainer);
+        WeaponSystem.OnItemUnEquipped += OnItemUnEquipped;
 
         _armorSystem = new ArmorSystem();
         _armorSystem.OnItemUnEquipped += OnItemUnEquipped;
+        
+        InitEquipment();
     }
 
     public void SelectWeaponInstance(int index)
     {
-        _weaponSystem.SelectInstance(index);
+        WeaponSystem.SelectInstance(index);
     }
 
     public void EquipWeapon(WeaponData weaponData)
     {
-        _weaponSystem.Equip(weaponData);
+        WeaponSystem.Equip(weaponData);
     }
 
     public void WeaponOn()
     {
-        _weaponSystem.InstanceInHands.AttachToBone(_weaponSystem.InstanceInHands.Instance, _weaponSystem.InstanceInHands.ItemData.BoneData[0]);
+        WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.ItemData.BoneData[0]);
     }
 
     public void WeaponOff()
     {
-        _weaponSystem.InstanceInHands.AttachToBone(_weaponSystem.InstanceInHands.Instance, _weaponSystem.InstanceInHands.ItemData.BoneData[1]);
+        WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.ItemData.BoneData[1]);
     }
 
     public void EquipArmor(ArmorData armorData)
     {
         
+    }
+
+    private void InitEquipment()
+    {
+        if (_characterPresetLoader.CharacterPersonalityData.EquippedWeapons != null)
+        {
+            foreach (var w in _characterPresetLoader.CharacterPersonalityData.EquippedWeapons)
+            {
+                if (w == null)
+                {
+                    continue;
+                }
+                WeaponSystem.Equip(w);
+            }
+            SelectWeaponInstance(0);
+        }
     }
 
     private void OnItemUnEquipped(IItemData weaponData)
@@ -45,7 +65,7 @@ public class Inventory
 
     public void Destroy()
     {
-        _weaponSystem.OnItemUnEquipped -= OnItemUnEquipped;
+        WeaponSystem.OnItemUnEquipped -= OnItemUnEquipped;
         _armorSystem.OnItemUnEquipped -= OnItemUnEquipped;
     }
 }
