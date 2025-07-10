@@ -29,7 +29,7 @@ public class RunState: State
             character.SetState(character.StatesContainer.IdleState);
         }
         
-        if (!character.CharacterInputHandler.IsSprint)
+        if (!character.CharacterInputHandler.IsRun)
         {
             character.SetState(character.StatesContainer.WalkState);
         }

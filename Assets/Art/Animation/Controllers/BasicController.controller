@@ -60,13 +60,13 @@ AnimatorStateMachine:
     m_Position: {x: 390, y: -70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6670497455383750690}
-    m_Position: {x: -380, y: 60, z: 0}
+    m_Position: {x: -600, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6936710297493932002}
-    m_Position: {x: -180, y: 60, z: 0}
+    m_Position: {x: -400, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3321086719306066529}
-    m_Position: {x: 20, y: 60, z: 0}
+    m_Position: {x: -200, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3684991097544355755}
     m_Position: {x: -380, y: 160, z: 0}
@@ -90,10 +90,13 @@ AnimatorStateMachine:
     m_Position: {x: 800, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -492062553488377715}
-    m_Position: {x: 220, y: 60, z: 0}
+    m_Position: {x: 200, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5678329134090489861}
-    m_Position: {x: 420, y: 60, z: 0}
+    m_Position: {x: 400, y: 60, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 8652501093820808647}
+    m_Position: {x: 0, y: 60, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions:
@@ -151,6 +154,21 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!206 &-7669634569817570585
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Blend Tree
+  m_Childs: []
+  m_BlendParameter: InputX
+  m_BlendParameterY: InputX
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 3
 --- !u!206 &-7176171577587694817
 BlendTree:
   m_ObjectHideFlags: 1
@@ -364,7 +382,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 2150214189699270273}
     m_Threshold: 0.44444445
-    m_Position: {x: 1, y: 0}
+    m_Position: {x: 0.25, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: InputX
@@ -372,7 +390,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 4946316936190727830}
     m_Threshold: 0.5555556
-    m_Position: {x: -1, y: 0}
+    m_Position: {x: -0.25, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: InputX
@@ -2091,6 +2109,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 0}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &8652501093820808647
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprint
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 1
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -7669634569817570585}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -28,7 +28,7 @@ public class CombatRunState : State
             character.SetState(character.StatesContainer.CombatIdleState);
         }
         
-        if (!character.CharacterInputHandler.IsSprint)
+        if (!character.CharacterInputHandler.IsRun)
         {
             character.SetState(character.StatesContainer.CombatWalkState);
         }

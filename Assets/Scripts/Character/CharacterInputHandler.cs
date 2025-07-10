@@ -6,7 +6,7 @@ public class CharacterInputHandler : IInputHandler
     public IInputSet InputSet { get; private set; }
     private ICharacterInputSet _characterInputSet;
 
-    public bool IsSprint { get; private set; }
+    public bool IsRun { get; private set; }
     public bool IsJump { get; private set; }
     public bool IsWeaponDraw { get; private set; }
     public float InputX { get; private set; }
@@ -63,7 +63,7 @@ public class CharacterInputHandler : IInputHandler
 
         _characterInputSet.OnMove += OnMove;
         _characterInputSet.OnJump += OnJump;
-        _characterInputSet.OnSprint += OnSprint;
+        _characterInputSet.OnRun += OnRun;
         _characterInputSet.OnLook += OnLook;
         _characterInputSet.OnDrawWeapon += OnWeaponDraw;
     }
@@ -78,7 +78,7 @@ public class CharacterInputHandler : IInputHandler
 
         _characterInputSet.OnMove -= OnMove;
         _characterInputSet.OnJump -= OnJump;
-        _characterInputSet.OnSprint -= OnSprint;
+        _characterInputSet.OnRun -= OnRun;
         _characterInputSet.OnLook -= OnLook;
         _characterInputSet.OnDrawWeapon -= OnWeaponDraw;
     }
@@ -99,9 +99,9 @@ public class CharacterInputHandler : IInputHandler
         LookX = look.x;
     }
 
-    private void OnSprint()
+    private void OnRun()
     {
-        IsSprint = !IsSprint;
+        IsRun = !IsRun;
     }
 
     private void OnWeaponDraw()

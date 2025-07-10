@@ -26,7 +26,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     public event Action OnInteract;
     public event Action OnJump;
     public event Action OnSneak;
-    public event Action OnSprint;
+    public event Action OnRun;
     public event Action OnDrawWeapon;
     public event Action OnHoldTarget;
     public event Action OnOpenInventory;
@@ -166,12 +166,12 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
 
     private void OnSprintCTX(InputAction.CallbackContext ctx)
     {
-        OnSprint?.Invoke();
+        OnRun?.Invoke();
     }
 
     private void OnSprintCTXCancel(InputAction.CallbackContext ctx)
     {
-        OnSprint?.Invoke();
+        OnRun?.Invoke();
     }
 
     private void OnDrawWeaponCTX(InputAction.CallbackContext ctx)
@@ -236,7 +236,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         OnInteract = null;
         OnJump = null;
         OnSneak = null;
-        OnSprint = null;
+        OnRun = null;
         OnHoldTarget = null;
         OnOpenInventory = null;
         OnWeaponSelect0 = null;
