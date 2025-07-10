@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <EnterTransitionDuration>k__BackingField: 0
   <AnimationLayer>k__BackingField: 0
-  <ApplyRootMotion>k__BackingField: 0
+  <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
+  <SpineRotationCorrection>k__BackingField: 0
   <UseGravity>k__BackingField: 1
   <GroundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 1
+  <AdditionalLayers>k__BackingField: []

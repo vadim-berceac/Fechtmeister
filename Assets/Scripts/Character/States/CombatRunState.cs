@@ -6,6 +6,7 @@ public class CombatRunState : State
 {
     public override void EnterState(CharacterCore character)
     {
+        base.EnterState(character);
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.RunStateName, EnterTransitionDuration, AnimationLayer);
     }
 
@@ -36,10 +37,5 @@ public class CombatRunState : State
         {
             character.SetState(character.StatesContainer.WeaponOffState);
         }
-    }
-
-    public override void ExitState(CharacterCore character)
-    {
-        
     }
 }

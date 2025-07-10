@@ -14,6 +14,7 @@ public class CharacterCore : MonoBehaviour
     private ICharacterInputSet _inputByPlayer;
     
     //State Machine
+    public AnimationLayerWeightTransition AnimationLayerWeightTransition { get; private set; }
     public StatesContainer StatesContainer { get; private set; }
     public State CurrentState { get; private set; }
     
@@ -40,6 +41,7 @@ public class CharacterCore : MonoBehaviour
         PresetLoader = GetComponent<CharacterPresetLoader>();
         SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData.CharacterSkinData);
         BonesContainer = new CharacterBonesContainer(CashedTransform);
+        AnimationLayerWeightTransition = new AnimationLayerWeightTransition(LocomotionSettings.Animator);
         
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);
@@ -69,6 +71,7 @@ public class CharacterCore : MonoBehaviour
     private void Update()
     {
         CharacterInputHandler.SmoothInput(Time.deltaTime);
+        AnimationLayerWeightTransition.UpdateTransition();
         CurrentState.UpdateState(this);
     }
 

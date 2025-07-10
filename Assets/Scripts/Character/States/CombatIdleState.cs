@@ -6,6 +6,7 @@ public class CombatIdleState : State
 {
     public override void EnterState(CharacterCore character)
     {
+        base.EnterState(character);
         character.LocomotionSettings.Animator.StopPlayback();
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.IdleStateName, EnterTransitionDuration);
     }
@@ -30,10 +31,5 @@ public class CombatIdleState : State
         {
             character.SetState(character.StatesContainer.CombatWalkState);
         }
-    }
-
-    public override void ExitState(CharacterCore character)
-    {
-        
     }
 }

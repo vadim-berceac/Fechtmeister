@@ -3611,6 +3611,10 @@ PrefabInstance:
       propertyPath: <TempWeaponData>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: ad6037888d95c194b96b2c1029dce683, type: 2}
+    - target: {fileID: 6999585320011918825, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9086983287782165238, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.291

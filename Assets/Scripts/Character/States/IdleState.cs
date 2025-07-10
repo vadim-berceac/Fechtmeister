@@ -6,6 +6,7 @@ public class IdleState : State
 {
     public override void EnterState(CharacterCore character)
     {
+        base.EnterState(character);
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.IdleStateName, EnterTransitionDuration, AnimationLayer);
         character.LocomotionSettings.Animator.SetFloat(AnimationParams.Speed, 0);
     }
@@ -39,10 +40,5 @@ public class IdleState : State
         {
             character.SetState(character.StatesContainer.FallState);
         }
-    }
-
-    public override void ExitState(CharacterCore character)
-    {
-        
     }
 }

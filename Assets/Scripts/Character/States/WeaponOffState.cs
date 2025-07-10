@@ -6,6 +6,7 @@ public class WeaponOffState : State
 {
     public override void EnterState(CharacterCore character)
     {
+        base.EnterState(character);
         character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, 
             ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData).AnimationType);
         character.LocomotionSettings.Animator.StopPlayback();
@@ -34,6 +35,7 @@ public class WeaponOffState : State
 
     public override void ExitState(CharacterCore character)
     {
+        base.ExitState(character);
         character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, 0);
     }
 }
