@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6502283926946306806}
   - component: {fileID: 301124297547184519}
   - component: {fileID: 5391477331367181792}
+  - component: {fileID: 4079720511185234985}
   m_Layer: 23
   m_Name: Character
   m_TagString: Untagged
@@ -119,6 +120,21 @@ MonoBehaviour:
     <CheckSphereRadius>k__BackingField: 0.4
     <ImmuneToFallDamage>k__BackingField: 0
     <FallDamageThreshold>k__BackingField: 5
+--- !u!114 &4079720511185234985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131212000758676167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f7b0555aaa870040aa2d2a198c28c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <SfxSetName>k__BackingField: FootStepsBasic
+  <LFootTransform>k__BackingField: {fileID: 8721643502415936856}
+  <RFootTransform>k__BackingField: {fileID: 5899751074803516693}
 --- !u!1 &5142614395851688255
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,8 +276,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9077852252251652734, guid: 647c1291cacceb446935103ec6c290de, type: 3}
   m_PrefabInstance: {fileID: 7770963164372391419}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &5899751074803516693 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4195139935858807022, guid: 647c1291cacceb446935103ec6c290de, type: 3}
+  m_PrefabInstance: {fileID: 7770963164372391419}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6781198717429695618 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3874126597329293689, guid: 647c1291cacceb446935103ec6c290de, type: 3}
+  m_PrefabInstance: {fileID: 7770963164372391419}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8721643502415936856 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1356007200255355043, guid: 647c1291cacceb446935103ec6c290de, type: 3}
   m_PrefabInstance: {fileID: 7770963164372391419}
   m_PrefabAsset: {fileID: 0}
