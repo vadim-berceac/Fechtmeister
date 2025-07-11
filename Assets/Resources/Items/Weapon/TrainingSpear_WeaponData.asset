@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d986c9d13b35d94489cd77f093f1dd32, type: 3}
+  m_Name: TrainingSpear_WeaponData
+  m_EditorClassIdentifier: 
+  <ItemName>k__BackingField: Training Spear
+  <ItemDescription>k__BackingField: Training Spear
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}
+  <EquippedModelPrefab>k__BackingField: {fileID: 7926834445009811899, guid: 1a33db67d92cefb4db7d19ec3a420a2e, type: 3}
+  <GroundedModelPrefab>k__BackingField: {fileID: 8681034552121472519, guid: 9c2ee0fbb23253e458a79d0a2d5930a8, type: 3}
+  <AnimationType>k__BackingField: 4
+  <BoneData>k__BackingField:
+  - <BonesType>k__BackingField: 17
+    <Position>k__BackingField: {x: 0.044, y: 0.056, z: 0.012}
+    <Rotation>k__BackingField: {x: 0.49797782, y: -0.50706226, z: -0.47203308, w: -0.5216232}
+    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+  - <BonesType>k__BackingField: 3
+    <Position>k__BackingField: {x: 0.019, y: -0.077, z: -0.116}
+    <Rotation>k__BackingField: {x: -0.6824442, y: 0.18512051, z: 0.6824447, w: 0.1851206}
+    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+  <IKBoneData>k__BackingField:
+    <IKBoneName>k__BackingField: Handle
+    <CharacterBoneConnected>k__BackingField: 16
+  <ItemDecorationData>k__BackingField: []

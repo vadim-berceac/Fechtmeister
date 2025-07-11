@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35ebbf763e9ad024986abca0e6263e5d, type: 3}
-  m_Name: Boba
+  m_Name: Skeleton1HWeapon
   m_EditorClassIdentifier: 
-  <CharacterName>k__BackingField: Boba
+  <CharacterName>k__BackingField: Skeleton 1H Weapon
   <CharacterSkinData>k__BackingField: {fileID: 11400000, guid: fb1428a73bbe05d4e9309820737fc050, type: 2}
   <EquippedWeapons>k__BackingField:
   - {fileID: 11400000, guid: 0d5b7864b639eab4ab9abcd769ab3e6e, type: 2}

@@ -39,7 +39,7 @@ public class CharacterCore : MonoBehaviour
         Gravity = new CharacterGravity();
         
         PresetLoader = GetComponent<CharacterPresetLoader>();
-        SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData.CharacterSkinData);
+        SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData);
         BonesContainer = new CharacterBonesContainer(CashedTransform);
         AnimationLayerWeightTransition = new AnimationLayerWeightTransition(LocomotionSettings.Animator);
         

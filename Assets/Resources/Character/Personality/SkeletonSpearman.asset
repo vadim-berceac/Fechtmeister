@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35ebbf763e9ad024986abca0e6263e5d, type: 3}
-  m_Name: Biba
+  m_Name: SkeletonSpearman
   m_EditorClassIdentifier: 
-  <CharacterName>k__BackingField: Biba
+  <CharacterName>k__BackingField: Skeleton Spearman
   <CharacterSkinData>k__BackingField: {fileID: 11400000, guid: 62573faa9a6a36a488bba5928ca5db71, type: 2}
   <EquippedWeapons>k__BackingField:
-  - {fileID: 11400000, guid: 90a5fbd0af02283429d5dbf52ca16f68, type: 2}
+  - {fileID: 11400000, guid: 78017f8fb0c3a694d996f2cd2fa5738c, type: 2}

@@ -10,10 +10,11 @@ public class CharacterSkinHandler
     private SkinnedMeshRenderer _blankRenderer;
     private List<SkinnedMeshRenderer> _renderersInstances;
 
-    public CharacterSkinHandler(Transform transform, CharacterSkinData characterSkinData)
+    public CharacterSkinHandler(Transform transform, CharacterPersonalityData characterPersonalityData)
     {
         _transform = transform;
-        _characterSkinData = characterSkinData;
+        _characterSkinData = characterPersonalityData.CharacterSkinData;
+        _transform.gameObject.name = characterPersonalityData.CharacterName;
         
         InitializeRenderer();
     }
