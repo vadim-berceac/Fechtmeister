@@ -52,6 +52,8 @@ public abstract class State : ScriptableObject
         {
             character.LocomotionSettings.SpineProxy.Allow(false);
         }
+        
+        character.CharacterInputHandler.ResetAttack(); // чтобы атаки не накапливались
     }
 }
 

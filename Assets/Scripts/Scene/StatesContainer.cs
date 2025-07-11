@@ -12,4 +12,5 @@ public class StatesContainer : MonoBehaviour
    [field: SerializeField] public CombatRunState CombatRunState { get; private set; }
    [field: SerializeField] public WeaponOnState WeaponOnState { get; private set; }
    [field: SerializeField] public WeaponOffState WeaponOffState { get; private set; }
+   [field: SerializeField] public FastAttackState FastAttackState { get; private set; }
 }

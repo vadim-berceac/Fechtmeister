@@ -16,7 +16,7 @@ MonoBehaviour:
   <ItemDescription>k__BackingField: Training Sword 2H
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}
   <EquippedModelPrefab>k__BackingField: {fileID: 7926834445009811899, guid: 2f774d6a6843bd340ae29830bdd6a547, type: 3}
-  <GroundedModelPrefab>k__BackingField: {fileID: 1367150234210506725, guid: 5b84bc1715777954fae8ab216e930552, type: 3}
+  <GroundedModelPrefab>k__BackingField: {fileID: 8647566733781514921, guid: ff40d79bc0dcb944b9d84a2b73d9db63, type: 3}
   <AnimationType>k__BackingField: 3
   <BoneData>k__BackingField:
   - <BonesType>k__BackingField: 17

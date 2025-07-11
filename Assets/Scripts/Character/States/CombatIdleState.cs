@@ -31,5 +31,10 @@ public class CombatIdleState : State
         {
             character.SetState(character.StatesContainer.CombatWalkState);
         }
+
+        if (character.CharacterInputHandler.IsAttack)
+        {
+            character.SetState(character.StatesContainer.FastAttackState);
+        }
     }
 }
