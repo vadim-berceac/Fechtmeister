@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d986c9d13b35d94489cd77f093f1dd32, type: 3}
+  m_Name: 2HTrainingSword_WeaponData
+  m_EditorClassIdentifier: 
+  <ItemName>k__BackingField: Training Sword 2H
+  <ItemDescription>k__BackingField: Training Sword 2H
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}
+  <EquippedModelPrefab>k__BackingField: {fileID: 7926834445009811899, guid: 2f774d6a6843bd340ae29830bdd6a547, type: 3}
+  <GroundedModelPrefab>k__BackingField: {fileID: 1367150234210506725, guid: 5b84bc1715777954fae8ab216e930552, type: 3}
+  <AnimationType>k__BackingField: 3
+  <BoneData>k__BackingField:
+  - <BonesType>k__BackingField: 17
+    <Position>k__BackingField: {x: 0.044, y: 0.056, z: 0.012}
+    <Rotation>k__BackingField: {x: 0.49797782, y: -0.50706226, z: -0.47203308, w: -0.5216232}
+    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+  - <BonesType>k__BackingField: 3
+    <Position>k__BackingField: {x: 0.219, y: 0.277, z: -0.123}
+    <Rotation>k__BackingField: {x: -0.6824442, y: 0.18512051, z: 0.6824447, w: 0.1851206}
+    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+  <IKBoneData>k__BackingField:
+    <IKBoneName>k__BackingField: Handle
+    <CharacterBoneConnected>k__BackingField: 16
+  <ItemDecorationData>k__BackingField:
+  - <ItemPrefab>k__BackingField: {fileID: 7926834445009811899, guid: 2dbfa3f77ca2def488b1928c540effa4, type: 3}
+    <BoneData>k__BackingField:
+      <BonesType>k__BackingField: 3
+      <Position>k__BackingField: {x: 0.219, y: 0.277, z: -0.123}
+      <Rotation>k__BackingField: {x: -0.68244416, y: 0.18512067, z: 0.68244475, w: 0.18512043}
+      <Scale>k__BackingField: {x: 1, y: 1, z: 1}
