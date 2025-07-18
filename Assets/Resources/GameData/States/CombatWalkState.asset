@@ -22,7 +22,4 @@ MonoBehaviour:
   <GroundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 1
-  <AdditionalLayers>k__BackingField:
-  - <Layer>k__BackingField: 2
-    <Weight>k__BackingField: 1
-    <ExcludedWeaponIndices>k__BackingField: 01000000
+  <AdditionalLayers>k__BackingField: []
