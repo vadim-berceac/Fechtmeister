@@ -2195,10 +2195,10 @@ BlendTree:
   m_Name: JumpBlend
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 5692786936955401851, guid: c337eaab751341e43ac0ba1c83ead291, type: 3}
+    m_Motion: {fileID: 7400006, guid: 067cc188e25b78b4a940a9fa67cd6ee7, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 1.2
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: InputX
     m_Mirror: 0
@@ -2211,10 +2211,10 @@ BlendTree:
     m_DirectBlendParameter: InputX
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: a21f0cd88e86a3d43ab2f8573af6b959, type: 3}
+    m_Motion: {fileID: 7400006, guid: 4432557de1a86944aa8fabb8e92c3feb, type: 3}
     m_Threshold: 0.6666667
     m_Position: {x: 2, y: 1}
-    m_TimeScale: 1.6
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: InputX
     m_Mirror: 0
