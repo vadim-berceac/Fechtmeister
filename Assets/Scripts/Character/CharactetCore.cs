@@ -18,6 +18,7 @@ public class CharacterCore : MonoBehaviour
     public AnimationLayerWeightTransition AnimationLayerWeightTransition { get; private set; }
     public StatesContainer StatesContainer { get; private set; }
     public State CurrentState { get; private set; }
+    public Counter AttackCounter { get; private set; }
     
     public CharacterGravity Gravity { get; private set; }
     
@@ -48,6 +49,7 @@ public class CharacterCore : MonoBehaviour
         
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);
+        AttackCounter = new Counter(3f, 3);
         
         Inventory = new Inventory(BonesContainer, PresetLoader, 3);
     }
