@@ -37,5 +37,10 @@ public class CombatWalkState : State
         {
             character.SetState(character.StatesContainer.WeaponOffState);
         }
+        
+        if (character.CharacterInputHandler.IsAttack)
+        {
+            character.SetState(character.StatesContainer.FastAttackState);
+        }
     }
 }

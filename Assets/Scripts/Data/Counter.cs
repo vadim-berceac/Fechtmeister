@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Counter
 {
-    public int Count {get; private set;}
+    private int _count;
     private float _lastIncrementTime;
     private readonly float _resetDelay; 
     private readonly int _maxCount; 
@@ -12,30 +12,38 @@ public class Counter
         _resetDelay = resetDelay;
         _maxCount = maxCount;
         
-        Count = 0;
+        _count = 0;
         _lastIncrementTime = -_resetDelay; 
     }
 
-    public void Increment()
+    public int GetValue()
+    {
+        Increment();
+        return _count;
+    }
+
+    private void Increment()
     {
         if (Time.time - _lastIncrementTime > _resetDelay)
         {
-            Count = 0;
+            _count = 0;
+            _lastIncrementTime = Time.time;
+            return;
         }
         
-        Count++;
+        _count++;
         
-        if (Count > _maxCount)
+        if (_count > _maxCount)
         {
-            Count = 0;
+            _count = 0;
         }
        
         _lastIncrementTime = Time.time;
     }
 
-    public void Reset()
+    private void Reset()
     {
-        Count = 0;
+        _count = 0;
         _lastIncrementTime = -_resetDelay;
     }
 }
