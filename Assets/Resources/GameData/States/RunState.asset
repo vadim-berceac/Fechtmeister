@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856caca7b1586994594ad20122806aad, type: 3}
   m_Name: RunState
   m_EditorClassIdentifier: 
+  <AllowItemTargeting>k__BackingField: 1
+  <AllowCharacterTargeting>k__BackingField: 0
   <EnterTransitionDuration>k__BackingField: 0.4
   <AnimationLayer>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 15
+  <SpineRotationCorrection>k__BackingField: 0
   <UseGravity>k__BackingField: 1
   <GroundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 1
+  <AdditionalLayers>k__BackingField: []

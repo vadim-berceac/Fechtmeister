@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,7 +13,6 @@ public class Targeting : MonoBehaviour
     private void Awake()
     {
         _targets = new HashSet<Transform>();
-       Allow(true);// временно
     }
 
     public Transform GetFirstTarget()
@@ -22,6 +22,11 @@ public class Targeting : MonoBehaviour
 
     public void Allow(bool allow)
     {
+        if (_targets == null)
+        {
+            return;
+        }
+        
         _allowed = allow;
 
         if (!_allowed)
@@ -45,8 +50,8 @@ public class Targeting : MonoBehaviour
         _targets.Remove(target);
         Debug.LogWarning($"Removing {target.name}");
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    private void Check(Collider other)
     {
         if (!_allowed)
         {
@@ -57,7 +62,22 @@ public class Targeting : MonoBehaviour
         {
             return;
         }
+
+        if (_targets.Contains(other.transform))
+        {
+            return;
+        }
         AddTarget(other.transform);
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+       Check(other);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        Check(other);
     }
 
     private void OnTriggerExit(Collider other)

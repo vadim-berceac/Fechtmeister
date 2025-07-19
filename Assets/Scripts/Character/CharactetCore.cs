@@ -6,6 +6,7 @@ public class CharacterCore : MonoBehaviour
 {
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
+    [field: SerializeField] public TargetingSettings TargetingSettings { get; set; }
     
     public SceneCamera SceneCamera { get; private set; }
     public CharacterInputHandler CharacterInputHandler { get; private set; }
@@ -25,6 +26,7 @@ public class CharacterCore : MonoBehaviour
     public CharacterPresetLoader PresetLoader { get; private set; }
     public CharacterSkinHandler SkinHandler { get; private set; }
     public CharacterBonesContainer BonesContainer { get; private set; }
+    public CharacterTargetingSystem TargetingSystem { get; private set; }
     public Inventory Inventory { get; private set; }
 
     [Inject]
@@ -42,6 +44,7 @@ public class CharacterCore : MonoBehaviour
         SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData);
         BonesContainer = new CharacterBonesContainer(CashedTransform);
         AnimationLayerWeightTransition = new AnimationLayerWeightTransition(LocomotionSettings.Animator);
+        TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting, TargetingSettings.CharacterTargeting);
         
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0101849051c0ad8489c216350a866d9e, type: 3}
   m_Name: FastAttackState
   m_EditorClassIdentifier: 
+  <AllowItemTargeting>k__BackingField: 0
+  <AllowCharacterTargeting>k__BackingField: 1
   <EnterTransitionDuration>k__BackingField: 0.1
   <AnimationLayer>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 1

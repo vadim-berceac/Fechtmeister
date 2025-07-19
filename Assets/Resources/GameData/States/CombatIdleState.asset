@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ca6c4b4c2be7749a18827608467baf, type: 3}
   m_Name: CombatIdleState
   m_EditorClassIdentifier: 
+  <AllowItemTargeting>k__BackingField: 0
+  <AllowCharacterTargeting>k__BackingField: 1
   <EnterTransitionDuration>k__BackingField: 0.5
   <AnimationLayer>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 1

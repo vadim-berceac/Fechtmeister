@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d449ecfcff76a44481e7a4ff031083d, type: 3}
   m_Name: CombatWalkState
   m_EditorClassIdentifier: 
+  <AllowItemTargeting>k__BackingField: 0
+  <AllowCharacterTargeting>k__BackingField: 1
   <EnterTransitionDuration>k__BackingField: 0.3
   <AnimationLayer>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 15
-  <SpineRotationCorrection>k__BackingField: 1
+  <SpineRotationCorrection>k__BackingField: 0
   <UseGravity>k__BackingField: 1
   <GroundLayer>k__BackingField:
     serializedVersion: 2

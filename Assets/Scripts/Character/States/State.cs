@@ -1,8 +1,11 @@
-using System.Linq;
 using UnityEngine;
 
 public abstract class State : ScriptableObject
 {
+    [field: Header("Targeting")]
+    [field: SerializeField] protected bool AllowItemTargeting { get; set; }
+    [field: SerializeField] protected bool AllowCharacterTargeting { get; set; }
+    
     [field: Header("Animation")]
     [field: SerializeField] protected float EnterTransitionDuration {get; private set;}
     [field: SerializeField] protected int AnimationLayer {get; private set;}
@@ -29,6 +32,9 @@ public abstract class State : ScriptableObject
             character.LocomotionSettings.SpineProxy.Allow(true);
         }
         
+        character.TargetingSystem.AllowItemTargeting(AllowItemTargeting);
+        character.TargetingSystem.AllowCharacterTargeting(AllowCharacterTargeting);
+        
         this.CorrectLayersWeight(character, AdditionalLayers, EnterTransitionDuration);
     }
 
@@ -54,6 +60,9 @@ public abstract class State : ScriptableObject
         }
         
         character.CharacterInputHandler.ResetAttack(); // чтобы атаки не накапливались
+        
+        character.TargetingSystem.AllowItemTargeting(false);
+        character.TargetingSystem.AllowCharacterTargeting(false);
     }
 }
 

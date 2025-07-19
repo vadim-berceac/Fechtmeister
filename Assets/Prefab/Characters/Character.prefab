@@ -190,6 +190,9 @@ MonoBehaviour:
     <CheckSphereRadius>k__BackingField: 0.4
     <ImmuneToFallDamage>k__BackingField: 0
     <FallDamageThreshold>k__BackingField: 5
+  <TargetingSettings>k__BackingField:
+    <ItemTargeting>k__BackingField: {fileID: 5265135514614831208}
+    <CharacterTargeting>k__BackingField: {fileID: 2357708567621151980}
 --- !u!114 &4079720511185234985
 MonoBehaviour:
   m_ObjectHideFlags: 0
