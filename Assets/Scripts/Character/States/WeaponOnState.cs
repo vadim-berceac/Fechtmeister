@@ -15,6 +15,7 @@ public class WeaponOnState : State
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.WeaponOnStateName, EnterTransitionDuration);
         
         character.AttackCounter.SetValue(itemInstanceData.AttackCounterSettings.AttacksResetDelay, itemInstanceData.AttackCounterSettings.AttacksCount);
+        character.LocomotionSettings.Animator.SetFloat(AnimationParams.AttackSpeed, itemInstanceData.AttackSpeed);
     }
 
     [BurstCompile]

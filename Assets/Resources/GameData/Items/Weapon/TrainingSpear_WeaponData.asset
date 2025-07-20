@@ -18,6 +18,7 @@ MonoBehaviour:
   <EquippedModelPrefab>k__BackingField: {fileID: 7926834445009811899, guid: 1a33db67d92cefb4db7d19ec3a420a2e, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 8681034552121472519, guid: 9c2ee0fbb23253e458a79d0a2d5930a8, type: 3}
   <AnimationType>k__BackingField: 4
+  <AttackSpeed>k__BackingField: 1
   <AttackCounterSettings>k__BackingField:
     <AttacksCount>k__BackingField: 3
     <AttacksResetDelay>k__BackingField: 2
