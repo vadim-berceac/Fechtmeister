@@ -49,7 +49,7 @@ public class CharacterCore : MonoBehaviour
         
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);
-        AttackCounter = new Counter(3f, 3);
+        AttackCounter = new Counter();
         
         Inventory = new Inventory(BonesContainer, PresetLoader, 3);
     }

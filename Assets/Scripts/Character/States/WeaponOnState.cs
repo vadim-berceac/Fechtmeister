@@ -7,10 +7,14 @@ public class WeaponOnState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, 
-            ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData).AnimationType);
+        
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
+        
+        character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, itemInstanceData.AnimationType);
         character.LocomotionSettings.Animator.StopPlayback();
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.WeaponOnStateName, EnterTransitionDuration);
+        
+        character.AttackCounter.SetValue(itemInstanceData.AttackCounterSettings.AttacksResetDelay, itemInstanceData.AttackCounterSettings.AttacksCount);
     }
 
     [BurstCompile]

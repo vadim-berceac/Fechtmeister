@@ -18,6 +18,9 @@ MonoBehaviour:
   <EquippedModelPrefab>k__BackingField: {fileID: 2752810555641723409, guid: 107bd67f893c43d439d084e7422776e8, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 8165682375111686420, guid: 3ea37acf52a65a94e92ebdc3f36f49e7, type: 3}
   <AnimationType>k__BackingField: 2
+  <AttackCounterSettings>k__BackingField:
+    <AttacksCount>k__BackingField: 3
+    <AttacksResetDelay>k__BackingField: 2
   <BoneData>k__BackingField:
   - <BonesType>k__BackingField: 17
     <Position>k__BackingField: {x: 0.046, y: 0.084, z: 0.012}

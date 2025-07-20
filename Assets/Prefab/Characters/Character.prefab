@@ -193,6 +193,9 @@ MonoBehaviour:
   <TargetingSettings>k__BackingField:
     <ItemTargeting>k__BackingField: {fileID: 5265135514614831208}
     <CharacterTargeting>k__BackingField: {fileID: 2357708567621151980}
+  <AttackCounterSettings>k__BackingField:
+    <AttacksCount>k__BackingField: 3
+    <AttacksResetDelay>k__BackingField: 2
 --- !u!114 &4079720511185234985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,7 +263,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 3, z: 5}
+  m_Size: {x: 3, y: 3, z: 7}
   m_Center: {x: 0, y: 0, z: 2.5}
 --- !u!114 &2357708567621151980
 MonoBehaviour:

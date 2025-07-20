@@ -4,10 +4,16 @@ public class Counter
 {
     private int _count;
     private float _lastIncrementTime;
-    private readonly float _resetDelay; 
-    private readonly int _maxCount; 
+    private float _resetDelay; 
+    private int _maxCount;
 
-    public Counter(float resetDelay, int maxCount)
+    public Counter()
+    {
+        _count = 0;
+        _lastIncrementTime = -_resetDelay; 
+    }
+    
+    public void SetValue(float resetDelay, int maxCount)
     {
         _resetDelay = resetDelay;
         _maxCount = maxCount;
@@ -39,11 +45,5 @@ public class Counter
         }
        
         _lastIncrementTime = Time.time;
-    }
-
-    private void Reset()
-    {
-        _count = 0;
-        _lastIncrementTime = -_resetDelay;
     }
 }
