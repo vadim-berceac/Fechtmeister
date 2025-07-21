@@ -9,7 +9,7 @@ public class WeaponDamageComponent : MonoBehaviour
     {
         if (!TryGetComponent<Collider>(out _weaponCollider))
         {
-            Debug.LogError("Weapon don't have a Collider");
+            Debug.LogError($"{gameObject} don't have a Collider");
         }
     }
 

@@ -40,5 +40,12 @@ public class IdleState : State
         {
             character.SetState(character.StatesContainer.FallState);
         }
+        
+        //тест interact
+        if (character.CharacterInputHandler.IsInteract)
+        {
+            Debug.LogWarning(character.TargetingSystem.GetVerticalAngleItem() + " " + character.TargetingSystem.GetHorizontalAngleItem());
+            character.CharacterInputHandler.ResetInteract();
+        }
     }
 }

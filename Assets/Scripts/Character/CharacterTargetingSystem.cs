@@ -19,4 +19,24 @@ public class CharacterTargetingSystem
     {
         _characterTargeting.Allow(allow);
     }
+
+    public float GetVerticalAngleItem()
+    {
+        return _itemTargeting.GetVerticalAngleToFirstTarget();
+    }
+
+    public float GetHorizontalAngleItem()
+    {
+        return _itemTargeting.GetHorizontalAngleToFirstTarget();
+    }
+
+    public float GetVerticalAngleCharacter()
+    {
+        return _characterTargeting.GetVerticalAngleToFirstTarget();
+    }
+
+    public float GetHorizontalAngleCharacter()
+    {
+        return _characterTargeting.GetHorizontalAngleToFirstTarget();
+    }
 }

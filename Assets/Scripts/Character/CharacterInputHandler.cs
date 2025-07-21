@@ -7,6 +7,7 @@ public class CharacterInputHandler : IInputHandler
     private ICharacterInputSet _characterInputSet;
 
     public bool IsAttack { get; private set; }
+    public bool IsInteract { get; private set; }
     public bool IsRun { get; private set; }
     public bool IsJump { get; private set; }
     public bool IsWeaponDraw { get; private set; }
@@ -68,6 +69,7 @@ public class CharacterInputHandler : IInputHandler
         _characterInputSet.OnLook += OnLook;
         _characterInputSet.OnDrawWeapon += OnWeaponDraw;
         _characterInputSet.OnAttack += OnAttack;
+        _characterInputSet.OnInteract += OnInteract;
     }
 
     private void Unsubscribe()
@@ -84,6 +86,7 @@ public class CharacterInputHandler : IInputHandler
         _characterInputSet.OnLook -= OnLook;
         _characterInputSet.OnDrawWeapon -= OnWeaponDraw;
         _characterInputSet.OnAttack -= OnAttack;
+        _characterInputSet.OnInteract -= OnInteract;
     }
 
     private void OnMove(Vector2 move)
@@ -120,5 +123,16 @@ public class CharacterInputHandler : IInputHandler
     public void ResetAttack()
     {
         IsAttack = false;
+    }
+
+    private void OnInteract()
+    {
+        Debug.Log("Interact");
+        IsInteract = true;
+    }
+
+    public void ResetInteract()
+    {
+        IsInteract = false;
     }
 }
