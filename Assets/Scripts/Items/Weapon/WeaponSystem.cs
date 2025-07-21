@@ -9,6 +9,7 @@ public class WeaponSystem : IItemInstancesContainer
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
     public Action<IItemData> OnItemUnEquipped { get; set; }
+    public bool WeaponInstanceIsRanged { get; set; }
 
     public WeaponSystem(int instancesCount, CharacterBonesContainer characterBonesContainer)
     {
@@ -39,6 +40,7 @@ public class WeaponSystem : IItemInstancesContainer
             return;
         }
         InstanceInHands = Instances[itemIndex];
+        WeaponInstanceIsRanged = ((WeaponData)InstanceInHands.ItemData).IsRanged;
     }
 
     public int GetEmptyInstance()
