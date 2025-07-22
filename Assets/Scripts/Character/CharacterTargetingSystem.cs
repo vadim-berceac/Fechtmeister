@@ -20,23 +20,39 @@ public class CharacterTargetingSystem
         _characterTargeting.Allow(allow);
     }
 
-    public float GetVerticalAngleItem()
+    public float GetVerticalAngle(TargetingMode targetingMode)
     {
-        return _itemTargeting.GetVerticalAngleToFirstTarget();
+        switch (targetingMode)
+        {
+            case TargetingMode.Item:
+                return _itemTargeting.GetVerticalAngleToFirstTarget();
+            
+            case TargetingMode.Character:
+                return _characterTargeting.GetVerticalAngleToFirstTarget();
+            
+            default:
+                return 0;
+        }
     }
 
-    public float GetHorizontalAngleItem()
+    public float GetHorizontalAngle(TargetingMode targetingMode)
     {
-        return _itemTargeting.GetHorizontalAngleToFirstTarget();
+        switch (targetingMode)
+        {
+            case TargetingMode.Item:
+                return _itemTargeting.GetHorizontalAngleToFirstTarget();
+            
+            case TargetingMode.Character:
+                return _characterTargeting.GetHorizontalAngleToFirstTarget();
+            
+            default:
+                return 0;
+        }
     }
+}
 
-    public float GetVerticalAngleCharacter()
-    {
-        return _characterTargeting.GetVerticalAngleToFirstTarget();
-    }
-
-    public float GetHorizontalAngleCharacter()
-    {
-        return _characterTargeting.GetHorizontalAngleToFirstTarget();
-    }
+public enum TargetingMode
+{
+    Item,
+    Character
 }

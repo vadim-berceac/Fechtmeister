@@ -39,6 +39,20 @@ public class Targeting : MonoBehaviour
     }
     
     [BurstCompile]
+    public float GetHorizontalAngleToFirstTarget()
+    {
+        var target = GetFirstTarget();
+        return characterController.GetHorizontalAngle(target);
+    }
+    
+    [BurstCompile]
+    public float GetVerticalAngleToFirstTarget()
+    {
+        var target = GetFirstTarget();
+        return characterController.GetVerticalAngle(target);
+    }
+    
+    [BurstCompile]
     private void AddTarget(Transform target)
     {
         _targets.Add(target);
@@ -94,42 +108,5 @@ public class Targeting : MonoBehaviour
         }
         
         RemoveTarget(other.transform);
-    }
-    
-    [BurstCompile]
-    public float GetHorizontalAngleToFirstTarget()
-    {
-        var target = GetFirstTarget();
-        if (target == null || parent == null)
-        {
-            return 0f;
-        }
-
-        var parentCenter = characterController.bounds.center;
-        var targetPosition = target.position;
-        var directionToTarget = new Vector3(targetPosition.x - parentCenter.x, 0f, targetPosition.z - parentCenter.z).normalized;
-        var parentForward = new Vector3(parent.forward.x, 0f, parent.forward.z).normalized;
-        
-        var angle = Vector3.SignedAngle(parentForward, directionToTarget, Vector3.up);
-        return angle;
-    }
-    
-    [BurstCompile]
-    public float GetVerticalAngleToFirstTarget()
-    {
-        var target = GetFirstTarget();
-        if (target == null || parent == null)
-        {
-            return 0f;
-        }
-        var parentCenter = characterController.bounds.center;
-        var targetPosition = target.position;
-        var directionToTarget = (targetPosition - parentCenter).normalized;
-        var parentForward = parent.forward.normalized;
-        var parentRight = parent.right.normalized;
-        var forwardInPlane = Vector3.ProjectOnPlane(parentForward, parentRight).normalized;
-        var directionInPlane = Vector3.ProjectOnPlane(directionToTarget, parentRight).normalized;
-        var angle = Vector3.SignedAngle(forwardInPlane, directionInPlane, -parentRight);
-        return angle;
     }
 }

@@ -44,7 +44,7 @@ public class IdleState : State
         //тест interact
         if (character.CharacterInputHandler.IsInteract)
         {
-            Debug.LogWarning(character.TargetingSystem.GetVerticalAngleItem() + " " + character.TargetingSystem.GetHorizontalAngleItem());
+            Debug.LogWarning(character.TargetingSystem.GetVerticalAngle(TargetingMode.Item) + " " + character.TargetingSystem.GetHorizontalAngle(TargetingMode.Item));
             character.CharacterInputHandler.ResetInteract();
         }
     }
