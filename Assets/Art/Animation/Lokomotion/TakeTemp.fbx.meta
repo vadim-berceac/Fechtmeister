@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: b137e05d7595aa2478202c798cb4cda0
-AssetOrigin:
-  serializedVersion: 1
-  productId: 162341
-  packageName: Mega Animations Pack
-  packageVersion: 1.7.3
-  assetPath: Assets/Kevin Iglesias/Villager Animations/Animations/Work/Gathering/Villager@Gathering02.fbx
-  uploadId: 755075
+guid: 4f160952df09793469a96fb65df7a460
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
@@ -432,7 +425,7 @@ ModelImporter:
     second: RightHandProp
   - first:
       74: 7400000
-    second: Villager@Gathering02
+    second: TakeTemp
   - first:
       95: 9500000
     second: //RootNode
@@ -467,7 +460,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Villager@Gathering02
+      name: TakeTemp
       takeName: Default Take
       internalID: 0
       firstFrame: 0
@@ -478,15 +471,15 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1
       keepOriginalOrientation: 1
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 1
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves:

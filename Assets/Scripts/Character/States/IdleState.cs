@@ -41,11 +41,9 @@ public class IdleState : State
             character.SetState(character.StatesContainer.FallState);
         }
         
-        //тест interact
-        if (character.CharacterInputHandler.IsInteract)
+        if (character.CharacterInputHandler.IsInteract && character.TargetingSystem.HasTarget(TargetingMode.Item))
         {
-            Debug.LogWarning(character.TargetingSystem.GetVerticalAngle(TargetingMode.Item) + " " + character.TargetingSystem.GetHorizontalAngle(TargetingMode.Item));
-            character.CharacterInputHandler.ResetInteract();
+            character.SetState(character.StatesContainer.TakeLootState);
         }
     }
 }

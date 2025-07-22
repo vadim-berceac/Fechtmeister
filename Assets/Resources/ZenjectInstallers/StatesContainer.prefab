@@ -55,3 +55,4 @@ MonoBehaviour:
   <WeaponOnState>k__BackingField: {fileID: 11400000, guid: e8c25eeb3133eaf41adf2b0ad63ccdb6, type: 2}
   <WeaponOffState>k__BackingField: {fileID: 11400000, guid: 074a65ef7f083d4469e5204f0e4d0c55, type: 2}
   <FastAttackState>k__BackingField: {fileID: 11400000, guid: 9f5b2ba14340c144c89a4c64cf4c47d5, type: 2}
+  <TakeLootState>k__BackingField: {fileID: 11400000, guid: f05b3bf80e5a3164f8e4b77b5216c518, type: 2}

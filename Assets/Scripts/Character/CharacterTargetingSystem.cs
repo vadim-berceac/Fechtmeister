@@ -49,6 +49,21 @@ public class CharacterTargetingSystem
                 return 0;
         }
     }
+
+    public bool HasTarget(TargetingMode targetingMode)
+    {
+        switch (targetingMode)
+        {
+            case TargetingMode.Item:
+                return _itemTargeting.GetFirstTarget() != null;
+            
+            case TargetingMode.Character:
+                return _characterTargeting.GetFirstTarget() != null;
+            
+            default:
+                return false;
+        }
+    }
 }
 
 public enum TargetingMode

@@ -6,6 +6,7 @@ public struct AnimationParams
     public const string RunStateName = "Run";
     public const string SprintStateName = "Sprint";
     public const string JumpStateName = "Jump";
+    public const string TakeLootStateName = "TakeLoot";
     public const string WeaponOnStateName = "WeaponOn";
     public const string WeaponOffStateName = "WeaponOff";
     public const string Attack0StateName = "Attack0";
