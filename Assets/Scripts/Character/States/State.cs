@@ -1,3 +1,4 @@
+using Unity.Burst;
 using UnityEngine;
 
 public abstract class State : ScriptableObject
@@ -5,6 +6,8 @@ public abstract class State : ScriptableObject
     [field: Header("Targeting")]
     [field: SerializeField] protected bool AllowItemTargeting { get; set; }
     [field: SerializeField] protected bool AllowCharacterTargeting { get; set; }
+    [field: SerializeField] protected bool UpdateHorizontalTargetAngle { get; set; }
+    [field: SerializeField] protected bool UpdateVerticalTargetAngle { get; set; }
     
     [field: Header("Animation")]
     [field: SerializeField] protected float EnterTransitionDuration {get; private set;}
@@ -34,6 +37,16 @@ public abstract class State : ScriptableObject
         
         character.TargetingSystem.AllowItemTargeting(AllowItemTargeting);
         character.TargetingSystem.AllowCharacterTargeting(AllowCharacterTargeting);
+
+        if (!UpdateVerticalTargetAngle)
+        {
+            character.LocomotionSettings.Animator.SetFloat(AnimationParams.VerticalAngleToTarget, 0);
+        }
+        
+        if (!UpdateHorizontalTargetAngle)
+        {
+            character.LocomotionSettings.Animator.SetFloat(AnimationParams.HorizontalAngleToTarget, 0);
+        }
         
         this.CorrectLayersWeight(character, AdditionalLayers, EnterTransitionDuration);
     }
@@ -41,6 +54,8 @@ public abstract class State : ScriptableObject
     public virtual void UpdateState(CharacterCore character)
     {
         character.UpdateRotationByCamera(RotationByCamera, RotationSpeed);
+
+        UpdateTargetingParams(character);
     }
 
     public virtual void FixedUpdateState(CharacterCore character)
@@ -63,6 +78,38 @@ public abstract class State : ScriptableObject
         
         character.TargetingSystem.AllowItemTargeting(false);
         character.TargetingSystem.AllowCharacterTargeting(false);
+    }
+
+    [BurstCompile]
+    private void UpdateTargetingParams(CharacterCore character)
+    {
+        if (AllowCharacterTargeting)
+        {
+            if (UpdateVerticalTargetAngle)
+            {
+                character.LocomotionSettings.Animator.SetFloat(AnimationParams.VerticalAngleToTarget,  character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
+            }
+        
+            if (UpdateHorizontalTargetAngle)
+            {
+                character.LocomotionSettings.Animator.SetFloat(AnimationParams.HorizontalAngleToTarget, character.TargetingSystem.GetHorizontalAngle(TargetingMode.Character));
+            }
+            return;
+        }
+
+        if (!AllowItemTargeting)
+        {
+            return;
+        }
+        if (UpdateVerticalTargetAngle)
+        {
+            character.LocomotionSettings.Animator.SetFloat(AnimationParams.VerticalAngleToTarget,  character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
+        }
+        
+        if (UpdateHorizontalTargetAngle)
+        {
+            character.LocomotionSettings.Animator.SetFloat(AnimationParams.HorizontalAngleToTarget, character.TargetingSystem.GetHorizontalAngle(TargetingMode.Item));
+        }
     }
 }
 

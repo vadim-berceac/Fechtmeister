@@ -23,4 +23,6 @@ public struct AnimationParams
     public const string ActionCurve  = "ActionCurve";
     public const string AttackCounter = "AttackCounter";
     public const string Speed = "Speed";
+    public const string HorizontalAngleToTarget = "HorizontalAngleToTarget";
+    public const string VerticalAngleToTarget = "VerticalAngleToTarget";
 }

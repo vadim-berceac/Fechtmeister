@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2516f0033f87f064080a260a3a1e4fd5, type: 3}
   m_Name: TakeLootState
   m_EditorClassIdentifier: 
-  <AllowItemTargeting>k__BackingField: 0
+  <AllowItemTargeting>k__BackingField: 1
   <AllowCharacterTargeting>k__BackingField: 0
+  <UpdateHorizontalTargetAngle>k__BackingField: 1
+  <UpdateVerticalTargetAngle>k__BackingField: 0
   <EnterTransitionDuration>k__BackingField: 0.1
   <AnimationLayer>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 0
