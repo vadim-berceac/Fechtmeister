@@ -8,6 +8,7 @@ public class CombatRunState : State
     {
         base.EnterState(character);
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.RunStateName, EnterTransitionDuration, AnimationLayer);
+        character.LocomotionSettings.Animator.SetFloat(AnimationParams.Speed, 2);
     }
 
     [BurstCompile]
@@ -41,6 +42,16 @@ public class CombatRunState : State
         if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
         {
             character.SetState(character.StatesContainer.FastAttackState);
+        }
+        
+        if (character.CharacterInputHandler.IsJump)
+        {
+            character.SetState(character.StatesContainer.JumpState);
+        }
+        
+        if (!character.Gravity.Grounded)
+        {
+            character.SetState(character.StatesContainer.FallState);
         }
     }
 }

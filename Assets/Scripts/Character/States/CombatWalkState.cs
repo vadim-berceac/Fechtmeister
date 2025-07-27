@@ -8,6 +8,7 @@ public class CombatWalkState : State
     {
         base.EnterState(character);
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.WalkStateName, EnterTransitionDuration, AnimationLayer);
+        character.LocomotionSettings.Animator.SetFloat(AnimationParams.Speed, 1);
     }
 
     [BurstCompile]
@@ -41,6 +42,16 @@ public class CombatWalkState : State
         if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
         {
             character.SetState(character.StatesContainer.FastAttackState);
+        }
+        
+        if (character.CharacterInputHandler.IsJump)
+        {
+            character.SetState(character.StatesContainer.JumpState);
+        }
+        
+        if (!character.Gravity.Grounded)
+        {
+            character.SetState(character.StatesContainer.FallState);
         }
     }
 }

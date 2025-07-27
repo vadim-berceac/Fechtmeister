@@ -25,6 +25,12 @@ public class JumpState : State
             character.SetState(character.StatesContainer.IdleState);
         }
         
+        if (character.Gravity.Grounded && character.CharacterInputHandler.IsWeaponDraw 
+                                       && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0.25)
+        {
+            character.SetState(character.StatesContainer.CombatIdleState);
+        }
+        
         if (!character.Gravity.Grounded
             && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0)
         {

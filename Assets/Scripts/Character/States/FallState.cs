@@ -19,9 +19,14 @@ public class FallState :  State
 
     public override void CheckSwitch(CharacterCore character)
     {
-        if (character.Gravity.Grounded)
+        if (character.Gravity.Grounded && !character.CharacterInputHandler.IsWeaponDraw)
         {
             character.SetState(character.StatesContainer.IdleState);
+        }
+        
+        if (character.Gravity.Grounded && character.CharacterInputHandler.IsWeaponDraw)
+        {
+            character.SetState(character.StatesContainer.CombatIdleState);
         }
     }
 }
