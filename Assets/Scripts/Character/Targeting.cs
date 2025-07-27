@@ -60,7 +60,7 @@ public class Targeting : MonoBehaviour
     }
 
     [BurstCompile]
-    private void RemoveTarget(Transform target)
+    public void RemoveTarget(Transform target)
     {
         if (!_targets.Contains(target))
         {

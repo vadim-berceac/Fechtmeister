@@ -19,8 +19,8 @@ MonoBehaviour:
   <EnterTransitionDuration>k__BackingField: 0.1
   <AnimationLayer>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 0
-  <RotationByCamera>k__BackingField: 1
-  <RotationSpeed>k__BackingField: 5
+  <RotationByCamera>k__BackingField: 0
+  <RotationSpeed>k__BackingField: 0
   <SpineRotationCorrection>k__BackingField: 0
   <UseGravity>k__BackingField: 1
   <GroundLayer>k__BackingField:

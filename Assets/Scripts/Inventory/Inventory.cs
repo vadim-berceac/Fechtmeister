@@ -14,7 +14,14 @@ public class Inventory
         _armorSystem = new ArmorSystem();
         _armorSystem.OnItemUnEquipped += OnItemUnEquipped;
         
+        _inventoryBag = new InventoryBag();
+        
         InitEquipment();
+    }
+
+    public void AddToInventoryBag(IItemData itemData)
+    {
+        _inventoryBag.AddItem(itemData);
     }
 
     public void SelectWeaponInstance(int index)

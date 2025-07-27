@@ -1,8 +1,13 @@
 
+using UnityEngine;
+
 public class CharacterTargetingSystem
 {
     private readonly Targeting _itemTargeting;
     private readonly Targeting _characterTargeting;
+    
+    public Transform LastItemTransform { get; private set; }
+    public Transform LastCharacterTransform { get; private set; }
 
     public CharacterTargetingSystem(Targeting itemTargeting, Targeting characterTargeting)
     {
@@ -55,14 +60,38 @@ public class CharacterTargetingSystem
         switch (targetingMode)
         {
             case TargetingMode.Item:
-                return _itemTargeting.GetFirstTarget() != null;
+                LastItemTransform = _itemTargeting.GetFirstTarget();
+                return LastItemTransform != null;
             
             case TargetingMode.Character:
-                return _characterTargeting.GetFirstTarget() != null;
+                LastCharacterTransform = _characterTargeting.GetFirstTarget();
+                return LastCharacterTransform != null;
             
             default:
                 return false;
         }
+    }
+
+    public IItemData GetTargetItem()
+    {
+        if (LastItemTransform == null)
+        {
+            return null;
+        }
+        
+        LastItemTransform.TryGetComponent<PickupItem>(out var item);
+
+        if (item == null)
+        {
+            LastItemTransform = null;
+            return null;
+        }
+        
+        _itemTargeting.RemoveTarget(LastItemTransform);
+        LastItemTransform.gameObject.SetActive(false);
+        LastItemTransform = null;
+
+        return item.ItemData;
     }
 }
 

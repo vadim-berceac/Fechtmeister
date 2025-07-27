@@ -28,6 +28,18 @@ public class TakeLootState : State
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
-        character.CharacterInputHandler.ResetInteract();
+        
+        Take(character);
+    }
+
+    private static void Take(CharacterCore character)
+    {
+        var item = character.TargetingSystem.GetTargetItem();
+        if (item == null)
+        {
+           return;
+        }
+        
+        character.Inventory.AddToInventoryBag(item);
     }
 }

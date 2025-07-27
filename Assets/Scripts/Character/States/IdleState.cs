@@ -46,4 +46,10 @@ public class IdleState : State
             character.SetState(character.StatesContainer.TakeLootState);
         }
     }
+
+    public override void ExitState(CharacterCore character)
+    {
+        base.ExitState(character);
+        character.CharacterInputHandler.ResetInteract();
+    }
 }
