@@ -1,3 +1,4 @@
+using System;
 using Unity.Burst;
 using UnityEngine;
 
@@ -135,7 +136,6 @@ public class CharacterInputHandler : IInputHandler
     public void InventoryOpen(bool value)
     {
         IsInventoryOpen = value;
-        Debug.Log("InventoryOpen: " + value);
     }
 
     public void ResetInteract()

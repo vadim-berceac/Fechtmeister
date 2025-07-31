@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 using Zenject;
@@ -12,6 +13,7 @@ public class SceneCamera : MonoBehaviour, IInputHandler
     private float _targetPitch;
     public IInputSet InputSet { get; private set; }
     public bool HasTarget { get; private set; }
+    public Action OnTargetChanged;
 
     [Inject]
     private void Construct(PlayerInput playerInput)
@@ -75,12 +77,14 @@ public class SceneCamera : MonoBehaviour, IInputHandler
             Target = null;
             SceneCameraData.SceneCamera.gameObject.SetActive(true);
             SceneCameraData.CharacterCamera.gameObject.SetActive(false);
+            OnTargetChanged?.Invoke();
             return;
         }
         HasTarget = true;
         Target = target;
         SceneCameraData.SceneCamera.gameObject.SetActive(false);
         SceneCameraData.CharacterCamera.gameObject.SetActive(true);
+        OnTargetChanged?.Invoke();
     }
 
     public void SetupInputSet(IInputSet inputSet)

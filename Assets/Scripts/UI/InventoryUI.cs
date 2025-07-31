@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class InventoryUI : MonoBehaviour, IGameWindow
@@ -6,6 +7,8 @@ public class InventoryUI : MonoBehaviour, IGameWindow
     private PlayerInput _playerInput;
     private GameWindowContainer _gameWindowContainer;
     private SceneCamera _sceneCamera;
+    public CharacterCore CurrentCharacter { get; private set; }
+    
     [SerializeField] private GameObject inventoryWindow;
 
     [Inject]
@@ -22,6 +25,7 @@ public class InventoryUI : MonoBehaviour, IGameWindow
         Register();
 
         _playerInput.OnOpenInventory += OnInventoryInvoked;
+        _sceneCamera.OnTargetChanged += Close;
     }
 
     private void OnInventoryInvoked()
@@ -32,16 +36,13 @@ public class InventoryUI : MonoBehaviour, IGameWindow
             return;
         }
         
-        var currentCharacter = _sceneCamera.Target.GetComponent<CharacterCore>();
+        CurrentCharacter = _sceneCamera.Target.GetComponent<CharacterCore>();
         
         if (IsActive())
         {
             Close();
-            currentCharacter.CharacterInputHandler.InventoryOpen(false);
             return;
         }
-       
-        currentCharacter.CharacterInputHandler.InventoryOpen(true);
         Open();
     }
 
@@ -61,6 +62,12 @@ public class InventoryUI : MonoBehaviour, IGameWindow
         {
             window.Close(); 
         }
+
+        if (CurrentCharacter != null)
+        {
+            CurrentCharacter.CharacterInputHandler.InventoryOpen(true);
+        }
+        
         inventoryWindow.SetActive(true);
         BLockPlayerInput(true);
     }
@@ -70,6 +77,11 @@ public class InventoryUI : MonoBehaviour, IGameWindow
         if (!IsActive())
         {
             return;
+        }
+
+        if (CurrentCharacter != null)
+        {
+            CurrentCharacter.CharacterInputHandler.InventoryOpen(false);
         }
         
         inventoryWindow.SetActive(false);
@@ -96,5 +108,6 @@ public class InventoryUI : MonoBehaviour, IGameWindow
     private void OnDisable()
     {
         _playerInput.OnOpenInventory -= OnInventoryInvoked;
+        _sceneCamera.OnTargetChanged -= Close;
     }
 }
