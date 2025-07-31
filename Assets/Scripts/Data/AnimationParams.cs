@@ -25,4 +25,5 @@ public struct AnimationParams
     public const string Speed = "Speed";
     public const string HorizontalAngleToTarget = "HorizontalAngleToTarget";
     public const string VerticalAngleToTarget = "VerticalAngleToTarget";
+    public const string InventoryStateName = "Inventory";
 }

@@ -10,6 +10,7 @@ public class CharacterInputHandler : IInputHandler
     public bool IsInteract { get; private set; }
     public bool IsRun { get; private set; }
     public bool IsJump { get; private set; }
+    public bool IsInventoryOpen { get; private set; }
     public bool IsWeaponDraw { get; private set; }
     public float InputX { get; private set; }
     public float InputY { get; private set; }
@@ -129,6 +130,12 @@ public class CharacterInputHandler : IInputHandler
     {
         Debug.Log("Interact");
         IsInteract = true;
+    }
+
+    public void InventoryOpen(bool value)
+    {
+        IsInventoryOpen = value;
+        Debug.Log("InventoryOpen: " + value);
     }
 
     public void ResetInteract()

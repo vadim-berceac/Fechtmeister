@@ -32,11 +32,16 @@ public class InventoryUI : MonoBehaviour, IGameWindow
             return;
         }
         
+        var currentCharacter = _sceneCamera.Target.GetComponent<CharacterCore>();
+        
         if (IsActive())
         {
             Close();
+            currentCharacter.CharacterInputHandler.InventoryOpen(false);
             return;
         }
+       
+        currentCharacter.CharacterInputHandler.InventoryOpen(true);
         Open();
     }
 
