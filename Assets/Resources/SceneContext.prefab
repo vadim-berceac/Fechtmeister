@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6b5a9cadfdae94abe53e5362a9851c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterContainerPrefab: {fileID: 5353713140493449594, guid: 404b9a08983899748a9dbbc06e634338, type: 3}
+  sceneContainerPrefab: {fileID: 5353713140493449594, guid: 404b9a08983899748a9dbbc06e634338, type: 3}
 --- !u!114 &291068911580769870
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8012686392668108405}
   - component: {fileID: 1791452361773483558}
+  - component: {fileID: 3868591547208123532}
   m_Layer: 0
-  m_Name: SceneCharacterContainer
+  m_Name: Containers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,5 +43,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56910f8d23330e948bf40f539c33c40f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3868591547208123532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353713140493449594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e616bef758c50c488f492cffc07fb89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

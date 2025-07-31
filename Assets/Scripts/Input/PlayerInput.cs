@@ -131,6 +131,16 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         }
     }
 
+    public void EnableByIndex(int index)
+    {
+        _actions[index]?.Enable();
+    }
+
+    public void DisableByIndex(int index)
+    {
+        _actions[index]?.Disable();
+    }
+
     public void Disable()
     {
         foreach (var action in _actions)
