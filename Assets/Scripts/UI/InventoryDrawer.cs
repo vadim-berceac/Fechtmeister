@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class InventoryDrawer : MonoBehaviour
@@ -24,7 +25,8 @@ public class InventoryDrawer : MonoBehaviour
 
     private void UpdateWeaponSystem()
     {
-        Debug.Log($"Показываю WeaponSystem {InventoryUI.CurrentCharacter.name}");
+        var w = InventoryUI.CurrentCharacter.Inventory.WeaponSystem.InstanceInHands.ItemData.ItemName;
+        Debug.Log($"{w} WeaponSystem {InventoryUI.CurrentCharacter.name}");
     }
 
     private void UpdateArmorSystem()
