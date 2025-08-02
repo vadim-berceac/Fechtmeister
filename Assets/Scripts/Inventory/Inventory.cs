@@ -3,7 +3,7 @@ public class Inventory
     private readonly CharacterPresetLoader _characterPresetLoader;
     public WeaponSystem WeaponSystem { get; set; }
     private readonly ArmorSystem _armorSystem;
-    private readonly InventoryBag _inventoryBag;
+    public readonly InventoryBag InventoryBag;
 
     public Inventory(CharacterBonesContainer characterBonesContainer, CharacterPresetLoader characterPresetLoader, int weaponSystemInstancesCount)
     {
@@ -14,14 +14,14 @@ public class Inventory
         _armorSystem = new ArmorSystem();
         _armorSystem.OnItemUnEquipped += OnItemUnEquipped;
         
-        _inventoryBag = new InventoryBag(25);
+        InventoryBag = new InventoryBag(25);
         
         InitEquipment();
     }
 
     public void AddToInventoryBag(IItemData itemData)
     {
-        _inventoryBag.AddItem(itemData);
+        InventoryBag.AddItem(itemData);
     }
 
     public void SelectWeaponInstance(int index)
