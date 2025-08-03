@@ -45,6 +45,11 @@ public class IdleState : State
         {
             character.SetState(character.StatesContainer.TakeLootState);
         }
+        
+        if (character.CharacterInputHandler.IsInventoryOpen)
+        {
+            character.SetState(character.StatesContainer.InventoryState);
+        }
     }
 
     public override void ExitState(CharacterCore character)

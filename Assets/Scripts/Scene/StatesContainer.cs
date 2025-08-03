@@ -14,4 +14,5 @@ public class StatesContainer : MonoBehaviour
    [field: SerializeField] public WeaponOffState WeaponOffState { get; private set; }
    [field: SerializeField] public FastAttackState FastAttackState { get; private set; }
    [field: SerializeField] public TakeLootState TakeLootState { get; private set; }
+   [field: SerializeField] public InventoryState InventoryState { get; private set; }
 }
