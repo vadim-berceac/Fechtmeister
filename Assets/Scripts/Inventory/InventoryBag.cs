@@ -12,7 +12,7 @@ public class InventoryBag : ICellContainer
 
         for (var i = 0; i < _cells.Length; i++)
         {
-            _cells[i] = new BagCell();
+            _cells[i] = new BagCell(99);
         }
     }
 

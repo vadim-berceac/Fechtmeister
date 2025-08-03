@@ -63,11 +63,12 @@ public class InventoryUI : MonoBehaviour, IGameWindow
             window.Close(); 
         }
 
-        if (CurrentCharacter != null)
+        if (CurrentCharacter == null || CurrentCharacter.CurrentState is not IdleState)
         {
-            CurrentCharacter.CharacterInputHandler.InventoryOpen(true);
+           return;
         }
         
+        CurrentCharacter.CharacterInputHandler.InventoryOpen(true);
         inventoryWindow.SetActive(true);
         BLockPlayerInput(true);
     }

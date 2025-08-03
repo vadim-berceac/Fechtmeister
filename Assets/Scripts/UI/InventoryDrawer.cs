@@ -36,9 +36,9 @@ public class InventoryDrawer : MonoBehaviour
         for (var i = 0; i < bag.Length - 1; i++)
         {
             var instance = bag[i];
-            if (instance != null && instance.ItemData != null)
+            if (instance != null && !instance.IsEmpty())
             {
-                InventoryWeaponButtons[i].SetItemData(instance.ItemData);
+                InventoryBagButtons[i].SetItemData(instance.ItemData);
             }
         }
     }

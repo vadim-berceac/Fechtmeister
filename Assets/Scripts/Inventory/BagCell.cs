@@ -7,9 +7,9 @@ public class BagCell : IInventoryCell
     public int Quantity { get; set; }
     public int MaxQuantity { get; set; }
 
-    public BagCell()
+    public BagCell(int maxQuantity)
     {
-        
+        MaxQuantity = maxQuantity;
     }
 
     public bool IsEmpty()
@@ -24,7 +24,23 @@ public class BagCell : IInventoryCell
 
     public void AddItem(IItemData item)
     {
-        Debug.Log($"{item.ItemName} Adding item to InventoryBag");
+        if (item == null)
+        {
+            Debug.Log("Item is null");
+            ItemData = null;
+            Quantity = 0;
+            return;
+        }
+
+        if (item == ItemData && Quantity < MaxQuantity)
+        {
+            Debug.Log("Item is already in the bag");
+            Quantity++;
+            return;
+        }
+        Debug.Log("DWdwdqe");
+        ItemData = item;
+        Quantity = 1;
     }
 
     public void RemoveItem(int quantity)
