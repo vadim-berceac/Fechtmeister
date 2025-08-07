@@ -61,12 +61,14 @@ public class InventoryDrawer : MonoBehaviour
     [BurstCompile]
     public void UpdateArmorSystem()
     {
+        ClearButtonsSet(InventoryArmorButtons);
         Debug.Log($"Показываю ArmorSystem {InventoryUI.CurrentCharacter.name}");
     }
 
     [BurstCompile]
     public void UpdateArrows()
     {
+        ClearButtonsSet(InventoryArrowButtons);
         Debug.Log($"Показываю Arrows {InventoryUI.CurrentCharacter.name}");
     }
 

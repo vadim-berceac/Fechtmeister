@@ -25,12 +25,7 @@ public class WeaponSystem : IItemInstancesContainer
         if (emptyInstance >= 0)
         {
             Instances[emptyInstance] = new WeaponInstance(ref item, CharacterBonesContainer);
-            return;
         }
-        
-        OnItemUnEquipped?.Invoke(Instances[0].ItemData);
-        DestroyInstance(0);
-        Instances[0] = new WeaponInstance(ref item, CharacterBonesContainer);
     }
 
     public void SelectInstance(int itemIndex)
@@ -45,6 +40,13 @@ public class WeaponSystem : IItemInstancesContainer
 
     public int GetEmptyInstance()
     {
+        foreach (var instance in Instances)
+        {
+            if (instance != null && instance.ItemData == null)
+            {
+                return Instances.IndexOf(instance);
+            }
+        }
         return Instances.IndexOf(Instances.FirstOrDefault(x => x == null));
     }
 
@@ -52,5 +54,17 @@ public class WeaponSystem : IItemInstancesContainer
     {
         Instances[index].DestroyInstance();
         Instances[index] = null;
+    }
+
+    public void DestroyInstance(IItemData data)
+    {
+        var dataInstance = Instances.FirstOrDefault(x => x.ItemData == data);
+
+        if (dataInstance == null)
+        {
+            return;
+        }
+        
+        dataInstance.DestroyInstance();
     }
 }
