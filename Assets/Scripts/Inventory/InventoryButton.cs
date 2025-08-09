@@ -8,8 +8,8 @@ public class InventoryButton : MonoBehaviour
    [field: SerializeField] public Button Button { get; set; }
    [field: SerializeField] public Text Text { get; set; }
    [field: SerializeField] public Image Image { get; set; }
-   
-   public IItemData ItemData { get; set; }
+
+   private IItemData _itemData;
    private InventoryDrawer _inventoryDrawer;
 
    [Inject]
@@ -18,26 +18,31 @@ public class InventoryButton : MonoBehaviour
       _inventoryDrawer = inventoryDrawer;
    }
 
+   public IItemData GetItemData()
+   {
+      return _itemData;
+   }
+
    public void SetItemData(IItemData itemData)
    {
       if (itemData == null)
       {
-         ItemData = null;
+         _itemData = null;
          Image.sprite = null;
          Text.enabled = false;
          Button.interactable = false;
          return;
       }
-      ItemData = itemData;
-      Text.text = ItemData.ItemName;
-      Image.sprite = ItemData.ItemIcon;
+      _itemData = itemData;
+      Text.text = _itemData.ItemName;
+      Image.sprite = _itemData.ItemIcon;
       Text.enabled = true;
       Button.interactable = true;
    }
 
    public void OnClick()
    {
-      if (ItemData == null)
+      if (_itemData == null)
       {
          return;
       }
@@ -45,8 +50,8 @@ public class InventoryButton : MonoBehaviour
       if (_inventoryDrawer.InventoryWeaponButtons.Contains(this))
       {
          Debug.LogWarning("Inventory Button is already in WeaponButtons.");
-         _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.AddItem(ItemData);
-         _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.DestroyInstance(ItemData);
+         _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.AddItem(_itemData);
+         _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.DestroyInstance(_itemData);
          SetItemData(null);
          _inventoryDrawer.UpdateInventoryBag();
          _inventoryDrawer.UpdateWeaponSystem();
@@ -57,22 +62,23 @@ public class InventoryButton : MonoBehaviour
       {
          Debug.LogWarning("Inventory Button is already in BagButtons.");
 
-         if (ItemData is WeaponData)
+         if (_itemData is WeaponData && !_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.ContainsInstance(_itemData))
          {
-            _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.RemoveItem(ItemData);
-            _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Equip(ItemData);
+            _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.RemoveItem(_itemData);
+            _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Equip(_itemData);
+            _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.SelectInstance(0);
             SetItemData(null);
             _inventoryDrawer.UpdateInventoryBag();
             _inventoryDrawer.UpdateWeaponSystem();
             return;
          }
 
-         // if (ItemData is ArmorData)
+         // if (_itemData is ArmorData)
          // {
          //    return;
          // }
          
-         //if ItemData is Arrow
+         //if _itemData is Arrow
          return;
       }
 
