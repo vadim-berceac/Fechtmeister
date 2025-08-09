@@ -48,7 +48,7 @@ public class InventoryDrawer : MonoBehaviour
     {
         ClearButtonsSet(InventoryWeaponButtons);
 
-        for (var i = 0; i < InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Instances.Length - 1; i++)
+        for (var i = 0; i < InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Instances.Length; i++)
         {
             var instance = InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Instances[i];
             if (instance != null && instance.ItemData != null)

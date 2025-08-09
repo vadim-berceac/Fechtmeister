@@ -38,6 +38,13 @@ public class WeaponSystem : IItemInstancesContainer
         WeaponInstanceIsRanged = ((WeaponData)InstanceInHands.ItemData).IsRanged;
     }
 
+    public bool ContainsInstance(IItemData data)
+    {
+        var instance = Instances.FirstOrDefault(i => i != null && i.ItemData == data);
+        
+        return instance != null;
+    }
+
     public int GetEmptyInstance()
     {
         foreach (var instance in Instances)
@@ -48,12 +55,6 @@ public class WeaponSystem : IItemInstancesContainer
             }
         }
         return Instances.IndexOf(Instances.FirstOrDefault(x => x == null));
-    }
-
-    public void DestroyInstance(int index)
-    {
-        Instances[index].DestroyInstance();
-        Instances[index] = null;
     }
 
     public void DestroyInstance(IItemData data)

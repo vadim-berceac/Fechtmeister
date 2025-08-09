@@ -62,7 +62,7 @@ public class InventoryButton : MonoBehaviour
       {
          Debug.LogWarning("Inventory Button is already in BagButtons.");
 
-         if (_itemData is WeaponData)
+         if (_itemData is WeaponData && !_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.ContainsInstance(_itemData))
          {
             _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.RemoveItem(_itemData);
             _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Equip(_itemData);
