@@ -44,6 +44,7 @@ public class InventoryBag : ICellContainer
         }
         
         _cells[cellIndex].RemoveItem(1);
+        Debug.Log($"Removed item {item} ostalos {_cells[cellIndex].Quantity}");
     }
 
     private int GetCorrectIndex(IItemData item)
