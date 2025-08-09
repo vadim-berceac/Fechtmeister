@@ -51,7 +51,7 @@ public class CharacterCore : MonoBehaviour
         CurrentState.EnterState(this);
         AttackCounter = new Counter();
         
-        Inventory = new Inventory(BonesContainer, PresetLoader, 3);
+        Inventory = new Inventory(this, PresetLoader, 3);
     }
 
     public void Select(bool value)

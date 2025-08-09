@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AllowItemTargeting>k__BackingField: 1
   <AllowCharacterTargeting>k__BackingField: 0
+  <UpdateHorizontalTargetAngle>k__BackingField: 0
+  <UpdateVerticalTargetAngle>k__BackingField: 0
+  <AllowSwitchWeaponInstance>k__BackingField: 1
   <EnterTransitionDuration>k__BackingField: 0.4
   <AnimationLayer>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 1

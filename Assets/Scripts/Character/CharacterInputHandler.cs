@@ -23,6 +23,7 @@ public class CharacterInputHandler : IInputHandler
     private readonly float _smoothingSpeed; 
     
     private bool _isSubscribed;
+    public event Action<int> OnWeaponSwitch;
 
     public CharacterInputHandler(float smoothingSpeed)
     {
@@ -72,6 +73,9 @@ public class CharacterInputHandler : IInputHandler
         _characterInputSet.OnDrawWeapon += OnWeaponDraw;
         _characterInputSet.OnAttack += OnAttack;
         _characterInputSet.OnInteract += OnInteract;
+        _characterInputSet.OnWeaponSelect0 += OnWeaponSelect0;
+        _characterInputSet.OnWeaponSelect1 += OnWeaponSelect1;
+        _characterInputSet.OnWeaponSelect2 += OnWeaponSelect2;
     }
 
     private void Unsubscribe()
@@ -89,6 +93,9 @@ public class CharacterInputHandler : IInputHandler
         _characterInputSet.OnDrawWeapon -= OnWeaponDraw;
         _characterInputSet.OnAttack -= OnAttack;
         _characterInputSet.OnInteract -= OnInteract;
+        _characterInputSet.OnWeaponSelect0 -= OnWeaponSelect0;
+        _characterInputSet.OnWeaponSelect1 -= OnWeaponSelect1;
+        _characterInputSet.OnWeaponSelect2 -= OnWeaponSelect2;
     }
 
     private void OnMove(Vector2 move)
@@ -141,5 +148,20 @@ public class CharacterInputHandler : IInputHandler
     public void ResetInteract()
     {
         IsInteract = false;
+    }
+
+    private void OnWeaponSelect0()
+    {
+        OnWeaponSwitch?.Invoke(0);
+    }
+    
+    private void OnWeaponSelect1()
+    {
+        OnWeaponSwitch?.Invoke(1);
+    }
+    
+    private void OnWeaponSelect2()
+    {
+        OnWeaponSwitch?.Invoke(2);
     }
 }

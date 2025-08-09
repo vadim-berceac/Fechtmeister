@@ -9,6 +9,9 @@ public abstract class State : ScriptableObject
     [field: SerializeField] protected bool UpdateHorizontalTargetAngle { get; set; }
     [field: SerializeField] protected bool UpdateVerticalTargetAngle { get; set; }
     
+    [field: Header("Input")]
+    [field: SerializeField] public bool AllowSwitchWeaponInstance { get; set; }
+    
     [field: Header("Animation")]
     [field: SerializeField] protected float EnterTransitionDuration {get; private set;}
     [field: SerializeField] protected int AnimationLayer {get; private set;}
