@@ -11,18 +11,4 @@ public class ArmorSystem : IItemInstancesContainer
     {
         
     }
-
-    public void Equip(IItemData item)
-    {
-        
-    }
-    public void DestroyInstance(IItemData data)
-    {
-        
-    }
-
-    public bool ContainsInstance(IItemData data)
-    {
-        return false;
-    }
 }

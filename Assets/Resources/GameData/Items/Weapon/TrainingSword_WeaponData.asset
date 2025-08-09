@@ -17,6 +17,8 @@ MonoBehaviour:
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}
   <EquippedModelPrefab>k__BackingField: {fileID: 7926834445009811899, guid: 519e81294e98a1647888ad490c166f9e, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 1367150234210506725, guid: 463724ae3fadb4447a9edf6b2bbea06a, type: 3}
+  <ItemPosition>k__BackingField: 3
+  <IsRanged>k__BackingField: 0
   <AnimationType>k__BackingField: 2
   <AttackSpeed>k__BackingField: 1
   <AttackCounterSettings>k__BackingField:

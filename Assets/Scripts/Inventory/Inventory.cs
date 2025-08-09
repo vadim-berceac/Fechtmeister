@@ -26,7 +26,7 @@ public class Inventory
 
     public void SelectWeaponInstance(int index)
     {
-        WeaponSystem.SelectInstance(index);
+        WeaponSystem.SelectWeapon(index);
     }
 
     public void EquipWeapon(WeaponData weaponData)
