@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     
     private readonly List<InputAction> _actions = new ();
     private InputAction _onAttack;
+    private InputAction _onAimBlock;
     private InputAction _onInteract;
     private InputAction _onJump;
     private InputAction _onSneak;
@@ -23,6 +24,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     private InputAction _onMove;
     private InputAction _onLook;
     public event Action OnAttack;
+    public event Action OnAimBlock;
     public event Action OnInteract;
     public event Action OnJump;
     public event Action OnSneak;
@@ -52,6 +54,8 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         }
         
         _onAttack = inputActionAsset.FindAction(playerActionsNames.Attack);
+        _onAimBlock = inputActionAsset.FindAction(playerActionsNames.AimBlock);
+        if(_onAimBlock == null) Debug.LogError("OnAimBlock is not assigned in the inspector.", this);
         _onInteract = inputActionAsset.FindAction(playerActionsNames.Interact);
         _onJump = inputActionAsset.FindAction(playerActionsNames.Jump);
         _onSneak = inputActionAsset.FindAction(playerActionsNames.Sneak);
@@ -96,6 +100,9 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         
         _onLook.performed += OnLookCTX;
         _onLook.canceled += OnLookCTXCancel;
+        
+        _onAimBlock.performed += OnAimBlockCTX;
+        _onAimBlock.canceled += OnAimBlockCTXCancel;
     }
 
     public void Unsubscribe()
@@ -121,6 +128,9 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         
         _onLook.performed -= OnLookCTX;
         _onLook.canceled -= OnLookCTXCancel;
+        
+        _onAimBlock.performed -= OnAimBlockCTX;
+        _onAimBlock.canceled -= OnAimBlockCTXCancel;
     }
 
     public void Enable()
@@ -152,6 +162,16 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     private void OnAttackCTX(InputAction.CallbackContext ctx)
     {
         OnAttack?.Invoke();
+    }
+
+    private void OnAimBlockCTX(InputAction.CallbackContext ctx)
+    {
+        OnAimBlock?.Invoke();
+    }
+    
+    private void OnAimBlockCTXCancel(InputAction.CallbackContext ctx)
+    {
+        OnAimBlock?.Invoke();
     }
 
     private void OnInteractCTX(InputAction.CallbackContext ctx)
@@ -263,6 +283,7 @@ public struct PlayerActionsNames
     [field: SerializeField] public string Move { get; private set; }
     [field: SerializeField] public string Look { get; private set; }
     [field: SerializeField] public string Attack { get; private set; }
+    [field: SerializeField] public string AimBlock { get; private set; }
     [field: SerializeField] public string Interact { get; private set; }
     [field: SerializeField] public string Jump { get; private set; }
     [field: SerializeField] public string Sprint { get; private set; }

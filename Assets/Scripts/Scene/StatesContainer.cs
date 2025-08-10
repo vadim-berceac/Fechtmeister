@@ -15,4 +15,7 @@ public class StatesContainer : MonoBehaviour
    [field: SerializeField] public FastAttackState FastAttackState { get; private set; }
    [field: SerializeField] public TakeLootState TakeLootState { get; private set; }
    [field: SerializeField] public InventoryState InventoryState { get; private set; }
+   [field: SerializeField] public LoadState LoadState { get; private set; }
+   [field: SerializeField] public AimState AimState { get; private set; }
+   [field: SerializeField] public ReleaseState ReleaseState { get; private set; }
 }

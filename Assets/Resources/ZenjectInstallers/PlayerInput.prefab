@@ -49,6 +49,7 @@ MonoBehaviour:
     <Move>k__BackingField: Move
     <Look>k__BackingField: Look
     <Attack>k__BackingField: Attack
+    <AimBlock>k__BackingField: AimBlock
     <Interact>k__BackingField: Interact
     <Jump>k__BackingField: Jump
     <Sprint>k__BackingField: Sprint

@@ -4,6 +4,7 @@ using UnityEngine;
 public interface ICharacterInputSet : IInputSet
 {
     public event Action OnAttack;
+    public event Action OnAimBlock;
     public event Action OnInteract;
     public event Action OnJump;
     public event Action OnSneak;

@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "AimBlock",
+                    "type": "Button",
+                    "id": "9030a1c6-5bd8-4102-8c64-b218dfc65772",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "WeaponSelect0",
                     "type": "Button",
                     "id": "0272e21d-7617-48c4-b6b9-d93663bd7aa5",
@@ -363,6 +372,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a6843654-8de9-432a-ad42-43edd214a24b",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "AimBlock",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7176ee9c8862e4391adafbc975a6da, type: 3}
+  m_Name: AimState
+  m_EditorClassIdentifier: 
+  <AllowItemTargeting>k__BackingField: 0
+  <AllowCharacterTargeting>k__BackingField: 1
+  <UpdateHorizontalTargetAngle>k__BackingField: 0
+  <UpdateVerticalTargetAngle>k__BackingField: 1
+  <AllowSwitchWeaponInstance>k__BackingField: 0
+  <EnterTransitionDuration>k__BackingField: 0.1
+  <AnimationLayer>k__BackingField: 0
+  <ApplyRootMotion>k__BackingField: 1
+  <RotationByCamera>k__BackingField: 1
+  <RotationSpeed>k__BackingField: 2
+  <SpineRotationCorrection>k__BackingField: 0
+  <UseGravity>k__BackingField: 1
+  <GroundLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 1
+  <AdditionalLayers>k__BackingField: []
