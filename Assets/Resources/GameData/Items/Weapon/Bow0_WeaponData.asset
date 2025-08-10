@@ -19,7 +19,7 @@ MonoBehaviour:
   <GroundedModelPrefab>k__BackingField: {fileID: 7445250620644976090, guid: 01dae1a1581402a4a826fdaf284b2ce9, type: 3}
   <ItemPosition>k__BackingField: 1
   <IsRanged>k__BackingField: 1
-  <AnimationType>k__BackingField: 3
+  <AnimationType>k__BackingField: 5
   <AttackSpeed>k__BackingField: 0.5
   <AttackCounterSettings>k__BackingField:
     <AttacksCount>k__BackingField: 3
