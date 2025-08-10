@@ -38,7 +38,7 @@ public class InventoryDrawer : MonoBehaviour
             var instance = bag[i];
             if (instance != null && !instance.IsEmpty())
             {
-                InventoryBagButtons[i].SetItemData(instance.ItemData);
+                InventoryBagButtons[i].SetItemData(instance.ItemData, instance.Quantity);
             }
         }
     }
@@ -53,7 +53,7 @@ public class InventoryDrawer : MonoBehaviour
             var instance = InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Instances[i];
             if (instance != null && instance.ItemData != null)
             {
-                InventoryWeaponButtons[i].SetItemData(instance.ItemData);
+                InventoryWeaponButtons[i].SetItemData(instance.ItemData, 0);
             }
         }
     }
@@ -83,7 +83,7 @@ public class InventoryDrawer : MonoBehaviour
     {
         foreach (var button in buttons)
         {
-            button.SetItemData(null);
+            button.SetItemData(null, 0);
         }
     }
 }

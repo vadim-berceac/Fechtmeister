@@ -5,9 +5,7 @@ using Zenject;
 
 public class InventoryButton : MonoBehaviour
 {
-   [field: SerializeField] public Button Button { get; set; }
-   [field: SerializeField] public Text Text { get; set; }
-   [field: SerializeField] public Image Image { get; set; }
+   [field: SerializeField] public InventoryButtonSettings Settings { get; set; }
 
    private IItemData _itemData;
    private InventoryDrawer _inventoryDrawer;
@@ -23,21 +21,33 @@ public class InventoryButton : MonoBehaviour
       return _itemData;
    }
 
-   public void SetItemData(IItemData itemData)
+   public void SetItemData(IItemData itemData, int count)
    {
       if (itemData == null)
       {
          _itemData = null;
-         Image.sprite = null;
-         Text.enabled = false;
-         Button.interactable = false;
+         Settings.Image.sprite = null;
+         Settings.Text.enabled = false;
+         Settings.Count.enabled = false;
+         Settings.Button.interactable = false;
          return;
       }
       _itemData = itemData;
-      Text.text = _itemData.ItemName;
-      Image.sprite = _itemData.ItemIcon;
-      Text.enabled = true;
-      Button.interactable = true;
+      Settings.Text.text = _itemData.ItemName;
+      
+      if (count > 0)
+      {
+         Settings.Count.text = count.ToString();
+         Settings.Count.enabled = true;
+      }
+      else
+      {
+         Settings.Count.enabled = false;
+      }
+      Settings.Image.sprite = _itemData.ItemIcon;
+      Settings.Text.enabled = true;
+     
+      Settings.Button.interactable = true;
    }
 
    public void OnClick()
@@ -52,7 +62,7 @@ public class InventoryButton : MonoBehaviour
          Debug.LogWarning("Inventory Button is already in WeaponButtons.");
          _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.AddItem(_itemData);
          _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.DestroyInstance(_itemData);
-         SetItemData(null);
+         SetItemData(null, 0);
          _inventoryDrawer.UpdateInventoryBag();
          _inventoryDrawer.UpdateWeaponSystem();
          return;
@@ -70,7 +80,7 @@ public class InventoryButton : MonoBehaviour
             }
             _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.RemoveItem(_itemData);
             _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.SelectWeapon(0);
-            SetItemData(null);
+            SetItemData(null, 0);
             _inventoryDrawer.UpdateInventoryBag();
             _inventoryDrawer.UpdateWeaponSystem();
             return;
@@ -96,4 +106,13 @@ public class InventoryButton : MonoBehaviour
          Debug.LogWarning("Inventory Button is already in ArrowButtons.");
       }
    }
+}
+
+[System.Serializable]
+public struct InventoryButtonSettings
+{
+   [field: SerializeField] public Button Button { get; set; }
+   [field: SerializeField] public Text Text { get; set; }
+   [field: SerializeField] public Text Count { get; set; }
+   [field: SerializeField] public Image Image { get; set; }
 }
