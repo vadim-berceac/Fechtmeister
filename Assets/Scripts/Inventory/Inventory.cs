@@ -1,8 +1,9 @@
 public class Inventory
 {
     private readonly CharacterPresetLoader _characterPresetLoader;
-    public WeaponSystem WeaponSystem { get; set; }
-    private readonly ArmorSystem _armorSystem;
+    public readonly WeaponSystem WeaponSystem;
+    public readonly ArmorSystem ArmorSystem;
+    public readonly ProjectileSystem ProjectileSystem;
     public readonly InventoryBag InventoryBag;
     private readonly CharacterCore _characterCore;
 
@@ -12,8 +13,10 @@ public class Inventory
         WeaponSystem = new WeaponSystem(weaponSystemInstancesCount, characterCore);
         WeaponSystem.OnItemUnEquipped += OnItemUnEquipped;
 
-        _armorSystem = new ArmorSystem();
-        _armorSystem.OnItemUnEquipped += OnItemUnEquipped;
+        ArmorSystem = new ArmorSystem();
+        ArmorSystem.OnItemUnEquipped += OnItemUnEquipped;
+        
+        ProjectileSystem = new ProjectileSystem();
         
         InventoryBag = new InventoryBag(25);
         
@@ -74,7 +77,7 @@ public class Inventory
     public void Destroy()
     {
         WeaponSystem.OnItemUnEquipped -= OnItemUnEquipped;
-        _armorSystem.OnItemUnEquipped -= OnItemUnEquipped;
+        ArmorSystem.OnItemUnEquipped -= OnItemUnEquipped;
         WeaponSystem.Destroy();
     }
 }

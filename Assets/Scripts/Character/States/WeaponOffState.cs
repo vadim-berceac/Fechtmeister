@@ -38,5 +38,6 @@ public class WeaponOffState : State
         base.ExitState(character);
         character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, 0);
         character.LocomotionSettings.Animator.SetFloat(AnimationParams.AttackSpeed, 1);
+        character.Inventory.ProjectileSystem.SetProjectileLoaded(false);
     }
 }

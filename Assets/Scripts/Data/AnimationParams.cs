@@ -26,4 +26,5 @@ public struct AnimationParams
     public const string HorizontalAngleToTarget = "HorizontalAngleToTarget";
     public const string VerticalAngleToTarget = "VerticalAngleToTarget";
     public const string InventoryStateName = "Inventory";
+    public const string ReloadProjectileStateName = "ReloadProjectile";
 }

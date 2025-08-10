@@ -20,6 +20,11 @@ public class LoadState : State
 
     public override void CheckSwitch(CharacterCore character)
     {
+        if (!character.Inventory.ProjectileSystem.IsProjectileLoaded)
+        {
+            character.SetState(character.StatesContainer.ReloadProjectileState);
+        }
+        
         if (character.Gravity.Grounded &&  character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) == 0)
         {
             character.SetState(character.StatesContainer.AimState);

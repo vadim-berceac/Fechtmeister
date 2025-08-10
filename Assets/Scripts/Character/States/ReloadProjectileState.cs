@@ -1,14 +1,13 @@
 using Unity.Burst;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ReleaseState", menuName = "States/ReleaseState")]
-public class ReleaseState : State
+[CreateAssetMenu(fileName = "ReloadProjectileState", menuName = "States/ReloadProjectileState")]
+public class ReloadProjectileState : State
 {
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.VerticalAngleToTarget, character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.ReleaseStateName, EnterTransitionDuration, AnimationLayer);
+        character.LocomotionSettings.Animator.CrossFade(AnimationParams.ReloadProjectileStateName, EnterTransitionDuration, AnimationLayer);
     }
 
     [BurstCompile]
@@ -30,6 +29,6 @@ public class ReleaseState : State
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
-        character.Inventory.ProjectileSystem.SetProjectileLoaded(false);
+        character.Inventory.ProjectileSystem.SetProjectileLoaded(true);
     }
 }
