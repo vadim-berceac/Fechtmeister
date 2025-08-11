@@ -16,6 +16,8 @@ public class FastAttackState : State
     {
         base.UpdateState(character);
         CheckSwitch(character);
+        
+        LegOverride(character);
     }
 
     public override void CheckSwitch(CharacterCore character)
@@ -24,5 +26,22 @@ public class FastAttackState : State
         {
             character.SetState(character.StatesContainer.CombatIdleState);
         }
+    }
+
+    public override void ExitState(CharacterCore character)
+    {
+        base.ExitState(character);
+        character.LocomotionSettings.Animator.SetLayerWeight(3, 0);
+    }
+
+    private static void LegOverride(CharacterCore character)
+    {
+        if (character.Gravity.Grounded  && (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 ||
+                                            Mathf.Abs(character.CharacterInputHandler.InputY) > 0))
+        {
+            character.LocomotionSettings.Animator.SetLayerWeight(3, 1);
+            return;
+        }
+        character.LocomotionSettings.Animator.SetLayerWeight(3, 0);
     }
 }
