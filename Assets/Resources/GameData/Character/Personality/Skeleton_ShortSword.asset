@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Skeleton_ShortSword
   m_EditorClassIdentifier: 
   <CharacterName>k__BackingField: Skeleton_ShortSword
-  <CharacterSkinData>k__BackingField: {fileID: 11400000, guid: fb1428a73bbe05d4e9309820737fc050, type: 2}
+  <CharacterSkinData>k__BackingField: {fileID: 11400000, guid: 62573faa9a6a36a488bba5928ca5db71, type: 2}
   <EquippedWeapons>k__BackingField:
   - {fileID: 11400000, guid: 447a16658c2437a43a06ee9169163162, type: 2}
