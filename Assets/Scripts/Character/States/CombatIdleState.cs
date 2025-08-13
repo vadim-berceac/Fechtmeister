@@ -21,7 +21,6 @@ public class CombatIdleState : State
 
     public override void CheckSwitch(CharacterCore character)
     {
-        //атака, блок, аим, или убрать оружие
         if (!character.CharacterInputHandler.IsWeaponDraw)
         {
             character.SetState(character.StatesContainer.WeaponOffState);
@@ -33,7 +32,8 @@ public class CombatIdleState : State
             character.SetState(character.StatesContainer.CombatWalkState);
         }
 
-        if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
+        if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged 
+                                                     && character.Inventory.ProjectileSystem.ContainsProjectile())
         {
             character.SetState(character.StatesContainer.FastAttackState);
         }

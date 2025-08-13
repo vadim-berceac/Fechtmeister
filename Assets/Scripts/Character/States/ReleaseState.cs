@@ -22,14 +22,8 @@ public class ReleaseState : State
     {
         if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) == 0)
         {
-            Debug.Log(character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed));
+            character.Inventory.ProjectileSystem.Shot();
             character.SetState(character.StatesContainer.CombatIdleState);
         }
-    }
-
-    public override void ExitState(CharacterCore character)
-    {
-        base.ExitState(character);
-        character.Inventory.ProjectileSystem.SetProjectileLoaded(false);
     }
 }

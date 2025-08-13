@@ -21,7 +21,6 @@ public class ReloadProjectileState : State
     {
         if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) == 0)
         {
-            Debug.Log(character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed));
             character.SetState(character.StatesContainer.CombatIdleState);
         }
     }
