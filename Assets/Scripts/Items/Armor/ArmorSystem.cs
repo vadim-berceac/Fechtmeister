@@ -6,9 +6,14 @@ public class ArmorSystem : IItemInstancesContainer
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
     public Action<IItemData> OnItemUnEquipped { get; set; }
+    
+    private readonly CharacterCore _characterCore;
 
-    public ArmorSystem()
+    public ArmorSystem(int instancesCount, CharacterCore characterCore)
     {
-        
+        InstancesCount = instancesCount;
+        _characterCore = characterCore;
+        CharacterBonesContainer = _characterCore.BonesContainer;
+        Instances = new IItemInstance[instancesCount];
     }
 }

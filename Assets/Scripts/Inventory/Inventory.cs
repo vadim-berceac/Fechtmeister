@@ -13,12 +13,12 @@ public class Inventory
         WeaponSystem = new WeaponSystem(weaponSystemInstancesCount, characterCore);
         WeaponSystem.OnItemUnEquipped += OnItemUnEquipped;
 
-        ArmorSystem = new ArmorSystem();
+        ArmorSystem = new ArmorSystem(5, characterCore);
         ArmorSystem.OnItemUnEquipped += OnItemUnEquipped;
         
         ProjectileSystem = new ProjectileSystem();
         
-        InventoryBag = new InventoryBag(25);
+        InventoryBag = new InventoryBag(96);
         
         InitEquipment();
     }
@@ -33,11 +33,6 @@ public class Inventory
         WeaponSystem.SelectWeapon(index);
     }
 
-    public void EquipWeapon(WeaponData weaponData)
-    {
-        WeaponSystem.Equip(weaponData);
-    }
-
     public void WeaponOn()
     {
         WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.ItemData.BoneData[0]);
@@ -46,11 +41,6 @@ public class Inventory
     public void WeaponOff()
     {
         WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.ItemData.BoneData[1]);
-    }
-
-    public void EquipArmor(ArmorData armorData)
-    {
-        
     }
 
     private void InitEquipment()

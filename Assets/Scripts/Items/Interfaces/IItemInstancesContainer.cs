@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using UnityEngine;
 
 public interface IItemInstancesContainer
 {
@@ -22,7 +23,15 @@ public static class ItemInstancesContainerExtensions
 
         if (emptyInstance >= 0)
         {
-            container.Instances[emptyInstance] = new WeaponInstance(ref item, container.CharacterBonesContainer);
+            if (item is WeaponData)
+            {
+                container.Instances[emptyInstance] = new WeaponInstance(ref item, container.CharacterBonesContainer);
+            }
+
+            if (item is ArmorData)
+            {
+                container.Instances[emptyInstance] = new ArmorInstance(ref item, container.CharacterBonesContainer);
+            }
         }
 
         return true;

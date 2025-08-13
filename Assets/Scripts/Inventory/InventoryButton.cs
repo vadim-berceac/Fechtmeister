@@ -70,7 +70,6 @@ public class InventoryButton : MonoBehaviour
 
       if (_inventoryDrawer.InventoryBagButtons.Contains(this))
       {
-         Debug.LogWarning("Inventory Button is already in BagButtons.");
 
          if (_itemData is WeaponData)
          {
@@ -86,12 +85,18 @@ public class InventoryButton : MonoBehaviour
             return;
          }
 
-         // if (_itemData is ArmorData)
-         // {
-         //    return;
-         // }
+         if (_itemData is ArmorData)
+         {
+            if (!_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.ArmorSystem.Equip(_itemData))
+            {
+               return;
+            }
+            _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.RemoveItem(_itemData);
+            SetItemData(null, 0);
+            _inventoryDrawer.UpdateInventoryBag();
+            _inventoryDrawer.UpdateArmorSystem();
+         }
          
-         //if _itemData is Arrow
          return;
       }
 

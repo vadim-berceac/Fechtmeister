@@ -62,7 +62,15 @@ public class InventoryDrawer : MonoBehaviour
     public void UpdateArmorSystem()
     {
         ClearButtonsSet(InventoryArmorButtons);
-        Debug.Log($"Показываю ArmorSystem {InventoryUI.CurrentCharacter.name}");
+        
+        for (var i = 0; i < InventoryUI.CurrentCharacter.Inventory.ArmorSystem.Instances.Length; i++)
+        {
+            var instance = InventoryUI.CurrentCharacter.Inventory.ArmorSystem.Instances[i];
+            if (instance != null && instance.ItemData != null)
+            {
+                InventoryArmorButtons[i].SetItemData(instance.ItemData, 0);
+            }
+        }
     }
 
     [BurstCompile]

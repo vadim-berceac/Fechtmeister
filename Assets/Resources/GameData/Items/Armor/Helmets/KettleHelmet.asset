@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ItemName>k__BackingField: Kettle Helmet
   <ItemDescription>k__BackingField: Kettle Helmet
-  <ItemIcon>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: 70a98d06bc034b24d8ad22fff327a508, type: 3}
   <EquippedModelPrefab>k__BackingField: {fileID: 4061164695914738733, guid: 6e2a8f5439c75d14a8f173b5b0734f88, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 4061164695914738733, guid: 6e2a8f5439c75d14a8f173b5b0734f88, type: 3}
   <ItemPosition>k__BackingField: 5
