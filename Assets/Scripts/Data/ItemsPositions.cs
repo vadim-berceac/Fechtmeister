@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class ItemsPositions
 {
-    public enum Type
+    public enum Ocuupied
     {
-        Spine1,
-        Spine2,
-        Spine3,
+        Back1,
+        Back2,
+        Back3,
         HipsLeft,
         HipsRight,
         Helmet,

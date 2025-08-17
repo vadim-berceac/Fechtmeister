@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d986c9d13b35d94489cd77f093f1dd32, type: 3}
   m_Name: Bow0_WeaponData
   m_EditorClassIdentifier: 
-  <ItemName>k__BackingField: Bow
-  <ItemDescription>k__BackingField: Dow
-  <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}
+  <ItemName>k__BackingField: Bow0
+  <ItemDescription>k__BackingField: Bow0
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: 1f7a881edc7ebee45a35718df7809976, type: 3}
   <EquippedModelPrefab>k__BackingField: {fileID: 8388745960378279721, guid: d17ed72466ec4c845adc238a02fe664b, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 7445250620644976090, guid: 01dae1a1581402a4a826fdaf284b2ce9, type: 3}
   <ItemPosition>k__BackingField: 1

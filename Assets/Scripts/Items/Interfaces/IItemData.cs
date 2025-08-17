@@ -7,7 +7,7 @@ public interface IItemData
     public Sprite ItemIcon { get; set; }
     public GameObject EquippedModelPrefab { get; set; }
     public GameObject GroundedModelPrefab { get; set; }
-    public ItemsPositions.Type ItemPosition { get; set; }
+    public ItemsPositions.Ocuupied ItemPosition { get; set; }
     public BoneData[] BoneData { get; set; }
     public IKBoneData IKBoneData { get; set; }
     public ItemDecorationData[] ItemDecorationData { get; set; }
