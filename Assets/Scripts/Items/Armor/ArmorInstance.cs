@@ -12,6 +12,20 @@ public class ArmorInstance : IItemInstance
     {
         ItemData = itemData;
         CharacterBonesContainer = characterBonesContainer;
+
+        if (itemData.BoneData[0] != null)
+        {
+            if (itemData.BoneData[0].MeshType == BoneData.MeshInstanceType.Mesh)
+            {
+                Debug.LogWarning("Создаем инстанс на кости скелета");
+                return;
+            }
+
+            if (itemData.BoneData[0].MeshType == BoneData.MeshInstanceType.SkinnedMesh)
+            {
+                Debug.LogWarning("Создаем инстанс на клонируя кости");
+            }
+        }
     }
     
     public void CreateInstance()

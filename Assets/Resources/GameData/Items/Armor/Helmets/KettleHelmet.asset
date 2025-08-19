@@ -20,6 +20,7 @@ MonoBehaviour:
   <ItemPosition>k__BackingField: 5
   <BoneData>k__BackingField:
   - <BonesType>k__BackingField: 1
+    <MeshType>k__BackingField: 0
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
     <Scale>k__BackingField: {x: 1, y: 1, z: 1}
