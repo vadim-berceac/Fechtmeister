@@ -11,45 +11,30 @@ public class ArmorInstance : IItemInstance
     public ArmorInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer)
     {
         ItemData = itemData;
+        itemData = null;
         CharacterBonesContainer = characterBonesContainer;
 
-        if (itemData.BoneData[0] != null)
-        {
-            if (itemData.BoneData[0].MeshType == BoneData.MeshInstanceType.Mesh)
-            {
-                Debug.LogWarning("Создаем инстанс на кости скелета");
-                return;
-            }
-
-            if (itemData.BoneData[0].MeshType == BoneData.MeshInstanceType.SkinnedMesh)
-            {
-                Debug.LogWarning("Создаем инстанс на клонируя кости");
-            }
-        }
+        CreateInstance();
+        this.CreateDecorations();
     }
     
     public void CreateInstance()
     {
-        
+        if (ItemData.EquippedModelPrefab == null)
+        {
+            return;
+        }
+
+        if (ItemData.BoneData == null || ItemData.BoneData.Length < 1 || ItemData.BoneData[0] == null)
+        {
+            return;
+        }
+
+        CreateSkinnedMesh();
     }
 
-    public void CreateDecorations()
+    private void CreateSkinnedMesh()
     {
-        
-    }
-
-    public void AttachToBone(Transform instance, BoneData boneData)
-    {
-        
-    }
-
-    public Transform TryToFindIKBoneTransform()
-    {
-        return null;
-    }
-
-    public void DestroyInstance()
-    {
-        
+        Debug.Log("Ищем SkinnedMesh в" + ItemData.EquippedModelPrefab.name);
     }
 }

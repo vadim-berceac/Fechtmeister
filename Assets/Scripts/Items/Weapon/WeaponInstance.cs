@@ -1,4 +1,3 @@
-using ModestTree;
 using UnityEngine;
 
 public class WeaponInstance : IItemInstance
@@ -17,7 +16,7 @@ public class WeaponInstance : IItemInstance
         CharacterBonesContainer = characterBonesContainer;
         
         CreateInstance();
-        CreateDecorations();
+        this.CreateDecorations();
     }
     
     public void CreateInstance()
@@ -26,72 +25,17 @@ public class WeaponInstance : IItemInstance
         {
             return;
         }
+        if (ItemData.BoneData == null)
+        {
+            return;
+        }
+        
         Instance = Object.Instantiate(ItemData.EquippedModelPrefab).transform;
         
-        IKBoneTransform = TryToFindIKBoneTransform();
+        IKBoneTransform = this.TryToFindIKBoneTransform();
 
         DamageComponent = Instance.gameObject.AddComponent<WeaponDamageComponent>();
         
-        AttachToBone(Instance, ItemData.BoneData[1]);
-    }
-
-    public void CreateDecorations()
-    {
-        if (ItemData.ItemDecorationData == null)
-        {
-            return;
-        }
-        
-        ItemDecorations = new Transform[ItemData.ItemDecorationData.Length];
-
-        foreach (var decoration in ItemData.ItemDecorationData)
-        {
-            ItemDecorations[ItemData.ItemDecorationData.IndexOf(decoration)] = Object.Instantiate(decoration.ItemPrefab).transform;
-            AttachToBone(ItemDecorations[ItemData.ItemDecorationData.IndexOf(decoration)], decoration.BoneData);
-        }
-    }
-
-    public void AttachToBone(Transform instance, BoneData boneData)
-    {
-        if (boneData == null)
-        {
-            return;
-        }
-
-        var boneTransform = CharacterBonesContainer.GetBoneTransform(boneData.BonesType);
-        
-        instance.parent = boneTransform.Transform;
-        
-        instance.SetLocalPositionAndRotation(boneData.Position, boneData.Rotation);
-        
-        instance.localScale = boneData.Scale;
-    }
-
-    public Transform TryToFindIKBoneTransform()
-    {
-        return ItemData.IKBoneData.IKBoneName.IsEmpty()? null : Instance.FindChildRecursive(ItemData.IKBoneData.IKBoneName);
-    }
-
-    public void DestroyInstance()
-    {
-        ItemData = null;
-        CharacterBonesContainer = null;
-        if (Instance == null)
-        {
-            return;
-        }
-        Instance.parent = null;
-        Object.Destroy(Instance.gameObject);
-
-        if (ItemDecorations == null || ItemDecorations.Length == 0)
-        {
-            return;
-        }
-
-        foreach (var decoration in ItemDecorations)
-        {
-            Object.Destroy(decoration.gameObject);
-        }
-        ItemDecorations = null;
+        this.AttachToBone(Instance, ItemData.BoneData[1]);
     }
 }

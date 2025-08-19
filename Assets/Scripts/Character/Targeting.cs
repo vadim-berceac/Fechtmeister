@@ -56,7 +56,7 @@ public class Targeting : MonoBehaviour
     private void AddTarget(Transform target)
     {
         _targets.Add(target);
-        Debug.LogWarning($"Adding {target.name}");
+        //Debug.LogWarning($"Adding {target.name}");
     }
 
     [BurstCompile]
@@ -67,7 +67,7 @@ public class Targeting : MonoBehaviour
             return;
         }
         _targets.Remove(target);
-        Debug.LogWarning($"Removing {target.name}");
+        //Debug.LogWarning($"Removing {target.name}");
     }
 
     [BurstCompile]

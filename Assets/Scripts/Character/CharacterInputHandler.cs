@@ -144,7 +144,6 @@ public class CharacterInputHandler : IInputHandler
 
     private void OnInteract()
     {
-        Debug.Log("Interact");
         IsInteract = true;
     }
 

@@ -68,16 +68,9 @@ public struct BoneTransform
 public class BoneData
 {
     [field: SerializeField] public CharacterBones.Type BonesType { get; private set; }
-    [field: SerializeField] public MeshInstanceType MeshType { get; private set; }
     [field: SerializeField] public Vector3 Position { get; private set; }
     [field: SerializeField] public Quaternion Rotation { get; private set; }
     [field: SerializeField] public Vector3 Scale { get; private set; }
-
-    public enum MeshInstanceType
-    {
-        Mesh,
-        SkinnedMesh,
-    }
 }
 
 [System.Serializable]
