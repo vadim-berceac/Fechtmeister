@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0fb099b2d17d342ac370802c8dde9e, type: 3}
+  m_Name: Cuirass1
+  m_EditorClassIdentifier: 
+  <ItemName>k__BackingField: Cuirass1
+  <ItemDescription>k__BackingField: Cuirass1
+  <ItemIcon>k__BackingField: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  <EquippedModelPrefab>k__BackingField: {fileID: 8153018040694669622, guid: 99718e2465145c1449b64a2bb4113dfc, type: 3}
+  <GroundedModelPrefab>k__BackingField: {fileID: 4656019387444580697, guid: d35202ac869fb0b4e8b1db507e0aaa0a, type: 3}
+  <ItemPosition>k__BackingField: 6
+  <BoneData>k__BackingField: []
+  <IKBoneData>k__BackingField:
+    <IKBoneName>k__BackingField: 
+    <CharacterBoneConnected>k__BackingField: 0
+  <ItemDecorationData>k__BackingField:
+  - <ItemPrefab>k__BackingField: {fileID: 8153018040694669622, guid: 99718e2465145c1449b64a2bb4113dfc, type: 3}
+    <BoneData>k__BackingField:
+      <BonesType>k__BackingField: 4
+      <Position>k__BackingField: {x: -0.002, y: -0.107, z: 0.051}
+      <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+      <Scale>k__BackingField: {x: 1, y: 1, z: 1}
