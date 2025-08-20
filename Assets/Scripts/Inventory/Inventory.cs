@@ -11,10 +11,8 @@ public class Inventory
     {
         _characterPresetLoader = characterPresetLoader;
         WeaponSystem = new WeaponSystem(weaponSystemInstancesCount, characterCore);
-        WeaponSystem.OnItemUnEquipped += OnItemUnEquipped;
 
         ArmorSystem = new ArmorSystem(5, characterCore);
-        ArmorSystem.OnItemUnEquipped += OnItemUnEquipped;
         
         ProjectileSystem = new ProjectileSystem();
         
@@ -57,17 +55,22 @@ public class Inventory
             }
             SelectWeaponInstance(0);
         }
-    }
 
-    private void OnItemUnEquipped(IItemData weaponData)
-    {
-        // переносим дату в  InventoryBag
+        if (_characterPresetLoader.CharacterPersonalityData.EquippedArmor != null)
+        {
+            foreach (var a in _characterPresetLoader.CharacterPersonalityData.EquippedArmor)
+            {
+                if (a == null)
+                {
+                    continue;
+                }
+                ArmorSystem.Equip(a);
+            }
+        }
     }
-
+    
     public void Destroy()
     {
-        WeaponSystem.OnItemUnEquipped -= OnItemUnEquipped;
-        ArmorSystem.OnItemUnEquipped -= OnItemUnEquipped;
         WeaponSystem.Destroy();
     }
 }
