@@ -43,9 +43,9 @@ public class Inventory
 
     private void InitEquipment()
     {
-        if (_characterPresetLoader.CharacterPersonalityData.EquippedWeapons != null)
+        if (_characterPresetLoader.CharacterPersonalityData.WeaponDataSettings.EquippedWeapons != null)
         {
-            foreach (var w in _characterPresetLoader.CharacterPersonalityData.EquippedWeapons)
+            foreach (var w in _characterPresetLoader.CharacterPersonalityData.WeaponDataSettings.EquippedWeapons)
             {
                 if (w == null)
                 {
@@ -56,9 +56,9 @@ public class Inventory
             SelectWeaponInstance(0);
         }
 
-        if (_characterPresetLoader.CharacterPersonalityData.EquippedArmor != null)
+        if (_characterPresetLoader.CharacterPersonalityData.ArmorDataSettings.EquippedArmor != null)
         {
-            foreach (var a in _characterPresetLoader.CharacterPersonalityData.EquippedArmor)
+            foreach (var a in _characterPresetLoader.CharacterPersonalityData.ArmorDataSettings.EquippedArmor)
             {
                 if (a == null)
                 {

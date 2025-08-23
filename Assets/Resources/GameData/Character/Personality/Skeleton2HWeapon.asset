@@ -12,9 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ebbf763e9ad024986abca0e6263e5d, type: 3}
   m_Name: Skeleton2HWeapon
   m_EditorClassIdentifier: 
-  <CharacterName>k__BackingField: Skeleton 2H Weapon
-  <CharacterSkinData>k__BackingField: {fileID: 11400000, guid: 62573faa9a6a36a488bba5928ca5db71, type: 2}
-  <EquippedWeapons>k__BackingField:
-  - {fileID: 11400000, guid: 90a5fbd0af02283429d5dbf52ca16f68, type: 2}
-  <EquippedArmor>k__BackingField:
-  - {fileID: 11400000, guid: ef59711369b1dbd4c8c894144b05fabc, type: 2}
+  <NamingSettings>k__BackingField:
+    <CharacterName>k__BackingField: Skeleton 2H Weapon
+  <CharacterSkinDataSettings>k__BackingField:
+    <PrimarySkin>k__BackingField: {fileID: 11400000, guid: 62573faa9a6a36a488bba5928ca5db71, type: 2}
+  <WeaponDataSettings>k__BackingField:
+    <EquippedWeapons>k__BackingField:
+    - {fileID: 11400000, guid: 90a5fbd0af02283429d5dbf52ca16f68, type: 2}
+  <ArmorDataSettings>k__BackingField:
+    <EquippedArmor>k__BackingField:
+    - {fileID: 11400000, guid: ef59711369b1dbd4c8c894144b05fabc, type: 2}
+  <HealthDataSettings>k__BackingField:
+    <MaxHealth>k__BackingField: 100
+    <CurrentHealthPercentage>k__BackingField: 100
+    <HitReactionTriggerValuePercentage>k__BackingField: 25

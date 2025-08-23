@@ -13,8 +13,8 @@ public class CharacterSkinHandler
     public CharacterSkinHandler(Transform transform, CharacterPersonalityData characterPersonalityData)
     {
         _transform = transform;
-        _characterSkinData = characterPersonalityData.CharacterSkinData;
-        _transform.gameObject.name = characterPersonalityData.CharacterName;
+        _characterSkinData = characterPersonalityData.CharacterSkinDataSettings.PrimarySkin;
+        _transform.gameObject.name = characterPersonalityData.NamingSettings.CharacterName;
         
         InitializeRenderer();
     }
