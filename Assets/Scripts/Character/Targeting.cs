@@ -9,20 +9,43 @@ public class Targeting : MonoBehaviour
     [field: SerializeField] private Collider targetingCollider;
     [field: SerializeField] private Transform parent;
     [field: SerializeField] private CharacterController characterController;
+    [field: SerializeField] private CharacterCore characterCore;
     private HashSet<Transform> _targets;
     private bool _allowed;
+    private bool _selectedCharacter;
     public Action<Transform> OnTargetAdded;
     public Action<Transform> OnTargetRemoved;
     
     private void Awake()
     {
         _targets = new HashSet<Transform>();
+        CharacterSelector.OnCharacterSelected += OnCharacterSelected;
     }
 
     [BurstCompile]
     public Transform GetFirstTarget()
     {
         return _targets.FirstOrDefault();
+    }
+
+    private void OnCharacterSelected(CharacterCore characterCoreSelected)
+    {
+        if (characterCoreSelected == characterCore)
+        {
+            _selectedCharacter = true;
+            return;
+        }
+        _selectedCharacter = false;
+        foreach (var target in _targets)
+        {
+            target.TryGetComponent<PickupItem>(out var pickupItem);
+
+            if (pickupItem != null)
+            {
+                pickupItem.ShowNamePlate(false);
+            }
+        }
+        _targets.Clear();
     }
 
     [BurstCompile]
@@ -60,7 +83,11 @@ public class Targeting : MonoBehaviour
     {
         _targets.Add(target);
         OnTargetAdded?.Invoke(target);
-        ShowTargetName(target,true);
+
+        if (_selectedCharacter)
+        {
+            ShowTargetName(target,true);
+        }
     }
 
     [BurstCompile]
@@ -68,7 +95,11 @@ public class Targeting : MonoBehaviour
     {
         _targets.Remove(target);
         OnTargetRemoved?.Invoke(target);
-        ShowTargetName(target,false);
+
+        if (_selectedCharacter)
+        {
+            ShowTargetName(target,false);
+        }
     }
 
     [BurstCompile]
@@ -121,5 +152,10 @@ public class Targeting : MonoBehaviour
         }
         
         RemoveTarget(other.transform);
+    }
+
+    private void OnDisable()
+    {
+        CharacterSelector.OnCharacterSelected -= OnCharacterSelected;
     }
 }

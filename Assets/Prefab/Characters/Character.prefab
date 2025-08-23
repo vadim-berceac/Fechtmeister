@@ -69,6 +69,7 @@ MonoBehaviour:
   targetingCollider: {fileID: 814110691455221371}
   parent: {fileID: 9086983287782165238}
   characterController: {fileID: 6829832979991591507}
+  characterCore: {fileID: 5391477331367181792}
 --- !u!1 &3131212000758676167
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,6 +279,7 @@ MonoBehaviour:
   targetingCollider: {fileID: 2528191976400956285}
   parent: {fileID: 9086983287782165238}
   characterController: {fileID: 6829832979991591507}
+  characterCore: {fileID: 0}
 --- !u!1 &5142614395851688255
 GameObject:
   m_ObjectHideFlags: 0
