@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Burst;
@@ -10,6 +11,8 @@ public class Targeting : MonoBehaviour
     [field: SerializeField] private CharacterController characterController;
     private HashSet<Transform> _targets;
     private bool _allowed;
+    public Action<Transform> OnTargetAdded;
+    public Action<Transform> OnTargetRemoved;
     
     private void Awake()
     {
@@ -56,18 +59,14 @@ public class Targeting : MonoBehaviour
     private void AddTarget(Transform target)
     {
         _targets.Add(target);
-        //Debug.LogWarning($"Adding {target.name}");
+        OnTargetAdded?.Invoke(target);
     }
 
     [BurstCompile]
     public void RemoveTarget(Transform target)
     {
-        if (!_targets.Contains(target))
-        {
-            return;
-        }
         _targets.Remove(target);
-        //Debug.LogWarning($"Removing {target.name}");
+        OnTargetRemoved?.Invoke(target);
     }
 
     [BurstCompile]

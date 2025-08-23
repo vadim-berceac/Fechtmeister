@@ -106,6 +106,7 @@ public struct SceneCameraData
     [field: SerializeField] public Transform MainCamera { get; private set; }
     [field: SerializeField] public Transform CharacterCamera { get; private set; }
     [field: SerializeField] public Transform SceneCamera { get; private set; }
+    [field: SerializeField] public Camera MainCameraCam { get; private set; }
     
     [field: Header("Character Camera Settings")]
     [field: SerializeField] public CinemachineCamera CharacterCameraController { get; private set; }

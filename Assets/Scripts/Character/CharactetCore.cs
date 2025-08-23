@@ -12,7 +12,7 @@ public class CharacterCore : MonoBehaviour
     public CharacterInputHandler CharacterInputHandler { get; private set; }
     public Transform CashedTransform { get; private set; }
 
-    private ICharacterInputSet _inputByPlayer;
+    public ICharacterInputSet InputByPlayer { get; private set; }
     
     //State Machine
     public AnimationLayerWeightTransition AnimationLayerWeightTransition { get; private set; }
@@ -35,7 +35,7 @@ public class CharacterCore : MonoBehaviour
     {
         SceneCamera = sceneCamera;
         _sceneCharacterContainer = sceneCharacterContainer;
-        _inputByPlayer = playerInput;
+        InputByPlayer = playerInput;
         StatesContainer = statesContainer;
         CashedTransform = transform;
         CharacterInputHandler = new CharacterInputHandler(LocomotionSettings.InputSmoothingSpeed);
@@ -52,18 +52,6 @@ public class CharacterCore : MonoBehaviour
         AttackCounter = new Counter();
         
         Inventory = new Inventory(this, PresetLoader, 3);
-    }
-
-    public void Select(bool value)
-    {
-        if (value)
-        {
-            SceneCamera.SetTarget(transform);
-            CharacterInputHandler.SetupInputSet(_inputByPlayer);
-            return;
-        }
-        SceneCamera.SetTarget(null);
-        CharacterInputHandler.SetupInputSet(null);
     }
 
     public void SetState(State state)

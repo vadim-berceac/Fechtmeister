@@ -15,14 +15,14 @@ public class NextCharacterButton : MonoBehaviour
    {
       ResetSelection();
       var character = _sceneCharacterContainer.GetNextCharacter();
-      character.Select(true);
+      CharacterSelector.Select(character, true);
    }
 
    public void ResetSelection()
    {
       foreach (var character in _sceneCharacterContainer.GetCharacters())
       {
-         character.Select(false);
+         CharacterSelector.Select(character, false);
       }
    }
 }
