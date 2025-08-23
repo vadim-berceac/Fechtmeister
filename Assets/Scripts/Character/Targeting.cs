@@ -60,6 +60,7 @@ public class Targeting : MonoBehaviour
     {
         _targets.Add(target);
         OnTargetAdded?.Invoke(target);
+        ShowTargetName(target,true);
     }
 
     [BurstCompile]
@@ -67,6 +68,7 @@ public class Targeting : MonoBehaviour
     {
         _targets.Remove(target);
         OnTargetRemoved?.Invoke(target);
+        ShowTargetName(target,false);
     }
 
     [BurstCompile]
@@ -87,6 +89,18 @@ public class Targeting : MonoBehaviour
             return;
         }
         AddTarget(other.transform);
+    }
+
+    private static void ShowTargetName(Transform target, bool show)
+    {
+        target.TryGetComponent<PickupItem>(out var item);
+
+        if (item == null)
+        {
+            return;
+        }
+        
+        item.ShowNamePlate(show);
     }
     
     private void OnTriggerEnter(Collider other)

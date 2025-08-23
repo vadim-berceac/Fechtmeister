@@ -14,7 +14,7 @@ public class PickupItemEditor : Editor
             typeof(ScriptableObject),
             false
         ) as ScriptableObject;
-        
+
         if (newItemData != null && newItemData is IItemData)
         {
             itemDataProperty.objectReferenceValue = newItemData;
@@ -27,6 +27,32 @@ public class PickupItemEditor : Editor
         else
         {
             itemDataProperty.objectReferenceValue = null;
+        }
+        
+        var prefabProperty = serializedObject.FindProperty("namePlatePrefab");
+        var newPrefab = EditorGUILayout.ObjectField(
+            "NamePlatePrefab",
+            prefabProperty.objectReferenceValue,
+            typeof(GameObject),
+            false
+        ) as GameObject;
+
+        if (newPrefab != null)
+        {
+            
+            if (PrefabUtility.GetPrefabAssetType(newPrefab) != PrefabAssetType.NotAPrefab)
+            {
+                prefabProperty.objectReferenceValue = newPrefab;
+            }
+            else
+            {
+                Debug.LogWarning("Selected object must be a prefab.");
+                prefabProperty.objectReferenceValue = null;
+            }
+        }
+        else
+        {
+            prefabProperty.objectReferenceValue = null;
         }
 
         serializedObject.ApplyModifiedProperties();

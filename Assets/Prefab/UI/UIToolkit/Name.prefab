@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6375464952745551121}
   - component: {fileID: 7137969077851907616}
-  - component: {fileID: 8218982756675525152}
   - component: {fileID: 6787142702076351749}
+  - component: {fileID: 5353353987410955505}
+  - component: {fileID: 4361098308810502693}
   m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
@@ -54,10 +55,24 @@ MonoBehaviour:
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 80
   m_WorldSpaceHeight: 80
-  m_PivotReferenceSize: 0
+  m_PivotReferenceSize: 1
   m_Pivot: 0
   m_WorldSpaceCollider: {fileID: 0}
---- !u!1931382933 &8218982756675525152
+--- !u!114 &6787142702076351749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2246964393941658930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eced9e7061b65e43967e55cadf5e172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NameUI
+  <UIDocument>k__BackingField: {fileID: 7137969077851907616}
+  <PickupItem>k__BackingField: {fileID: 0}
+--- !u!1931382933 &5353353987410955505
 UIRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,7 +119,7 @@ UIRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6787142702076351749
+--- !u!114 &4361098308810502693
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,7 +128,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2246964393941658930}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eced9e7061b65e43967e55cadf5e172, type: 3}
+  m_Script: {fileID: 11500000, guid: 58dc703b58968a344a1cc82af1505da8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NameUI
-  <UIDocument>k__BackingField: {fileID: 7137969077851907616}
+  m_EditorClassIdentifier: Assembly-CSharp::BillboardUI
