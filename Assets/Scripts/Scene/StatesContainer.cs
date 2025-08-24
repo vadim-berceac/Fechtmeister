@@ -19,4 +19,5 @@ public class StatesContainer : MonoBehaviour
    [field: SerializeField] public AimState AimState { get; private set; }
    [field: SerializeField] public ReleaseState ReleaseState { get; private set; }
    [field: SerializeField] public ReloadProjectileState ReloadProjectileState { get; private set; }
+   [field: SerializeField] public FallDamageState FallDamageState { get; private set; }
 }

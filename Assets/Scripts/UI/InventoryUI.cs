@@ -63,7 +63,7 @@ public class InventoryUI : MonoBehaviour, IGameWindow
             window.Close(); 
         }
 
-        if (CurrentCharacter == null || CurrentCharacter.CurrentState is not IdleState)
+        if (CurrentCharacter == null || !CurrentCharacter.CurrentState.UseInventory)
         {
            return;
         }

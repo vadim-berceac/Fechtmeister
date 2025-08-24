@@ -29,6 +29,9 @@ public abstract class State : ScriptableObject
     [field: Header("Layers")]
     [field: SerializeField] protected AdditionalLayer[] AdditionalLayers {get; private set;}
     
+    [field: Header("Inventory")]
+    [field: SerializeField] public bool UseInventory {get; private set;}
+    
     public virtual void EnterState(CharacterCore character)
     {
         character.LocomotionSettings.Animator.applyRootMotion = ApplyRootMotion;

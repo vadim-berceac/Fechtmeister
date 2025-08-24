@@ -48,5 +48,10 @@ public class WalkState : State
         {
             character.SetState(character.StatesContainer.FallState);
         }
+        
+        if (character.CharacterInputHandler.IsInventoryOpen)
+        {
+            character.SetState(character.StatesContainer.InventoryState);
+        }
     }
 }

@@ -28,5 +28,10 @@ public class FallState :  State
         {
             character.SetState(character.StatesContainer.CombatIdleState);
         }
+
+        if (character.CharacterInputHandler.IsFallDamageReaction)
+        {
+            character.SetState(character.StatesContainer.FallDamageState);
+        }
     }
 }
