@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44949fd437eba15489fc2aceb6775fec, type: 3}
   m_Name: FallState
   m_EditorClassIdentifier: 
+  <AllowItemTargeting>k__BackingField: 0
+  <AllowCharacterTargeting>k__BackingField: 0
+  <UpdateHorizontalTargetAngle>k__BackingField: 0
+  <UpdateVerticalTargetAngle>k__BackingField: 0
+  <AllowSwitchWeaponInstance>k__BackingField: 0
   <EnterTransitionDuration>k__BackingField: 0
   <AnimationLayer>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 1
@@ -23,3 +28,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   <AdditionalLayers>k__BackingField: []
+  <UseInventory>k__BackingField: 0

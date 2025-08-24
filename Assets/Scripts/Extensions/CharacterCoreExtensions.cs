@@ -26,13 +26,13 @@ public static class CharacterCoreExtensions
     }
     
     [BurstCompile]
-    public static float ApplyGravitation(this CharacterCore character, bool useGravity, float currentFallSpeed, bool isOnValidGround)
+    public static float GetCurrentFallSpeed(this CharacterCore character, bool useGravity, float currentFallSpeed, bool isOnValidGround)
     {
         if (!useGravity)
         {
             return 0;
         }
-        
+
         if (isOnValidGround)
         {
             if (currentFallSpeed < 0f)
@@ -43,19 +43,9 @@ public static class CharacterCoreExtensions
         else
         {
             var gravityDelta = GravitationConstants.GravitationForce * Time.fixedDeltaTime;
-            currentFallSpeed = Mathf.Max(currentFallSpeed - gravityDelta, - GravitationConstants.MaxFallSpeed);
+            currentFallSpeed = Mathf.Max(currentFallSpeed - gravityDelta, -GravitationConstants.MaxFallSpeed);
         }
 
-        var moveVector = currentFallSpeed * Time.fixedDeltaTime * Vector3.up;
-        var previousPosition = character.LocomotionSettings.CharacterController.transform.position;
-        character.LocomotionSettings.CharacterController.Move(moveVector);
-        var newPosition = character.CashedTransform.position;
-
-        if (!isOnValidGround && moveVector.y < 0f && Mathf.Approximately(newPosition.y, previousPosition.y))
-        {
-            currentFallSpeed = -2f;
-        }
-        
         return currentFallSpeed;
     }
     

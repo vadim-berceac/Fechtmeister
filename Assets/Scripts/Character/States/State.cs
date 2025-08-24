@@ -15,7 +15,7 @@ public abstract class State : ScriptableObject
     [field: Header("Animation")]
     [field: SerializeField] protected float EnterTransitionDuration {get; private set;}
     [field: SerializeField] protected int AnimationLayer {get; private set;}
-    [field: SerializeField] protected bool ApplyRootMotion {get; private set;}
+    [field: SerializeField] public bool ApplyRootMotion {get; private set;}
     
     [field: Header("Locomotion")]
     [field: SerializeField] protected bool RotationByCamera {get; private set;}
@@ -23,7 +23,9 @@ public abstract class State : ScriptableObject
     [field: SerializeField] protected bool SpineRotationCorrection {get; private set;}
     
     [field: Header("Gravity")]
-    [field: SerializeField] protected bool UseGravity {get; private set;}
+    [field: SerializeField] public bool UseGravity {get; private set;}
+
+    [field: SerializeField] public float FallSpeedMultiplier { get; private set; } = 1f;
     [field: SerializeField] protected LayerMask GroundLayer {get; private set;}
     
     [field: Header("Layers")]
@@ -66,7 +68,6 @@ public abstract class State : ScriptableObject
 
     public virtual void FixedUpdateState(CharacterCore character)
     {
-        character.Gravity.SetFallSpeed(character.ApplyGravitation(UseGravity, character.Gravity.CurrentFallSpeed, true));
         character.Gravity.SetGrounded(character.CheckIsGrounded(UseGravity, GroundLayer));
         character.UpdateFallDetection(UseGravity);
     }
