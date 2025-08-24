@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1066199408642122102}
   - component: {fileID: 8875728143264652359}
   - component: {fileID: 3392823919572855845}
-  - component: {fileID: 7204608508477376856}
   m_Layer: 6
   m_Name: CharacterCamera
   m_TagString: Untagged
@@ -91,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damping: {x: 0, y: 0.2, z: 2}
-  ShoulderOffset: {x: 0, y: 2, z: 0}
+  ShoulderOffset: {x: 0, y: 0.5, z: 0}
   VerticalArmLength: 0
   CameraSide: 1
   CameraDistance: 4.5
@@ -99,34 +98,11 @@ MonoBehaviour:
     Enabled: 1
     CollisionFilter:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
     IgnoreTag: Player
     CameraRadius: 0.2
     DampingIntoCollision: 0.15
     DampingFromCollision: 0.5
---- !u!114 &7204608508477376856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 35197777856717681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a076c17fe76165e4f8ed21498b877bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Modifiers:
-  - rid: 9143218196898381949
-  references:
-    version: 2
-    RefIds:
-    - rid: 9143218196898381949
-      type: {class: CinemachineFreeLookModifier/PositionDampingModifier, ns: Unity.Cinemachine, asm: Unity.Cinemachine}
-      data:
-        Damping:
-          Top: {x: 0.1, y: 1, z: 0.1}
-          Bottom: {x: 0.1, y: 1, z: 0.1}
 --- !u!1 &1091217760459383577
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,6 +524,7 @@ MonoBehaviour:
     <SceneCamera>k__BackingField: {fileID: 3160999561519942610}
     <MainCameraCam>k__BackingField: {fileID: 7046243721985195809}
     <CharacterCameraController>k__BackingField: {fileID: 8875728143264652359}
+    <TrackedTargetOffset>k__BackingField: {x: 0, y: 1.5, z: 0}
     <TopClamp>k__BackingField: 20
     <BottomClamp>k__BackingField: -5
     <RotationCoefficient>k__BackingField: 0.15

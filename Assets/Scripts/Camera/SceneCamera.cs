@@ -48,7 +48,7 @@ public class SceneCamera : MonoBehaviour, IInputHandler
         {
             return;
         }
-        _trackingTarget.transform.position = Target.transform.position;
+        _trackingTarget.transform.position = Target.transform.position + SceneCameraData.TrackedTargetOffset;
     }
 
     private void Rotate(Vector2 value)
@@ -110,6 +110,7 @@ public struct SceneCameraData
     
     [field: Header("Character Camera Settings")]
     [field: SerializeField] public CinemachineCamera CharacterCameraController { get; private set; }
+    [field: SerializeField] public Vector3 TrackedTargetOffset { get; private set; }
     [field: SerializeField] public float TopClamp { get; private set; }
     [field: SerializeField] public float BottomClamp { get; private set; }
     [field: SerializeField] public float RotationCoefficient { get; private set; }
