@@ -21,7 +21,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 0d5b7864b639eab4ab9abcd769ab3e6e, type: 2}
   <ArmorDataSettings>k__BackingField:
     <EquippedArmor>k__BackingField:
-    - {fileID: 11400000, guid: 6a311f165a11ec24a8c38d0bea8eba2b, type: 2}
+    - {fileID: 11400000, guid: c5947ca9435b33e4ab7348a7d07deb86, type: 2}
   <HealthDataSettings>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <CurrentHealthPercentage>k__BackingField: 100
