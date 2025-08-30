@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class CharacterTargetingSystem
 {
-    public readonly Targeting ItemTargeting;
-    public readonly Targeting CharacterTargeting;
+    public readonly ItemTargeting ItemTargeting;
+    public readonly CharacterTargeting CharacterTargeting;
     
     public Transform LastItemTransform { get; private set; }
     public Transform LastCharacterTransform { get; private set; }
 
-    public CharacterTargetingSystem(Targeting itemTargeting, Targeting characterTargeting)
+    public CharacterTargetingSystem(ItemTargeting itemTargeting, CharacterTargeting characterTargeting)
     {
         ItemTargeting = itemTargeting;
         CharacterTargeting = characterTargeting;

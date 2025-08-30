@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8950402006388574776}
   - component: {fileID: 814110691455221371}
-  - component: {fileID: 5265135514614831208}
+  - component: {fileID: 1204962803673603537}
   m_Layer: 23
   m_Name: ItemSelecting
   m_TagString: Untagged
@@ -54,7 +54,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5265135514614831208
+--- !u!114 &1204962803673603537
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,13 +63,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2054094669306368174}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c9d7c00a7785df48bfdfe7bce3b1ed7, type: 3}
+  m_Script: {fileID: 11500000, guid: 690add9e7d311a0408c8b9965a070978, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  targetingCollider: {fileID: 814110691455221371}
-  parent: {fileID: 9086983287782165238}
-  characterController: {fileID: 6829832979991591507}
-  characterCore: {fileID: 5391477331367181792}
+  m_EditorClassIdentifier: Assembly-CSharp::ItemTargeting
+  <TargetingCollider>k__BackingField: {fileID: 814110691455221371}
+  <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
+  <ParentTransform>k__BackingField: {fileID: 9086983287782165238}
+  <CharacterController>k__BackingField: {fileID: 6829832979991591507}
 --- !u!1 &3131212000758676167
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,8 +210,8 @@ MonoBehaviour:
     <ImmuneToFallDamage>k__BackingField: 0
     <FallDamageThreshold>k__BackingField: 5
   <TargetingSettings>k__BackingField:
-    <ItemTargeting>k__BackingField: {fileID: 5265135514614831208}
-    <CharacterTargeting>k__BackingField: {fileID: 2357708567621151980}
+    <ItemTargeting>k__BackingField: {fileID: 1204962803673603537}
+    <CharacterTargeting>k__BackingField: {fileID: 5237636495354742196}
 --- !u!114 &4079720511185234985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1969152943052220375}
   - component: {fileID: 2528191976400956285}
-  - component: {fileID: 2357708567621151980}
+  - component: {fileID: 5237636495354742196}
   m_Layer: 23
   m_Name: CharacterSelecting
   m_TagString: Untagged
@@ -281,7 +281,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 3, z: 7}
   m_Center: {x: 0, y: 0, z: 2.5}
---- !u!114 &2357708567621151980
+--- !u!114 &5237636495354742196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -290,13 +290,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3483420527028945448}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c9d7c00a7785df48bfdfe7bce3b1ed7, type: 3}
+  m_Script: {fileID: 11500000, guid: 64139c7917ec18441b73189e6af881cd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  targetingCollider: {fileID: 2528191976400956285}
-  parent: {fileID: 9086983287782165238}
-  characterController: {fileID: 6829832979991591507}
-  characterCore: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterTargeting
+  <TargetingCollider>k__BackingField: {fileID: 2528191976400956285}
+  <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
+  <ParentTransform>k__BackingField: {fileID: 9086983287782165238}
+  <CharacterController>k__BackingField: {fileID: 6829832979991591507}
 --- !u!1 &5142614395851688255
 GameObject:
   m_ObjectHideFlags: 0
