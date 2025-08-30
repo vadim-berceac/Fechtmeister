@@ -13,7 +13,6 @@ public class CharacterInputHandler : IInputHandler
     public bool IsRun { get; private set; }
     public bool IsJump { get; private set; }
     public bool IsInventoryOpen { get; private set; }
-    public bool IsFallDamageReaction { get; private set; }
     public bool IsWeaponDraw { get; private set; }
     public float InputX { get; private set; }
     public float InputY { get; private set; }
@@ -151,11 +150,6 @@ public class CharacterInputHandler : IInputHandler
     public void InventoryOpen(bool value)
     {
         IsInventoryOpen = value;
-    }
-
-    public void FallDamageReaction(bool value)
-    {
-        IsFallDamageReaction = value;
     }
 
     public void ResetInteract()

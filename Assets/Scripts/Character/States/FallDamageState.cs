@@ -21,4 +21,10 @@ public class FallDamageState : State
     {
        
     }
+
+    public override void ExitState(CharacterCore character)
+    {
+        base.ExitState(character);
+        character.Health.EnableHitReaction(false);
+    }
 }

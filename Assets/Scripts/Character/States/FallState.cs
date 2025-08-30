@@ -29,7 +29,7 @@ public class FallState :  State
             character.SetState(character.StatesContainer.CombatIdleState);
         }
 
-        if (character.CharacterInputHandler.IsFallDamageReaction)
+        if (character.Health.IsHitReactionEnabled)
         {
             character.SetState(character.StatesContainer.FallDamageState);
         }

@@ -29,6 +29,7 @@ public class CharacterCore : MonoBehaviour
     public CharacterBonesContainer BonesContainer { get; private set; }
     public CharacterTargetingSystem TargetingSystem { get; private set; }
     public Inventory Inventory { get; private set; }
+    public CharacterHealth Health { get; private set; }
 
     [Inject]
     private void Construct(SceneCamera sceneCamera, SceneCharacterContainer sceneCharacterContainer, PlayerInput playerInput, StatesContainer statesContainer)
@@ -52,6 +53,8 @@ public class CharacterCore : MonoBehaviour
         AttackCounter = new Counter();
         
         Inventory = new Inventory(this, PresetLoader, 3);
+        Health = new CharacterHealth(PresetLoader.CharacterPersonalityData.HealthDataSettings.MaxHealth, 
+            PresetLoader.CharacterPersonalityData.HealthDataSettings.CurrentHealthPercentage, PresetLoader.CharacterPersonalityData.HealthDataSettings.HitReactionTriggerValuePercentage);
     }
 
     public void SetState(State state)

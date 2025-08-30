@@ -86,8 +86,7 @@ public static class CharacterCoreExtensions
             if (fallDistance > character.GravitySettings.FallDamageThreshold && !character.GravitySettings.ImmuneToFallDamage)
             {
                 //OnFallDamage?.Invoke(fallDistance);
-                //Debug.LogWarning("Наносим урон от падения");
-                character.CharacterInputHandler.FallDamageReaction(true);
+                character.Health.Damage(fallDistance * fallDistance);
             }
 
             character.Gravity.SetMaxHeightReached(currentHeight);
