@@ -14,5 +14,6 @@ public static class CharacterSelector
         }
         characterCore.SceneCamera.SetTarget(null);
         characterCore.CharacterInputHandler.SetupInputSet(null);
+        OnCharacterSelected?.Invoke(null);
     }
 }

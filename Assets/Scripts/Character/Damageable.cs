@@ -8,8 +8,8 @@ public abstract class Damageable
     public float HitReactionThresholdPercentage { get; private set; }
     public bool IsHitReactionEnabled { get; private set; }
     public bool IsDestroyed { get; private set; }
-    
-    public Action<float> OnCurrentHealthChanged { get; private set; }
+
+    public Action<float> OnCurrentHealthChanged;
 
     public Damageable(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage)
     {
