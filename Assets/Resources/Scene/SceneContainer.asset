@@ -16,4 +16,4 @@ MonoBehaviour:
   - <SceneName>k__BackingField: Castle
     <Scene>k__BackingField: {fileID: 102900000, guid: 4bb83148b876b9a478b3c67d22c60eaa, type: 3}
   - <SceneName>k__BackingField: Cage
-    <Scene>k__BackingField: {fileID: 0}
+    <Scene>k__BackingField: {fileID: 102900000, guid: 7ff51e503df827249a191b52e3e755fa, type: 3}
