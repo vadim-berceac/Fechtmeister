@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -19,6 +21,7 @@ public class CharacterCore : MonoBehaviour
     public StatesContainer StatesContainer { get; private set; }
     public State CurrentState { get; private set; }
     public Counter AttackCounter { get; private set; }
+    public Action OnStateChanged;
     
     public CharacterGravity Gravity { get; private set; }
     

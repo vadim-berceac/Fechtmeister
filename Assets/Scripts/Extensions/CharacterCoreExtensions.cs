@@ -80,12 +80,9 @@ public static class CharacterCoreExtensions
         
         if (character.Gravity.Grounded && !character.Gravity.WasGroundedLastFrame)
         {
-            //_landingSfx.PlayRandomAtPoint(CashedTransform.position);
-            Debug.LogWarning("Проигрываем звук приземления");
             var fallDistance = character.Gravity.MaxHeightReached - currentHeight;
             if (fallDistance > character.GravitySettings.FallDamageThreshold && !character.GravitySettings.ImmuneToFallDamage)
             {
-                //OnFallDamage?.Invoke(fallDistance);
                 character.Health.Damage(fallDistance * fallDistance);
             }
 

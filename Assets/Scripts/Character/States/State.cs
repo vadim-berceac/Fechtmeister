@@ -36,6 +36,8 @@ public abstract class State : ScriptableObject
     
     public virtual void EnterState(CharacterCore character)
     {
+        character.OnStateChanged?.Invoke();
+        
         character.LocomotionSettings.Animator.applyRootMotion = ApplyRootMotion;
         
         if (SpineRotationCorrection)

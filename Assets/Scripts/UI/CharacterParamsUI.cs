@@ -6,6 +6,11 @@ public class CharacterParamsUI : MonoBehaviour
     [field: SerializeField] public GameObject Window { get; set; }
     [field: SerializeField] public Slider Slider { get; set; }
     [field: SerializeField] public Text Text { get; set; }
+    
+    [Header("Debug")]
+    [field: SerializeField] public bool Debug { get; set; }
+    [field: SerializeField] public GameObject DebugWindow { get; set; }
+    [field: SerializeField] public Text DebugText { get; set; }
 
     private bool _isOpen;
     private CharacterCore _selectedCharacter;
@@ -14,6 +19,7 @@ public class CharacterParamsUI : MonoBehaviour
     {
         CharacterSelector.OnCharacterSelected += OnCharacterSelected;
         ShowWindow(false);
+        DebugWindow.SetActive(Debug);
     }
 
     private void OnCharacterSelected(CharacterCore character)
@@ -29,6 +35,7 @@ public class CharacterParamsUI : MonoBehaviour
         ShowWindow(true);
         UpdateText();
         UpdateSlider(_selectedCharacter.Health.CurrentHealth);
+        UpdateState();
     }
 
     private void ShowWindow(bool show)
@@ -51,6 +58,7 @@ public class CharacterParamsUI : MonoBehaviour
             return;
         }
         _selectedCharacter.Health.OnCurrentHealthChanged += UpdateSlider;
+        _selectedCharacter.OnStateChanged += UpdateState;
     }
 
     private void UnsubScribe()
@@ -60,6 +68,7 @@ public class CharacterParamsUI : MonoBehaviour
             return;
         }
         _selectedCharacter.Health.OnCurrentHealthChanged -= UpdateSlider;
+        _selectedCharacter.OnStateChanged -= UpdateState;
     }
 
     private void UpdateSlider(float currentValue)
@@ -75,6 +84,16 @@ public class CharacterParamsUI : MonoBehaviour
             return;
         }
         Text.text = _selectedCharacter.gameObject.name;
+    }
+
+    private void UpdateState()
+    {
+        if (_selectedCharacter == null)
+        {
+            DebugText.text = "";
+            return;
+        }
+        DebugText.text = _selectedCharacter.CurrentState.ToString();
     }
 
     private void OnDisable()
