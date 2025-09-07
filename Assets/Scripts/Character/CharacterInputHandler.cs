@@ -17,6 +17,8 @@ public class CharacterInputHandler : IInputHandler
     public float InputX { get; private set; }
     public float InputY { get; private set; }
     public float LookX { get; private set; }
+    
+    public Vector3 DirVector3  { get; private set; }
    
     private float _targetInputX;
     private float _targetInputY;
@@ -57,6 +59,8 @@ public class CharacterInputHandler : IInputHandler
        
         if (Mathf.Abs(InputX - _targetInputX) < 0.01f) InputX = _targetInputX;
         if (Mathf.Abs(InputY - _targetInputY) < 0.01f) InputY = _targetInputY;
+        
+        DirVector3 = new Vector3(InputX, 0, InputY);
     }
 
     private void Subscribe()

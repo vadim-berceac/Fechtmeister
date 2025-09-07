@@ -8,7 +8,6 @@ public class IdleState : State
     {
         base.EnterState(character);
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.IdleStateName, EnterTransitionDuration, AnimationLayer);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.Speed, 0);
     }
 
     [BurstCompile]
@@ -33,6 +32,7 @@ public class IdleState : State
 
         if (character.CharacterInputHandler.IsJump)
         {
+            character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
             character.SetState(character.StatesContainer.JumpState);
         }
 

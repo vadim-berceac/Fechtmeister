@@ -8,7 +8,6 @@ public class CombatWalkState : State
     {
         base.EnterState(character);
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.WalkStateName, EnterTransitionDuration, AnimationLayer);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.Speed, 1);
     }
 
     [BurstCompile]
@@ -51,6 +50,7 @@ public class CombatWalkState : State
         
         if (character.CharacterInputHandler.IsJump)
         {
+            character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
             character.SetState(character.StatesContainer.JumpState);
         }
         

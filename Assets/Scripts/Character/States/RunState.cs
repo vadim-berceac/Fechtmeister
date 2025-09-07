@@ -8,7 +8,6 @@ public class RunState: State
     {
         base.EnterState(character);
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.RunStateName, EnterTransitionDuration, AnimationLayer);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.Speed, 2);
     }
 
     [BurstCompile]
@@ -41,6 +40,7 @@ public class RunState: State
         
         if (character.CharacterInputHandler.IsJump)
         {
+            character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
             character.SetState(character.StatesContainer.JumpState);
         }
         

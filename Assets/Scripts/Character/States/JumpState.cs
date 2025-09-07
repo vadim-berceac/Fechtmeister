@@ -17,22 +17,28 @@ public class JumpState : State
         CheckSwitch(character);
     }
 
+    public override void FixedUpdateState(CharacterCore character)
+    {
+        base.FixedUpdateState(character);
+        character.MoveLocal(character.CharacterInputHandler.DirVector3, character.CurrentSpeed.LastNotNullHorizontalSpeed);
+    }
+
     public override void CheckSwitch(CharacterCore character)
     {
         if (character.Gravity.Grounded && !character.CharacterInputHandler.IsWeaponDraw 
-                               && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0.25)
+                               && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0)
         {
             character.SetState(character.StatesContainer.IdleState);
         }
         
         if (character.Gravity.Grounded && character.CharacterInputHandler.IsWeaponDraw 
-                                       && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0.25)
+                                       && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0)
         {
             character.SetState(character.StatesContainer.CombatIdleState);
         }
         
         if (!character.Gravity.Grounded
-            && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0)
+            && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0.5)
         {
             character.SetState(character.StatesContainer.FallState);
         }

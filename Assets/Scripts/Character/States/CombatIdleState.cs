@@ -9,7 +9,6 @@ public class CombatIdleState : State
         base.EnterState(character);
         character.LocomotionSettings.Animator.StopPlayback();
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.IdleStateName, EnterTransitionDuration);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.Speed, 0);
     }
 
     [BurstCompile]

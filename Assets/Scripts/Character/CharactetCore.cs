@@ -21,6 +21,7 @@ public class CharacterCore : MonoBehaviour
     public StatesContainer StatesContainer { get; private set; }
     public State CurrentState { get; private set; }
     public Counter AttackCounter { get; private set; }
+    public CurrentSpeed CurrentSpeed { get; private set; }
     public Action OnStateChanged;
     
     public CharacterGravity Gravity { get; private set; }
@@ -54,6 +55,7 @@ public class CharacterCore : MonoBehaviour
         CurrentState = StatesContainer.IdleState;
         CurrentState.EnterState(this);
         AttackCounter = new Counter();
+        CurrentSpeed = new CurrentSpeed(LocomotionSettings.CharacterController, LocomotionSettings.Animator);
         
         Inventory = new Inventory(this, PresetLoader, 3);
         Health = new CharacterHealth(PresetLoader.CharacterPersonalityData.HealthDataSettings.MaxHealth, 
@@ -72,6 +74,7 @@ public class CharacterCore : MonoBehaviour
         CharacterInputHandler.SmoothInput(Time.deltaTime);
         AnimationLayerWeightTransition.UpdateTransition();
         CurrentState.UpdateState(this);
+        CurrentSpeed.OnUpdate();
     }
 
     private void FixedUpdate()

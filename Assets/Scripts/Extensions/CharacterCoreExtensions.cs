@@ -91,4 +91,11 @@ public static class CharacterCoreExtensions
 
         character.Gravity.SetWasGroundedLastFrame(character.Gravity.Grounded);
     }
+
+    [BurstCompile]
+    public static void MoveLocal(this CharacterCore character, Vector3 direction, float speed)
+    {
+        var moveDirection = character.CashedTransform.TransformDirection(direction);
+        character.LocomotionSettings.CharacterController.Move(moveDirection * Time.deltaTime * speed);
+    }
 }

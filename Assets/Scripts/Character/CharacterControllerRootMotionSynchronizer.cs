@@ -5,12 +5,15 @@ public class CharacterControllerRootMotionSynchronizer : MonoBehaviour
     [field: SerializeField] public CharacterControllerRootMotionSynchronizerSettings Settings { get; set; }
 
     private Transform _character;
+    private Transform _characterController;
     private Vector3 _deltaPosition;
+    private Quaternion _deltaRotation;
     private float _currentFallSpeed;
 
     private void Awake()
     {
         _character = transform;
+        _characterController = Settings.CharacterController.transform;
         _currentFallSpeed = 0f;
     }
 
@@ -32,17 +35,19 @@ public class CharacterControllerRootMotionSynchronizer : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        _deltaPosition = Vector3.zero;
+        if (!Settings.CharacterCore.CurrentState.ApplyRootMotion || !Settings.Animator.applyRootMotion)
+            return;
         
-        if (Settings.CharacterCore.CurrentState.ApplyRootMotion && Settings.Animator.applyRootMotion)
-        {
-            _deltaPosition = Settings.Animator.deltaPosition;
-            _character.rotation *= Settings.Animator.deltaRotation; 
-        }
-
+        _deltaPosition = Settings.Animator.deltaPosition;
+        _deltaRotation = Settings.Animator.deltaRotation;
+        
+        _character.rotation *= _deltaRotation;
+        
         _deltaPosition += Vector3.up * _currentFallSpeed * Time.deltaTime;
-        
+       
         Settings.CharacterController.Move(_deltaPosition);
+        
+        _characterController.rotation = _character.rotation;
     }
 }
 
