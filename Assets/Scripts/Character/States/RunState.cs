@@ -40,7 +40,6 @@ public class RunState: State
         
         if (character.CharacterInputHandler.IsJump)
         {
-            character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
             character.SetState(character.StatesContainer.JumpState);
         }
         
@@ -53,5 +52,11 @@ public class RunState: State
         {
             character.SetState(character.StatesContainer.InventoryState);
         }
+    }
+
+    public override void ExitState(CharacterCore character)
+    {
+        base.ExitState(character);
+        character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
     }
 }
