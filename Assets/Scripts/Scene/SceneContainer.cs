@@ -1,5 +1,4 @@
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,5 +18,4 @@ public class SceneContainer : ScriptableObject
 public struct SceneData
 {
     [field: SerializeField] public string SceneName { get; private set; }
-    [field: SerializeField] public SceneAsset Scene { get; private set; }
 }
