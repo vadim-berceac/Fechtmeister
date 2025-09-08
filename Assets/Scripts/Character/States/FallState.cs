@@ -19,14 +19,9 @@ public class FallState :  State
 
     public override void CheckSwitch(CharacterCore character)
     {
-        if (character.Gravity.Grounded && !character.CharacterInputHandler.IsWeaponDraw)
+        if (character.Gravity.Grounded  && character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed)  <= 0.4)
         {
-            character.SetState(character.StatesContainer.IdleState);
-        }
-        
-        if (character.Gravity.Grounded && character.CharacterInputHandler.IsWeaponDraw)
-        {
-            character.SetState(character.StatesContainer.CombatIdleState);
+            character.SetState(character.StatesContainer.LandingState);
         }
 
         if (character.Health.IsHitReactionEnabled)
