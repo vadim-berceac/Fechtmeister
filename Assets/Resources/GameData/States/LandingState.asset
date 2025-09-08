@@ -19,8 +19,8 @@ MonoBehaviour:
   <AllowSwitchWeaponInstance>k__BackingField: 0
   <EnterTransitionDuration>k__BackingField: 0.1
   <AnimationLayer>k__BackingField: 0
-  <ApplyRootMotion>k__BackingField: 0
-  <RotationByCamera>k__BackingField: 1
+  <ApplyRootMotion>k__BackingField: 1
+  <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
   <SpineRotationCorrection>k__BackingField: 0
   <UseGravity>k__BackingField: 1

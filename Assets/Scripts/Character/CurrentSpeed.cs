@@ -31,7 +31,6 @@ public class CurrentSpeed
    public void StopUpdateLastHorizontalSpeed()
    {
       LastNotNullHorizontalSpeed = CurrentHorizontalSpeed;
-      Debug.Log(LastNotNullHorizontalSpeed);
    }
    
    private void OnAnimatorUpdate()

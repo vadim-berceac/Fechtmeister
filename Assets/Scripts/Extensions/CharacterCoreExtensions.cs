@@ -96,6 +96,6 @@ public static class CharacterCoreExtensions
     public static void MoveLocal(this CharacterCore character, Vector3 direction, float speed)
     {
         var moveDirection = character.CashedTransform.TransformDirection(direction);
-        character.LocomotionSettings.CharacterController.Move(moveDirection * Time.deltaTime * speed);
+        character.LocomotionSettings.CharacterController.Move(Time.deltaTime * speed * moveDirection);
     }
 }

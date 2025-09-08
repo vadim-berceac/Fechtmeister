@@ -15,12 +15,7 @@ public class JumpState : State
     {
         base.UpdateState(character);
         CheckSwitch(character);
-    }
-
-    public override void FixedUpdateState(CharacterCore character)
-    {
-        base.FixedUpdateState(character);
-        character.MoveLocal(character.CharacterInputHandler.DirVector3, character.CurrentSpeed.LastNotNullHorizontalSpeed);
+        character.MoveLocal(character.CharacterInputHandler.DirVector3 + character.CashedTransform.up, character.CurrentSpeed.LastNotNullHorizontalSpeed);
     }
 
     public override void CheckSwitch(CharacterCore character)
