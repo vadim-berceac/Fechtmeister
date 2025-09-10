@@ -28,6 +28,7 @@ public class CharacterCore : MonoBehaviour
     
     //creating
     private SceneCharacterContainer _sceneCharacterContainer;
+    public CharacterColliderSizer CharacterColliderSizer;
     public CharacterPresetLoader PresetLoader { get; private set; }
     public CharacterSkinHandler SkinHandler { get; private set; }
     public CharacterBonesContainer BonesContainer { get; private set; }
@@ -47,6 +48,8 @@ public class CharacterCore : MonoBehaviour
         Gravity = new CharacterGravity();
         
         PresetLoader = GetComponent<CharacterPresetLoader>();
+        CharacterColliderSizer = new CharacterColliderSizer(PresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin,
+            LocomotionSettings.CharacterCollider, LocomotionSettings.CharacterController);
         SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData);
         BonesContainer = new CharacterBonesContainer(CashedTransform);
         AnimationLayerWeightTransition = new AnimationLayerWeightTransition(LocomotionSettings.Animator);

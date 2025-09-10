@@ -80,6 +80,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9086983287782165238}
   - component: {fileID: 6829832979991591507}
+  - component: {fileID: 5308955279979530949}
   - component: {fileID: 1805780133230660867}
   - component: {fileID: 6502283926946306806}
   - component: {fileID: 6848313252482120617}
@@ -136,6 +137,29 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!136 &5308955279979530949
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131212000758676167}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1805780133230660867
 MonoBehaviour:
@@ -220,6 +244,7 @@ MonoBehaviour:
   <LocomotionSettings>k__BackingField:
     <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}
+    <CharacterCollider>k__BackingField: {fileID: 5308955279979530949}
     <InputSmoothingSpeed>k__BackingField: 10
     <SpineProxy>k__BackingField: {fileID: 6999585320011918825}
   <GravitySettings>k__BackingField:

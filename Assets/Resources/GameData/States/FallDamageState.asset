@@ -24,8 +24,10 @@ MonoBehaviour:
   <RotationSpeed>k__BackingField: 0
   <SpineRotationCorrection>k__BackingField: 0
   <UseGravity>k__BackingField: 1
+  <FallSpeedMultiplier>k__BackingField: 1
   <GroundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 1
   <AdditionalLayers>k__BackingField: []
+  <SizeMode>k__BackingField: 0
   <UseInventory>k__BackingField: 0
