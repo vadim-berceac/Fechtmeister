@@ -32,7 +32,8 @@ public abstract class State : ScriptableObject
     [field: SerializeField] protected AdditionalLayer[] AdditionalLayers {get; private set;}
 
     [field: Header("Capsule Size")]
-    [field: SerializeField] protected SizeMode SizeMode { get; private set; } = SizeMode.Full;
+    [field: SerializeField] protected SizeMode Height { get; private set; } = SizeMode.Full;
+    [field: SerializeField] protected SizeMode Radius { get; private set; } = SizeMode.Full;
     
     [field: Header("Inventory")]
     [field: SerializeField] public bool UseInventory {get; private set;}
@@ -63,7 +64,7 @@ public abstract class State : ScriptableObject
         
         this.CorrectLayersWeight(character, AdditionalLayers, EnterTransitionDuration);
         
-        character.CharacterColliderSizer.SetSize(SizeMode);
+        character.CharacterColliderSizer.SetSize(Height, Radius);
     }
 
     public virtual void UpdateState(CharacterCore character)

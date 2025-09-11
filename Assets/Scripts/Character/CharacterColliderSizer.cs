@@ -9,6 +9,9 @@ public class CharacterColliderSizer
     private readonly float _capsuleHeight;
     private readonly float _capsuleRadius;
 
+    public SizeMode CurrentHeight { get; private set; }
+    public SizeMode CurrentRadius { get; private set; }
+
     public CharacterColliderSizer(CharacterSkinData skinData, CapsuleCollider collider, CharacterController characterController)
     {
         _characterSkinData = skinData;
@@ -19,24 +22,116 @@ public class CharacterColliderSizer
         _capsuleRadius = _capsuleCollider.radius;
     }
 
-    public void SetSize(SizeMode sizeMode)
+    public void SetSize(SizeMode height, SizeMode radius)
     {
-        switch (sizeMode)
+        SetHeight(height);
+        SetRadius(radius);
+    }
+
+    private void SetHeight(SizeMode sizeMode)
+    {
+        if (sizeMode == CurrentHeight)
+        {
+            return;
+        }
+    
+        CurrentHeight = sizeMode;
+    
+        float newHeight;
+        Vector3 newCenter;
+    
+        switch (CurrentHeight)
         {
             case SizeMode.Full:
             {
-                _capsuleCollider.height = _capsuleHeight;
-                _characterController.height = _capsuleHeight;
+                newHeight = _capsuleHeight;
+                newCenter = new Vector3(0, _capsuleHeight / 2, 0);
             }
                 break;
 
             case SizeMode.Half:
             {
-                _capsuleCollider.height = _capsuleHeight / 2;
-                _characterController.height = _capsuleHeight / 2;
+                newHeight = _capsuleHeight / 2;
+                newCenter = new Vector3(0, newHeight / 2, 0);  
             }
                 break;
             
+            case SizeMode.Quarter:
+            {
+                newHeight = _capsuleHeight / 4;
+                newCenter = new Vector3(0, newHeight / 2, 0); 
+            }
+                break;
+
+            case SizeMode.Doubled:
+            {
+                newHeight = _capsuleHeight * 2;
+                newCenter = new Vector3(0, newHeight / 2, 0); 
+            }
+                break;
+            
+            case SizeMode.Tripled:
+            {
+                newHeight = _capsuleHeight * 3;
+                newCenter = new Vector3(0, newHeight / 2, 0); 
+            }
+                break;
+        
+            default:
+                return;
+        }
+    
+        _capsuleCollider.height = newHeight;
+        _capsuleCollider.center = newCenter;
+    
+        _characterController.height = newHeight;
+        _characterController.center = newCenter;
+    }
+
+    private void SetRadius(SizeMode sizeMode)
+    {
+        if (sizeMode == CurrentRadius)
+        {
+            return;
+        }
+        
+        CurrentRadius = sizeMode;
+        
+        switch (CurrentRadius)
+        {
+            case SizeMode.Full:
+            {
+                _capsuleCollider.radius = _capsuleRadius;
+                _characterController.radius = _capsuleRadius;
+            }
+                break;
+            case SizeMode.Half:
+            {
+                _capsuleCollider.radius = _capsuleRadius / 2;
+                _characterController.radius = _capsuleRadius / 2;
+            }
+                break;
+            
+            case SizeMode.Quarter:
+            {
+                _capsuleCollider.radius = _capsuleRadius / 4;
+                _characterController.radius = _capsuleRadius / 4;
+            }
+                break;
+
+            case SizeMode.Doubled:
+            {
+                _capsuleCollider.radius = _capsuleRadius * 2;
+                _characterController.radius = _capsuleRadius * 2;
+            }
+                break;
+            
+            case SizeMode.Tripled:
+            {
+                _capsuleCollider.radius = _capsuleRadius * 3;
+                _characterController.radius = _capsuleRadius * 3;
+            }
+                break;
             default:
                 break;
         }
@@ -46,5 +141,8 @@ public class CharacterColliderSizer
 public enum SizeMode
 {
     Full,
-    Half
+    Half,
+    Quarter,
+    Doubled,
+    Tripled
 }

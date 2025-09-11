@@ -16,6 +16,7 @@ MonoBehaviour:
   <AllowCharacterTargeting>k__BackingField: 1
   <UpdateHorizontalTargetAngle>k__BackingField: 1
   <UpdateVerticalTargetAngle>k__BackingField: 0
+  <AllowSwitchWeaponInstance>k__BackingField: 0
   <EnterTransitionDuration>k__BackingField: 0.5
   <AnimationLayer>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 1
@@ -23,6 +24,7 @@ MonoBehaviour:
   <RotationSpeed>k__BackingField: 5
   <SpineRotationCorrection>k__BackingField: 0
   <UseGravity>k__BackingField: 1
+  <FallSpeedMultiplier>k__BackingField: 1
   <GroundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 1
@@ -30,3 +32,6 @@ MonoBehaviour:
   - <Layer>k__BackingField: 1
     <Weight>k__BackingField: 1
     <ExcludedWeaponIndices>k__BackingField: 
+  <Height>k__BackingField: 0
+  <Radius>k__BackingField: 0
+  <UseInventory>k__BackingField: 0

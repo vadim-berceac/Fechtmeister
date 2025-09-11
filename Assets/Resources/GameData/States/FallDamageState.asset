@@ -29,5 +29,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   <AdditionalLayers>k__BackingField: []
-  <SizeMode>k__BackingField: 0
+  <Height>k__BackingField: 1
+  <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0
