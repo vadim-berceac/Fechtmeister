@@ -87,7 +87,7 @@ public class CharacterCore : MonoBehaviour
 
     private void OnEnable()
     {
-        _sceneCharacterContainer.Add(this);
+        _sceneCharacterContainer.Add(this, LocomotionSettings.CharacterCollider);
     }
 
     private void OnDisable()

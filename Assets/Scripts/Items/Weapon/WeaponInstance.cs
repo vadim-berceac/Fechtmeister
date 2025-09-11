@@ -9,11 +9,14 @@ public class WeaponInstance : IItemInstance
     public WeaponDamageComponent DamageComponent { get; set; }
     public Transform[] ItemDecorations { get; set; }
 
-    public WeaponInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer)
+    private readonly Collider _owner;
+    
+    public WeaponInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer, Collider owner)
     {
         ItemData = itemData;
         itemData = null;
         CharacterBonesContainer = characterBonesContainer;
+        _owner = owner;
         
         CreateInstance();
         this.CreateDecorations();
@@ -35,6 +38,7 @@ public class WeaponInstance : IItemInstance
         IKBoneTransform = this.TryToFindIKBoneTransform();
 
         DamageComponent = Instance.gameObject.AddComponent<WeaponDamageComponent>();
+        DamageComponent.SetOwnerCollider(_owner);
         
         this.AttachToBone(Instance, ItemData.BoneData[1]);
     }

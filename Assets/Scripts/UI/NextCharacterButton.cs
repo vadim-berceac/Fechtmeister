@@ -22,7 +22,7 @@ public class NextCharacterButton : MonoBehaviour
    {
       foreach (var character in _sceneCharacterContainer.GetCharacters())
       {
-         CharacterSelector.Select(character, false);
+         CharacterSelector.Select(character.Value, false);
       }
    }
 }

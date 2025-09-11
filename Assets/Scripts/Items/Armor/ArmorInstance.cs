@@ -8,11 +8,14 @@ public class ArmorInstance : IItemInstance
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
 
-    public ArmorInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer)
+    private Collider _owner;
+
+    public ArmorInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer, Collider owner)
     {
         ItemData = itemData;
         itemData = null;
         CharacterBonesContainer = characterBonesContainer;
+        _owner = owner;
 
         CreateInstance();
         this.CreateDecorations();

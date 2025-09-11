@@ -12,7 +12,7 @@ public interface IItemInstancesContainer
 
 public static class ItemInstancesContainerExtensions
 {
-    public static bool Equip(this IItemInstancesContainer container, IItemData item)
+    public static bool Equip(this IItemInstancesContainer container, IItemData item, Collider owner)
     {
         if (ContainsInstance(container, item) || OccupiedSamePosition(container, item))
         {
@@ -25,12 +25,12 @@ public static class ItemInstancesContainerExtensions
         {
             if (item is WeaponData)
             {
-                container.Instances[emptyInstance] = new WeaponInstance(ref item, container.CharacterBonesContainer);
+                container.Instances[emptyInstance] = new WeaponInstance(ref item, container.CharacterBonesContainer, owner);
             }
 
             if (item is ArmorData)
             {
-                container.Instances[emptyInstance] = new ArmorInstance(ref item, container.CharacterBonesContainer);
+                container.Instances[emptyInstance] = new ArmorInstance(ref item, container.CharacterBonesContainer, owner);
             }
         }
 

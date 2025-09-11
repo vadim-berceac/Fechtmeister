@@ -73,7 +73,8 @@ public class InventoryButton : MonoBehaviour
 
          if (_itemData is WeaponData)
          {
-            if (!_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Equip(_itemData))
+            if (!_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Equip(_itemData, 
+                   _inventoryDrawer.InventoryUI.CurrentCharacter.LocomotionSettings.CharacterCollider))
             {
                return;
             }
@@ -87,7 +88,8 @@ public class InventoryButton : MonoBehaviour
 
          if (_itemData is ArmorData)
          {
-            if (!_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.ArmorSystem.Equip(_itemData))
+            if (!_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.ArmorSystem.Equip(_itemData,
+                   _inventoryDrawer.InventoryUI.CurrentCharacter.LocomotionSettings.CharacterCollider))
             {
                return;
             }

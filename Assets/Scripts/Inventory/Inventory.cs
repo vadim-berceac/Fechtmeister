@@ -10,6 +10,7 @@ public class Inventory
     public Inventory(CharacterCore characterCore, CharacterPresetLoader characterPresetLoader, int weaponSystemInstancesCount)
     {
         _characterPresetLoader = characterPresetLoader;
+        _characterCore = characterCore;
         WeaponSystem = new WeaponSystem(weaponSystemInstancesCount, characterCore);
 
         ArmorSystem = new ArmorSystem(5, characterCore);
@@ -51,7 +52,7 @@ public class Inventory
                 {
                     continue;
                 }
-                WeaponSystem.Equip(w);
+                WeaponSystem.Equip(w, _characterCore.LocomotionSettings.CharacterCollider);
             }
             SelectWeaponInstance(0);
         }
@@ -64,7 +65,7 @@ public class Inventory
                 {
                     continue;
                 }
-                ArmorSystem.Equip(a);
+                ArmorSystem.Equip(a, _characterCore.LocomotionSettings.CharacterCollider);
             }
         }
     }
