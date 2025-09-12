@@ -62,7 +62,8 @@ public class CharacterCore : MonoBehaviour
         
         Inventory = new Inventory(this, PresetLoader, 3);
         Health = new CharacterHealth(PresetLoader.CharacterPersonalityData.HealthDataSettings.MaxHealth, 
-            PresetLoader.CharacterPersonalityData.HealthDataSettings.CurrentHealthPercentage, PresetLoader.CharacterPersonalityData.HealthDataSettings.HitReactionTriggerValuePercentage);
+            PresetLoader.CharacterPersonalityData.HealthDataSettings.CurrentHealthPercentage, 
+            PresetLoader.CharacterPersonalityData.HealthDataSettings.HitReactionTriggerValuePercentage);
     }
 
     public void SetState(State state)

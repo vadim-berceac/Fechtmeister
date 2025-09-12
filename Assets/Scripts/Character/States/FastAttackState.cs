@@ -9,6 +9,8 @@ public class FastAttackState : State
         base.EnterState(character);
         character.LocomotionSettings.Animator.SetFloat(AnimationParams.AttackCounter, character.AttackCounter.GetValue());
         character.LocomotionSettings.Animator.CrossFade(AnimationParams.Attack0StateName, EnterTransitionDuration, AnimationLayer);
+        
+        character.Inventory.WeaponSystem.AllowAttack(true);
     }
 
     [BurstCompile]
@@ -24,5 +26,11 @@ public class FastAttackState : State
         {
             character.SetState(character.StatesContainer.CombatIdleState);
         }
+    }
+
+    public override void ExitState(CharacterCore character)
+    {
+        base.ExitState(character);
+        character.Inventory.WeaponSystem.AllowAttack(false);
     }
 }

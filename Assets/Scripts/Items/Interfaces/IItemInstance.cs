@@ -8,6 +8,7 @@ public interface IItemInstance
     public Transform Instance { get; set; }
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
+    public IItemControlComponent ItemControlComponent { get; set; }
     
     public void CreateInstance();
 }

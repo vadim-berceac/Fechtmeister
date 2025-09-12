@@ -40,6 +40,15 @@ public class WeaponSystem : IItemInstancesContainer
         SelectWeapon(itemIndex);
     }
 
+    public void AllowAttack(bool value)
+    {
+        if (InstanceInHands?.ItemControlComponent == null)
+        {
+            return;
+        }
+        InstanceInHands.ItemControlComponent.AllowToUse(value);
+    }
+
     public void Destroy()
     {
         _characterCore.CharacterInputHandler.OnWeaponSwitch -= OnWeaponInstanceSwitched;

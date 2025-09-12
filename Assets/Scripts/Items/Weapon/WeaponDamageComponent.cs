@@ -1,11 +1,11 @@
 using UnityEngine;
 using Zenject;
 
-public class WeaponDamageComponent : MonoBehaviour
+public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
 {
-    private bool _allowToDamage;
+    public Collider Owner { get; set; }
+    public bool IsAllowed { get; set; }
     private Collider _weaponCollider;
-    private Collider _ownerCollider;
     private Rigidbody _rigidbody;
     
     [Inject] private SceneCharacterContainer _sceneCharacterContainer;
@@ -34,27 +34,27 @@ public class WeaponDamageComponent : MonoBehaviour
         container.Inject(this);
         
         //временно
-        AllowToDamage(true);
+        AllowToUse(true);
     }
 
-    public void SetOwnerCollider(Collider coll)
+    public void SetOwner(Collider coll)
     {
-        _ownerCollider = coll;
+        Owner = coll;
     }
-
-    public void AllowToDamage(bool value)
+    
+    public void AllowToUse(bool value)
     {
-        _allowToDamage = value;
+        IsAllowed = value;
     }
     
     private void OnTriggerEnter(Collider other)
     {
-        if (!_allowToDamage)
+        if (!IsAllowed)
         {
             return;
         }
 
-        if (other == _ownerCollider)
+        if (other == Owner)
         {
             return;
         }
@@ -62,10 +62,14 @@ public class WeaponDamageComponent : MonoBehaviour
         //одна попытка нанести урон - после этого в текущем состоянии ее отключаем
 
         var target = _sceneCharacterContainer.GetCharacter(other);
+       
         if (target == null)
         {
             return;
         }
+        
+        AllowToUse(false);
+        
         Debug.Log($"{gameObject} collided with {target.gameObject.name}");
     }
 }

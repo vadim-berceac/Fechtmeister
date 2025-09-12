@@ -7,6 +7,7 @@ public class ArmorInstance : IItemInstance
     public Transform Instance { get; set; }
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
+    public IItemControlComponent ItemControlComponent { get; set; }
 
     private Collider _owner;
 
