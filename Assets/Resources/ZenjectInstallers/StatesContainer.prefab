@@ -63,3 +63,4 @@ MonoBehaviour:
   <ReloadProjectileState>k__BackingField: {fileID: 11400000, guid: e6f56555e44b5b14c8a5422038969bf6, type: 2}
   <FallDamageState>k__BackingField: {fileID: 11400000, guid: c61bd14a4e1b6d14ca94dcd7cd54611d, type: 2}
   <LandingState>k__BackingField: {fileID: 11400000, guid: b5222e29172625d4eb68588aca0c31d3, type: 2}
+  <GetHitState>k__BackingField: {fileID: 11400000, guid: 0b64ea091e98ffb45ad056485135399d, type: 2}

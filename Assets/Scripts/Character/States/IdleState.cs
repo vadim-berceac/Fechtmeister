@@ -50,6 +50,11 @@ public class IdleState : State
         {
             character.SetState(character.StatesContainer.InventoryState);
         }
+
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetHitState);
+        }
     }
 
     public override void ExitState(CharacterCore character)

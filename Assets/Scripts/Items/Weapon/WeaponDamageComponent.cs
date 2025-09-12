@@ -8,6 +8,8 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
     private Collider _weaponCollider;
     private Rigidbody _rigidbody;
     
+    // хранить параметры оружия
+    
     [Inject] private SceneCharacterContainer _sceneCharacterContainer;
 
     [Inject]
@@ -70,6 +72,8 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
         
         AllowToUse(false);
         
-        Debug.Log($"{gameObject} collided with {target.gameObject.name}");
+        //временно
+        target.Health.Damage(40);
+        
     }
 }
