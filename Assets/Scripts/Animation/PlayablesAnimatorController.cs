@@ -36,7 +36,7 @@ public class PlayablesAnimatorController
     private int _eventClipIndex = -1; // Индекс клипа для события
     private float _eventNormalizedTime = -1f; // Пороговое нормализованное время
 
-    public bool IsActionEnabled { get; private set; } // Свойство для доступа к флагу
+    public bool IsActionEnabled { get; private set; } 
 
     public PlayablesAnimatorController(Animator animator)
     {
@@ -78,10 +78,9 @@ public class PlayablesAnimatorController
 
         _eventClipIndex = clipIndex;
         _eventNormalizedTime = normalizedTime;
-        IsActionEnabled = false; // Сбрасываем флаг при установке нового события
+        IsActionEnabled = false;
     }
-
-    // Метод для сброса флага IsActionEnabled
+   
     public void ResetActionFlag()
     {
         IsActionEnabled = false;
