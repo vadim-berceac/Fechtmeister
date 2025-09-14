@@ -13,6 +13,8 @@ public class CharacterPlayablesAnimatorController
     private readonly List<AnimationMixerPlayable> _statesMixers;
     private readonly List<AnimationMixerPlayable> _clipsMixers;
     private readonly State[] _states;
+    
+    public bool IsActionReady { get; private set; }
 
     public CharacterPlayablesAnimatorController(Animator animator, State[] states)
     {
@@ -118,6 +120,21 @@ public class CharacterPlayablesAnimatorController
         }
     }
 
+    private void CheckActionConditions()
+    {
+        //TODO
+    }
+
+    public void ResetAction()
+    {
+        IsActionReady = false;
+    }
+    
+    private void SmoothTransitions()
+    {
+        //ToDO
+    }
+
     public void SelectAnimationClip(int paramValue)
     {
         //ToDO
@@ -126,6 +143,18 @@ public class CharacterPlayablesAnimatorController
     public void Move(float movementX, float movementY)
     {
         //ToDO
+    }
+
+    public bool IsStateAnimationCompleted()
+    {
+        //TODO
+        return false;
+    }
+
+    public float GetNormalizedStateDuration()
+    {
+        //TODO
+        return 0f;
     }
 
     public void OnDestroy()
