@@ -177,6 +177,11 @@ public class PlayablesAnimatorController
         UpdateClipTimeEvent();
     }
 
+    public void Stop()
+    {
+        _playableGraph.Stop();
+    }
+
     private void UpdateClipTimeEvent()
     {
         if (_eventClipIndex < 0 || _eventClipIndex >= _clipPlayables.Count || !_clipPlayables[_eventClipIndex].IsValid())

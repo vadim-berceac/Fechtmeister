@@ -16,6 +16,7 @@ public class CharacterCore : MonoBehaviour
     public ICharacterInputSet InputByPlayer { get; private set; }
     
     public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
+    public CharacterPlayablesAnimatorController CharacterPlayablesAnimatorController { get; private set; }
     
     //State Machine
     public StatesContainer StatesContainer { get; private set; }
@@ -48,6 +49,7 @@ public class CharacterCore : MonoBehaviour
         Gravity = new CharacterGravity();
 
         PlayablesAnimatorController = new PlayablesAnimatorController(LocomotionSettings.Animator);
+        CharacterPlayablesAnimatorController = new CharacterPlayablesAnimatorController(LocomotionSettings.Animator, StatesContainer.GetStates());
         
         PresetLoader = GetComponent<CharacterPresetLoader>();
         CharacterColliderSizer = new CharacterColliderSizer(PresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin,
@@ -96,5 +98,6 @@ public class CharacterCore : MonoBehaviour
         _sceneCharacterContainer.Remove(this);
         Inventory.Destroy();
         PlayablesAnimatorController.OnDestroy();
+        CharacterPlayablesAnimatorController.OnDestroy();
     }
 }
