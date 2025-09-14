@@ -1,28 +1,29 @@
 using Unity.Burst;
 using UnityEngine;
 
+[BurstCompile]
 [CreateAssetMenu(fileName = "TakeLootState", menuName = "States/TakeLootState")]
 public class TakeLootState : State
 {
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.TakeLootStateName, EnterTransitionDuration, AnimationLayer);
+        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
     }
 
-    [BurstCompile]
-    public override void UpdateState(CharacterCore character)
+    protected override void CheckSwitch(CharacterCore character)
     {
-        base.UpdateState(character);
-        CheckSwitch(character);
-    }
-
-    public override void CheckSwitch(CharacterCore character)
-    {
-        if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) == 0)
+        if (character.PlayablesAnimatorController.IsBlendFinished())
         {
             character.SetState(character.StatesContainer.IdleState);
         }
+    }
+
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
     }
 
     public override void ExitState(CharacterCore character)

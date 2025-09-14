@@ -1,23 +1,17 @@
 using Unity.Burst;
 using UnityEngine;
 
+[BurstCompile]
 [CreateAssetMenu(fileName = "InventoryState", menuName = "States/InventoryState")]
 public class InventoryState : State
 {
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.InventoryStateName, EnterTransitionDuration, AnimationLayer);
+        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
     }
 
-    [BurstCompile]
-    public override void UpdateState(CharacterCore character)
-    {
-        base.UpdateState(character);
-        CheckSwitch(character);
-    }
-
-    public override void CheckSwitch(CharacterCore character)
+    protected override void CheckSwitch(CharacterCore character)
     {
         if (!character.CharacterInputHandler.IsInventoryOpen)
         {

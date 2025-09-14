@@ -12,18 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fda69d08b9df1b498cbab8fd00d9ae2, type: 3}
   m_Name: InventoryState
   m_EditorClassIdentifier: 
+  <Clips>k__BackingField:
+  - {fileID: 11400000, guid: e8ffdde8d4e24694d8c75202436b1c6b, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <AllowCharacterTargeting>k__BackingField: 0
   <UpdateHorizontalTargetAngle>k__BackingField: 0
   <UpdateVerticalTargetAngle>k__BackingField: 0
+  <AllowSwitchWeaponInstance>k__BackingField: 0
   <EnterTransitionDuration>k__BackingField: 0.2
   <AnimationLayer>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 0
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
-  <SpineRotationCorrection>k__BackingField: 0
   <UseGravity>k__BackingField: 1
+  <FallSpeedMultiplier>k__BackingField: 1
   <GroundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 1
-  <AdditionalLayers>k__BackingField: []
+  <Height>k__BackingField: 0
+  <Radius>k__BackingField: 0
+  <UseInventory>k__BackingField: 0

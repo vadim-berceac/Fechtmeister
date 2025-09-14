@@ -1,23 +1,24 @@
 using Unity.Burst;
 using UnityEngine;
 
+[BurstCompile]
 [CreateAssetMenu(fileName = "IdleState", menuName = "States/IdleState")]
 public class IdleState : State
 {
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.IdleStateName, EnterTransitionDuration, AnimationLayer);
+        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, 0);
     }
-
+    
     [BurstCompile]
     public override void UpdateState(CharacterCore character)
     {
         base.UpdateState(character);
-        CheckSwitch(character);
     }
 
-    public override void CheckSwitch(CharacterCore character)
+    protected override void CheckSwitch(CharacterCore character)
     {
         if (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 ||
             Mathf.Abs(character.CharacterInputHandler.InputY) > 0)

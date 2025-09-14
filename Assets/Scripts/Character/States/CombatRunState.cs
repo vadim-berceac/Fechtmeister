@@ -1,26 +1,21 @@
+using System.Linq;
 using Unity.Burst;
 using UnityEngine;
 
+[BurstCompile]
 [CreateAssetMenu(fileName = "CombatRunState", menuName = "States/CombatRunState")]
 public class CombatRunState : State
 {
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.RunStateName, EnterTransitionDuration, AnimationLayer);
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
+        var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
+        character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
+        character.PlayablesAnimatorController.SetAnimationParameter(clipSet.ParameterName, itemInstanceData.AnimationType);
     }
 
-    [BurstCompile]
-    public override void UpdateState(CharacterCore character)
-    {
-        base.UpdateState(character);
-        CheckSwitch(character);
-        
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.InputX,character.CharacterInputHandler.InputX);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.InputY,character.CharacterInputHandler.InputY);
-    }
-
-    public override void CheckSwitch(CharacterCore character)
+    protected override void CheckSwitch(CharacterCore character)
     {
         if (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
             Mathf.Abs(character.CharacterInputHandler.InputY) == 0)
@@ -57,6 +52,12 @@ public class CombatRunState : State
         {
             character.SetState(character.StatesContainer.FallState);
         }
+    }
+
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        character.PlayablesAnimatorController.UpdateMoveBlend(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
     }
 
     public override void ExitState(CharacterCore character)

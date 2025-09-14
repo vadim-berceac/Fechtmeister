@@ -1,6 +1,7 @@
 using Unity.Burst;
 using UnityEngine;
 
+[BurstCompile]
 [CreateAssetMenu(fileName = "WeaponOnState", menuName = "States/WeaponOnState")]
 public class WeaponOnState : State
 {
@@ -9,30 +10,24 @@ public class WeaponOnState : State
         base.EnterState(character);
         
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, itemInstanceData.AnimationType);
-        character.LocomotionSettings.Animator.StopPlayback();
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.WeaponOnStateName, EnterTransitionDuration);
-        
         character.AttackCounter.SetValue(itemInstanceData.AttackCounterSettings.AttacksResetDelay, itemInstanceData.AttackCounterSettings.AttacksCount);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.AttackSpeed, itemInstanceData.AttackSpeed);
+        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, itemInstanceData.AnimationType);
     }
 
-    [BurstCompile]
-    public override void UpdateState(CharacterCore character)
+    protected override void CheckAction(CharacterCore character)
     {
-        base.UpdateState(character);
-        CheckSwitch(character);
-        
-        if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.ActionCurve) <= 0)
+        base.CheckAction(character);
+        if (character.PlayablesAnimatorController.IsActionEnabled)
         {
-           character.Inventory.WeaponOn();
+            character.Inventory.WeaponOn();
+            character.PlayablesAnimatorController.ResetActionFlag();
         }
     }
 
-    public override void CheckSwitch(CharacterCore character)
+    protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0)
+        if (character.PlayablesAnimatorController.IsBlendFinished())
         {
             character.SetState(character.StatesContainer.CombatIdleState);
         }

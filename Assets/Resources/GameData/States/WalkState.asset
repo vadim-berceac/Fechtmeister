@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c559fd4bce7cefe4b9a0885aa56b8f44, type: 3}
   m_Name: WalkState
   m_EditorClassIdentifier: 
+  <Clips>k__BackingField:
+  - {fileID: 11400000, guid: be6edac405581344d8453f6d07782a94, type: 2}
+  - {fileID: 11400000, guid: 3b67872677dcb3449856dabc269cf73c, type: 2}
+  - {fileID: 11400000, guid: 13144f64a5c082a498713b7ad43eda05, type: 2}
+  - {fileID: 11400000, guid: 9e2b9397ee0e22e4dba01f2d3d5d9903, type: 2}
+  - {fileID: 11400000, guid: 390986653c2bc2949b659978a80b9d14, type: 2}
   <AllowItemTargeting>k__BackingField: 1
   <AllowCharacterTargeting>k__BackingField: 0
   <UpdateHorizontalTargetAngle>k__BackingField: 0
@@ -22,10 +28,11 @@ MonoBehaviour:
   <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 15
-  <SpineRotationCorrection>k__BackingField: 0
   <UseGravity>k__BackingField: 1
+  <FallSpeedMultiplier>k__BackingField: 1
   <GroundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 1
-  <AdditionalLayers>k__BackingField: []
+  <Height>k__BackingField: 0
+  <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 1

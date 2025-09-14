@@ -1,8 +1,12 @@
-using Unity.Burst;
 using UnityEngine;
 
 public abstract class State : ScriptableObject
 {
+    [field: Header("Clips")]
+    [field: SerializeField] protected float EnterTransitionDuration {get; private set;}
+    [field: SerializeField] public bool ApplyRootMotion {get; private set;}
+    [field: SerializeField] public  AnimationBlendConfig[]  Clips { get; set; }
+    
     [field: Header("Targeting")]
     [field: SerializeField] protected bool AllowItemTargeting { get; set; }
     [field: SerializeField] protected bool AllowCharacterTargeting { get; set; }
@@ -12,24 +16,15 @@ public abstract class State : ScriptableObject
     [field: Header("Input")]
     [field: SerializeField] public bool AllowSwitchWeaponInstance { get; set; }
     
-    [field: Header("Animation")]
-    [field: SerializeField] protected float EnterTransitionDuration {get; private set;}
-    [field: SerializeField] protected int AnimationLayer {get; private set;}
-    [field: SerializeField] public bool ApplyRootMotion {get; private set;}
-    
     [field: Header("Locomotion")]
     [field: SerializeField] protected bool RotationByCamera {get; private set;}
     [field: SerializeField] protected float RotationSpeed {get; private set;}
-    [field: SerializeField] protected bool SpineRotationCorrection {get; private set;}
     
     [field: Header("Gravity")]
     [field: SerializeField] public bool UseGravity {get; private set;}
 
     [field: SerializeField] public float FallSpeedMultiplier { get; private set; } = 1f;
     [field: SerializeField] protected LayerMask GroundLayer {get; private set;}
-    
-    [field: Header("Layers")]
-    [field: SerializeField] protected AdditionalLayer[] AdditionalLayers {get; private set;}
 
     [field: Header("Capsule Size")]
     [field: SerializeField] protected SizeMode Height { get; private set; } = SizeMode.Full;
@@ -37,17 +32,12 @@ public abstract class State : ScriptableObject
     
     [field: Header("Inventory")]
     [field: SerializeField] public bool UseInventory {get; private set;}
-    
+   
     public virtual void EnterState(CharacterCore character)
     {
         character.OnStateChanged?.Invoke();
         
         character.LocomotionSettings.Animator.applyRootMotion = ApplyRootMotion;
-        
-        if (SpineRotationCorrection)
-        {
-            character.LocomotionSettings.SpineProxy.Allow(true);
-        }
         
         character.TargetingSystem.AllowItemTargeting(AllowItemTargeting);
         character.TargetingSystem.AllowCharacterTargeting(AllowCharacterTargeting);
@@ -62,8 +52,6 @@ public abstract class State : ScriptableObject
             character.LocomotionSettings.Animator.SetFloat(AnimationParams.HorizontalAngleToTarget, 0);
         }
         
-        this.CorrectLayersWeight(character, AdditionalLayers, EnterTransitionDuration);
-        
         character.CharacterColliderSizer.SetSize(Height, Radius);
     }
 
@@ -72,6 +60,12 @@ public abstract class State : ScriptableObject
         character.UpdateRotationByCamera(RotationByCamera, RotationSpeed);
 
         UpdateTargetingParams(character);
+        
+        character.PlayablesAnimatorController.OnUpdate();
+        
+        CheckAction(character);
+        
+        CheckSwitch(character);
     }
 
     public virtual void FixedUpdateState(CharacterCore character)
@@ -79,23 +73,22 @@ public abstract class State : ScriptableObject
         character.Gravity.SetGrounded(character.CheckIsGrounded(UseGravity, GroundLayer));
         character.UpdateFallDetection(UseGravity);
     }
-    
-    public abstract void CheckSwitch(CharacterCore character);
+   
+    protected abstract void CheckSwitch(CharacterCore character);
+
+    protected virtual void CheckAction(CharacterCore character)
+    {
+        
+    }
 
     public virtual void ExitState(CharacterCore character)
     {
-        if (SpineRotationCorrection)
-        {
-            character.LocomotionSettings.SpineProxy.Allow(false);
-        }
-        
         character.CharacterInputHandler.ResetAttack(); // чтобы атаки не накапливались
         
         character.TargetingSystem.AllowItemTargeting(false);
         character.TargetingSystem.AllowCharacterTargeting(false);
     }
 
-    [BurstCompile]
     private void UpdateTargetingParams(CharacterCore character)
     {
         if (AllowCharacterTargeting)

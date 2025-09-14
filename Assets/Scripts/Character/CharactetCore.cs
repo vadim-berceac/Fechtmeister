@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -16,8 +15,9 @@ public class CharacterCore : MonoBehaviour
 
     public ICharacterInputSet InputByPlayer { get; private set; }
     
+    public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
+    
     //State Machine
-    public AnimationLayerWeightTransition AnimationLayerWeightTransition { get; private set; }
     public StatesContainer StatesContainer { get; private set; }
     public State CurrentState { get; private set; }
     public Counter AttackCounter { get; private set; }
@@ -46,13 +46,14 @@ public class CharacterCore : MonoBehaviour
         CashedTransform = transform;
         CharacterInputHandler = new CharacterInputHandler(LocomotionSettings.InputSmoothingSpeed);
         Gravity = new CharacterGravity();
+
+        PlayablesAnimatorController = new PlayablesAnimatorController(LocomotionSettings.Animator);
         
         PresetLoader = GetComponent<CharacterPresetLoader>();
         CharacterColliderSizer = new CharacterColliderSizer(PresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin,
             LocomotionSettings.CharacterCollider, LocomotionSettings.CharacterController);
         SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData);
         BonesContainer = new CharacterBonesContainer(CashedTransform);
-        AnimationLayerWeightTransition = new AnimationLayerWeightTransition(LocomotionSettings.Animator);
         TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting, TargetingSettings.CharacterTargeting);
         
         CurrentState = StatesContainer.IdleState;
@@ -76,7 +77,6 @@ public class CharacterCore : MonoBehaviour
     private void Update()
     {
         CharacterInputHandler.SmoothInput(Time.deltaTime);
-        AnimationLayerWeightTransition.UpdateTransition();
         CurrentState.UpdateState(this);
         CurrentSpeed.OnUpdate();
     }
@@ -95,5 +95,6 @@ public class CharacterCore : MonoBehaviour
     {
         _sceneCharacterContainer.Remove(this);
         Inventory.Destroy();
+        PlayablesAnimatorController.OnDestroy();
     }
 }

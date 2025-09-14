@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bf6b743df881944583326bfcfebdc76, type: 3}
   m_Name: LandingState
   m_EditorClassIdentifier: Assembly-CSharp::LandingState
+  <Clips>k__BackingField:
+  - {fileID: 11400000, guid: 7833e47974b61c643aea29a4d685fefe, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <AllowCharacterTargeting>k__BackingField: 0
   <UpdateHorizontalTargetAngle>k__BackingField: 0
@@ -22,11 +24,11 @@ MonoBehaviour:
   <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
-  <SpineRotationCorrection>k__BackingField: 0
   <UseGravity>k__BackingField: 1
   <FallSpeedMultiplier>k__BackingField: 1
   <GroundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 1
-  <AdditionalLayers>k__BackingField: []
+  <Height>k__BackingField: 0
+  <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0

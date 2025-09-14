@@ -1,43 +1,40 @@
 using Unity.Burst;
 using UnityEngine;
 
+[BurstCompile]
 [CreateAssetMenu(fileName = "WeaponOffState", menuName = "States/WeaponOffState")]
 public class WeaponOffState : State
 {
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, 
-            ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData).AnimationType);
-        character.LocomotionSettings.Animator.StopPlayback();
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.WeaponOffStateName, EnterTransitionDuration);
+        
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
+        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, itemInstanceData.AnimationType);
     }
 
-    [BurstCompile]
-    public override void UpdateState(CharacterCore character)
+    protected override void CheckSwitch(CharacterCore character)
     {
-        base.UpdateState(character);
-        CheckSwitch(character);
-        
-        if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.ActionCurve) <= 0)
+        if (character.PlayablesAnimatorController.IsBlendFinished())
         {
-           character.Inventory.WeaponOff();
+            character.SetState(character.StatesContainer.IdleState);
         }
     }
 
-    public override void CheckSwitch(CharacterCore character)
+    protected override void CheckAction(CharacterCore character)
     {
-        if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) <= 0)
+        base.CheckAction(character);
+        if (character.PlayablesAnimatorController.IsActionEnabled)
         {
-            character.SetState(character.StatesContainer.IdleState);
+            character.Inventory.WeaponOff();
+            character.PlayablesAnimatorController.ResetActionFlag();
         }
     }
 
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.WeaponType, 0);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.AttackSpeed, 1);
         character.Inventory.ProjectileSystem.SetProjectileLoaded(false);
     }
 }

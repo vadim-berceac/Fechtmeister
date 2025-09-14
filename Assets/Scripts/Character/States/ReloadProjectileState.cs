@@ -1,25 +1,22 @@
+using System.Linq;
 using Unity.Burst;
 using UnityEngine;
 
+[BurstCompile]
 [CreateAssetMenu(fileName = "ReloadProjectileState", menuName = "States/ReloadProjectileState")]
 public class ReloadProjectileState : State
 {
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.ReloadProjectileStateName, EnterTransitionDuration, AnimationLayer);
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
+        var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
+        character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
     }
 
-    [BurstCompile]
-    public override void UpdateState(CharacterCore character)
+    protected override void CheckSwitch(CharacterCore character)
     {
-        base.UpdateState(character);
-        CheckSwitch(character);
-    }
-
-    public override void CheckSwitch(CharacterCore character)
-    {
-        if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) == 0)
+        if (character.PlayablesAnimatorController.IsBlendFinished())
         {
             character.SetState(character.StatesContainer.CombatIdleState);
         }

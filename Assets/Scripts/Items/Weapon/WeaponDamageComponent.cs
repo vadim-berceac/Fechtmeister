@@ -15,7 +15,7 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
     [Inject]
     private void Construct()
     {
-        Debug.LogWarning("Constructed");
+        //Debug.LogWarning("Constructed");
     }
 
     private void Awake()

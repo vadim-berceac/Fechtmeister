@@ -1,28 +1,26 @@
+using System.Linq;
 using Unity.Burst;
 using UnityEngine;
 
+[BurstCompile]
 [CreateAssetMenu(fileName = "FastAttackState", menuName = "States/FastAttackState")]
 public class FastAttackState : State
 {
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.LocomotionSettings.Animator.SetFloat(AnimationParams.AttackCounter, character.AttackCounter.GetValue());
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.Attack0StateName, EnterTransitionDuration, AnimationLayer);
+        
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
+        var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
+        character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
+        character.PlayablesAnimatorController.SetAnimationParameter(clipSet.ParameterName, character.AttackCounter.GetValue());
         
         character.Inventory.WeaponSystem.AllowAttack(true);
     }
 
-    [BurstCompile]
-    public override void UpdateState(CharacterCore character)
+    protected override void CheckSwitch(CharacterCore character)
     {
-        base.UpdateState(character);
-        CheckSwitch(character);
-    }
-
-    public override void CheckSwitch(CharacterCore character)
-    {
-        if (character.LocomotionSettings.Animator.GetFloat(AnimationParams.OneShotPlayed) == 0)
+        if (character.PlayablesAnimatorController.IsBlendFinished())
         {
             character.SetState(character.StatesContainer.CombatIdleState);
         }

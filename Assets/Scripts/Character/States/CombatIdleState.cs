@@ -1,24 +1,25 @@
 using Unity.Burst;
 using UnityEngine;
 
+[BurstCompile]
 [CreateAssetMenu(fileName = "CombatIdleState", menuName = "States/CombatIdleState")]
 public class CombatIdleState : State
 {
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.LocomotionSettings.Animator.StopPlayback();
-        character.LocomotionSettings.Animator.CrossFade(AnimationParams.IdleStateName, EnterTransitionDuration);
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
+        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, itemInstanceData.AnimationType);
     }
 
     [BurstCompile]
     public override void UpdateState(CharacterCore character)
     {
         base.UpdateState(character);
-        CheckSwitch(character);
     }
 
-    public override void CheckSwitch(CharacterCore character)
+    protected override void CheckSwitch(CharacterCore character)
     {
         if (!character.CharacterInputHandler.IsWeaponDraw)
         {
