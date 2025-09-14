@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
+/// <summary>
+/// Более-менее рабочий
+/// </summary>
 [BurstCompile]
 public class PlayablesAnimatorController
 {
