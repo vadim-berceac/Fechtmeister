@@ -20,37 +20,37 @@ public class CombatWalkState : State
         if (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
             Mathf.Abs(character.CharacterInputHandler.InputY) == 0)
         {
-            character.SetState(character.StatesContainer.CombatIdleState);
+            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
 
         if (character.CharacterInputHandler.IsRun)
         {
-            character.SetState(character.StatesContainer.CombatRunState);
+            character.SetState(character.StatesContainer.GetState("CombatRunState"));
         }
 
         if (!character.CharacterInputHandler.IsWeaponDraw)
         {
-            character.SetState(character.StatesContainer.WeaponOffState);
+            character.SetState(character.StatesContainer.GetState("WeaponOffState"));
         }
         
         if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
         {
-            character.SetState(character.StatesContainer.FastAttackState);
+            character.SetState(character.StatesContainer.GetState("FastAttackState"));
         }
         
         if (character.CharacterInputHandler.IsAimBlock && character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
         {
-            character.SetState(character.StatesContainer.LoadState);
+            character.SetState(character.StatesContainer.GetState("LoadState"));
         }
         
         if (character.CharacterInputHandler.IsJump)
         {
-            character.SetState(character.StatesContainer.JumpState);
+            character.SetState(character.StatesContainer.GetState("JumpState"));
         }
         
         if (!character.Gravity.Grounded)
         {
-            character.SetState(character.StatesContainer.FallState);
+            character.SetState(character.StatesContainer.GetState("FallState"));
         }
     }
 

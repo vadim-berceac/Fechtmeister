@@ -18,7 +18,7 @@ public class ReloadProjectileState : State
     {
         if (character.PlayablesAnimatorController.IsBlendFinished())
         {
-            character.SetState(character.StatesContainer.CombatIdleState);
+            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
     }
 

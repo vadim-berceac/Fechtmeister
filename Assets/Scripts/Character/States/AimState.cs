@@ -19,12 +19,12 @@ public class AimState : State
     {
         if (!character.CharacterInputHandler.IsAimBlock)
         {
-            character.SetState(character.StatesContainer.CombatIdleState);
+            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
         
         if (character.CharacterInputHandler.IsAttack)
         {
-            character.SetState(character.StatesContainer.ReleaseState);
+            character.SetState(character.StatesContainer.GetState("ReleaseState"));
         }
     }
 }

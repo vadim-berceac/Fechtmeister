@@ -17,17 +17,17 @@ public class GetHitState : State
     {
         if (character.CharacterInputHandler.IsWeaponDraw &&  character.PlayablesAnimatorController.IsBlendFinished())
         {
-            character.SetState(character.StatesContainer.CombatIdleState);
+            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
         
         if (!character.CharacterInputHandler.IsWeaponDraw &&  character.PlayablesAnimatorController.IsBlendFinished())
         {
-            character.SetState(character.StatesContainer.IdleState);
+            character.SetState(character.StatesContainer.GetState("IdleState"));
         }
         
         if (character.Health.IsHitReactionEnabled)
         {
-            character.SetState(character.StatesContainer.GetHitState);
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
     }
 }

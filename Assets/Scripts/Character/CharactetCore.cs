@@ -56,7 +56,7 @@ public class CharacterCore : MonoBehaviour
         BonesContainer = new CharacterBonesContainer(CashedTransform);
         TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting, TargetingSettings.CharacterTargeting);
         
-        CurrentState = StatesContainer.IdleState;
+        CurrentState = StatesContainer.GetState("IdleState");
         CurrentState.EnterState(this);
         AttackCounter = new Counter();
         CurrentSpeed = new CurrentSpeed(LocomotionSettings.CharacterController, LocomotionSettings.Animator);

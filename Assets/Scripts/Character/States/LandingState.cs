@@ -15,12 +15,12 @@ public class LandingState: State
     {
          if (!character.CharacterInputHandler.IsWeaponDraw && character.PlayablesAnimatorController.IsBlendFinished())
          {
-             character.SetState(character.StatesContainer.IdleState);
+             character.SetState(character.StatesContainer.GetState("IdleState"));
          }
         
          if (character.CharacterInputHandler.IsWeaponDraw && character.PlayablesAnimatorController.IsBlendFinished())
          {
-             character.SetState(character.StatesContainer.CombatIdleState);
+             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
          }
     }
 }

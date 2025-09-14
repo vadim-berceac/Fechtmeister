@@ -16,12 +16,12 @@ public class JumpState : State
         if (!character.Gravity.Grounded
             && character.PlayablesAnimatorController.GetNormalizedBlendTime() > 0.5)
         {
-            character.SetState(character.StatesContainer.FallState);
+            character.SetState(character.StatesContainer.GetState("FallState"));
         }
         
         if (character.Gravity.Grounded  && character.PlayablesAnimatorController.GetNormalizedBlendTime() > 0.6)
         {
-            character.SetState(character.StatesContainer.LandingState);
+            character.SetState(character.StatesContainer.GetState("LandingState"));
         }
     }
 

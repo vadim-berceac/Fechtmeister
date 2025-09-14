@@ -44,23 +44,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851e844cdee36924d8f9dfb5145a95a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <IdleState>k__BackingField: {fileID: 11400000, guid: 62ed07c883800b94fa69de8d714f1054, type: 2}
-  <WalkState>k__BackingField: {fileID: 11400000, guid: ee1ffc359507240468187f817d2f7542, type: 2}
-  <RunState>k__BackingField: {fileID: 11400000, guid: fb496ec28d1e69647b6be4f256b7bead, type: 2}
-  <JumpState>k__BackingField: {fileID: 11400000, guid: eb19ddd0ef4d6ef45b720b711652d434, type: 2}
-  <FallState>k__BackingField: {fileID: 11400000, guid: 55102c75fe1069b43a42c547a36b0127, type: 2}
-  <CombatIdleState>k__BackingField: {fileID: 11400000, guid: 60105d481ee029c4e847d2ec68a39310, type: 2}
-  <CombatWalkState>k__BackingField: {fileID: 11400000, guid: 7c837a58a8fe2d645808ac5718396222, type: 2}
-  <CombatRunState>k__BackingField: {fileID: 11400000, guid: c35d23be77c94e94bb9fea82597fc017, type: 2}
-  <WeaponOnState>k__BackingField: {fileID: 11400000, guid: e8c25eeb3133eaf41adf2b0ad63ccdb6, type: 2}
-  <WeaponOffState>k__BackingField: {fileID: 11400000, guid: 074a65ef7f083d4469e5204f0e4d0c55, type: 2}
-  <FastAttackState>k__BackingField: {fileID: 11400000, guid: 9f5b2ba14340c144c89a4c64cf4c47d5, type: 2}
-  <TakeLootState>k__BackingField: {fileID: 11400000, guid: f05b3bf80e5a3164f8e4b77b5216c518, type: 2}
-  <InventoryState>k__BackingField: {fileID: 11400000, guid: b8b2b5c2441b4a742bbe54d7c004b6f3, type: 2}
-  <LoadState>k__BackingField: {fileID: 11400000, guid: f805e42de1f4ba54ab0d3307522689e8, type: 2}
-  <AimState>k__BackingField: {fileID: 11400000, guid: 771e4573a7054824594e9333458f1933, type: 2}
-  <ReleaseState>k__BackingField: {fileID: 11400000, guid: 642541ae482942e409d171e859975143, type: 2}
-  <ReloadProjectileState>k__BackingField: {fileID: 11400000, guid: e6f56555e44b5b14c8a5422038969bf6, type: 2}
-  <FallDamageState>k__BackingField: {fileID: 11400000, guid: c61bd14a4e1b6d14ca94dcd7cd54611d, type: 2}
-  <LandingState>k__BackingField: {fileID: 11400000, guid: b5222e29172625d4eb68588aca0c31d3, type: 2}
-  <GetHitState>k__BackingField: {fileID: 11400000, guid: 0b64ea091e98ffb45ad056485135399d, type: 2}
+  states:
+  - {fileID: 11400000, guid: 771e4573a7054824594e9333458f1933, type: 2}
+  - {fileID: 11400000, guid: 60105d481ee029c4e847d2ec68a39310, type: 2}
+  - {fileID: 11400000, guid: c35d23be77c94e94bb9fea82597fc017, type: 2}
+  - {fileID: 11400000, guid: 7c837a58a8fe2d645808ac5718396222, type: 2}
+  - {fileID: 11400000, guid: c61bd14a4e1b6d14ca94dcd7cd54611d, type: 2}
+  - {fileID: 11400000, guid: 55102c75fe1069b43a42c547a36b0127, type: 2}
+  - {fileID: 11400000, guid: 9f5b2ba14340c144c89a4c64cf4c47d5, type: 2}
+  - {fileID: 11400000, guid: 0b64ea091e98ffb45ad056485135399d, type: 2}
+  - {fileID: 11400000, guid: 62ed07c883800b94fa69de8d714f1054, type: 2}
+  - {fileID: 11400000, guid: b8b2b5c2441b4a742bbe54d7c004b6f3, type: 2}
+  - {fileID: 11400000, guid: eb19ddd0ef4d6ef45b720b711652d434, type: 2}
+  - {fileID: 11400000, guid: b5222e29172625d4eb68588aca0c31d3, type: 2}
+  - {fileID: 11400000, guid: f805e42de1f4ba54ab0d3307522689e8, type: 2}
+  - {fileID: 11400000, guid: 642541ae482942e409d171e859975143, type: 2}
+  - {fileID: 11400000, guid: e6f56555e44b5b14c8a5422038969bf6, type: 2}
+  - {fileID: 11400000, guid: fb496ec28d1e69647b6be4f256b7bead, type: 2}
+  - {fileID: 11400000, guid: f05b3bf80e5a3164f8e4b77b5216c518, type: 2}
+  - {fileID: 11400000, guid: ee1ffc359507240468187f817d2f7542, type: 2}
+  - {fileID: 11400000, guid: 074a65ef7f083d4469e5204f0e4d0c55, type: 2}
+  - {fileID: 11400000, guid: e8c25eeb3133eaf41adf2b0ad63ccdb6, type: 2}

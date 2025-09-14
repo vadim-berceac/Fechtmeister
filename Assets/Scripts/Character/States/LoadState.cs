@@ -19,17 +19,17 @@ public class LoadState : State
     {
         if (!character.Inventory.ProjectileSystem.IsProjectileLoaded)
         {
-            character.SetState(character.StatesContainer.ReloadProjectileState);
+            character.SetState(character.StatesContainer.GetState("ReloadProjectileState"));
         }
         
         if (character.Gravity.Grounded &&  character.PlayablesAnimatorController.IsBlendFinished())
         {
-            character.SetState(character.StatesContainer.AimState);
+            character.SetState(character.StatesContainer.GetState("AimState"));
         }
         
         if (!character.CharacterInputHandler.IsAimBlock)
         {
-            character.SetState(character.StatesContainer.CombatIdleState);
+            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
     }
 }

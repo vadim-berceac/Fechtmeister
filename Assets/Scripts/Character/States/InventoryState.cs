@@ -15,7 +15,7 @@ public class InventoryState : State
     {
         if (!character.CharacterInputHandler.IsInventoryOpen)
         {
-            character.SetState(character.StatesContainer.IdleState);
+            character.SetState(character.StatesContainer.GetState("IdleState"));
         }
     }
 }

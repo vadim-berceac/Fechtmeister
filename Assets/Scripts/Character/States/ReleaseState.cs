@@ -20,7 +20,7 @@ public class ReleaseState : State
         if (character.PlayablesAnimatorController.IsBlendFinished())
         {
             character.Inventory.ProjectileSystem.Shot();
-            character.SetState(character.StatesContainer.CombatIdleState);
+            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
     }
 }

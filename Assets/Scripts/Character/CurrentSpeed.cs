@@ -25,16 +25,10 @@ public class CurrentSpeed
    {
       CurrentHorizontalSpeed = new Vector3 (_controller.velocity.x, 0, _controller.velocity.z).magnitude;
       CurrentVerticalSpeed = _controller.velocity.y;
-      OnAnimatorUpdate();
    }
 
    public void StopUpdateLastHorizontalSpeed()
    {
       LastNotNullHorizontalSpeed = CurrentHorizontalSpeed;
-   }
-   
-   private void OnAnimatorUpdate()
-   {
-      _animator.SetFloat(AnimationParams.Speed, CurrentHorizontalSpeed);
    }
 }

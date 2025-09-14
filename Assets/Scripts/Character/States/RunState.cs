@@ -16,32 +16,32 @@ public class RunState: State
         if (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
             Mathf.Abs(character.CharacterInputHandler.InputY) == 0)
         {
-            character.SetState(character.StatesContainer.IdleState);
+            character.SetState(character.StatesContainer.GetState("IdleState"));
         }
         
         if (!character.CharacterInputHandler.IsRun)
         {
-            character.SetState(character.StatesContainer.WalkState);
+            character.SetState(character.StatesContainer.GetState("WalkState"));
         }
         
         if (character.CharacterInputHandler.IsWeaponDraw)
         {
-            character.SetState(character.StatesContainer.WeaponOnState);
+            character.SetState(character.StatesContainer.GetState("WeaponOnState"));
         }
         
         if (character.CharacterInputHandler.IsJump)
         {
-            character.SetState(character.StatesContainer.JumpState);
+            character.SetState(character.StatesContainer.GetState("JumpState"));
         }
         
         if (!character.Gravity.Grounded)
         {
-            character.SetState(character.StatesContainer.FallState);
+            character.SetState(character.StatesContainer.GetState("FallState"));
         }
         
         if (character.CharacterInputHandler.IsInventoryOpen)
         {
-            character.SetState(character.StatesContainer.InventoryState);
+            character.SetState(character.StatesContainer.GetState("InventoryState"));
         }
     }
 

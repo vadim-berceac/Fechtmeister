@@ -15,12 +15,12 @@ public class FallState :  State
     {
         if (character.Gravity.Grounded)
         {
-            character.SetState(character.StatesContainer.LandingState);
+            character.SetState(character.StatesContainer.GetState("LandingState"));
         }
 
         if (character.Health.IsHitReactionEnabled)
         {
-            character.SetState(character.StatesContainer.FallDamageState);
+            character.SetState(character.StatesContainer.GetState("FallDamageState"));
         }
     }
 }

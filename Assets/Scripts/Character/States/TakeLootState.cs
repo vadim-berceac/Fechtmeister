@@ -16,7 +16,7 @@ public class TakeLootState : State
     {
         if (character.PlayablesAnimatorController.IsBlendFinished())
         {
-            character.SetState(character.StatesContainer.IdleState);
+            character.SetState(character.StatesContainer.GetState("IdleState"));
         }
     }
 
