@@ -36,14 +36,27 @@ public class CharacterPlayablesAnimatorController
                 
                 for (var k = 0; k < clipCount; k++)
                 {
-                    var clip = AnimationClipPlayable.Create(_playableGraph, _states[i].Clips[j].Clips[k].Clip);
-                    if (!_states[i].Clips[j].Clips[k].Clip.isLooping)
+                    var clipAsset = _states[i].Clips[j].Clips[k].Clip;
+                    if (clipAsset == null)
                     {
-                        clip.SetDuration(_states[i].Clips[j].Clips[k].Clip.length);
+                        Debug.LogError($"Clip is null in state {_states[i].name}, AnimationBlendConfig {j}, clip index {k}");
+                        continue;
                     }
+
+                    var clip = AnimationClipPlayable.Create(_playableGraph, clipAsset);
+                    var clipLength = clipAsset.length;
+                    if (float.IsNaN(clipLength) || float.IsInfinity(clipLength) || clipLength <= 0)
+                    {
+                        Debug.LogError($"Invalid length ({clipLength}) for clip {clipAsset.name} in state {_states[i].name}");
+                        clipLength = 1f; // Устанавливаем длительность по умолчанию
+                    }
+
+                    clip.SetDuration(clipLength);
                     clip.SetSpeed(_states[i].Clips[j].Clips[k].Speed);
                     _playableGraph.Connect(clip, 0, clipMixer, k);
                     clipMixer.SetInputWeight(k, k == 0 ? 1f : 0f);
+
+                    Debug.Log($"Initialized clip {clipAsset.name} in state {_states[i].name}, duration: {clipLength}, looping: {clipAsset.isLooping}");
                 }
 
                 _playableGraph.Connect(clipMixer, 0, stateMixer, j);
@@ -337,37 +350,81 @@ public class CharacterPlayablesAnimatorController
     }
 
     public bool IsStateAnimationBlendCompleted()
+{
+    if (!_playableGraph.IsValid())
     {
-        if (!_playableGraph.IsValid()) return false;
+        return true; // Если граф недействителен, считаем анимацию завершённой
+    }
 
-        for (var i = 0; i < _states.Length; i++)
+    bool hasActiveNonLoopingClips = false; // Флаг для отслеживания активных не зацикленных клипов
+
+    for (var i = 0; i < _states.Length; i++)
+    {
+        if (_generalMixer.GetInputWeight(i) <= 0f)
         {
-            if (_generalMixer.GetInputWeight(i) > 0f)
+            continue; // Пропускаем неактивные состояния
+        }
+
+        var stateMixer = _statesMixers[i];
+        var clipMixerIndex = 0;
+
+        for (var j = 0; j < _states[i].Clips.Length; j++)
+        {
+            if (clipMixerIndex >= _clipsMixers.Count)
             {
-                var stateMixer = _statesMixers[i];
-                var clipMixerIndex = 0;
-                for (var j = 0; j < _states[i].Clips.Length; j++)
+                Debug.LogWarning($"Clip mixer index {clipMixerIndex} exceeds _clipsMixers count {_clipsMixers.Count}");
+                break;
+            }
+
+            var clipMixer = _clipsMixers[clipMixerIndex];
+            var inputCount = clipMixer.GetInputCount();
+            var clipCount = _states[i].Clips[j].Clips.Length;
+
+            if (inputCount != clipCount)
+            {
+                Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].Clips[{j}] has {clipCount} clips");
+            }
+
+            for (var k = 0; k < inputCount && k < clipCount; k++)
+            {
+                if (clipMixer.GetInputWeight(k) <= 0f)
                 {
-                    if (clipMixerIndex >= _clipsMixers.Count) break;
-                    var clipMixer = _clipsMixers[clipMixerIndex];
-                    for (var k = 0; k < clipMixer.GetInputCount(); k++)
-                    {
-                        if (clipMixer.GetInputWeight(k) > 0f)
-                        {
-                            var clipPlayable = (AnimationClipPlayable)clipMixer.GetInput(k);
-                            var clip = _states[i].Clips[j].Clips[k].Clip;
-                            if (!clip.isLooping && clipPlayable.GetTime() >= clipPlayable.GetDuration())
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                    clipMixerIndex++;
+                    continue; // Пропускаем клипы с нулевым весом
+                }
+
+                var clipPlayable = (AnimationClipPlayable)clipMixer.GetInput(k);
+                var clip = _states[i].Clips[j].Clips[k].Clip;
+
+                if (clip.isLooping)
+                {
+                    continue; // Пропускаем зацикленные клипы
+                }
+
+                hasActiveNonLoopingClips = true; // Нашли активный не зацикленный клип
+
+                var clipTime = (float)clipPlayable.GetTime();
+                var clipDuration = (float)clipPlayable.GetDuration();
+
+                if (float.IsInfinity(clipDuration) || float.IsNaN(clipDuration) || clipDuration <= 0)
+                {
+                    Debug.LogWarning($"Invalid duration for clip {_states[i].Clips[j].Clips[k].Clip.name} in state {_states[i].name}");
+                    continue;
+                }
+
+                // Если время клипа меньше его длительности, анимация ещё не завершена
+                if (clipTime < clipDuration)
+                {
+                    return false;
                 }
             }
+            clipMixerIndex++;
         }
-        return false;
     }
+
+    // Возвращаем true, если были найдены активные не зацикленные клипы и все они завершены,
+    // или если не было найдено активных не зацикленных клипов
+    return hasActiveNonLoopingClips;
+}
 
     public float GetNormalizedStateDuration()
     {
