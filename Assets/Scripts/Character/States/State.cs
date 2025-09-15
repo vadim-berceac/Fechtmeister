@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class State : ScriptableObject
 {
     [field: Header("Clips")]
-    [field: SerializeField] protected float EnterTransitionDuration {get; private set;}
+    [field: SerializeField] public float EnterTransitionDuration {get; private set;}
     [field: SerializeField] public bool ApplyRootMotion {get; private set;}
     [field: SerializeField] public  AnimationBlendConfig[]  Clips { get; set; }
     
@@ -48,6 +48,7 @@ public abstract class State : ScriptableObject
         character.UpdateRotationByCamera(RotationByCamera, RotationSpeed);
         
         character.PlayablesAnimatorController.OnUpdate();
+        character.CharacterPlayablesAnimatorController.OnUpdate();
         
         CheckAction(character);
         

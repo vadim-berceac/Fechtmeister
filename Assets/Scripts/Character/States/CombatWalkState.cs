@@ -10,9 +10,12 @@ public class CombatWalkState : State
     {
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
-        character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
-        character.PlayablesAnimatorController.SetAnimationParameter(clipSet.ParameterName, itemInstanceData.AnimationType);
+        //var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
+        // character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
+        // character.PlayablesAnimatorController.SetAnimationParameter(clipSet.ParameterName, itemInstanceData.AnimationType);
+        character.PlayablesAnimatorController.Stop();
+        character.CharacterPlayablesAnimatorController.SelectAnimationState(name);
+        character.CharacterPlayablesAnimatorController.SelectAnimationClip(itemInstanceData.AnimationType);
     }
     
     protected override void CheckSwitch(CharacterCore character)
@@ -57,7 +60,8 @@ public class CombatWalkState : State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        character.PlayablesAnimatorController.UpdateMoveBlend(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+        //character.PlayablesAnimatorController.UpdateMoveBlend(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+        character.CharacterPlayablesAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
     }
 
     public override void ExitState(CharacterCore character)
