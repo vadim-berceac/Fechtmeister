@@ -15,5 +15,5 @@ public class AnimationBlendConfig : ScriptableObject
 
     [field: SerializeField] public string ParameterName { get; private set; } 
     [field: SerializeField] public float ParamValue { get; private set; }
-    [field: SerializeField] public BlendClip[] Clips { get; private set; }    // Массив анимаций
+    [field: SerializeField] public BlendClip[] BlendClips { get; private set; }    // Массив анимаций
 }

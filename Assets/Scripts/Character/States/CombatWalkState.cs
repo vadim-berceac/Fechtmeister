@@ -10,7 +10,7 @@ public class CombatWalkState : State
     {
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        //var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
+        //var clipSet = AnimationBlends.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
         // character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
         // character.PlayablesAnimatorController.SetAnimationParameter(clipSet.ParameterName, itemInstanceData.AnimationType);
         character.PlayablesAnimatorController.Stop();

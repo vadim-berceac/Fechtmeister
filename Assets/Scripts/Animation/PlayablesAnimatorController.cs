@@ -91,7 +91,7 @@ public class PlayablesAnimatorController
 
     public void OnEnter(AnimationBlendConfig blendConfig, float transitionDuration)
     {
-        if (blendConfig == null || blendConfig.Clips == null || blendConfig.Clips.Length == 0)
+        if (blendConfig == null || blendConfig.BlendClips == null || blendConfig.BlendClips.Length == 0)
         {
             return;
         }
@@ -105,15 +105,15 @@ public class PlayablesAnimatorController
         _eventNormalizedTime = -1f;
         IsActionEnabled = false;
 
-        _blendMixer = AnimationMixerPlayable.Create(_playableGraph, blendConfig.Clips.Length);
+        _blendMixer = AnimationMixerPlayable.Create(_playableGraph, blendConfig.BlendClips.Length);
         _clipPlayables.Clear();
 
-        for (var i = 0; i < blendConfig.Clips.Length; i++)
+        for (var i = 0; i < blendConfig.BlendClips.Length; i++)
         {
-            var clipData = blendConfig.Clips[i];
+            var clipData = blendConfig.BlendClips[i];
             if (clipData.Clip == null)
             {
-                Debug.LogWarning($"Clips at index {i} is null!");
+                Debug.LogWarning($"AnimationBlends at index {i} is null!");
                 continue;
             }
             var clipPlayable = AnimationClipPlayable.Create(_playableGraph, clipData.Clip);
@@ -211,7 +211,7 @@ public class PlayablesAnimatorController
     private void Update1DWeights()
     {
         _param = GetAnimationParameter(_currentBlendConfig.ParameterName);
-        _blendClips = _currentBlendConfig.Clips.OrderBy(c => c.ParamValue).ToArray();
+        _blendClips = _currentBlendConfig.BlendClips.OrderBy(c => c.ParamValue).ToArray();
         _count = _blendClips.Length;
 
         if (_count == 1)
@@ -256,13 +256,13 @@ public class PlayablesAnimatorController
     public void UpdateMoveBlend(float movementX, float movementY)
     {
         _paramVector = new Vector2(movementX, movementY);
-        _weights = new float[_currentBlendConfig.Clips.Length];
+        _weights = new float[_currentBlendConfig.BlendClips.Length];
         
         _totalWeight = 0f;
         _maxWeight = 0f;
-        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
+        for (var i = 0; i < _currentBlendConfig.BlendClips.Length; i++)
         {
-            _currentBlendClip = _currentBlendConfig.Clips[i];
+            _currentBlendClip = _currentBlendConfig.BlendClips[i];
             _distance = (_paramVector - _currentBlendClip.ParamPosition).magnitude;
             if (_distance == 0f)
             {
