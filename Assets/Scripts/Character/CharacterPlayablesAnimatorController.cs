@@ -27,23 +27,36 @@ public class CharacterPlayablesAnimatorController
         
         for (var i = 0; i < _states.Length; i++)
         {
-            var stateMixer = AnimationMixerPlayable.Create(_playableGraph, _states[i].AnimationBlends.Length);
+            var stateMixer = AnimationMixerPlayable.Create(_playableGraph, _states[i].Clips.Length);
             
-            for (var j = 0; j < _states[i].AnimationBlends.Length; j++)
+            for (var j = 0; j < _states[i].Clips.Length; j++)
             {
-                var clipCount = _states[i].AnimationBlends[j].BlendClips.Length;
+                var clipCount = _states[i].Clips[j].Clips.Length;
                 var clipMixer = AnimationMixerPlayable.Create(_playableGraph, clipCount);
                 
                 for (var k = 0; k < clipCount; k++)
                 {
-                    var clip = AnimationClipPlayable.Create(_playableGraph, _states[i].AnimationBlends[j].BlendClips[k].Clip);
-                    if (!_states[i].AnimationBlends[j].BlendClips[k].Clip.isLooping)
+                    var clipAsset = _states[i].Clips[j].Clips[k].Clip;
+                    if (clipAsset == null)
                     {
-                        clip.SetDuration(_states[i].AnimationBlends[j].BlendClips[k].Clip.length);
+                        Debug.LogError($"Clip is null in state {_states[i].name}, AnimationBlendConfig {j}, clip index {k}");
+                        continue;
                     }
-                    clip.SetSpeed(_states[i].AnimationBlends[j].BlendClips[k].Speed);
+
+                    var clip = AnimationClipPlayable.Create(_playableGraph, clipAsset);
+                    var clipLength = clipAsset.length;
+                    if (float.IsNaN(clipLength) || float.IsInfinity(clipLength) || clipLength <= 0)
+                    {
+                        Debug.LogError($"Invalid length ({clipLength}) for clip {clipAsset.name} in state {_states[i].name}");
+                        clipLength = 1f; // Устанавливаем длительность по умолчанию
+                    }
+
+                    clip.SetDuration(clipLength);
+                    clip.SetSpeed(_states[i].Clips[j].Clips[k].Speed);
                     _playableGraph.Connect(clip, 0, clipMixer, k);
                     clipMixer.SetInputWeight(k, k == 0 ? 1f : 0f);
+
+                    Debug.Log($"Initialized clip {clipAsset.name} in state {_states[i].name}, duration: {clipLength}, looping: {clipAsset.isLooping}");
                 }
 
                 _playableGraph.Connect(clipMixer, 0, stateMixer, j);
@@ -134,7 +147,7 @@ public class CharacterPlayablesAnimatorController
             if (_generalMixer.GetInputWeight(i) > 0f)
             {
                 var stateMixer = _statesMixers[i];
-                for (var j = 0; j < _states[i].AnimationBlends.Length; j++)
+                for (var j = 0; j < _states[i].Clips.Length; j++)
                 {
                     if (clipMixerIndex >= _clipsMixers.Count)
                     {
@@ -143,10 +156,10 @@ public class CharacterPlayablesAnimatorController
                     }
                     var clipMixer = _clipsMixers[clipMixerIndex];
                     var inputCount = clipMixer.GetInputCount();
-                    var clipCount = _states[i].AnimationBlends[j].BlendClips.Length;
+                    var clipCount = _states[i].Clips[j].Clips.Length;
                     if (inputCount != clipCount)
                     {
-                        Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].AnimationBlends[{j}] has {clipCount} clips");
+                        Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].Clips[{j}] has {clipCount} clips");
                     }
                     for (var k = 0; k < inputCount && k < clipCount; k++)
                     {
@@ -154,7 +167,7 @@ public class CharacterPlayablesAnimatorController
                         {
                             var clipPlayable = (AnimationClipPlayable)clipMixer.GetInput(k);
                             var normalizedTime = clipPlayable.GetTime() / clipPlayable.GetDuration();
-                            if (normalizedTime >= _states[i].AnimationBlends[j].BlendClips[k].ActionTime)
+                            if (normalizedTime >= _states[i].Clips[j].Clips[k].ActionTime)
                             {
                                 IsActionReady = true;
                             }
@@ -165,7 +178,7 @@ public class CharacterPlayablesAnimatorController
             }
             else
             {
-                clipMixerIndex += _states[i].AnimationBlends.Length;
+                clipMixerIndex += _states[i].Clips.Length;
             }
         }
     }
@@ -196,65 +209,63 @@ public class CharacterPlayablesAnimatorController
     }
 
     public void SelectAnimationClip(int paramValue)
-{
-    if (!_playableGraph.IsValid()) return;
-
-    for (var i = 0; i < _states.Length; i++)
     {
-        if (_generalMixer.GetInputWeight(i) > 0f)
+        if (!_playableGraph.IsValid()) return;
+
+        for (var i = 0; i < _states.Length; i++)
         {
-            var stateMixer = _statesMixers[i];
-            var clipMixerIndex = 0;
-            var selectedConfigIndex = 0;
-            var configFound = false;
-
-            // Search for AnimationBlendConfig with matching ParamValue
-            for (var j = 0; j < _states[i].AnimationBlends.Length; j++)
+            if (_generalMixer.GetInputWeight(i) > 0f)
             {
-                if (Mathf.Approximately(_states[i].AnimationBlends[j].ParamValue, paramValue))
-                {
-                    selectedConfigIndex = j;
-                    configFound = true;
-                    break;
-                }
-            }
+                var stateMixer = _statesMixers[i];
+                var clipMixerIndex = 0;
+                var selectedConfigIndex = 0;
+                var configFound = false;
 
-            // Set stateMixer weights and reset clipMixer weights
-            for (var j = 0; j < stateMixer.GetInputCount(); j++)
-            {
-                if (clipMixerIndex >= _clipsMixers.Count)
+                // Search for AnimationBlendConfig with matching ParamValue
+                for (var j = 0; j < _states[i].Clips.Length; j++)
                 {
-                    Debug.LogWarning($"Clip mixer index {clipMixerIndex} exceeds _clipsMixers count {_clipsMixers.Count}");
-                    break;
-                }
-                var clipMixer = _clipsMixers[clipMixerIndex];
-                var inputCount = clipMixer.GetInputCount();
-                var clipCount = _states[i].AnimationBlends[j].BlendClips.Length;
-                if (inputCount != clipCount)
-                {
-                    Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].AnimationBlends[{j}] has {clipCount} clips in state {_states[i].name}");
-                    // Используем минимальное значение, чтобы избежать ошибок
-                    clipCount = Mathf.Min(inputCount, clipCount);
+                    if (Mathf.Approximately(_states[i].Clips[j].ParamValue, paramValue))
+                    {
+                        selectedConfigIndex = j;
+                        configFound = true;
+                        break;
+                    }
                 }
 
-                // Set stateMixer weight
-                stateMixer.SetInputWeight(j, j == selectedConfigIndex && configFound ? 1f : 0f);
-
-                // Reset clipMixer weights (first clip = 1, others = 0)
-                for (var k = 0; k < clipCount; k++)
+                // Set stateMixer weights and reset clipMixer weights
+                for (var j = 0; j < stateMixer.GetInputCount(); j++)
                 {
-                    clipMixer.SetInputWeight(k, k == 0 ? 1f : 0f);
-                }
-                clipMixerIndex++;
-            }
+                    if (clipMixerIndex >= _clipsMixers.Count)
+                    {
+                        Debug.LogWarning($"Clip mixer index {clipMixerIndex} exceeds _clipsMixers count {_clipsMixers.Count}");
+                        break;
+                    }
+                    var clipMixer = _clipsMixers[clipMixerIndex];
+                    var inputCount = clipMixer.GetInputCount();
+                    var clipCount = _states[i].Clips[j].Clips.Length;
+                    if (inputCount != clipCount)
+                    {
+                        Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].Clips[{j}] has {clipCount} clips");
+                    }
 
-            if (!configFound)
-            {
-                Debug.LogWarning($"AnimationBlendConfig with ParamValue {paramValue} not found in state {_states[i].name}");
+                    // Set stateMixer weight
+                    stateMixer.SetInputWeight(j, j == selectedConfigIndex && configFound ? 1f : 0f);
+
+                    // Reset clipMixer weights (first clip = 1, others = 0)
+                    for (var k = 0; k < inputCount; k++)
+                    {
+                        clipMixer.SetInputWeight(k, k == 0 ? 1f : 0f);
+                    }
+                    clipMixerIndex++;
+                }
+
+                if (!configFound)
+                {
+                    Debug.LogWarning($"AnimationBlendConfig with ParamValue {paramValue} not found in state {_states[i].name}");
+                }
             }
         }
     }
-}
 
     public void Move(float movementX, float movementY)
     {
@@ -267,7 +278,7 @@ public class CharacterPlayablesAnimatorController
             if (_generalMixer.GetInputWeight(i) > 0f && _states[i].ApplyRootMotion)
             {
                 var stateMixer = _statesMixers[i];
-                for (var j = 0; j < _states[i].AnimationBlends.Length; j++)
+                for (var j = 0; j < _states[i].Clips.Length; j++)
                 {
                     if (clipMixerIndex >= _clipsMixers.Count)
                     {
@@ -276,10 +287,10 @@ public class CharacterPlayablesAnimatorController
                     }
                     var clipMixer = _clipsMixers[clipMixerIndex];
                     var inputCount = clipMixer.GetInputCount();
-                    var clipCount = _states[i].AnimationBlends[j].BlendClips.Length;
+                    var clipCount = _states[i].Clips[j].Clips.Length;
                     if (inputCount != clipCount)
                     {
-                        Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].AnimationBlends[{j}] has {clipCount} clips");
+                        Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].Clips[{j}] has {clipCount} clips");
                     }
                     var weights = new float[inputCount];
                     var totalWeight = 0f;
@@ -288,7 +299,7 @@ public class CharacterPlayablesAnimatorController
                     // Calculate weights based on distance to ParamPosition
                     for (var k = 0; k < inputCount && k < clipCount; k++)
                     {
-                        var distance = (paramVector - _states[i].AnimationBlends[j].BlendClips[k].ParamPosition).magnitude;
+                        var distance = (paramVector - _states[i].Clips[j].Clips[k].ParamPosition).magnitude;
                         if (distance == 0f)
                         {
                             weights[k] = float.MaxValue;
@@ -333,7 +344,7 @@ public class CharacterPlayablesAnimatorController
             }
             else
             {
-                clipMixerIndex += _states[i].AnimationBlends.Length;
+                clipMixerIndex += _states[i].Clips.Length;
             }
         }
     }
@@ -357,7 +368,7 @@ public class CharacterPlayablesAnimatorController
         var stateMixer = _statesMixers[i];
         var clipMixerIndex = 0;
 
-        for (var j = 0; j < _states[i].AnimationBlends.Length; j++)
+        for (var j = 0; j < _states[i].Clips.Length; j++)
         {
             if (clipMixerIndex >= _clipsMixers.Count)
             {
@@ -367,11 +378,11 @@ public class CharacterPlayablesAnimatorController
 
             var clipMixer = _clipsMixers[clipMixerIndex];
             var inputCount = clipMixer.GetInputCount();
-            var clipCount = _states[i].AnimationBlends[j].BlendClips.Length;
+            var clipCount = _states[i].Clips[j].Clips.Length;
 
             if (inputCount != clipCount)
             {
-                Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].AnimationBlends[{j}] has {clipCount} clips");
+                Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].Clips[{j}] has {clipCount} clips");
             }
 
             for (var k = 0; k < inputCount && k < clipCount; k++)
@@ -382,7 +393,7 @@ public class CharacterPlayablesAnimatorController
                 }
 
                 var clipPlayable = (AnimationClipPlayable)clipMixer.GetInput(k);
-                var clip = _states[i].AnimationBlends[j].BlendClips[k].Clip;
+                var clip = _states[i].Clips[j].Clips[k].Clip;
 
                 if (clip.isLooping)
                 {
@@ -396,7 +407,7 @@ public class CharacterPlayablesAnimatorController
 
                 if (float.IsInfinity(clipDuration) || float.IsNaN(clipDuration) || clipDuration <= 0)
                 {
-                    Debug.LogWarning($"Invalid duration for clip {_states[i].AnimationBlends[j].BlendClips[k].Clip.name} in state {_states[i].name}");
+                    Debug.LogWarning($"Invalid duration for clip {_states[i].Clips[j].Clips[k].Clip.name} in state {_states[i].name}");
                     continue;
                 }
 
@@ -425,7 +436,7 @@ public class CharacterPlayablesAnimatorController
             {
                 var stateMixer = _statesMixers[i];
                 var clipMixerIndex = 0;
-                for (var j = 0; j < _states[i].AnimationBlends.Length; j++)
+                for (var j = 0; j < _states[i].Clips.Length; j++)
                 {
                     if (clipMixerIndex >= _clipsMixers.Count) break;
                     var clipMixer = _clipsMixers[clipMixerIndex];

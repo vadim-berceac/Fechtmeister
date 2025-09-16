@@ -8,8 +8,8 @@ public class TakeLootState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.PlayablesAnimatorController.OnEnter(AnimationBlends[0], EnterTransitionDuration);
-        character.PlayablesAnimatorController.SetAnimationParameter(AnimationBlends[0].ParameterName, character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
+        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
     }
 
     protected override void CheckSwitch(CharacterCore character)
@@ -23,7 +23,7 @@ public class TakeLootState : State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        character.PlayablesAnimatorController.SetAnimationParameter(AnimationBlends[0].ParameterName, character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
+        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
     }
 
     public override void ExitState(CharacterCore character)

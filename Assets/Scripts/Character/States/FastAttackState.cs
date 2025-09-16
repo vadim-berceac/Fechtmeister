@@ -11,7 +11,7 @@ public class FastAttackState : State
         base.EnterState(character);
         
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        var clipSet = AnimationBlends.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
+        var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
         character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
         character.PlayablesAnimatorController.SetAnimationParameter(clipSet.ParameterName, character.AttackCounter.GetValue());
         

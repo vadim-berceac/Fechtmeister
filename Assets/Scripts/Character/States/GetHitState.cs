@@ -8,7 +8,7 @@ public class GetHitState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.PlayablesAnimatorController.OnEnter(AnimationBlends[0], EnterTransitionDuration);
+        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
         
         character.Health.EnableHitReaction(false);
     }

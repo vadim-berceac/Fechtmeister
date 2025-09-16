@@ -2,10 +2,10 @@ using UnityEngine;
 
 public abstract class State : ScriptableObject
 {
-    [field: Header("AnimationBlends")]
+    [field: Header("Clips")]
     [field: SerializeField] public float EnterTransitionDuration {get; private set;}
     [field: SerializeField] public bool ApplyRootMotion {get; private set;}
-    [field: SerializeField] public  AnimationBlendConfig[]  AnimationBlends { get; set; }
+    [field: SerializeField] public  AnimationBlendConfig[]  Clips { get; set; }
     
     [field: Header("Targeting")]
     [field: SerializeField] protected bool AllowItemTargeting { get; set; }

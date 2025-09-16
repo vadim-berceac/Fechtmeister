@@ -8,7 +8,7 @@ public class LandingState: State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.PlayablesAnimatorController.OnEnter(AnimationBlends[0], EnterTransitionDuration);
+        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
     }
     
     protected override void CheckSwitch(CharacterCore character)
