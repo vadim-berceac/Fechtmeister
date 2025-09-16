@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.Burst;
 using UnityEngine;
 
@@ -10,39 +11,25 @@ public class WeaponOnState : State
         base.EnterState(character);
         
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        // character.AttackCounter.SetValue(itemInstanceData.AttackCounterSettings.AttacksResetDelay, itemInstanceData.AttackCounterSettings.AttacksCount);
-        // character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
-        // character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, itemInstanceData.AnimationType);
-        
-        character.PlayablesAnimatorController.Stop();
-        character.CharacterPlayablesAnimatorController.SelectAnimationState(name);
-        character.CharacterPlayablesAnimatorController.SelectAnimationClip(itemInstanceData.AnimationType);
+        character.AttackCounter.SetValue(itemInstanceData.AttackCounterSettings.AttacksResetDelay, itemInstanceData.AttackCounterSettings.AttacksCount);
+        var blend = Clips.FirstOrDefault(c => c.ParamValue == itemInstanceData.AnimationType);
+        character.PlayablesAnimatorController.OnEnter(blend, EnterTransitionDuration);
+        character.PlayablesAnimatorController.SetAnimationParameter(blend.ParameterName, itemInstanceData.AnimationType);
     }
 
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        // if (character.PlayablesAnimatorController.IsActionEnabled)
-        // {
-        //     character.Inventory.WeaponOn();
-        //     character.PlayablesAnimatorController.ResetActionFlag();
-        // }
-        
-        if (character.CharacterPlayablesAnimatorController.IsActionReady)
+        if (character.PlayablesAnimatorController.IsActionEnabled)
         {
             character.Inventory.WeaponOn();
-            character.CharacterPlayablesAnimatorController.ResetAction();
+            character.PlayablesAnimatorController.ResetActionFlag();
         }
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        // if (character.PlayablesAnimatorController.IsBlendFinished())
-        // {
-        //     character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        // }
-        
-        if (character.CharacterPlayablesAnimatorController.IsStateAnimationBlendCompleted())
+        if (character.PlayablesAnimatorController.IsBlendFinished())
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
