@@ -11,15 +11,15 @@ public class ReloadProjectileState : State
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
         var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
-        character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
+        // character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.PlayablesAnimatorController.IsBlendFinished())
-        {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
+        // if (character.PlayablesAnimatorController.IsBlendFinished())
+        // {
+        //     character.SetState(character.StatesContainer.GetState("CombatIdleState"));
+        // }
     }
 
     public override void ExitState(CharacterCore character)

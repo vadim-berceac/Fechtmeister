@@ -1,50 +1,51 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
-using System.Collections.Generic;
-using System.Linq;
 
 public class CharacterPlayablesAnimatorController
 {
     private PlayableGraph _playableGraph;
-    private readonly PlayableOutput _playableOutput;
     private readonly AnimationMixerPlayable _generalMixer;
-    private readonly State[] _states;
     private AnimationMixerPlayable _currentBlendMixer;
     private AnimationMixerPlayable _previousBlendMixer;
     private float _transitionTime;
     private float _blendDuration;
     private bool _isTransitioning;
-    private State _currentState; // Track current state to prevent redundant transitions
+    private State _currentState; // Текущий стейт для предотвращения лишних переходов
+    private AnimationBlendConfig _currentBlendConfig;
+    private int _targetClipIndex = -1; // Индекс целевого клипа для перехода
+    private float _clipTransitionTime = 0f;
+    private const float CLIP_TRANSITION_DURATION = 0.05f; // Длительность перехода между клипами
+    private bool _isClipTransitioning = false;
 
-    public CharacterPlayablesAnimatorController(Animator animator, State[] states)
+    public CharacterPlayablesAnimatorController(Animator animator)
     {
         _playableGraph = PlayableGraph.Create("CharacterPlayablesAnimatorController");
-        _playableOutput = AnimationPlayableOutput.Create(_playableGraph, "Output", animator);
-        _states = states;
+        var playableOutput = AnimationPlayableOutput.Create(_playableGraph, "Output", animator);
         _generalMixer = AnimationMixerPlayable.Create(_playableGraph, 2);
-        _playableOutput.SetSourcePlayable(_generalMixer);
+        playableOutput.SetSourcePlayable(_generalMixer);
         
         _playableGraph.Play();
     }
 
     public void SetAnimationState(State state, int animationBlendParamValue)
     {
-        var blend = state.Clips.FirstOrDefault(b => (int)b.ParamValue == animationBlendParamValue);
+        _currentBlendConfig = state.Clips.FirstOrDefault(b => (int)b.ParamValue == animationBlendParamValue);
 
-        if (blend == null)
+        if (_currentBlendConfig == null)
         {
             return;
         }
 
-        // Check if we're already in this state with the same blend parameters
-        if (_currentState == state && _currentBlendMixer.IsValid() && _isTransitioning == false)
+        // Проверка, находимся ли мы уже в этом состоянии с теми же параметрами бленда
+        if (_currentState == state && _currentBlendMixer.IsValid() && !_isTransitioning)
         {
             bool isSameBlend = true;
-            for (int i = 0; i < blend.Clips.Length; i++)
+            for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
             {
                 var playable = (AnimationClipPlayable)_currentBlendMixer.GetInput(i);
-                if (playable.GetAnimationClip() != blend.Clips[i].Clip)
+                if (playable.GetAnimationClip() != _currentBlendConfig.Clips[i].Clip)
                 {
                     isSameBlend = false;
                     break;
@@ -52,20 +53,20 @@ public class CharacterPlayablesAnimatorController
             }
             if (isSameBlend)
             {
-                return; // No need to change anything, we're already in this state
+                return; // Нет необходимости что-либо менять, мы уже в этом состоянии
             }
         }
 
         _blendDuration = state.EnterTransitionDuration;
         _transitionTime = 0f;
 
-        // Create new blend mixer for the current state
-        var newBlendMixer = AnimationMixerPlayable.Create(_playableGraph, blend.Clips.Length);
+        // Создаем новый бленд-миксер для текущего состояния
+        var newBlendMixer = AnimationMixerPlayable.Create(_playableGraph, _currentBlendConfig.Clips.Length);
 
-        // Set up clips in the new blend mixer
-        for (int i = 0; i < blend.Clips.Length; i++)
+        // Настраиваем клипы в новом бленд-миксере
+        for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
         {
-            var clip = blend.Clips[i];
+            var clip = _currentBlendConfig.Clips[i];
             var clipPlayable = AnimationClipPlayable.Create(_playableGraph, clip.Clip);
             clipPlayable.SetSpeed(clip.Speed);
 
@@ -75,16 +76,28 @@ public class CharacterPlayablesAnimatorController
             }
 
             _playableGraph.Connect(clipPlayable, 0, newBlendMixer, i);
-            newBlendMixer.SetInputWeight(i, 1.0f / blend.Clips.Length); // Equal weight for each clip
+            newBlendMixer.SetInputWeight(i, 0.0f); // Изначально все веса 0
         }
 
-        // If there's a previous mixer, start transition
+        // Устанавливаем начальный клип для нового миксера
+        int initialClipIndex = 0; // По умолчанию первый клип активен
+        for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
+        {
+            if ((int)_currentBlendConfig.Clips[i].ParamValue == animationBlendParamValue)
+            {
+                initialClipIndex = i;
+                break;
+            }
+        }
+        newBlendMixer.SetInputWeight(initialClipIndex, 1.0f); // Устанавливаем вес активного клипа в 1
+
+        // Если есть предыдущий миксер, начинаем переход
         if (_currentBlendMixer.IsValid())
         {
             _previousBlendMixer = _currentBlendMixer;
             _isTransitioning = true;
 
-            // Disconnect previous connections to avoid the error
+            // Отключаем предыдущие соединения
             if (_generalMixer.GetInput(0).IsValid())
             {
                 _playableGraph.Disconnect(_generalMixer, 0);
@@ -94,15 +107,15 @@ public class CharacterPlayablesAnimatorController
                 _playableGraph.Disconnect(_generalMixer, 1);
             }
 
-            // Connect both mixers to the general mixer
+            // Подключаем оба миксера к общему миксеру
             _playableGraph.Connect(_previousBlendMixer, 0, _generalMixer, 0);
             _playableGraph.Connect(newBlendMixer, 0, _generalMixer, 1);
-            _generalMixer.SetInputWeight(0, 1.0f); // Previous at full weight
-            _generalMixer.SetInputWeight(1, 0.0f); // New at zero weight
+            _generalMixer.SetInputWeight(0, 1.0f); // Предыдущий миксер на полной громкости
+            _generalMixer.SetInputWeight(1, 0.0f); // Новый миксер на нулевой громкости
         }
         else
         {
-            // First animation, connect directly
+            // Первая анимация, подключаем напрямую
             if (_generalMixer.GetInput(0).IsValid())
             {
                 _playableGraph.Disconnect(_generalMixer, 0);
@@ -114,35 +127,105 @@ public class CharacterPlayablesAnimatorController
         _currentBlendMixer = newBlendMixer;
         _currentState = state;
 
-        // Update the graph
+        // Обновляем граф
+        _playableGraph.Evaluate();
+    }
+
+    public void SetAnimationStateClip(int animationBlendParamValue)
+    {
+        if (_currentBlendConfig == null || !_currentBlendMixer.IsValid())
+        {
+            return;
+        }
+
+        // Находим индекс целевого клипа
+        int targetClipIndex = -1;
+        for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
+        {
+            if ((int)_currentBlendConfig.Clips[i].ParamValue == animationBlendParamValue)
+            {
+                targetClipIndex = i;
+                break;
+            }
+        }
+
+        if (targetClipIndex == -1)
+        {
+            return; // Клип не найден
+        }
+
+        // Если уже переходим к этому клипу, пропускаем
+        if (_isClipTransitioning && _targetClipIndex == targetClipIndex)
+        {
+            return;
+        }
+
+        // Начинаем переход к новому клипу
+        _isClipTransitioning = true;
+        _clipTransitionTime = 0f;
+        _targetClipIndex = targetClipIndex;
+
+        // Немедленно устанавливаем веса: целевой клип — 1, остальные — 0
+        for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+        {
+            _currentBlendMixer.SetInputWeight(i, i == targetClipIndex ? 1.0f : 0.0f);
+        }
+
         _playableGraph.Evaluate();
     }
 
     public void OnUpdate(float deltaTime)
     {
+        // Обрабатываем переход между клипами в текущем бленд-миксере
+        if (_isClipTransitioning)
+        {
+            _clipTransitionTime += deltaTime;
+            float t = Mathf.Clamp01(_clipTransitionTime / CLIP_TRANSITION_DURATION);
+
+            // Обновляем веса: целевой клип к 1, остальные к 0
+            for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+            {
+                float weight = (i == _targetClipIndex) ? t : (1.0f - t);
+                _currentBlendMixer.SetInputWeight(i, weight);
+            }
+
+            if (t >= 1.0f)
+            {
+                _isClipTransitioning = false;
+                // Устанавливаем финальные веса
+                for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+                {
+                    _currentBlendMixer.SetInputWeight(i, i == _targetClipIndex ? 1.0f : 0.0f);
+                }
+            }
+
+            _playableGraph.Evaluate();
+        }
+
+        // Обрабатываем переход между состояниями
         if (!_isTransitioning)
             return;
 
         _transitionTime += deltaTime;
 
-        float t = Mathf.Clamp01(_transitionTime / _blendDuration);
-        float currentWeight = Mathf.Lerp(0f, 1f, t);
+        float stateT = Mathf.Clamp01(_transitionTime / _blendDuration);
+        float currentWeight = Mathf.Lerp(0f, 1f, stateT);
         
-        _generalMixer.SetInputWeight(0, 1f - currentWeight); // Fade out previous
-        _generalMixer.SetInputWeight(1, currentWeight);     // Fade in current
+        _generalMixer.SetInputWeight(0, 1f - currentWeight); // Уменьшаем вес предыдущего миксера
+        _generalMixer.SetInputWeight(1, currentWeight);     // Увеличиваем вес текущего миксера
 
-        if (t >= 1f)
+        if (stateT >= 1f)
         {
             _isTransitioning = false;
             
-            // Clean up previous mixer
+            // Очищаем предыдущий миксер
             if (_previousBlendMixer.IsValid())
             {
                 _playableGraph.Disconnect(_generalMixer, 0);
                 _previousBlendMixer.Destroy();
             }
 
-            // Shift current mixer to first slot
+            // Перемещаем текущий миксер в первый слот
             _generalMixer.SetInputWeight(0, 1.0f);
             _generalMixer.SetInputWeight(1, 0.0f);
         }

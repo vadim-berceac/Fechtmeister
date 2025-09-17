@@ -9,7 +9,7 @@ public class InventoryState : State
     {
         base.EnterState(character);
         //character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
-        character.PlayablesAnimatorController.Stop();
+        //character.PlayablesAnimatorController.Stop();
         character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
     }
 

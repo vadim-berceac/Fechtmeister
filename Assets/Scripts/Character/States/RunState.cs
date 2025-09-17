@@ -7,8 +7,8 @@ public class RunState: State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
-        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, 0);
+        // character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        // character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, 0);
     }
     
     protected override void CheckSwitch(CharacterCore character)
@@ -47,7 +47,7 @@ public class RunState: State
 
     protected override void CheckAction(CharacterCore character)
     {
-        character.PlayablesAnimatorController.UpdateMoveBlend(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+        // character.PlayablesAnimatorController.UpdateMoveBlend(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
     }
 
     public override void ExitState(CharacterCore character)

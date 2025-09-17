@@ -15,7 +15,7 @@ public class CharacterCore : MonoBehaviour
 
     public ICharacterInputSet InputByPlayer { get; private set; }
     
-    public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
+    //public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
     public CharacterPlayablesAnimatorController CharacterPlayablesAnimatorController { get; private set; }
     
     //State Machine
@@ -48,8 +48,8 @@ public class CharacterCore : MonoBehaviour
         CharacterInputHandler = new CharacterInputHandler(LocomotionSettings.InputSmoothingSpeed);
         Gravity = new CharacterGravity();
 
-        PlayablesAnimatorController = new PlayablesAnimatorController(LocomotionSettings.Animator);
-        CharacterPlayablesAnimatorController = new CharacterPlayablesAnimatorController(LocomotionSettings.Animator, StatesContainer.GetStates());
+        //PlayablesAnimatorController = new PlayablesAnimatorController(LocomotionSettings.Animator);
+        CharacterPlayablesAnimatorController = new CharacterPlayablesAnimatorController(LocomotionSettings.Animator);
         
         PresetLoader = GetComponent<CharacterPresetLoader>();
         CharacterColliderSizer = new CharacterColliderSizer(PresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin,
@@ -57,9 +57,6 @@ public class CharacterCore : MonoBehaviour
         SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData);
         BonesContainer = new CharacterBonesContainer(CashedTransform);
         TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting, TargetingSettings.CharacterTargeting);
-        
-        CurrentState = StatesContainer.GetState("IdleState");
-        CurrentState.EnterState(this);
         AttackCounter = new Counter();
         CurrentSpeed = new CurrentSpeed(LocomotionSettings.CharacterController, LocomotionSettings.Animator);
         
@@ -67,6 +64,12 @@ public class CharacterCore : MonoBehaviour
         Health = new CharacterHealth(PresetLoader.CharacterPersonalityData.HealthDataSettings.MaxHealth, 
             PresetLoader.CharacterPersonalityData.HealthDataSettings.CurrentHealthPercentage, 
             PresetLoader.CharacterPersonalityData.HealthDataSettings.HitReactionTriggerValuePercentage);
+    }
+
+    private void Start()
+    {
+        CurrentState = StatesContainer.GetState("IdleState");
+        CurrentState.EnterState(this);
     }
 
     public void SetState(State state)
@@ -97,7 +100,7 @@ public class CharacterCore : MonoBehaviour
     {
         _sceneCharacterContainer.Remove(this);
         Inventory.Destroy();
-        PlayablesAnimatorController.OnDestroy();
+        //PlayablesAnimatorController.OnDestroy();
         CharacterPlayablesAnimatorController.OnDestroy();
     }
 }

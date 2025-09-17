@@ -11,8 +11,8 @@ public class AimState : State
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
         var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
-        character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
-        character.PlayablesAnimatorController.SetAnimationParameter(clipSet.ParameterName, character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
+        // character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
+        // character.PlayablesAnimatorController.SetAnimationParameter(clipSet.ParameterName, character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
     }
 
     protected override void CheckSwitch(CharacterCore character)
