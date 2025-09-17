@@ -48,7 +48,7 @@ public abstract class State : ScriptableObject
         character.UpdateRotationByCamera(RotationByCamera, RotationSpeed);
         
         character.PlayablesAnimatorController.OnUpdate();
-        character.CharacterPlayablesAnimatorController.OnUpdate();
+        character.CharacterPlayablesAnimatorController.OnUpdate(Time.deltaTime);
         
         CheckAction(character);
         
