@@ -14,8 +14,6 @@ public class CharacterCore : MonoBehaviour
     public Transform CashedTransform { get; private set; }
 
     public ICharacterInputSet InputByPlayer { get; private set; }
-    
-    //public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
     public CharacterPlayablesAnimatorController CharacterPlayablesAnimatorController { get; private set; }
     
     //State Machine
@@ -48,7 +46,6 @@ public class CharacterCore : MonoBehaviour
         CharacterInputHandler = new CharacterInputHandler(LocomotionSettings.InputSmoothingSpeed);
         Gravity = new CharacterGravity();
 
-        //PlayablesAnimatorController = new PlayablesAnimatorController(LocomotionSettings.Animator);
         CharacterPlayablesAnimatorController = new CharacterPlayablesAnimatorController(LocomotionSettings.Animator);
         
         PresetLoader = GetComponent<CharacterPresetLoader>();
@@ -100,7 +97,6 @@ public class CharacterCore : MonoBehaviour
     {
         _sceneCharacterContainer.Remove(this);
         Inventory.Destroy();
-        //PlayablesAnimatorController.OnDestroy();
         CharacterPlayablesAnimatorController.OnDestroy();
     }
 }

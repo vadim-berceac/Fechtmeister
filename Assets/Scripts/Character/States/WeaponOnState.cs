@@ -1,4 +1,3 @@
-using System.Linq;
 using Unity.Burst;
 using UnityEngine;
 
@@ -13,17 +12,16 @@ public class WeaponOnState : State
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
         character.AttackCounter.SetValue(itemInstanceData.AttackCounterSettings.AttacksResetDelay, itemInstanceData.AttackCounterSettings.AttacksCount);
         character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
-        
     }
 
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        // if (character.PlayablesAnimatorController.IsActionEnabled)
-        // {
-        //     character.Inventory.WeaponOn();
-        //     character.PlayablesAnimatorController.ResetActionFlag();
-        // }
+        if (character.CharacterPlayablesAnimatorController.HasReachedActionTime())
+        {
+            character.Inventory.WeaponOn();
+            character.CharacterPlayablesAnimatorController.ResetActionTimeFlag();
+        }
     }
 
     protected override void CheckSwitch(CharacterCore character)

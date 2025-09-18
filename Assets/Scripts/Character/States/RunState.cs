@@ -46,6 +46,7 @@ public class RunState: State
 
     protected override void CheckAction(CharacterCore character)
     {
+        base.CheckAction(character);
         character.CharacterPlayablesAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
     }
 

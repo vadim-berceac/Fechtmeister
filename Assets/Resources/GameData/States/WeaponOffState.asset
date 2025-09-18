@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8d4e64e144f9f840bd6c365ed4528e1, type: 3}
   m_Name: WeaponOffState
   m_EditorClassIdentifier: 
+  <EnterTransitionDuration>k__BackingField: 0.3
+  <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: 667e0446ff043c942ba56ea9b624ac96, type: 2}
+  - {fileID: 11400000, guid: 0b662f033d8dcb94abde50c5c52a48d5, type: 2}
+  - {fileID: 11400000, guid: 8c3d29091287aca498903cc9353f291d, type: 2}
+  - {fileID: 11400000, guid: 44ffe2708d9541f4f86ebe55f149bd81, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <AllowCharacterTargeting>k__BackingField: 0
-  <UpdateHorizontalTargetAngle>k__BackingField: 0
-  <UpdateVerticalTargetAngle>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
-  <EnterTransitionDuration>k__BackingField: 0.3
-  <AnimationLayer>k__BackingField: 0
-  <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
   <UseGravity>k__BackingField: 1

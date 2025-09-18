@@ -8,19 +8,19 @@ public class LandingState: State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        // character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
     }
     
     protected override void CheckSwitch(CharacterCore character)
     {
-         // if (!character.CharacterInputHandler.IsWeaponDraw && character.PlayablesAnimatorController.IsBlendFinished())
-         // {
-         //     character.SetState(character.StatesContainer.GetState("IdleState"));
-         // }
-         //
-         // if (character.CharacterInputHandler.IsWeaponDraw && character.PlayablesAnimatorController.IsBlendFinished())
-         // {
-         //     character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-         // }
+         if (!character.CharacterInputHandler.IsWeaponDraw && character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
+         {
+             character.SetState(character.StatesContainer.GetState("IdleState"));
+         }
+         
+         if (character.CharacterInputHandler.IsWeaponDraw && character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
+         {
+             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
+         }
     }
 }

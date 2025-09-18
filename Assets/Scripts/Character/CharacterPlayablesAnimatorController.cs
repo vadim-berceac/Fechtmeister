@@ -1,8 +1,10 @@
 using System.Linq;
+using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
+[BurstCompile]
 public class CharacterPlayablesAnimatorController
 {
     private PlayableGraph _playableGraph;
@@ -23,6 +25,8 @@ public class CharacterPlayablesAnimatorController
     private float _moveTransitionTime = 0f; // Время перехода для Move
     private bool _isMoveTransitioning = false; // Флаг перехода в Move
     private int _currentSlot = 0; // Текущий слот в _generalMixer (0 или 1)
+    private bool _actionTimeReached = false; // Флаг достижения ActionTime текущего клипа
+    private float _previousNormalizedTime = 0f; // Предыдущее нормализованное время для детекции циклов
 
     public CharacterPlayablesAnimatorController(Animator animator)
     {
@@ -152,6 +156,10 @@ public class CharacterPlayablesAnimatorController
         _isMoveTransitioning = false;
         _moveTransitionTime = 0f;
 
+        // Сбрасываем флаг ActionTime
+        _actionTimeReached = false;
+        _previousNormalizedTime = 0f;
+
         // Немедленно вызываем Evaluate, чтобы избежать разрыва
         _playableGraph.Evaluate();
     }
@@ -202,7 +210,21 @@ public class CharacterPlayablesAnimatorController
             _targetWeights[i] = i == targetClipIndex ? 1.0f : 0.0f;
         }
 
+        // Сбрасываем флаг ActionTime при смене клипа
+        _actionTimeReached = false;
+        _previousNormalizedTime = 0f;
+
         _playableGraph.Evaluate();
+    }
+
+    /// <summary>
+    /// Доделать смешивание
+    /// </summary>
+    public void BlendCurrentAnimationStateClips(float byValue)
+    {
+        //TODO
+        //смешать все анимационные клипы, содержащиеся в текущем _currentBlendConfig
+        // по входящему параметру byValue
     }
 
     public void Move(float movementX, float movementY)
@@ -275,11 +297,16 @@ public class CharacterPlayablesAnimatorController
         _isMoveTransitioning = true;
         _moveTransitionTime = 0f;
 
+        // Сбрасываем флаг ActionTime при смене весов (если меняется активный клип)
+        _actionTimeReached = false;
+        _previousNormalizedTime = 0f;
+
         _playableGraph.Evaluate();
     }
 
     public void OnUpdate(float deltaTime)
     {
+        UpdateActionTimeFlag();
         // Обрабатываем переход между клипами в SetAnimationStateClip
         if (_isClipTransitioning)
         {
@@ -438,6 +465,87 @@ public class CharacterPlayablesAnimatorController
         _playableGraph.Evaluate();
     }
 
+    private void UpdateActionTimeFlag()
+    {
+        if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
+        {
+            _actionTimeReached = false;
+            _previousNormalizedTime = 0f;
+            return;
+        }
+
+        // Находим индекс клипа с максимальным весом (активный клип)
+        float maxWeight = 0f;
+        int activeClipIndex = -1;
+        for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+        {
+            float weight = _currentBlendMixer.GetInputWeight(i);
+            if (weight > maxWeight)
+            {
+                maxWeight = weight;
+                activeClipIndex = i;
+            }
+        }
+
+        if (activeClipIndex == -1 || maxWeight <= 0f)
+        {
+            _actionTimeReached = false;
+            _previousNormalizedTime = 0f;
+            return;
+        }
+
+        // Получаем playable клип и конфигурацию
+        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
+        if (!clipPlayable.IsValid())
+        {
+            _actionTimeReached = false;
+            _previousNormalizedTime = 0f;
+            return;
+        }
+
+        var blendClip = _currentBlendConfig.Clips[activeClipIndex];
+        var clip = blendClip.Clip;
+        float actionTime = blendClip.ActionTime; // Предполагается, что в BlendClip есть поле float ActionTime [0,1]
+        
+        float currentNormalized = GetCurrentClipNormalizedTime();
+        
+        if (!_actionTimeReached && currentNormalized >= actionTime)
+        {
+            _actionTimeReached = true;
+        }
+
+        if (IsCurrentClipFinished())
+        {
+            _actionTimeReached = false; // Сброс для незацикленных при завершении
+        }
+        else
+        {
+            if (clip.isLooping)
+            {
+                if (currentNormalized < _previousNormalizedTime)
+                {
+                    _actionTimeReached = false; // Начался новый цикл
+                }
+            }
+            if (!_actionTimeReached && currentNormalized >= actionTime)
+            {
+                _actionTimeReached = true;
+            }
+        }
+
+        _previousNormalizedTime = currentNormalized;
+    }
+
+    public bool HasReachedActionTime()
+    {
+        return _actionTimeReached;
+    }
+
+    public void ResetActionTimeFlag()
+    {
+        _actionTimeReached = false;
+    }
+
     public bool IsCurrentClipFinished()
     {
         if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
@@ -482,6 +590,62 @@ public class CharacterPlayablesAnimatorController
         double currentTime = clipPlayable.GetTime();
         double duration = clipPlayable.GetDuration();
         return currentTime >= duration;
+    }
+
+    public float GetCurrentClipNormalizedTime()
+    {
+        if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
+        {
+            return 0f; // Нет активного миксера или конфигурации
+        }
+
+        // Находим индекс клипа с максимальным весом (активный клип)
+        float maxWeight = 0f;
+        int activeClipIndex = -1;
+        for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+        {
+            float weight = _currentBlendMixer.GetInputWeight(i);
+            if (weight > maxWeight)
+            {
+                maxWeight = weight;
+                activeClipIndex = i;
+            }
+        }
+
+        if (activeClipIndex == -1 || maxWeight <= 0f)
+        {
+            return 0f; // Нет активного клипа
+        }
+
+        // Получаем playable клип
+        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
+        if (!clipPlayable.IsValid())
+        {
+            return 0f; // Недействительный клип
+        }
+
+        var clip = _currentBlendConfig.Clips[activeClipIndex].Clip;
+        double currentTime = clipPlayable.GetTime();
+        double duration = clipPlayable.GetDuration();
+
+        if (duration <= 0.0)
+        {
+            return 0f; // Избегаем деления на 0
+        }
+
+        float normalizedTime;
+        if (clip.isLooping)
+        {
+            // Для зацикленных клипов сбрасываем в 0 при начале нового цикла
+            normalizedTime = (float)((currentTime % duration) / duration);
+        }
+        else
+        {
+            // Для незацикленных клипов ограничиваем в [0, 1]
+            normalizedTime = Mathf.Clamp01((float)(currentTime / duration));
+        }
+
+        return normalizedTime;
     }
 
     public void OnDestroy()
