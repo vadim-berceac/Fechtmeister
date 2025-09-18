@@ -8,7 +8,7 @@ public class JumpState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        // character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
     }
 
     protected override void CheckSwitch(CharacterCore character)
@@ -23,6 +23,7 @@ public class JumpState : State
         // {
         //     character.SetState(character.StatesContainer.GetState("LandingState"));
         // }
+        
     }
 
     protected override void CheckAction(CharacterCore character)

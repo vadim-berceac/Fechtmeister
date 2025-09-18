@@ -438,6 +438,52 @@ public class CharacterPlayablesAnimatorController
         _playableGraph.Evaluate();
     }
 
+    public bool IsCurrentClipFinished()
+    {
+        if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
+        {
+            return false; // Нет активного миксера или конфигурации
+        }
+
+        // Находим индекс клипа с максимальным весом (активный клип)
+        float maxWeight = 0f;
+        int activeClipIndex = -1;
+        for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+        {
+            float weight = _currentBlendMixer.GetInputWeight(i);
+            if (weight > maxWeight)
+            {
+                maxWeight = weight;
+                activeClipIndex = i;
+            }
+        }
+
+        if (activeClipIndex == -1 || maxWeight <= 0f)
+        {
+            return false; // Нет активного клипа
+        }
+
+        // Получаем playable клип
+        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
+        if (!clipPlayable.IsValid())
+        {
+            return false; // Недействительный клип
+        }
+
+        var clip = _currentBlendConfig.Clips[activeClipIndex].Clip;
+
+        // Если клип зацикленный, всегда возвращаем false
+        if (clip.isLooping)
+        {
+            return false;
+        }
+
+        // Проверяем, достиг ли конец длительности
+        double currentTime = clipPlayable.GetTime();
+        double duration = clipPlayable.GetDuration();
+        return currentTime >= duration;
+    }
+
     public void OnDestroy()
     {
         if (!_playableGraph.IsValid())
