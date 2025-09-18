@@ -10,6 +10,7 @@ public class WalkState : State
         base.EnterState(character);
         // character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
         // character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, 0);
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
     }
     
     protected override void CheckSwitch(CharacterCore character)
