@@ -13,7 +13,7 @@ public class CharacterPlayablesAnimatorController
     private AnimationMixerPlayable _previousBlendMixer;
     private float _transitionTime;
     private float _blendDuration;
-    private bool _isTransitioning;
+    public bool IsTransitioning {get; private set;}
     private State _currentState; // Текущий стейт для предотвращения лишних переходов
     private AnimationBlendConfig _currentBlendConfig;
     private int _targetClipIndex = -1; // Индекс целевого клипа для перехода
@@ -49,7 +49,7 @@ public class CharacterPlayablesAnimatorController
         }
 
         // Проверяем, не находимся ли мы уже в этом состоянии с теми же параметрами
-        if (_currentState == state && _currentBlendMixer.IsValid() && !_isTransitioning)
+        if (_currentState == state && _currentBlendMixer.IsValid() && !IsTransitioning)
         {
             bool isSameBlend = true;
             for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
@@ -132,7 +132,7 @@ public class CharacterPlayablesAnimatorController
             _generalMixer.SetInputWeight(previousSlot, 1.0f);
             _generalMixer.SetInputWeight(newSlot, 0.0f);
 
-            _isTransitioning = true;
+            IsTransitioning = true;
             _currentSlot = newSlot;
         }
         else
@@ -410,7 +410,7 @@ public class CharacterPlayablesAnimatorController
         }
 
         // Обрабатываем переход между состояниями
-        if (!_isTransitioning)
+        if (!IsTransitioning)
             return;
 
         _transitionTime += deltaTime;
@@ -424,7 +424,7 @@ public class CharacterPlayablesAnimatorController
 
         if (stateT >= 1f)
         {
-            _isTransitioning = false;
+            IsTransitioning = false;
             
             // Очищаем предыдущий миксер (отключаем previousSlot)
             if (_previousBlendMixer.IsValid())

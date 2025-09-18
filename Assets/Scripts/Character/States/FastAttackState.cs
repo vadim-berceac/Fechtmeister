@@ -18,7 +18,7 @@ public class FastAttackState : State
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
+        if (character.CharacterPlayablesAnimatorController.IsCurrentClipFinished() && !character.CharacterPlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }

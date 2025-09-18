@@ -20,12 +20,12 @@ public class CombatRunState : State
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
         
-        if (!character.CharacterInputHandler.IsRun)
+        if (!character.CharacterInputHandler.IsRun && !character.CharacterPlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("CombatWalkState"));
         }
         
-        if (!character.CharacterInputHandler.IsWeaponDraw)
+        if (!character.CharacterInputHandler.IsWeaponDraw && !character.CharacterPlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("WeaponOffState"));
         }
