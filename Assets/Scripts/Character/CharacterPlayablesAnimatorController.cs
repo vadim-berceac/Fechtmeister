@@ -7,26 +7,26 @@ using UnityEngine.Playables;
 [BurstCompile]
 public class CharacterPlayablesAnimatorController
 {
+    public bool IsTransitioning {get; private set;}
     private PlayableGraph _playableGraph;
     private readonly AnimationMixerPlayable _generalMixer;
     private AnimationMixerPlayable _currentBlendMixer;
     private AnimationMixerPlayable _previousBlendMixer;
+    private AnimationBlendConfig _currentBlendConfig;
+    private State _currentState;
     private float _transitionTime;
     private float _blendDuration;
-    public bool IsTransitioning {get; private set;}
-    private State _currentState; // Текущий стейт для предотвращения лишних переходов
-    private AnimationBlendConfig _currentBlendConfig;
-    private int _targetClipIndex = -1; // Индекс целевого клипа для перехода
-    private float _clipTransitionTime = 0f;
-    private const float CLIP_TRANSITION_DURATION = 0.05f; // Длительность перехода между клипами
-    private bool _isClipTransitioning = false;
-    private float[] _targetWeights; // Целевые веса для перехода в Move
-    private float[] _currentWeights; // Текущие веса для перехода в Move
-    private float _moveTransitionTime = 0f; // Время перехода для Move
-    private bool _isMoveTransitioning = false; // Флаг перехода в Move
-    private int _currentSlot = 0; // Текущий слот в _generalMixer (0 или 1)
-    private bool _actionTimeReached = false; // Флаг достижения ActionTime текущего клипа
-    private float _previousNormalizedTime = 0f; // Предыдущее нормализованное время для детекции циклов
+    private int _targetClipIndex = -1; 
+    private float _clipTransitionTime;
+    private const float ClipTransitionDuration = 0.05f; 
+    private bool _isClipTransitioning;
+    private float[] _targetWeights; 
+    private float[] _currentWeights; 
+    private float _moveTransitionTime; 
+    private bool _isMoveTransitioning;
+    private int _currentSlot; 
+    private bool _actionTimeReached ; 
+    private float _previousNormalizedTime; 
 
     public CharacterPlayablesAnimatorController(Animator animator)
     {
@@ -40,42 +40,38 @@ public class CharacterPlayablesAnimatorController
 
     public void SetAnimationState(State state, int animationBlendParamValue)
     {
-        // Проверяем, существует ли конфигурация для указанного параметра
         _currentBlendConfig = state.Clips.FirstOrDefault(b => (int)b.ParamValue == animationBlendParamValue);
         if (_currentBlendConfig == null)
         {
             Debug.LogWarning($"Blend config not found for param value: {animationBlendParamValue}");
             return;
         }
-
-        // Проверяем, не находимся ли мы уже в этом состоянии с теми же параметрами
+       
         if (_currentState == state && _currentBlendMixer.IsValid() && !IsTransitioning)
         {
-            bool isSameBlend = true;
-            for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
+            var isSameBlend = true;
+            for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
             {
                 var playable = (AnimationClipPlayable)_currentBlendMixer.GetInput(i);
-                if (playable.GetAnimationClip() != _currentBlendConfig.Clips[i].Clip)
+                if (playable.GetAnimationClip() == _currentBlendConfig.Clips[i].Clip)
                 {
-                    isSameBlend = false;
-                    break;
+                    continue;
                 }
+                isSameBlend = false;
+                break;
             }
             if (isSameBlend)
             {
-                return; // Уже в нужном состоянии, ничего не делаем
+                return; 
             }
         }
 
-        // Сохраняем длительность перехода
         _blendDuration = state.EnterTransitionDuration;
         _transitionTime = 0f;
-
-        // Создаем новый бленд-миксер
+       
         var newBlendMixer = AnimationMixerPlayable.Create(_playableGraph, _currentBlendConfig.Clips.Length);
-
-        // Настраиваем клипы в новом миксере
-        for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
+        
+        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
         {
             var clip = _currentBlendConfig.Clips[i];
             var clipPlayable = AnimationClipPlayable.Create(_playableGraph, clip.Clip);
@@ -87,12 +83,11 @@ public class CharacterPlayablesAnimatorController
             }
 
             _playableGraph.Connect(clipPlayable, 0, newBlendMixer, i);
-            newBlendMixer.SetInputWeight(i, 0.0f); // Изначально все веса 0
+            newBlendMixer.SetInputWeight(i, 0.0f); 
         }
 
-        // Устанавливаем начальный клип для нового миксера
-        int initialClipIndex = 0;
-        for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
+        var initialClipIndex = 0;
+        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
         {
             if ((int)_currentBlendConfig.Clips[i].ParamValue == animationBlendParamValue)
             {
@@ -100,35 +95,29 @@ public class CharacterPlayablesAnimatorController
                 break;
             }
         }
-        newBlendMixer.SetInputWeight(initialClipIndex, 1.0f); // Активный клип с весом 1
+        newBlendMixer.SetInputWeight(initialClipIndex, 1.0f); 
 
-        // Инициализируем массивы весов для Move
         _targetWeights = new float[_currentBlendConfig.Clips.Length];
         _currentWeights = new float[_currentBlendConfig.Clips.Length];
-        for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
+        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
         {
             _currentWeights[i] = newBlendMixer.GetInputWeight(i);
-            _targetWeights[i] = newBlendMixer.GetInputWeight(i); // Синхронизируем целевые веса
+            _targetWeights[i] = newBlendMixer.GetInputWeight(i); 
         }
 
-        // Подключаем новый миксер
         if (_currentBlendMixer.IsValid())
         {
-            // Если есть текущий миксер, начинаем переход
             _previousBlendMixer = _currentBlendMixer;
-            int previousSlot = _currentSlot;
-            int newSlot = 1 - _currentSlot; // Чередуем слот
+            var previousSlot = _currentSlot;
+            var newSlot = 1 - _currentSlot; 
 
-            // Отключаем новый слот, если там что-то подключено
             if (_generalMixer.GetInput(newSlot).IsValid())
             {
                 _playableGraph.Disconnect(_generalMixer, newSlot);
             }
 
-            // Подключаем новый миксер к новому слоту
             _playableGraph.Connect(newBlendMixer, 0, _generalMixer, newSlot);
 
-            // Устанавливаем начальные веса для перехода
             _generalMixer.SetInputWeight(previousSlot, 1.0f);
             _generalMixer.SetInputWeight(newSlot, 0.0f);
 
@@ -137,7 +126,6 @@ public class CharacterPlayablesAnimatorController
         }
         else
         {
-            // Первая анимация, подключаем к слоту 0
             if (_generalMixer.GetInput(0).IsValid())
             {
                 _playableGraph.Disconnect(_generalMixer, 0);
@@ -148,19 +136,15 @@ public class CharacterPlayablesAnimatorController
             _currentSlot = 0;
         }
 
-        // Обновляем текущий миксер и состояние
         _currentBlendMixer = newBlendMixer;
         _currentState = state;
 
-        // Сбрасываем переходы Move, чтобы избежать конфликтов
         _isMoveTransitioning = false;
         _moveTransitionTime = 0f;
 
-        // Сбрасываем флаг ActionTime
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
 
-        // Немедленно вызываем Evaluate, чтобы избежать разрыва
         _playableGraph.Evaluate();
     }
 
@@ -170,10 +154,9 @@ public class CharacterPlayablesAnimatorController
         {
             return;
         }
-
-        // Находим индекс целевого клипа
-        int targetClipIndex = -1;
-        for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
+        
+        var targetClipIndex = -1;
+        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
         {
             if ((int)_currentBlendConfig.Clips[i].ParamValue == animationBlendParamValue)
             {
@@ -184,33 +167,28 @@ public class CharacterPlayablesAnimatorController
 
         if (targetClipIndex == -1)
         {
-            return; // Клип не найден
+            return; 
         }
-
-        // Если уже переходим к этому клипу, пропускаем
+        
         if (_isClipTransitioning && _targetClipIndex == targetClipIndex)
         {
             return;
         }
 
-        // Начинаем переход к новому клипу
         _isClipTransitioning = true;
         _clipTransitionTime = 0f;
         _targetClipIndex = targetClipIndex;
 
-        // Сохраняем текущие веса
-        for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
         {
             _currentWeights[i] = _currentBlendMixer.GetInputWeight(i);
         }
 
-        // Устанавливаем целевые веса: целевой клип — 1, остальные — 0
-        for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
         {
             _targetWeights[i] = i == targetClipIndex ? 1.0f : 0.0f;
         }
 
-        // Сбрасываем флаг ActionTime при смене клипа
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
 
@@ -235,28 +213,26 @@ public class CharacterPlayablesAnimatorController
             return;
         }
 
-        // Сохраняем текущие веса перед вычислением новых
-        for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
         {
             _currentWeights[i] = _currentBlendMixer.GetInputWeight(i);
         }
 
-        Vector2 paramVector = new Vector2(movementX, movementY);
-        float totalWeight = 0f;
-        float maxWeight = 0f;
-
-        // Вычисляем целевые веса на основе расстояния до ParamPosition
-        for (int i = 0; i < _currentBlendConfig.Clips.Length; i++)
+        var paramVector = new Vector2(movementX, movementY);
+        var totalWeight = 0f;
+        var maxWeight = 0f;
+        
+        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
         {
             var clip = _currentBlendConfig.Clips[i];
-            float distance = (paramVector - clip.ParamPosition).magnitude;
+            var distance = (paramVector - clip.ParamPosition).magnitude;
             if (distance == 0f)
             {
-                _targetWeights[i] = float.MaxValue; // Максимальный вес для точного совпадения
+                _targetWeights[i] = float.MaxValue; 
             }
             else
             {
-                _targetWeights[i] = 1f / Mathf.Pow(distance, 4f); // Обратная зависимость от расстояния
+                _targetWeights[i] = 1f / Mathf.Pow(distance, 4f); 
             }
             totalWeight += _targetWeights[i];
             if (_targetWeights[i] > maxWeight)
@@ -264,11 +240,10 @@ public class CharacterPlayablesAnimatorController
                 maxWeight = _targetWeights[i];
             }
         }
-
-        // Применяем порог для исключения незначительных весов
-        float threshold = 0.05f * maxWeight;
+        
+        var threshold = 0.05f * maxWeight;
         totalWeight = 0f;
-        for (int i = 0; i < _targetWeights.Length; i++)
+        for (var i = 0; i < _targetWeights.Length; i++)
         {
             if (_targetWeights[i] < threshold)
             {
@@ -277,27 +252,24 @@ public class CharacterPlayablesAnimatorController
             totalWeight += _targetWeights[i];
         }
 
-        // Нормализуем целевые веса или устанавливаем равномерные
         if (totalWeight > 0f)
         {
-            for (int i = 0; i < _targetWeights.Length; i++)
+            for (var i = 0; i < _targetWeights.Length; i++)
             {
                 _targetWeights[i] = _targetWeights[i] / totalWeight;
             }
         }
         else
         {
-            for (int i = 0; i < _targetWeights.Length; i++)
+            for (var i = 0; i < _targetWeights.Length; i++)
             {
                 _targetWeights[i] = 1f / _targetWeights.Length;
             }
         }
 
-        // Запускаем переход
         _isMoveTransitioning = true;
         _moveTransitionTime = 0f;
 
-        // Сбрасываем флаг ActionTime при смене весов (если меняется активный клип)
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
 
@@ -307,27 +279,23 @@ public class CharacterPlayablesAnimatorController
     public void OnUpdate(float deltaTime)
     {
         UpdateActionTimeFlag();
-        // Обрабатываем переход между клипами в SetAnimationStateClip
+        
         if (_isClipTransitioning)
         {
             _clipTransitionTime += deltaTime;
-            float t = Mathf.Clamp01(_clipTransitionTime / CLIP_TRANSITION_DURATION);
-
-            // Интерполируем веса: целевой клип к 1, остальные к 0
-            float sumWeights = 0f;
-            for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+            var t = Mathf.Clamp01(_clipTransitionTime / ClipTransitionDuration);
+            var sumWeights = 0f;
+            for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
             {
-                float weight = Mathf.Lerp(_currentWeights[i], _targetWeights[i], t);
+                var weight = Mathf.Lerp(_currentWeights[i], _targetWeights[i], t);
                 _currentBlendMixer.SetInputWeight(i, weight);
                 sumWeights += weight;
             }
-
-            // Нормализуем веса, если сумма не равна 1
             if (Mathf.Abs(sumWeights - 1f) > 0.001f)
             {
-                for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+                for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
                 {
-                    float weight = _currentBlendMixer.GetInputWeight(i) / sumWeights;
+                    var weight = _currentBlendMixer.GetInputWeight(i) / sumWeights;
                     _currentBlendMixer.SetInputWeight(i, weight);
                 }
             }
@@ -335,19 +303,16 @@ public class CharacterPlayablesAnimatorController
             if (t >= 1.0f)
             {
                 _isClipTransitioning = false;
-                // Устанавливаем финальные веса
                 sumWeights = 0f;
-                for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+                for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
                 {
                     _currentBlendMixer.SetInputWeight(i, _targetWeights[i]);
-                    _currentWeights[i] = _targetWeights[i]; // Обновляем текущие веса
+                    _currentWeights[i] = _targetWeights[i];
                     sumWeights += _targetWeights[i];
                 }
-
-                // Нормализуем финальные веса
                 if (Mathf.Abs(sumWeights - 1f) > 0.001f)
                 {
-                    for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+                    for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
                     {
                         _currentBlendMixer.SetInputWeight(i, _targetWeights[i] / sumWeights);
                         _currentWeights[i] = _targetWeights[i] / sumWeights;
@@ -357,28 +322,22 @@ public class CharacterPlayablesAnimatorController
 
             _playableGraph.Evaluate();
         }
-
-        // Обрабатываем переход между клипами в Move
         if (_isMoveTransitioning)
         {
             _moveTransitionTime += deltaTime;
-            float t = Mathf.Clamp01(_moveTransitionTime / CLIP_TRANSITION_DURATION);
-
-            // Интерполируем веса от текущих к целевым
-            float sumWeights = 0f;
-            for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+            var t = Mathf.Clamp01(_moveTransitionTime / ClipTransitionDuration);
+            var sumWeights = 0f;
+            for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
             {
-                float weight = Mathf.Lerp(_currentWeights[i], _targetWeights[i], t);
+                var weight = Mathf.Lerp(_currentWeights[i], _targetWeights[i], t);
                 _currentBlendMixer.SetInputWeight(i, weight);
                 sumWeights += weight;
             }
-
-            // Нормализуем веса, если сумма не равна 1
             if (Mathf.Abs(sumWeights - 1f) > 0.001f)
             {
-                for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+                for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
                 {
-                    float weight = _currentBlendMixer.GetInputWeight(i) / sumWeights;
+                    var weight = _currentBlendMixer.GetInputWeight(i) / sumWeights;
                     _currentBlendMixer.SetInputWeight(i, weight);
                 }
             }
@@ -386,19 +345,17 @@ public class CharacterPlayablesAnimatorController
             if (t >= 1.0f)
             {
                 _isMoveTransitioning = false;
-                // Устанавливаем финальные веса
                 sumWeights = 0f;
-                for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+                for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
                 {
                     _currentBlendMixer.SetInputWeight(i, _targetWeights[i]);
-                    _currentWeights[i] = _targetWeights[i]; // Обновляем текущие веса
+                    _currentWeights[i] = _targetWeights[i]; 
                     sumWeights += _targetWeights[i];
                 }
 
-                // Нормализуем финальные веса
                 if (Mathf.Abs(sumWeights - 1f) > 0.001f)
                 {
-                    for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+                    for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
                     {
                         _currentBlendMixer.SetInputWeight(i, _targetWeights[i] / sumWeights);
                         _currentWeights[i] = _targetWeights[i] / sumWeights;
@@ -408,52 +365,46 @@ public class CharacterPlayablesAnimatorController
 
             _playableGraph.Evaluate();
         }
-
-        // Обрабатываем переход между состояниями
         if (!IsTransitioning)
             return;
 
         _transitionTime += deltaTime;
 
-        float stateT = Mathf.Clamp01(_transitionTime / _blendDuration);
-        float currentWeight = Mathf.Lerp(0f, 1f, stateT);
+        var stateT = Mathf.Clamp01(_transitionTime / _blendDuration);
+        var currentWeight = Mathf.Lerp(0f, 1f, stateT);
         
-        int previousSlot = 1 - _currentSlot;
-        _generalMixer.SetInputWeight(previousSlot, 1f - currentWeight); // Уменьшаем вес предыдущего миксера
-        _generalMixer.SetInputWeight(_currentSlot, currentWeight);     // Увеличиваем вес текущего миксера
-
+        var previousSlot = 1 - _currentSlot;
+        _generalMixer.SetInputWeight(previousSlot, 1f - currentWeight); 
+        _generalMixer.SetInputWeight(_currentSlot, currentWeight);   
         if (stateT >= 1f)
         {
             IsTransitioning = false;
             
-            // Очищаем предыдущий миксер (отключаем previousSlot)
             if (_previousBlendMixer.IsValid())
             {
                 _playableGraph.Disconnect(_generalMixer, previousSlot);
                 _previousBlendMixer.Destroy();
-                _previousBlendMixer = default; // Сбрасываем ссылку
+                _previousBlendMixer = default; 
             }
             _generalMixer.SetInputWeight(_currentSlot, 1.0f);
             _generalMixer.SetInputWeight(1 - _currentSlot, 0.0f);
-
-            // Проверяем, что текущий миксер подключен и имеет валидные веса
             if (!_generalMixer.GetInput(_currentSlot).IsValid())
             {
                 Debug.LogError($"Current slot {_currentSlot} is invalid after transition!");
             }
             else
             {
-                float sumWeights = 0f;
-                for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+                var sumWeights = 0f;
+                for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
                 {
                     sumWeights += _currentBlendMixer.GetInputWeight(i);
                 }
                 if (Mathf.Abs(sumWeights - 1f) > 0.001f)
                 {
                     Debug.LogWarning($"Invalid weights in _currentBlendMixer: sum={sumWeights}. Normalizing...");
-                    for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+                    for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
                     {
-                        float weight = _currentBlendMixer.GetInputWeight(i) / sumWeights;
+                        var weight = _currentBlendMixer.GetInputWeight(i) / sumWeights;
                         _currentBlendMixer.SetInputWeight(i, weight);
                         _currentWeights[i] = weight;
                         _targetWeights[i] = weight;
@@ -473,18 +424,18 @@ public class CharacterPlayablesAnimatorController
             _previousNormalizedTime = 0f;
             return;
         }
-
-        // Находим индекс клипа с максимальным весом (активный клип)
-        float maxWeight = 0f;
-        int activeClipIndex = -1;
-        for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+       
+        var maxWeight = 0f;
+        var activeClipIndex = -1;
+        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
         {
-            float weight = _currentBlendMixer.GetInputWeight(i);
-            if (weight > maxWeight)
+            var weight = _currentBlendMixer.GetInputWeight(i);
+            if (weight <= maxWeight)
             {
-                maxWeight = weight;
-                activeClipIndex = i;
+                continue;
             }
+            maxWeight = weight;
+            activeClipIndex = i;
         }
 
         if (activeClipIndex == -1 || maxWeight <= 0f)
@@ -493,8 +444,6 @@ public class CharacterPlayablesAnimatorController
             _previousNormalizedTime = 0f;
             return;
         }
-
-        // Получаем playable клип и конфигурацию
         var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
         if (!clipPlayable.IsValid())
         {
@@ -505,9 +454,9 @@ public class CharacterPlayablesAnimatorController
 
         var blendClip = _currentBlendConfig.Clips[activeClipIndex];
         var clip = blendClip.Clip;
-        float actionTime = blendClip.ActionTime; // Предполагается, что в BlendClip есть поле float ActionTime [0,1]
+        var actionTime = blendClip.ActionTime; 
         
-        float currentNormalized = GetCurrentClipNormalizedTime();
+        var currentNormalized = GetCurrentClipNormalizedTime();
         
         if (!_actionTimeReached && currentNormalized >= actionTime)
         {
@@ -516,7 +465,7 @@ public class CharacterPlayablesAnimatorController
 
         if (IsCurrentClipFinished())
         {
-            _actionTimeReached = false; // Сброс для незацикленных при завершении
+            _actionTimeReached = false; 
         }
         else
         {
@@ -524,7 +473,7 @@ public class CharacterPlayablesAnimatorController
             {
                 if (currentNormalized < _previousNormalizedTime)
                 {
-                    _actionTimeReached = false; // Начался новый цикл
+                    _actionTimeReached = false; 
                 }
             }
             if (!_actionTimeReached && currentNormalized >= actionTime)
@@ -550,45 +499,42 @@ public class CharacterPlayablesAnimatorController
     {
         if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
         {
-            return false; // Нет активного миксера или конфигурации
+            return false; 
         }
 
-        // Находим индекс клипа с максимальным весом (активный клип)
-        float maxWeight = 0f;
-        int activeClipIndex = -1;
-        for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+        var maxWeight = 0f;
+        var activeClipIndex = -1;
+        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
         {
-            float weight = _currentBlendMixer.GetInputWeight(i);
-            if (weight > maxWeight)
+            var weight = _currentBlendMixer.GetInputWeight(i);
+            if (weight <= maxWeight)
             {
-                maxWeight = weight;
-                activeClipIndex = i;
+               continue;
             }
+            maxWeight = weight;
+            activeClipIndex = i;
         }
 
         if (activeClipIndex == -1 || maxWeight <= 0f)
         {
-            return false; // Нет активного клипа
+            return false; 
         }
-
-        // Получаем playable клип
+       
         var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
         if (!clipPlayable.IsValid())
         {
-            return false; // Недействительный клип
+            return false;
         }
 
         var clip = _currentBlendConfig.Clips[activeClipIndex].Clip;
-
-        // Если клип зацикленный, всегда возвращаем false
+        
         if (clip.isLooping)
         {
             return false;
         }
 
-        // Проверяем, достиг ли конец длительности
-        double currentTime = clipPlayable.GetTime();
-        double duration = clipPlayable.GetDuration();
+        var currentTime = clipPlayable.GetTime();
+        var duration = clipPlayable.GetDuration();
         return currentTime >= duration;
     }
 
@@ -596,52 +542,49 @@ public class CharacterPlayablesAnimatorController
     {
         if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
         {
-            return 0f; // Нет активного миксера или конфигурации
+            return 0f; 
         }
 
-        // Находим индекс клипа с максимальным весом (активный клип)
-        float maxWeight = 0f;
-        int activeClipIndex = -1;
-        for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
+        var maxWeight = 0f;
+        var activeClipIndex = -1;
+        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
         {
-            float weight = _currentBlendMixer.GetInputWeight(i);
-            if (weight > maxWeight)
+            var weight = _currentBlendMixer.GetInputWeight(i);
+            if (weight <= maxWeight)
             {
-                maxWeight = weight;
-                activeClipIndex = i;
+               continue;
             }
+            maxWeight = weight;
+            activeClipIndex = i;
         }
 
         if (activeClipIndex == -1 || maxWeight <= 0f)
         {
-            return 0f; // Нет активного клипа
+            return 0f;
         }
-
-        // Получаем playable клип
+      
         var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
         if (!clipPlayable.IsValid())
         {
-            return 0f; // Недействительный клип
+            return 0f; 
         }
 
         var clip = _currentBlendConfig.Clips[activeClipIndex].Clip;
-        double currentTime = clipPlayable.GetTime();
-        double duration = clipPlayable.GetDuration();
+        var currentTime = clipPlayable.GetTime();
+        var duration = clipPlayable.GetDuration();
 
         if (duration <= 0.0)
         {
-            return 0f; // Избегаем деления на 0
+            return 0f; 
         }
 
         float normalizedTime;
         if (clip.isLooping)
         {
-            // Для зацикленных клипов сбрасываем в 0 при начале нового цикла
             normalizedTime = (float)((currentTime % duration) / duration);
         }
         else
         {
-            // Для незацикленных клипов ограничиваем в [0, 1]
             normalizedTime = Mathf.Clamp01((float)(currentTime / duration));
         }
 
