@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Unity.Burst;
 using UnityEngine;
@@ -49,17 +50,10 @@ public class CharacterPlayablesAnimatorController
        
         if (_currentState == state && _currentBlendMixer.IsValid() && !IsTransitioning)
         {
-            var isSameBlend = true;
-            for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
-            {
-                var playable = (AnimationClipPlayable)_currentBlendMixer.GetInput(i);
-                if (playable.GetAnimationClip() == _currentBlendConfig.Clips[i].Clip)
-                {
-                    continue;
-                }
-                isSameBlend = false;
-                break;
-            }
+            var isSameBlend = _currentBlendConfig.Clips
+                .Select((clipConfig, i) => new { clipConfig.Clip, Playable = (AnimationClipPlayable)_currentBlendMixer.GetInput(i) })
+                .All(x => x.Playable.GetAnimationClip() == x.Clip);
+
             if (isSameBlend)
             {
                 return; 
@@ -86,114 +80,79 @@ public class CharacterPlayablesAnimatorController
             newBlendMixer.SetInputWeight(i, 0.0f); 
         }
 
-        var initialClipIndex = 0;
-        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
-        {
-            if ((int)_currentBlendConfig.Clips[i].ParamValue == animationBlendParamValue)
-            {
-                initialClipIndex = i;
-                break;
-            }
-        }
+        var initialClipIndex = _currentBlendConfig.Clips
+            .Select((clip, index) => new { clip.ParamValue, index })
+            .FirstOrDefault(x => (int)x.ParamValue == animationBlendParamValue)?.index ?? 0;
+
         newBlendMixer.SetInputWeight(initialClipIndex, 1.0f); 
 
-        _targetWeights = new float[_currentBlendConfig.Clips.Length];
-        _currentWeights = new float[_currentBlendConfig.Clips.Length];
-        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
+        _currentWeights = Enumerable.Range(0, _currentBlendConfig.Clips.Length)
+            .Select(i => newBlendMixer.GetInputWeight(i))
+            .ToArray();
+
+        _targetWeights = Enumerable.Range(0, _currentBlendConfig.Clips.Length)
+            .Select(i => newBlendMixer.GetInputWeight(i))
+            .ToArray();
+
+
+        var newSlot = _currentBlendMixer.IsValid() ? 1 - _currentSlot : 0;
+        var previousSlot = _currentSlot;
+
+        if (_generalMixer.GetInput(newSlot).IsValid())
         {
-            _currentWeights[i] = newBlendMixer.GetInputWeight(i);
-            _targetWeights[i] = newBlendMixer.GetInputWeight(i); 
+            _playableGraph.Disconnect(_generalMixer, newSlot);
         }
+
+        _playableGraph.Connect(newBlendMixer, 0, _generalMixer, newSlot);
+        _generalMixer.SetInputWeight(previousSlot, _currentBlendMixer.IsValid() ? 1.0f : 0.0f);
+        _generalMixer.SetInputWeight(newSlot, _currentBlendMixer.IsValid() ? 0.0f : 1.0f);
 
         if (_currentBlendMixer.IsValid())
         {
             _previousBlendMixer = _currentBlendMixer;
-            var previousSlot = _currentSlot;
-            var newSlot = 1 - _currentSlot; 
-
-            if (_generalMixer.GetInput(newSlot).IsValid())
-            {
-                _playableGraph.Disconnect(_generalMixer, newSlot);
-            }
-
-            _playableGraph.Connect(newBlendMixer, 0, _generalMixer, newSlot);
-
-            _generalMixer.SetInputWeight(previousSlot, 1.0f);
-            _generalMixer.SetInputWeight(newSlot, 0.0f);
-
             IsTransitioning = true;
-            _currentSlot = newSlot;
-        }
-        else
-        {
-            if (_generalMixer.GetInput(0).IsValid())
-            {
-                _playableGraph.Disconnect(_generalMixer, 0);
-            }
-            _playableGraph.Connect(newBlendMixer, 0, _generalMixer, 0);
-            _generalMixer.SetInputWeight(0, 1.0f);
-            _generalMixer.SetInputWeight(1, 0.0f);
-            _currentSlot = 0;
         }
 
+        _currentSlot = newSlot;
         _currentBlendMixer = newBlendMixer;
         _currentState = state;
-
         _isMoveTransitioning = false;
         _moveTransitionTime = 0f;
-
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
-
+        
         _playableGraph.Evaluate();
     }
 
     public void SetAnimationStateClip(int animationBlendParamValue)
     {
         if (_currentBlendConfig == null || !_currentBlendMixer.IsValid())
-        {
             return;
-        }
-        
-        var targetClipIndex = -1;
-        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
-        {
-            if ((int)_currentBlendConfig.Clips[i].ParamValue == animationBlendParamValue)
-            {
-                targetClipIndex = i;
-                break;
-            }
-        }
 
-        if (targetClipIndex == -1)
-        {
-            return; 
-        }
-        
-        if (_isClipTransitioning && _targetClipIndex == targetClipIndex)
-        {
+        var targetClipIndex = Array.FindIndex(_currentBlendConfig.Clips,
+            clip => (int)clip.ParamValue == animationBlendParamValue);
+
+        if (targetClipIndex == -1 || (_isClipTransitioning && _targetClipIndex == targetClipIndex))
             return;
-        }
 
         _isClipTransitioning = true;
         _clipTransitionTime = 0f;
         _targetClipIndex = targetClipIndex;
 
-        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-        {
-            _currentWeights[i] = _currentBlendMixer.GetInputWeight(i);
-        }
+        _currentWeights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => _currentBlendMixer.GetInputWeight(i))
+            .ToArray();
 
-        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-        {
-            _targetWeights[i] = i == targetClipIndex ? 1.0f : 0.0f;
-        }
+        _targetWeights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => i == targetClipIndex ? 1f : 0f)
+            .ToArray();
 
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
 
         _playableGraph.Evaluate();
     }
+
 
     /// <summary>
     /// Доделать смешивание
@@ -213,63 +172,35 @@ public class CharacterPlayablesAnimatorController
             return;
         }
 
-        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-        {
-            _currentWeights[i] = _currentBlendMixer.GetInputWeight(i);
-        }
+        _currentWeights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => _currentBlendMixer.GetInputWeight(i))
+            .ToArray();
 
         var paramVector = new Vector2(movementX, movementY);
-        var totalWeight = 0f;
-        var maxWeight = 0f;
-        
-        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
-        {
-            var clip = _currentBlendConfig.Clips[i];
-            var distance = (paramVector - clip.ParamPosition).magnitude;
-            if (distance == 0f)
-            {
-                _targetWeights[i] = float.MaxValue; 
-            }
-            else
-            {
-                _targetWeights[i] = 1f / Mathf.Pow(distance, 4f); 
-            }
-            totalWeight += _targetWeights[i];
-            if (_targetWeights[i] > maxWeight)
-            {
-                maxWeight = _targetWeights[i];
-            }
-        }
-        
-        var threshold = 0.05f * maxWeight;
-        totalWeight = 0f;
-        for (var i = 0; i < _targetWeights.Length; i++)
-        {
-            if (_targetWeights[i] < threshold)
-            {
-                _targetWeights[i] = 0f;
-            }
-            totalWeight += _targetWeights[i];
-        }
 
-        if (totalWeight > 0f)
-        {
-            for (var i = 0; i < _targetWeights.Length; i++)
+        _targetWeights = _currentBlendConfig.Clips
+            .Select(clip =>
             {
-                _targetWeights[i] = _targetWeights[i] / totalWeight;
-            }
-        }
-        else
-        {
-            for (var i = 0; i < _targetWeights.Length; i++)
-            {
-                _targetWeights[i] = 1f / _targetWeights.Length;
-            }
-        }
+                var distance = (paramVector - clip.ParamPosition).magnitude;
+                return distance == 0f ? float.MaxValue : 1f / Mathf.Pow(distance, 4f);
+            })
+            .ToArray();
+
+        var maxWeight = _targetWeights.Max();
+        var threshold = 0.05f * maxWeight;
+
+        var filteredWeights = _targetWeights
+            .Select(w => w < threshold ? 0f : w)
+            .ToArray();
+
+        var totalWeight = filteredWeights.Sum();
+
+        _targetWeights = totalWeight > 0f
+            ? filteredWeights.Select(w => w / totalWeight).ToArray()
+            : Enumerable.Repeat(1f / _targetWeights.Length, _targetWeights.Length).ToArray();
 
         _isMoveTransitioning = true;
         _moveTransitionTime = 0f;
-
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
 
@@ -279,203 +210,161 @@ public class CharacterPlayablesAnimatorController
     public void OnUpdate(float deltaTime)
     {
         UpdateActionTimeFlag();
-        
+
         if (_isClipTransitioning)
         {
             _clipTransitionTime += deltaTime;
             var t = Mathf.Clamp01(_clipTransitionTime / ClipTransitionDuration);
-            var sumWeights = 0f;
-            for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-            {
-                var weight = Mathf.Lerp(_currentWeights[i], _targetWeights[i], t);
-                _currentBlendMixer.SetInputWeight(i, weight);
-                sumWeights += weight;
-            }
-            if (Mathf.Abs(sumWeights - 1f) > 0.001f)
-            {
-                for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-                {
-                    var weight = _currentBlendMixer.GetInputWeight(i) / sumWeights;
-                    _currentBlendMixer.SetInputWeight(i, weight);
-                }
-            }
+            UpdateMixerWeights(t);
 
-            if (t >= 1.0f)
-            {
-                _isClipTransitioning = false;
-                sumWeights = 0f;
-                for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-                {
-                    _currentBlendMixer.SetInputWeight(i, _targetWeights[i]);
-                    _currentWeights[i] = _targetWeights[i];
-                    sumWeights += _targetWeights[i];
-                }
-                if (Mathf.Abs(sumWeights - 1f) > 0.001f)
-                {
-                    for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-                    {
-                        _currentBlendMixer.SetInputWeight(i, _targetWeights[i] / sumWeights);
-                        _currentWeights[i] = _targetWeights[i] / sumWeights;
-                    }
-                }
-            }
-
+            if (t >= 1f) FinalizeTransition(ref _isClipTransitioning);
             _playableGraph.Evaluate();
         }
+
         if (_isMoveTransitioning)
         {
             _moveTransitionTime += deltaTime;
             var t = Mathf.Clamp01(_moveTransitionTime / ClipTransitionDuration);
-            var sumWeights = 0f;
-            for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-            {
-                var weight = Mathf.Lerp(_currentWeights[i], _targetWeights[i], t);
-                _currentBlendMixer.SetInputWeight(i, weight);
-                sumWeights += weight;
-            }
-            if (Mathf.Abs(sumWeights - 1f) > 0.001f)
-            {
-                for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-                {
-                    var weight = _currentBlendMixer.GetInputWeight(i) / sumWeights;
-                    _currentBlendMixer.SetInputWeight(i, weight);
-                }
-            }
+            UpdateMixerWeights(t);
 
-            if (t >= 1.0f)
-            {
-                _isMoveTransitioning = false;
-                sumWeights = 0f;
-                for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-                {
-                    _currentBlendMixer.SetInputWeight(i, _targetWeights[i]);
-                    _currentWeights[i] = _targetWeights[i]; 
-                    sumWeights += _targetWeights[i];
-                }
-
-                if (Mathf.Abs(sumWeights - 1f) > 0.001f)
-                {
-                    for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-                    {
-                        _currentBlendMixer.SetInputWeight(i, _targetWeights[i] / sumWeights);
-                        _currentWeights[i] = _targetWeights[i] / sumWeights;
-                    }
-                }
-            }
-
+            if (t >= 1f) FinalizeTransition(ref _isMoveTransitioning);
             _playableGraph.Evaluate();
         }
-        if (!IsTransitioning)
-            return;
+
+        if (!IsTransitioning) return;
 
         _transitionTime += deltaTime;
-
         var stateT = Mathf.Clamp01(_transitionTime / _blendDuration);
         var currentWeight = Mathf.Lerp(0f, 1f, stateT);
-        
         var previousSlot = 1 - _currentSlot;
-        _generalMixer.SetInputWeight(previousSlot, 1f - currentWeight); 
-        _generalMixer.SetInputWeight(_currentSlot, currentWeight);   
-        if (stateT >= 1f)
+
+        _generalMixer.SetInputWeight(previousSlot, 1f - currentWeight);
+        _generalMixer.SetInputWeight(_currentSlot, currentWeight);
+
+        if (stateT < 1f) return;
+
+        IsTransitioning = false;
+
+        if (_previousBlendMixer.IsValid())
         {
-            IsTransitioning = false;
-            
-            if (_previousBlendMixer.IsValid())
-            {
-                _playableGraph.Disconnect(_generalMixer, previousSlot);
-                _previousBlendMixer.Destroy();
-                _previousBlendMixer = default; 
-            }
-            _generalMixer.SetInputWeight(_currentSlot, 1.0f);
-            _generalMixer.SetInputWeight(1 - _currentSlot, 0.0f);
-            if (!_generalMixer.GetInput(_currentSlot).IsValid())
-            {
-                Debug.LogError($"Current slot {_currentSlot} is invalid after transition!");
-            }
-            else
-            {
-                var sumWeights = 0f;
-                for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-                {
-                    sumWeights += _currentBlendMixer.GetInputWeight(i);
-                }
-                if (Mathf.Abs(sumWeights - 1f) > 0.001f)
-                {
-                    Debug.LogWarning($"Invalid weights in _currentBlendMixer: sum={sumWeights}. Normalizing...");
-                    for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-                    {
-                        var weight = _currentBlendMixer.GetInputWeight(i) / sumWeights;
-                        _currentBlendMixer.SetInputWeight(i, weight);
-                        _currentWeights[i] = weight;
-                        _targetWeights[i] = weight;
-                    }
-                }
-            }
+            _playableGraph.Disconnect(_generalMixer, previousSlot);
+            _previousBlendMixer.Destroy();
+            _previousBlendMixer = default;
+        }
+
+        _generalMixer.SetInputWeight(_currentSlot, 1f);
+        _generalMixer.SetInputWeight(previousSlot, 0f);
+
+        if (!_generalMixer.GetInput(_currentSlot).IsValid())
+        {
+            Debug.LogError($"Current slot {_currentSlot} is invalid after transition!");
+        }
+        else
+        {
+            NormalizeMixerWeights();
         }
 
         _playableGraph.Evaluate();
     }
 
+
+    private void UpdateMixerWeights(float t)
+    {
+        var weights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => Mathf.Lerp(_currentWeights[i], _targetWeights[i], t))
+            .ToArray();
+
+        var sum = weights.Sum();
+
+        weights = Mathf.Abs(sum - 1f) <= 0.001f
+            ? weights
+            : weights.Select(w => w / sum).ToArray();
+
+        for (var i = 0; i < weights.Length; i++)
+            _currentBlendMixer.SetInputWeight(i, weights[i]);
+    }
+
+    private void FinalizeTransition(ref bool transitionFlag)
+    {
+        transitionFlag = false;
+
+        var sum = _targetWeights.Sum();
+
+        var normalized = Mathf.Abs(sum - 1f) <= 0.001f
+            ? _targetWeights
+            : _targetWeights.Select(w => w / sum).ToArray();
+
+        for (var i = 0; i < normalized.Length; i++)
+        {
+            _currentBlendMixer.SetInputWeight(i, normalized[i]);
+            _currentWeights[i] = normalized[i];
+        }
+    }
+
+    private void NormalizeMixerWeights()
+    {
+        var weights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => _currentBlendMixer.GetInputWeight(i))
+            .ToArray();
+
+        var sum = weights.Sum();
+
+        if (Mathf.Abs(sum - 1f) <= 0.001f) return;
+
+        Debug.LogWarning($"Invalid weights in _currentBlendMixer: sum={sum}. Normalizing...");
+
+        var normalized = weights.Select(w => w / sum).ToArray();
+
+        for (var i = 0; i < normalized.Length; i++)
+        {
+            _currentBlendMixer.SetInputWeight(i, normalized[i]);
+            _currentWeights[i] = normalized[i];
+            _targetWeights[i] = normalized[i];
+        }
+    }
+    
     private void UpdateActionTimeFlag()
     {
         if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
         {
-            _actionTimeReached = false;
-            _previousNormalizedTime = 0f;
+            ResetActionTime();
             return;
-        }
-       
-        var maxWeight = 0f;
-        var activeClipIndex = -1;
-        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-        {
-            var weight = _currentBlendMixer.GetInputWeight(i);
-            if (weight <= maxWeight)
-            {
-                continue;
-            }
-            maxWeight = weight;
-            activeClipIndex = i;
         }
 
-        if (activeClipIndex == -1 || maxWeight <= 0f)
+        var activeClipIndex = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .OrderByDescending(i => _currentBlendMixer.GetInputWeight(i))
+            .FirstOrDefault(i => _currentBlendMixer.GetInputWeight(i) > 0f);
+
+        var maxWeight = _currentBlendMixer.GetInputWeight(activeClipIndex);
+        if (maxWeight <= 0f)
         {
-            _actionTimeReached = false;
-            _previousNormalizedTime = 0f;
+            ResetActionTime();
             return;
         }
+
         var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
         if (!clipPlayable.IsValid())
         {
-            _actionTimeReached = false;
-            _previousNormalizedTime = 0f;
+            ResetActionTime();
             return;
         }
 
         var blendClip = _currentBlendConfig.Clips[activeClipIndex];
         var clip = blendClip.Clip;
-        var actionTime = blendClip.ActionTime; 
-        
+        var actionTime = blendClip.ActionTime;
         var currentNormalized = GetCurrentClipNormalizedTime();
-        
-        if (!_actionTimeReached && currentNormalized >= actionTime)
-        {
-            _actionTimeReached = true;
-        }
 
         if (IsCurrentClipFinished())
         {
-            _actionTimeReached = false; 
+            _actionTimeReached = false;
         }
         else
         {
-            if (clip.isLooping)
+            if (clip.isLooping && currentNormalized < _previousNormalizedTime)
             {
-                if (currentNormalized < _previousNormalizedTime)
-                {
-                    _actionTimeReached = false; 
-                }
+                _actionTimeReached = false;
             }
+
             if (!_actionTimeReached && currentNormalized >= actionTime)
             {
                 _actionTimeReached = true;
@@ -484,6 +373,13 @@ public class CharacterPlayablesAnimatorController
 
         _previousNormalizedTime = currentNormalized;
     }
+
+    private void ResetActionTime()
+    {
+        _actionTimeReached = false;
+        _previousNormalizedTime = 0f;
+    }
+
 
     public bool HasReachedActionTime()
     {
@@ -498,98 +394,48 @@ public class CharacterPlayablesAnimatorController
     public bool IsCurrentClipFinished()
     {
         if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
-        {
-            return false; 
-        }
+            return false;
 
-        var maxWeight = 0f;
-        var activeClipIndex = -1;
-        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-        {
-            var weight = _currentBlendMixer.GetInputWeight(i);
-            if (weight <= maxWeight)
-            {
-               continue;
-            }
-            maxWeight = weight;
-            activeClipIndex = i;
-        }
+        var activeClipIndex = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .OrderByDescending(i => _currentBlendMixer.GetInputWeight(i))
+            .FirstOrDefault(i => _currentBlendMixer.GetInputWeight(i) > 0f);
 
-        if (activeClipIndex == -1 || maxWeight <= 0f)
-        {
-            return false; 
-        }
-       
         var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
         if (!clipPlayable.IsValid())
-        {
             return false;
-        }
 
         var clip = _currentBlendConfig.Clips[activeClipIndex].Clip;
-        
         if (clip.isLooping)
-        {
             return false;
-        }
 
-        var currentTime = clipPlayable.GetTime();
-        var duration = clipPlayable.GetDuration();
-        return currentTime >= duration;
+        return clipPlayable.GetTime() >= clipPlayable.GetDuration();
     }
+
 
     public float GetCurrentClipNormalizedTime()
     {
         if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
-        {
-            return 0f; 
-        }
-
-        var maxWeight = 0f;
-        var activeClipIndex = -1;
-        for (var i = 0; i < _currentBlendMixer.GetInputCount(); i++)
-        {
-            var weight = _currentBlendMixer.GetInputWeight(i);
-            if (weight <= maxWeight)
-            {
-               continue;
-            }
-            maxWeight = weight;
-            activeClipIndex = i;
-        }
-
-        if (activeClipIndex == -1 || maxWeight <= 0f)
-        {
             return 0f;
-        }
-      
+
+        var activeClipIndex = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .OrderByDescending(i => _currentBlendMixer.GetInputWeight(i))
+            .FirstOrDefault(i => _currentBlendMixer.GetInputWeight(i) > 0f);
+
         var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
         if (!clipPlayable.IsValid())
-        {
-            return 0f; 
-        }
+            return 0f;
 
         var clip = _currentBlendConfig.Clips[activeClipIndex].Clip;
-        var currentTime = clipPlayable.GetTime();
         var duration = clipPlayable.GetDuration();
-
         if (duration <= 0.0)
-        {
-            return 0f; 
-        }
+            return 0f;
 
-        float normalizedTime;
-        if (clip.isLooping)
-        {
-            normalizedTime = (float)((currentTime % duration) / duration);
-        }
-        else
-        {
-            normalizedTime = Mathf.Clamp01((float)(currentTime / duration));
-        }
-
-        return normalizedTime;
+        var time = clipPlayable.GetTime();
+        return clip.isLooping
+            ? (float)((time % duration) / duration)
+            : Mathf.Clamp01((float)(time / duration));
     }
+
 
     public void OnDestroy()
     {
