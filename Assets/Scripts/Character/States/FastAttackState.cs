@@ -12,8 +12,6 @@ public class FastAttackState : State
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
         character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
         character.CharacterPlayablesAnimatorController.SetAnimationStateClip(character.AttackCounter.GetValue());
-        
-        character.Inventory.WeaponSystem.AllowAttack(true);
     }
 
     protected override void CheckSwitch(CharacterCore character)
@@ -21,6 +19,15 @@ public class FastAttackState : State
         if (character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
+        }
+    }
+
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        if (character.CharacterPlayablesAnimatorController.HasReachedActionTime())
+        {
+            character.Inventory.WeaponSystem.AllowAttack(true);
         }
     }
 
