@@ -55,7 +55,7 @@ public class CharacterCore : MonoBehaviour
         BonesContainer = new CharacterBonesContainer(CashedTransform);
         TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting, TargetingSettings.CharacterTargeting);
         AttackCounter = new Counter();
-        CurrentSpeed = new CurrentSpeed(LocomotionSettings.CharacterController, LocomotionSettings.Animator);
+        CurrentSpeed = new CurrentSpeed(CashedTransform);
         
         Inventory = new Inventory(this, PresetLoader, 3);
         Health = new CharacterHealth(PresetLoader.CharacterPersonalityData.HealthDataSettings.MaxHealth, 
