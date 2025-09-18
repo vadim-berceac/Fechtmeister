@@ -235,11 +235,6 @@ public class CharacterPlayablesAnimatorController
             return;
         }
 
-        if (_transitionTime > 0)
-        {
-            return;
-        }
-
         // Сохраняем текущие веса перед вычислением новых
         for (int i = 0; i < _currentBlendMixer.GetInputCount(); i++)
         {
