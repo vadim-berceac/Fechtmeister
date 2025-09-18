@@ -50,6 +50,7 @@ public class WalkState : State
     protected override void CheckAction(CharacterCore character)
     {
         // character.PlayablesAnimatorController.UpdateMoveBlend(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+        character.CharacterPlayablesAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
     }
 
     public override void ExitState(CharacterCore character)
