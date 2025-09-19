@@ -18,6 +18,16 @@ public class GetHitState : State
 
     protected override void CheckSwitch(CharacterCore character)
     {
+        if (character.Health.IsDestroyed)
+        {
+            character.SetState(character.StatesContainer.GetState("DeathState"));
+        }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
+        }
+        
         if (character.CharacterInputHandler.IsWeaponDraw && character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
@@ -26,11 +36,6 @@ public class GetHitState : State
         if (!character.CharacterInputHandler.IsWeaponDraw && character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
         {
             character.SetState(character.StatesContainer.GetState("IdleState"));
-        }
-        
-        if (character.Health.IsHitReactionEnabled)
-        {
-            character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
     }
 }

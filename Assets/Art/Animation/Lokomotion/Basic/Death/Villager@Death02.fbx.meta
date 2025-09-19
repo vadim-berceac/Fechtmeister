@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: 67b07c8cef3df684a929f90ecdbb6323
-AssetOrigin:
-  serializedVersion: 1
-  productId: 162341
-  packageName: Mega Animations Pack
-  packageVersion: 1.7.3
-  assetPath: Assets/Kevin Iglesias/Villager Animations/Animations/Combat/Villager@Death02.fbx
-  uploadId: 755075
+guid: 793bc916b996ebf4c96ee9f87b80aead
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable:
@@ -456,7 +449,7 @@ ModelImporter:
     second: Villager@Death02_B
   - first:
       74: 7400012
-    second: Villager@Death02_C
+    second: Basic@Death02_C
   - first:
       95: 9500000
     second: //RootNode
@@ -485,7 +478,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 0
     animationRotationError: 0
     animationPositionError: 0
     animationScaleError: 0
@@ -494,7 +487,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Villager@Death02_A
+      name: Basic@Death02_A
       takeName: Villager@Death02_A
       internalID: 0
       firstFrame: 0
@@ -661,7 +654,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Villager@Death02_B
+      name: Basic@Death02_B
       takeName: Villager@Death02_B
       internalID: 0
       firstFrame: 0
@@ -815,20 +808,20 @@ ModelImporter:
       - path: DummyRig/root/B-hips/B-thigh_R/B-shin_R/B-foot_R/B-toe_R
         weight: 1
       - path: Retargeters
-        weight: 1
+        weight: 0
       - path: Retargeters/LeftHandIK
-        weight: 1
+        weight: 0
       - path: Retargeters/LeftHandProp
-        weight: 1
+        weight: 0
       - path: Retargeters/RightHandIK
-        weight: 1
+        weight: 0
       - path: Retargeters/RightHandProp
-        weight: 1
+        weight: 0
       maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Villager@Death02_C
+      name: Basic@Death02_C
       takeName: Villager@Death02_C
       internalID: 0
       firstFrame: 0

@@ -18,6 +18,12 @@ public class FallDamageState : State
         {
             return;
         }
+        
+        if (character.Health.IsDestroyed)
+        {
+            character.SetState(character.StatesContainer.GetState("DeathState"));
+        }
+        
         if ( (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 || Mathf.Abs(character.CharacterInputHandler.InputY) > 0))
         {
             character.SetState(character.StatesContainer.GetState("StandUpState"));
