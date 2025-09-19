@@ -24,6 +24,7 @@ public class CharacterParamsUI : MonoBehaviour
 
     private void OnCharacterSelected(CharacterCore character)
     {
+        UnsubScribe();
         _selectedCharacter = character;
         
         if (_selectedCharacter == null)
@@ -31,7 +32,7 @@ public class CharacterParamsUI : MonoBehaviour
             ShowWindow(false);
             return;
         }
-        
+        SubScribe();
         ShowWindow(true);
         UpdateText();
         UpdateSlider(_selectedCharacter.Health.CurrentHealth);
@@ -42,13 +43,6 @@ public class CharacterParamsUI : MonoBehaviour
     {
         Window.SetActive(show);
         _isOpen = show;
-
-        if (_isOpen)
-        {
-            SubScribe();
-            return;
-        }
-        UnsubScribe();
     }
 
     private void SubScribe()
@@ -93,7 +87,7 @@ public class CharacterParamsUI : MonoBehaviour
             DebugText.text = "";
             return;
         }
-        DebugText.text = _selectedCharacter.CurrentState.ToString();
+        DebugText.text = _selectedCharacter.CurrentState.name;
     }
 
     private void OnDisable()
