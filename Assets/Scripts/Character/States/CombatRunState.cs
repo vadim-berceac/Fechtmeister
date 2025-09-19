@@ -1,4 +1,3 @@
-using System.Linq;
 using Unity.Burst;
 using UnityEngine;
 
@@ -9,10 +8,8 @@ public class CombatRunState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
-        character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
-        character.PlayablesAnimatorController.SetAnimationParameter(clipSet.ParameterName, itemInstanceData.AnimationType);
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.ItemData;
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
 
     protected override void CheckSwitch(CharacterCore character)
@@ -23,12 +20,12 @@ public class CombatRunState : State
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
         
-        if (!character.CharacterInputHandler.IsRun)
+        if (!character.CharacterInputHandler.IsRun && !character.CharacterPlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("CombatWalkState"));
         }
         
-        if (!character.CharacterInputHandler.IsWeaponDraw)
+        if (!character.CharacterInputHandler.IsWeaponDraw && !character.CharacterPlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("WeaponOffState"));
         }
@@ -52,12 +49,17 @@ public class CombatRunState : State
         {
             character.SetState(character.StatesContainer.GetState("FallState"));
         }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
+        }
     }
 
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        character.PlayablesAnimatorController.UpdateMoveBlend(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+        character.CharacterPlayablesAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
     }
 
     public override void ExitState(CharacterCore character)

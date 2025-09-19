@@ -1,4 +1,3 @@
-using System.Linq;
 using Unity.Burst;
 using UnityEngine;
 
@@ -10,13 +9,12 @@ public class ReloadProjectileState : State
     {
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
-        character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.PlayablesAnimatorController.IsBlendFinished())
+        if (character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }

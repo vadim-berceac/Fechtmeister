@@ -1,464 +1,475 @@
+using System;
+using System.Linq;
+using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
-using System.Collections.Generic;
 
+[BurstCompile]
 public class CharacterPlayablesAnimatorController
 {
+    public bool IsTransitioning {get; private set;}
     private PlayableGraph _playableGraph;
     private readonly AnimationMixerPlayable _generalMixer;
-    private readonly List<AnimationMixerPlayable> _statesMixers;
-    private readonly List<AnimationMixerPlayable> _clipsMixers;
-    private readonly State[] _states;
-    
-    public bool IsActionReady { get; private set; }
+    private AnimationMixerPlayable _currentBlendMixer;
+    private AnimationMixerPlayable _previousBlendMixer;
+    private AnimationBlendConfig _currentBlendConfig;
+    private State _currentState;
+    private float _transitionTime;
+    private float _blendDuration;
+    private int _targetClipIndex = -1; 
+    private float _clipTransitionTime;
+    private const float ClipTransitionDuration = 0.05f; 
+    private bool _isClipTransitioning;
+    private float[] _targetWeights; 
+    private float[] _currentWeights; 
+    private float _moveTransitionTime; 
+    private bool _isMoveTransitioning;
+    private int _currentSlot; 
+    private bool _actionTimeReached ; 
+    private float _previousNormalizedTime; 
 
-    public CharacterPlayablesAnimatorController(Animator animator, State[] states)
+    public CharacterPlayablesAnimatorController(Animator animator)
     {
-        _states = states;
+        _playableGraph = PlayableGraph.Create("CharacterPlayablesAnimatorController");
+        var playableOutput = AnimationPlayableOutput.Create(_playableGraph, "Output", animator);
+        _generalMixer = AnimationMixerPlayable.Create(_playableGraph, 2);
+        playableOutput.SetSourcePlayable(_generalMixer);
         
-        _playableGraph = PlayableGraph.Create("CharacterPlayable");
-        var animationPlayableOutput = AnimationPlayableOutput.Create(_playableGraph, "Animation", animator);
-        _generalMixer = AnimationMixerPlayable.Create(_playableGraph, _states.Length);
-        animationPlayableOutput.SetSourcePlayable(_generalMixer);
-        
-        _statesMixers = new List<AnimationMixerPlayable>();
-        _clipsMixers = new List<AnimationMixerPlayable>();
-        
-        for (var i = 0; i < _states.Length; i++)
-        {
-            var stateMixer = AnimationMixerPlayable.Create(_playableGraph, _states[i].Clips.Length);
-            
-            for (var j = 0; j < _states[i].Clips.Length; j++)
-            {
-                var clipCount = _states[i].Clips[j].Clips.Length;
-                var clipMixer = AnimationMixerPlayable.Create(_playableGraph, clipCount);
-                
-                for (var k = 0; k < clipCount; k++)
-                {
-                    var clipAsset = _states[i].Clips[j].Clips[k].Clip;
-                    if (clipAsset == null)
-                    {
-                        Debug.LogError($"Clip is null in state {_states[i].name}, AnimationBlendConfig {j}, clip index {k}");
-                        continue;
-                    }
-
-                    var clip = AnimationClipPlayable.Create(_playableGraph, clipAsset);
-                    var clipLength = clipAsset.length;
-                    if (float.IsNaN(clipLength) || float.IsInfinity(clipLength) || clipLength <= 0)
-                    {
-                        Debug.LogError($"Invalid length ({clipLength}) for clip {clipAsset.name} in state {_states[i].name}");
-                        clipLength = 1f; // Устанавливаем длительность по умолчанию
-                    }
-
-                    clip.SetDuration(clipLength);
-                    clip.SetSpeed(_states[i].Clips[j].Clips[k].Speed);
-                    _playableGraph.Connect(clip, 0, clipMixer, k);
-                    clipMixer.SetInputWeight(k, k == 0 ? 1f : 0f);
-
-                    Debug.Log($"Initialized clip {clipAsset.name} in state {_states[i].name}, duration: {clipLength}, looping: {clipAsset.isLooping}");
-                }
-
-                _playableGraph.Connect(clipMixer, 0, stateMixer, j);
-                _clipsMixers.Add(clipMixer);
-                stateMixer.SetInputWeight(j, j == 0 ? 1f : 0f);
-            }
-
-            _playableGraph.Connect(stateMixer, 0, _generalMixer, i);
-            _statesMixers.Add(stateMixer);
-            _generalMixer.SetInputWeight(i, i == 0 ? 1f : 0f);
-        }
-
         _playableGraph.Play();
     }
 
-    public void SelectAnimationState(string stateName)
+    public void SetAnimationState(State state, int animationBlendParamValue)
     {
-        if (!_playableGraph.IsValid())
+        _currentBlendConfig = state.Clips.FirstOrDefault(b => (int)b.ParamValue == animationBlendParamValue);
+        if (_currentBlendConfig == null)
         {
-            Debug.LogWarning("PlayableGraph is not valid.");
+            Debug.LogWarning($"Blend config not found for param value: {animationBlendParamValue}");
+            return;
+        }
+       
+        if (_currentState == state && _currentBlendMixer.IsValid() && !IsTransitioning)
+        {
+            var isSameBlend = _currentBlendConfig.Clips
+                .Select((clipConfig, i) => new { clipConfig.Clip, Playable = (AnimationClipPlayable)_currentBlendMixer.GetInput(i) })
+                .All(x => x.Playable.GetAnimationClip() == x.Clip);
+
+            if (isSameBlend)
+            {
+                return; 
+            }
+        }
+
+        _blendDuration = state.EnterTransitionDuration;
+        _transitionTime = 0f;
+       
+        var newBlendMixer = AnimationMixerPlayable.Create(_playableGraph, _currentBlendConfig.Clips.Length);
+        
+        for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
+        {
+            var clip = _currentBlendConfig.Clips[i];
+            var clipPlayable = AnimationClipPlayable.Create(_playableGraph, clip.Clip);
+            clipPlayable.SetSpeed(clip.Speed);
+
+            if (!clip.Clip.isLooping)
+            {
+                clipPlayable.SetDuration(clip.Clip.length);
+            }
+
+            _playableGraph.Connect(clipPlayable, 0, newBlendMixer, i);
+            newBlendMixer.SetInputWeight(i, 0.0f); 
+        }
+
+        var initialClipIndex = _currentBlendConfig.Clips
+            .Select((clip, index) => new { clip.ParamValue, index })
+            .FirstOrDefault(x => (int)x.ParamValue == animationBlendParamValue)?.index ?? 0;
+
+        newBlendMixer.SetInputWeight(initialClipIndex, 1.0f); 
+
+        _currentWeights = Enumerable.Range(0, _currentBlendConfig.Clips.Length)
+            .Select(i => newBlendMixer.GetInputWeight(i))
+            .ToArray();
+
+        _targetWeights = Enumerable.Range(0, _currentBlendConfig.Clips.Length)
+            .Select(i => newBlendMixer.GetInputWeight(i))
+            .ToArray();
+
+
+        var newSlot = _currentBlendMixer.IsValid() ? 1 - _currentSlot : 0;
+        var previousSlot = _currentSlot;
+
+        if (_generalMixer.GetInput(newSlot).IsValid())
+        {
+            _playableGraph.Disconnect(_generalMixer, newSlot);
+        }
+
+        _playableGraph.Connect(newBlendMixer, 0, _generalMixer, newSlot);
+        _generalMixer.SetInputWeight(previousSlot, _currentBlendMixer.IsValid() ? 1.0f : 0.0f);
+        _generalMixer.SetInputWeight(newSlot, _currentBlendMixer.IsValid() ? 0.0f : 1.0f);
+
+        if (_currentBlendMixer.IsValid())
+        {
+            _previousBlendMixer = _currentBlendMixer;
+            IsTransitioning = true;
+        }
+
+        _currentSlot = newSlot;
+        _currentBlendMixer = newBlendMixer;
+        _currentState = state;
+        _isMoveTransitioning = false;
+        _moveTransitionTime = 0f;
+        _actionTimeReached = false;
+        _previousNormalizedTime = 0f;
+        
+        _playableGraph.Evaluate();
+    }
+
+    public void SetAnimationStateClip(int animationBlendParamValue)
+    {
+        if (_currentBlendConfig == null || !_currentBlendMixer.IsValid())
+            return;
+
+        var targetClipIndex = Array.FindIndex(_currentBlendConfig.Clips,
+            clip => (int)clip.ParamValue == animationBlendParamValue);
+
+        if (targetClipIndex == -1 || (_isClipTransitioning && _targetClipIndex == targetClipIndex))
+            return;
+
+        _isClipTransitioning = true;
+        _clipTransitionTime = 0f;
+        _targetClipIndex = targetClipIndex;
+
+        _currentWeights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => _currentBlendMixer.GetInputWeight(i))
+            .ToArray();
+
+        _targetWeights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => i == targetClipIndex ? 1f : 0f)
+            .ToArray();
+
+        _actionTimeReached = false;
+        _previousNormalizedTime = 0f;
+
+        _playableGraph.Evaluate();
+    }
+
+
+    /// <summary>
+    /// Доделать смешивание
+    /// </summary>
+    public void BlendCurrentAnimationStateClips(float byValue)
+    {
+        if (_currentBlendConfig == null || !_currentBlendMixer.IsValid())
+        {
+            Debug.LogWarning("BlendCurrentAnimationStateClips: No valid blend config or mixer available.");
             return;
         }
 
-        var stateFound = false;
-        var clipMixerIndex = 0; 
-        for (var i = 0; i < _states.Length; i++)
-        {
-            if (_states[i].name == stateName)
+        _currentWeights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => _currentBlendMixer.GetInputWeight(i))
+            .ToArray();
+
+        _targetWeights = _currentBlendConfig.Clips
+            .Select(clip =>
             {
-                _generalMixer.SetInputWeight(i, 1f);
-                stateFound = true;
-                var stateMixer = _statesMixers[i];
-                for (var j = 0; j < stateMixer.GetInputCount(); j++)
-                {
-                    stateMixer.SetInputWeight(j, j == 0 ? 1f : 0f); 
-                    if (clipMixerIndex >= _clipsMixers.Count)
-                    {
-                        continue;
-                    }
-                    var clipMixer = _clipsMixers[clipMixerIndex];
-                    for (var k = 0; k < clipMixer.GetInputCount(); k++)
-                    {
-                        clipMixer.SetInputWeight(k, k == 0 ? 1f : 0f); 
-                    }
-                    clipMixerIndex++;
-                }
-            }
-            else
-            {
-                _generalMixer.SetInputWeight(i, 0f);
-                var stateMixer = _statesMixers[i];
-                for (var j = 0; j < stateMixer.GetInputCount(); j++)
-                {
-                    stateMixer.SetInputWeight(j, 0f);
-                    if (clipMixerIndex >= _clipsMixers.Count)
-                    {
-                       continue;
-                    }
-                    var clipMixer = _clipsMixers[clipMixerIndex];
-                    for (var k = 0; k < clipMixer.GetInputCount(); k++)
-                    {
-                        clipMixer.SetInputWeight(k, 0f);
-                    }
-                    clipMixerIndex++;
-                }
-            }
-        }
+                var distance = Mathf.Abs(byValue - clip.ParamValue);
+                return distance == 0f ? float.MaxValue : 1f / Mathf.Pow(distance, 4f);
+            })
+            .ToArray();
 
-        if (!stateFound)
-        {
-            Debug.LogWarning($"State '{stateName}' not found.");
-        }
-    }
+        var maxWeight = _targetWeights.Max();
+        var threshold = 0.05f * maxWeight;
 
-    public void OnUpdate()
-    {
-        CheckActionConditions();
-        SmoothTransitions();
-    }
+        var filteredWeights = _targetWeights
+            .Select(w => w < threshold ? 0f : w)
+            .ToArray();
 
-    private void CheckActionConditions()
-    {
-        if (!_playableGraph.IsValid()) return;
+        var totalWeight = filteredWeights.Sum();
 
-        var clipMixerIndex = 0;
-        for (var i = 0; i < _states.Length; i++)
-        {
-            if (_generalMixer.GetInputWeight(i) > 0f)
-            {
-                var stateMixer = _statesMixers[i];
-                for (var j = 0; j < _states[i].Clips.Length; j++)
-                {
-                    if (clipMixerIndex >= _clipsMixers.Count)
-                    {
-                        Debug.LogWarning($"Clip mixer index {clipMixerIndex} exceeds _clipsMixers count {_clipsMixers.Count}");
-                        break;
-                    }
-                    var clipMixer = _clipsMixers[clipMixerIndex];
-                    var inputCount = clipMixer.GetInputCount();
-                    var clipCount = _states[i].Clips[j].Clips.Length;
-                    if (inputCount != clipCount)
-                    {
-                        Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].Clips[{j}] has {clipCount} clips");
-                    }
-                    for (var k = 0; k < inputCount && k < clipCount; k++)
-                    {
-                        if (clipMixer.GetInputWeight(k) > 0f)
-                        {
-                            var clipPlayable = (AnimationClipPlayable)clipMixer.GetInput(k);
-                            var normalizedTime = clipPlayable.GetTime() / clipPlayable.GetDuration();
-                            if (normalizedTime >= _states[i].Clips[j].Clips[k].ActionTime)
-                            {
-                                IsActionReady = true;
-                            }
-                        }
-                    }
-                    clipMixerIndex++;
-                }
-            }
-            else
-            {
-                clipMixerIndex += _states[i].Clips.Length;
-            }
-        }
-    }
+        _targetWeights = totalWeight > 0f
+            ? filteredWeights.Select(w => w / totalWeight).ToArray()
+            : Enumerable.Repeat(1f / _targetWeights.Length, _targetWeights.Length).ToArray();
 
-    private void SmoothTransitions()
-    {
-        if (!_playableGraph.IsValid()) return;
+        _isMoveTransitioning = true;
+        _moveTransitionTime = 0f;
+        _actionTimeReached = false;
+        _previousNormalizedTime = 0f;
 
-        for (var i = 0; i < _states.Length; i++)
-        {
-            var currentWeight = _generalMixer.GetInputWeight(i);
-            var targetWeight = currentWeight > 0.5f ? 1f : 0f;
-            var transitionDuration = _states[i].EnterTransitionDuration;
-            if (transitionDuration > 0f)
-            {
-                var smoothedWeight = Mathf.MoveTowards(
-                    currentWeight,
-                    targetWeight,
-                    Time.deltaTime / transitionDuration
-                );
-                _generalMixer.SetInputWeight(i, smoothedWeight);
-            }
-            else
-            {
-                _generalMixer.SetInputWeight(i, targetWeight);
-            }
-        }
-    }
-
-    public void SelectAnimationClip(int paramValue)
-    {
-        if (!_playableGraph.IsValid()) return;
-
-        for (var i = 0; i < _states.Length; i++)
-        {
-            if (_generalMixer.GetInputWeight(i) > 0f)
-            {
-                var stateMixer = _statesMixers[i];
-                var clipMixerIndex = 0;
-                var selectedConfigIndex = 0;
-                var configFound = false;
-
-                // Search for AnimationBlendConfig with matching ParamValue
-                for (var j = 0; j < _states[i].Clips.Length; j++)
-                {
-                    if (Mathf.Approximately(_states[i].Clips[j].ParamValue, paramValue))
-                    {
-                        selectedConfigIndex = j;
-                        configFound = true;
-                        break;
-                    }
-                }
-
-                // Set stateMixer weights and reset clipMixer weights
-                for (var j = 0; j < stateMixer.GetInputCount(); j++)
-                {
-                    if (clipMixerIndex >= _clipsMixers.Count)
-                    {
-                        Debug.LogWarning($"Clip mixer index {clipMixerIndex} exceeds _clipsMixers count {_clipsMixers.Count}");
-                        break;
-                    }
-                    var clipMixer = _clipsMixers[clipMixerIndex];
-                    var inputCount = clipMixer.GetInputCount();
-                    var clipCount = _states[i].Clips[j].Clips.Length;
-                    if (inputCount != clipCount)
-                    {
-                        Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].Clips[{j}] has {clipCount} clips");
-                    }
-
-                    // Set stateMixer weight
-                    stateMixer.SetInputWeight(j, j == selectedConfigIndex && configFound ? 1f : 0f);
-
-                    // Reset clipMixer weights (first clip = 1, others = 0)
-                    for (var k = 0; k < inputCount; k++)
-                    {
-                        clipMixer.SetInputWeight(k, k == 0 ? 1f : 0f);
-                    }
-                    clipMixerIndex++;
-                }
-
-                if (!configFound)
-                {
-                    Debug.LogWarning($"AnimationBlendConfig with ParamValue {paramValue} not found in state {_states[i].name}");
-                }
-            }
-        }
+        _playableGraph.Evaluate();
     }
 
     public void Move(float movementX, float movementY)
     {
-        if (!_playableGraph.IsValid()) return;
+        if (_currentBlendConfig == null || !_currentBlendMixer.IsValid())
+        {
+            Debug.LogWarning("Move: No valid blend config or mixer available.");
+            return;
+        }
+
+        _currentWeights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => _currentBlendMixer.GetInputWeight(i))
+            .ToArray();
 
         var paramVector = new Vector2(movementX, movementY);
-        var clipMixerIndex = 0;
-        for (var i = 0; i < _states.Length; i++)
+
+        _targetWeights = _currentBlendConfig.Clips
+            .Select(clip =>
+            {
+                var distance = (paramVector - clip.ParamPosition).magnitude;
+                return distance == 0f ? float.MaxValue : 1f / Mathf.Pow(distance, 4f);
+            })
+            .ToArray();
+
+        var maxWeight = _targetWeights.Max();
+        var threshold = 0.05f * maxWeight;
+
+        var filteredWeights = _targetWeights
+            .Select(w => w < threshold ? 0f : w)
+            .ToArray();
+
+        var totalWeight = filteredWeights.Sum();
+
+        _targetWeights = totalWeight > 0f
+            ? filteredWeights.Select(w => w / totalWeight).ToArray()
+            : Enumerable.Repeat(1f / _targetWeights.Length, _targetWeights.Length).ToArray();
+
+        _isMoveTransitioning = true;
+        _moveTransitionTime = 0f;
+        _actionTimeReached = false;
+        _previousNormalizedTime = 0f;
+
+        _playableGraph.Evaluate();
+    }
+
+    public void OnUpdate(float deltaTime)
+    {
+        UpdateActionTimeFlag();
+
+        if (_isClipTransitioning)
         {
-            if (_generalMixer.GetInputWeight(i) > 0f && _states[i].ApplyRootMotion)
-            {
-                var stateMixer = _statesMixers[i];
-                for (var j = 0; j < _states[i].Clips.Length; j++)
-                {
-                    if (clipMixerIndex >= _clipsMixers.Count)
-                    {
-                        Debug.LogWarning($"Clip mixer index {clipMixerIndex} exceeds _clipsMixers count {_clipsMixers.Count}");
-                        break;
-                    }
-                    var clipMixer = _clipsMixers[clipMixerIndex];
-                    var inputCount = clipMixer.GetInputCount();
-                    var clipCount = _states[i].Clips[j].Clips.Length;
-                    if (inputCount != clipCount)
-                    {
-                        Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].Clips[{j}] has {clipCount} clips");
-                    }
-                    var weights = new float[inputCount];
-                    var totalWeight = 0f;
-                    var maxWeight = 0f;
+            _clipTransitionTime += deltaTime;
+            var t = Mathf.Clamp01(_clipTransitionTime / ClipTransitionDuration);
+            UpdateMixerWeights(t);
 
-                    // Calculate weights based on distance to ParamPosition
-                    for (var k = 0; k < inputCount && k < clipCount; k++)
-                    {
-                        var distance = (paramVector - _states[i].Clips[j].Clips[k].ParamPosition).magnitude;
-                        if (distance == 0f)
-                        {
-                            weights[k] = float.MaxValue;
-                        }
-                        else
-                        {
-                            weights[k] = 1f / Mathf.Pow(distance, 4f);
-                        }
-                        totalWeight += weights[k];
-                        if (weights[k] > maxWeight) maxWeight = weights[k];
-                    }
+            if (t >= 1f) FinalizeTransition(ref _isClipTransitioning);
+            _playableGraph.Evaluate();
+        }
 
-                    // Apply threshold to filter out small weights
-                    var threshold = 0.05f * maxWeight;
-                    totalWeight = 0f;
-                    for (var k = 0; k < inputCount && k < clipCount; k++)
-                    {
-                        if (weights[k] < threshold)
-                        {
-                            weights[k] = 0f;
-                        }
-                        totalWeight += weights[k];
-                    }
+        if (_isMoveTransitioning)
+        {
+            _moveTransitionTime += deltaTime;
+            var t = Mathf.Clamp01(_moveTransitionTime / ClipTransitionDuration);
+            UpdateMixerWeights(t);
 
-                    // Set normalized weights for the clip mixer
-                    for (var k = 0; k < inputCount; k++)
-                    {
-                        float weight = 0f;
-                        if (k < clipCount)
-                        {
-                            weight = totalWeight > 0f ? weights[k] / totalWeight : 1f / inputCount;
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"Index {k} exceeds clip count {clipCount} for clipMixer {clipMixerIndex}");
-                        }
-                        clipMixer.SetInputWeight(k, weight);
-                    }
+            if (t >= 1f) FinalizeTransition(ref _isMoveTransitioning);
+            _playableGraph.Evaluate();
+        }
 
-                    clipMixerIndex++;
-                }
-            }
-            else
-            {
-                clipMixerIndex += _states[i].Clips.Length;
-            }
+        if (!IsTransitioning) return;
+
+        _transitionTime += deltaTime;
+        var stateT = Mathf.Clamp01(_transitionTime / _blendDuration);
+        var currentWeight = Mathf.Lerp(0f, 1f, stateT);
+        var previousSlot = 1 - _currentSlot;
+
+        _generalMixer.SetInputWeight(previousSlot, 1f - currentWeight);
+        _generalMixer.SetInputWeight(_currentSlot, currentWeight);
+
+        if (stateT < 1f) return;
+
+        IsTransitioning = false;
+
+        if (_previousBlendMixer.IsValid())
+        {
+            _playableGraph.Disconnect(_generalMixer, previousSlot);
+            _previousBlendMixer.Destroy();
+            _previousBlendMixer = default;
+        }
+
+        _generalMixer.SetInputWeight(_currentSlot, 1f);
+        _generalMixer.SetInputWeight(previousSlot, 0f);
+
+        if (!_generalMixer.GetInput(_currentSlot).IsValid())
+        {
+            Debug.LogError($"Current slot {_currentSlot} is invalid after transition!");
+        }
+        else
+        {
+            NormalizeMixerWeights();
+        }
+
+        _playableGraph.Evaluate();
+    }
+
+
+    private void UpdateMixerWeights(float t)
+    {
+        var weights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => Mathf.Lerp(_currentWeights[i], _targetWeights[i], t))
+            .ToArray();
+
+        var sum = weights.Sum();
+
+        weights = Mathf.Abs(sum - 1f) <= 0.001f
+            ? weights
+            : weights.Select(w => w / sum).ToArray();
+
+        for (var i = 0; i < weights.Length; i++)
+            _currentBlendMixer.SetInputWeight(i, weights[i]);
+    }
+
+    private void FinalizeTransition(ref bool transitionFlag)
+    {
+        transitionFlag = false;
+
+        var sum = _targetWeights.Sum();
+
+        var normalized = Mathf.Abs(sum - 1f) <= 0.001f
+            ? _targetWeights
+            : _targetWeights.Select(w => w / sum).ToArray();
+
+        for (var i = 0; i < normalized.Length; i++)
+        {
+            _currentBlendMixer.SetInputWeight(i, normalized[i]);
+            _currentWeights[i] = normalized[i];
         }
     }
 
-    public bool IsStateAnimationBlendCompleted()
-{
-    if (!_playableGraph.IsValid())
+    private void NormalizeMixerWeights()
     {
-        return true; // Если граф недействителен, считаем анимацию завершённой
-    }
+        var weights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => _currentBlendMixer.GetInputWeight(i))
+            .ToArray();
 
-    bool hasActiveNonLoopingClips = false; // Флаг для отслеживания активных не зацикленных клипов
+        var sum = weights.Sum();
 
-    for (var i = 0; i < _states.Length; i++)
-    {
-        if (_generalMixer.GetInputWeight(i) <= 0f)
+        if (Mathf.Abs(sum - 1f) <= 0.001f) return;
+
+        Debug.LogWarning($"Invalid weights in _currentBlendMixer: sum={sum}. Normalizing...");
+
+        var normalized = weights.Select(w => w / sum).ToArray();
+
+        for (var i = 0; i < normalized.Length; i++)
         {
-            continue; // Пропускаем неактивные состояния
-        }
-
-        var stateMixer = _statesMixers[i];
-        var clipMixerIndex = 0;
-
-        for (var j = 0; j < _states[i].Clips.Length; j++)
-        {
-            if (clipMixerIndex >= _clipsMixers.Count)
-            {
-                Debug.LogWarning($"Clip mixer index {clipMixerIndex} exceeds _clipsMixers count {_clipsMixers.Count}");
-                break;
-            }
-
-            var clipMixer = _clipsMixers[clipMixerIndex];
-            var inputCount = clipMixer.GetInputCount();
-            var clipCount = _states[i].Clips[j].Clips.Length;
-
-            if (inputCount != clipCount)
-            {
-                Debug.LogWarning($"Mismatch: clipMixer {clipMixerIndex} has {inputCount} inputs, but _states[{i}].Clips[{j}] has {clipCount} clips");
-            }
-
-            for (var k = 0; k < inputCount && k < clipCount; k++)
-            {
-                if (clipMixer.GetInputWeight(k) <= 0f)
-                {
-                    continue; // Пропускаем клипы с нулевым весом
-                }
-
-                var clipPlayable = (AnimationClipPlayable)clipMixer.GetInput(k);
-                var clip = _states[i].Clips[j].Clips[k].Clip;
-
-                if (clip.isLooping)
-                {
-                    continue; // Пропускаем зацикленные клипы
-                }
-
-                hasActiveNonLoopingClips = true; // Нашли активный не зацикленный клип
-
-                var clipTime = (float)clipPlayable.GetTime();
-                var clipDuration = (float)clipPlayable.GetDuration();
-
-                if (float.IsInfinity(clipDuration) || float.IsNaN(clipDuration) || clipDuration <= 0)
-                {
-                    Debug.LogWarning($"Invalid duration for clip {_states[i].Clips[j].Clips[k].Clip.name} in state {_states[i].name}");
-                    continue;
-                }
-
-                // Если время клипа меньше его длительности, анимация ещё не завершена
-                if (clipTime < clipDuration)
-                {
-                    return false;
-                }
-            }
-            clipMixerIndex++;
+            _currentBlendMixer.SetInputWeight(i, normalized[i]);
+            _currentWeights[i] = normalized[i];
+            _targetWeights[i] = normalized[i];
         }
     }
-
-    // Возвращаем true, если были найдены активные не зацикленные клипы и все они завершены,
-    // или если не было найдено активных не зацикленных клипов
-    return hasActiveNonLoopingClips;
-}
-
-    public float GetNormalizedStateDuration()
+    
+    private void UpdateActionTimeFlag()
     {
-        if (!_playableGraph.IsValid()) return 0f;
-
-        for (var i = 0; i < _states.Length; i++)
+        if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
         {
-            if (_generalMixer.GetInputWeight(i) > 0f)
+            ResetActionTime();
+            return;
+        }
+
+        var activeClipIndex = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .OrderByDescending(i => _currentBlendMixer.GetInputWeight(i))
+            .FirstOrDefault(i => _currentBlendMixer.GetInputWeight(i) > 0f);
+
+        var maxWeight = _currentBlendMixer.GetInputWeight(activeClipIndex);
+        if (maxWeight <= 0f)
+        {
+            ResetActionTime();
+            return;
+        }
+
+        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
+        if (!clipPlayable.IsValid())
+        {
+            ResetActionTime();
+            return;
+        }
+
+        var blendClip = _currentBlendConfig.Clips[activeClipIndex];
+        var clip = blendClip.Clip;
+        var actionTime = blendClip.ActionTime;
+        var currentNormalized = GetCurrentClipNormalizedTime();
+
+        if (IsCurrentClipFinished())
+        {
+            _actionTimeReached = false;
+        }
+        else
+        {
+            if (clip.isLooping && currentNormalized < _previousNormalizedTime)
             {
-                var stateMixer = _statesMixers[i];
-                var clipMixerIndex = 0;
-                for (var j = 0; j < _states[i].Clips.Length; j++)
-                {
-                    if (clipMixerIndex >= _clipsMixers.Count) break;
-                    var clipMixer = _clipsMixers[clipMixerIndex];
-                    for (var k = 0; k < clipMixer.GetInputCount(); k++)
-                    {
-                        if (clipMixer.GetInputWeight(k) > 0f)
-                        {
-                            var clipPlayable = (AnimationClipPlayable)clipMixer.GetInput(k);
-                            return (float)(clipPlayable.GetTime() / clipPlayable.GetDuration());
-                        }
-                    }
-                    clipMixerIndex++;
-                }
+                _actionTimeReached = false;
+            }
+
+            if (!_actionTimeReached && currentNormalized >= actionTime)
+            {
+                _actionTimeReached = true;
             }
         }
-        return 0f;
+
+        _previousNormalizedTime = currentNormalized;
     }
 
-    public void ResetAction()
+    private void ResetActionTime()
     {
-        IsActionReady = false;
+        _actionTimeReached = false;
+        _previousNormalizedTime = 0f;
     }
+
+
+    public bool HasReachedActionTime()
+    {
+        return _actionTimeReached;
+    }
+
+    public void ResetActionTimeFlag()
+    {
+        _actionTimeReached = false;
+    }
+
+    public bool IsCurrentClipFinished()
+    {
+        if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
+            return false;
+
+        var activeClipIndex = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .OrderByDescending(i => _currentBlendMixer.GetInputWeight(i))
+            .FirstOrDefault(i => _currentBlendMixer.GetInputWeight(i) > 0f);
+
+        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
+        if (!clipPlayable.IsValid())
+            return false;
+
+        var clip = _currentBlendConfig.Clips[activeClipIndex].Clip;
+        if (clip.isLooping)
+            return false;
+
+        return clipPlayable.GetTime() >= clipPlayable.GetDuration();
+    }
+
+
+    public float GetCurrentClipNormalizedTime()
+    {
+        if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
+            return 0f;
+
+        var activeClipIndex = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .OrderByDescending(i => _currentBlendMixer.GetInputWeight(i))
+            .FirstOrDefault(i => _currentBlendMixer.GetInputWeight(i) > 0f);
+
+        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
+        if (!clipPlayable.IsValid())
+            return 0f;
+
+        var clip = _currentBlendConfig.Clips[activeClipIndex].Clip;
+        var duration = clipPlayable.GetDuration();
+        if (duration <= 0.0)
+            return 0f;
+
+        var time = clipPlayable.GetTime();
+        return clip.isLooping
+            ? (float)((time % duration) / duration)
+            : Mathf.Clamp01((float)(time / duration));
+    }
+
 
     public void OnDestroy()
     {

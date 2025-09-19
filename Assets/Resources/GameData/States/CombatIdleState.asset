@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ca6c4b4c2be7749a18827608467baf, type: 3}
   m_Name: CombatIdleState
   m_EditorClassIdentifier: 
+  <EnterTransitionDuration>k__BackingField: 0.2
+  <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: a9ae9c31d9a6ccc4b9206351f7cb4296, type: 2}
   - {fileID: 11400000, guid: cb782917571429c4ba428e8627584e8c, type: 2}
@@ -20,12 +22,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 946166d48f1dac343ac6704c7442dc70, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <AllowCharacterTargeting>k__BackingField: 1
-  <UpdateHorizontalTargetAngle>k__BackingField: 1
-  <UpdateVerticalTargetAngle>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
-  <EnterTransitionDuration>k__BackingField: 0
-  <AnimationLayer>k__BackingField: 0
-  <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 5
   <UseGravity>k__BackingField: 1

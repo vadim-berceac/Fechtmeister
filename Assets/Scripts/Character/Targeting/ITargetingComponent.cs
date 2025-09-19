@@ -30,20 +30,24 @@ public static class TargetingComponentExtensions
         return component.Targets.FirstOrDefault();
     }
     
-    [BurstCompile]
     public static void Allow(this ITargetingComponent component, bool allow)
     {
         if (component.Targets == null)
         {
             return;
         }
-        
+    
         component.IsAllowed = allow;
 
-        if (!component.IsAllowed)
+        if (component.IsAllowed)
         {
-            component.Targets.Clear();
+            return;
         }
+        foreach (var target in component.Targets.ToList()) 
+        {
+            component.RemoveTarget(target);
+        }
+        component.Targets.Clear(); 
     }
     
     [BurstCompile]

@@ -29,14 +29,7 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
         _rigidbody.isKinematic = true;
         
         var container = FindFirstObjectByType<SceneContext>()?.Container;
-        if (container == null)
-        {
-            return;
-        }
-        container.Inject(this);
-        
-        //временно
-        AllowToUse(true);
+        container?.Inject(this);
     }
 
     public void SetOwner(Collider coll)

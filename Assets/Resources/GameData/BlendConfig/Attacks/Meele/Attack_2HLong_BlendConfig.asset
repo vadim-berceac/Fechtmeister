@@ -18,20 +18,20 @@ MonoBehaviour:
   - <Clip>k__BackingField: {fileID: 7400000, guid: c0c34b56d500a8c4fa6649639ab98ac1, type: 3}
     <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.3
     <ActionTime>k__BackingField: 0
   - <Clip>k__BackingField: {fileID: 7400000, guid: 0cba881d4ededd24aaff42b24e40d43c, type: 3}
     <ParamValue>k__BackingField: 1
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.3
     <ActionTime>k__BackingField: 0
   - <Clip>k__BackingField: {fileID: 7400000, guid: ca8e696a93a860b40a5155e041b33099, type: 3}
     <ParamValue>k__BackingField: 2
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.3
     <ActionTime>k__BackingField: 0
   - <Clip>k__BackingField: {fileID: 7400000, guid: a9e53a9afd1b65147922674d07e707c7, type: 3}
     <ParamValue>k__BackingField: 3
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.3
     <ActionTime>k__BackingField: 0

@@ -8,26 +8,34 @@ public class GetHitState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.ItemData;
+        var animType = character.Inventory.IsWeaponOn ? itemInstanceData.AnimationType : 0;
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, animType);
+        character.CharacterPlayablesAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
         
         character.Health.EnableHitReaction(false);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.CharacterInputHandler.IsWeaponDraw &&  character.PlayablesAnimatorController.IsBlendFinished())
+        if (character.Health.IsDestroyed)
         {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
-        
-        if (!character.CharacterInputHandler.IsWeaponDraw &&  character.PlayablesAnimatorController.IsBlendFinished())
-        {
-            character.SetState(character.StatesContainer.GetState("IdleState"));
+            character.SetState(character.StatesContainer.GetState("DeathState"));
         }
         
         if (character.Health.IsHitReactionEnabled)
         {
             character.SetState(character.StatesContainer.GetState("GetHitState"));
+        }
+        
+        if (character.CharacterInputHandler.IsWeaponDraw && character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
+        {
+            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
+        }
+        
+        if (!character.CharacterInputHandler.IsWeaponDraw && character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
+        {
+            character.SetState(character.StatesContainer.GetState("IdleState"));
         }
     }
 }

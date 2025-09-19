@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828e6ebb31267244f8840a1136014ae6, type: 3}
+  m_Name: DeathState
+  m_EditorClassIdentifier: Assembly-CSharp::DeathState
+  <EnterTransitionDuration>k__BackingField: 0
+  <ApplyRootMotion>k__BackingField: 0
+  <Clips>k__BackingField:
+  - {fileID: 11400000, guid: 3f4fcabe68a56ab4e893410988853ce3, type: 2}
+  - {fileID: 11400000, guid: 96ee5d3c1aeb2af43b3c4dfff3955637, type: 2}
+  - {fileID: 11400000, guid: 83734e10080fdbd44b85f84704bef5af, type: 2}
+  - {fileID: 11400000, guid: e300949f025bf464ab5813143727bd47, type: 2}
+  - {fileID: 11400000, guid: fb1606c73869d494892a5972756c3667, type: 2}
+  <AllowItemTargeting>k__BackingField: 0
+  <AllowCharacterTargeting>k__BackingField: 0
+  <AllowSwitchWeaponInstance>k__BackingField: 0
+  <RotationByCamera>k__BackingField: 0
+  <RotationSpeed>k__BackingField: 0
+  <UseGravity>k__BackingField: 1
+  <FallSpeedMultiplier>k__BackingField: 1
+  <GroundLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 1
+  <Height>k__BackingField: 2
+  <Radius>k__BackingField: 2
+  <UseInventory>k__BackingField: 0

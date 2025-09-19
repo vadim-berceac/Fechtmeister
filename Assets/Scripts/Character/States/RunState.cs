@@ -1,4 +1,3 @@
-using Unity.Burst;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RunState", menuName = "States/RunState")]
@@ -7,8 +6,7 @@ public class RunState: State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
-        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, 0);
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
     }
     
     protected override void CheckSwitch(CharacterCore character)
@@ -43,11 +41,17 @@ public class RunState: State
         {
             character.SetState(character.StatesContainer.GetState("InventoryState"));
         }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
+        }
     }
 
     protected override void CheckAction(CharacterCore character)
     {
-        character.PlayablesAnimatorController.UpdateMoveBlend(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+        base.CheckAction(character);
+        character.CharacterPlayablesAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
     }
 
     public override void ExitState(CharacterCore character)

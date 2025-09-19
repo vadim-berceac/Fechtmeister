@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7737072079528747900}
   - component: {fileID: 8332289003041168973}
-  m_Layer: 23
+  m_Layer: 8
   m_Name: ShortSwordView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6267929587210723236}
-  m_Layer: 23
+  m_Layer: 8
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3777217839083272513, guid: 931595f2e8eecbc4a8c8a5e86a49c39c, type: 3}
       propertyPath: m_Layer
-      value: 23
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3777217839083300193, guid: 931595f2e8eecbc4a8c8a5e86a49c39c, type: 3}
       propertyPath: m_LocalPosition.x

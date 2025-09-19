@@ -15,8 +15,8 @@ MonoBehaviour:
   <ParameterName>k__BackingField: VerticalAngleToTarget
   <ParamValue>k__BackingField: 0
   <Clips>k__BackingField:
-  - <Clip>k__BackingField: {fileID: 7400000, guid: 4f160952df09793469a96fb65df7a460, type: 3}
-    <ParamValue>k__BackingField: -60
+  - <Clip>k__BackingField: {fileID: 7400000, guid: 1e36682aa76987b4bae8c6af4d2f76a8, type: 3}
+    <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
     <Speed>k__BackingField: 1
     <ActionTime>k__BackingField: 0
@@ -25,8 +25,8 @@ MonoBehaviour:
     <ParamPosition>k__BackingField: {x: 0, y: 0}
     <Speed>k__BackingField: 1
     <ActionTime>k__BackingField: 0
-  - <Clip>k__BackingField: {fileID: 7400000, guid: 1e36682aa76987b4bae8c6af4d2f76a8, type: 3}
-    <ParamValue>k__BackingField: 0
+  - <Clip>k__BackingField: {fileID: 7400000, guid: 4f160952df09793469a96fb65df7a460, type: 3}
+    <ParamValue>k__BackingField: -60
     <ParamPosition>k__BackingField: {x: 0, y: 0}
     <Speed>k__BackingField: 1
     <ActionTime>k__BackingField: 0

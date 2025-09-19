@@ -1,4 +1,3 @@
-using System.Linq;
 using Unity.Burst;
 using UnityEngine;
 
@@ -11,18 +10,22 @@ public class FastAttackState : State
         base.EnterState(character);
         
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        var clipSet = Clips.FirstOrDefault(n => n.ParamValue == itemInstanceData.AnimationType);
-        character.PlayablesAnimatorController.OnEnter(clipSet, EnterTransitionDuration);
-        character.PlayablesAnimatorController.SetAnimationParameter(clipSet.ParameterName, character.AttackCounter.GetValue());
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
+        character.CharacterPlayablesAnimatorController.SetAnimationStateClip(character.AttackCounter.GetValue());
         
         character.Inventory.WeaponSystem.AllowAttack(true);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.PlayablesAnimatorController.IsBlendFinished())
+        if (character.CharacterPlayablesAnimatorController.IsCurrentClipFinished() && !character.CharacterPlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
+        }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
     }
 

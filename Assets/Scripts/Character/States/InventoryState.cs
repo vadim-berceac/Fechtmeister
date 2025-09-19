@@ -9,8 +9,8 @@ public class InventoryState : State
     {
         base.EnterState(character);
         //character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
-        character.PlayablesAnimatorController.Stop();
-        character.CharacterPlayablesAnimatorController.SelectAnimationState(name);
+        //character.PlayablesAnimatorController.Stop();
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
     }
 
     protected override void CheckSwitch(CharacterCore character)

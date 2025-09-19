@@ -9,8 +9,7 @@ public class CombatIdleState : State
     {
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
-        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, itemInstanceData.AnimationType);
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
 
     [BurstCompile]
@@ -21,13 +20,13 @@ public class CombatIdleState : State
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (!character.CharacterInputHandler.IsWeaponDraw)
+        if (!character.CharacterInputHandler.IsWeaponDraw && !character.CharacterPlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("WeaponOffState"));
         }
         
-        if (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 ||
-            Mathf.Abs(character.CharacterInputHandler.InputY) > 0)
+        if (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 && !character.CharacterPlayablesAnimatorController.IsTransitioning ||
+            Mathf.Abs(character.CharacterInputHandler.InputY) > 0 && !character.CharacterPlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("CombatWalkState"));
         }
@@ -51,6 +50,11 @@ public class CombatIdleState : State
         if (!character.Gravity.Grounded)
         {
             character.SetState(character.StatesContainer.GetState("FallState"));
+        }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
     }
 }

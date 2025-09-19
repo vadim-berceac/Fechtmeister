@@ -47,8 +47,8 @@ public abstract class State : ScriptableObject
     {
         character.UpdateRotationByCamera(RotationByCamera, RotationSpeed);
         
-        character.PlayablesAnimatorController.OnUpdate();
-        character.CharacterPlayablesAnimatorController.OnUpdate();
+        // character.PlayablesAnimatorController.OnUpdate();
+        character.CharacterPlayablesAnimatorController.OnUpdate(Time.deltaTime);
         
         CheckAction(character);
         
@@ -70,7 +70,7 @@ public abstract class State : ScriptableObject
 
     public virtual void ExitState(CharacterCore character)
     {
-        character.CharacterInputHandler.ResetAttack(); // чтобы атаки не накапливались
+        character.CharacterInputHandler.ResetAttack(); 
         
         character.TargetingSystem.AllowItemTargeting(false);
         character.TargetingSystem.AllowCharacterTargeting(false);

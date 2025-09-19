@@ -8,20 +8,26 @@ public class JumpState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
         if (!character.Gravity.Grounded
-            && character.PlayablesAnimatorController.GetNormalizedBlendTime() > 0.5)
+            && character.CharacterPlayablesAnimatorController.GetCurrentClipNormalizedTime() > 0.5)
         {
             character.SetState(character.StatesContainer.GetState("FallState"));
         }
-        
-        if (character.Gravity.Grounded  && character.PlayablesAnimatorController.GetNormalizedBlendTime() > 0.6)
+
+        if (character.Gravity.Grounded &&
+            character.CharacterPlayablesAnimatorController.GetCurrentClipNormalizedTime() > 0.6)
         {
             character.SetState(character.StatesContainer.GetState("LandingState"));
+        }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
     }
 

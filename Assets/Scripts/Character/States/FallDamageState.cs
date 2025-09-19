@@ -9,11 +9,24 @@ public class FallDamageState : State
     {
         base.EnterState(character);
         character.Health.EnableHitReaction(false);
-        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-       
+        if (character.CharacterPlayablesAnimatorController.IsTransitioning)
+        {
+            return;
+        }
+        
+        if (character.Health.IsDestroyed)
+        {
+            character.SetState(character.StatesContainer.GetState("DeathState"));
+        }
+        
+        if ( (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 || Mathf.Abs(character.CharacterInputHandler.InputY) > 0))
+        {
+            character.SetState(character.StatesContainer.GetState("StandUpState"));
+        }
     }
 }

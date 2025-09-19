@@ -12,16 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2516f0033f87f064080a260a3a1e4fd5, type: 3}
   m_Name: TakeLootState
   m_EditorClassIdentifier: 
+  <EnterTransitionDuration>k__BackingField: 0.1
+  <ApplyRootMotion>k__BackingField: 0
   <Clips>k__BackingField:
-  - {fileID: 11400000, guid: cd960c1aa0426824296611e9d114875e, type: 2}
+  - {fileID: 11400000, guid: bc17095a722ed7a4db5064411c7a5dbf, type: 2}
   <AllowItemTargeting>k__BackingField: 1
   <AllowCharacterTargeting>k__BackingField: 0
-  <UpdateHorizontalTargetAngle>k__BackingField: 0
-  <UpdateVerticalTargetAngle>k__BackingField: 1
   <AllowSwitchWeaponInstance>k__BackingField: 0
-  <EnterTransitionDuration>k__BackingField: 0.1
-  <AnimationLayer>k__BackingField: 0
-  <ApplyRootMotion>k__BackingField: 0
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
   <UseGravity>k__BackingField: 1

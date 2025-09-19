@@ -10,25 +10,24 @@ public class WeaponOffState : State
         base.EnterState(character);
         
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        character.PlayablesAnimatorController.OnEnter(Clips[0], EnterTransitionDuration);
-        character.PlayablesAnimatorController.SetAnimationParameter(Clips[0].ParameterName, itemInstanceData.AnimationType);
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.PlayablesAnimatorController.IsBlendFinished())
+        if (character.CharacterPlayablesAnimatorController.IsCurrentClipFinished() && !character.CharacterPlayablesAnimatorController.IsTransitioning)
         {
-            character.SetState(character.StatesContainer.GetState("IdleState"));
+            character.SetState(character.StatesContainer.GetState("IdleState"));;
         }
     }
 
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        if (character.PlayablesAnimatorController.IsActionEnabled)
+        if (character.CharacterPlayablesAnimatorController.HasReachedActionTime())
         {
             character.Inventory.WeaponOff();
-            character.PlayablesAnimatorController.ResetActionFlag();
+            character.CharacterPlayablesAnimatorController.ResetActionTimeFlag();
         }
     }
 
