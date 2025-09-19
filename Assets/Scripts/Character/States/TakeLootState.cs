@@ -20,6 +20,12 @@ public class TakeLootState : State
         }
     }
     
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        character.CharacterPlayablesAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
+    }
+    
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
