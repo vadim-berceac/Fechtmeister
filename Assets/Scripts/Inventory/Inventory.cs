@@ -1,5 +1,6 @@
 public class Inventory
 {
+    public bool IsWeaponOn { get; private set; }
     private readonly CharacterPresetLoader _characterPresetLoader;
     public readonly WeaponSystem WeaponSystem;
     public readonly ArmorSystem ArmorSystem;
@@ -34,11 +35,13 @@ public class Inventory
 
     public void WeaponOn()
     {
+        IsWeaponOn = true;
         WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.ItemData.BoneData[0]);
     }
 
     public void WeaponOff()
     {
+        IsWeaponOn = false;
         WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.ItemData.BoneData[1]);
     }
 

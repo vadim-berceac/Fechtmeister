@@ -24,6 +24,11 @@ public class JumpState : State
         {
             character.SetState(character.StatesContainer.GetState("LandingState"));
         }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
+        }
     }
 
     protected override void CheckAction(CharacterCore character)

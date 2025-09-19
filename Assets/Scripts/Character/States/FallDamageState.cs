@@ -18,15 +18,9 @@ public class FallDamageState : State
         {
             return;
         }
-        if (character.CharacterInputHandler.IsWeaponDraw && (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 
-                                                             || Mathf.Abs(character.CharacterInputHandler.InputY) > 0))
+        if ( (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 || Mathf.Abs(character.CharacterInputHandler.InputY) > 0))
         {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
-        if (!character.CharacterInputHandler.IsWeaponDraw && (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 
-                                                             || Mathf.Abs(character.CharacterInputHandler.InputY) > 0))
-        {
-            character.SetState(character.StatesContainer.GetState("IdleState"));
+            character.SetState(character.StatesContainer.GetState("StandUpState"));
         }
     }
 }

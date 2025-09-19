@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31ab6d57fa228047a82f00fd3394d8d, type: 3}
   m_Name: GetHitState
   m_EditorClassIdentifier: Assembly-CSharp::GetHitState
+  <EnterTransitionDuration>k__BackingField: 0.1
+  <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
+  - {fileID: 11400000, guid: 65513f55b7a03ae418527c33ad7e49b7, type: 2}
+  - {fileID: 11400000, guid: 4913ff587e823f844a0beeb2be326bfc, type: 2}
+  - {fileID: 11400000, guid: 9d80f7a730d70ee44b752dbe0729b38d, type: 2}
+  - {fileID: 11400000, guid: 2f4c99132fd972b4187d76db2ab73a6e, type: 2}
   - {fileID: 11400000, guid: 3418131800ccd1648bc9291fde2133fe, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <AllowCharacterTargeting>k__BackingField: 0
-  <UpdateHorizontalTargetAngle>k__BackingField: 0
-  <UpdateVerticalTargetAngle>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
-  <EnterTransitionDuration>k__BackingField: 0.1
-  <AnimationLayer>k__BackingField: 0
-  <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 1
   <UseGravity>k__BackingField: 1

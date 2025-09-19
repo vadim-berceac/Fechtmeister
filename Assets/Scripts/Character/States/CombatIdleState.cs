@@ -51,5 +51,10 @@ public class CombatIdleState : State
         {
             character.SetState(character.StatesContainer.GetState("FallState"));
         }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
+        }
     }
 }

@@ -43,6 +43,11 @@ public class WalkState : State
         {
             character.SetState(character.StatesContainer.GetState("InventoryState"));
         }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
+        }
     }
 
     protected override void CheckAction(CharacterCore character)

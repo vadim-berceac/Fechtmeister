@@ -22,6 +22,11 @@ public class FastAttackState : State
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
+        }
     }
 
     public override void ExitState(CharacterCore character)

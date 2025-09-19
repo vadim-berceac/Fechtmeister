@@ -18,6 +18,11 @@ public class TakeLootState : State
         {
             character.SetState(character.StatesContainer.GetState("IdleState"));
         }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
+        }
     }
     
     protected override void CheckAction(CharacterCore character)

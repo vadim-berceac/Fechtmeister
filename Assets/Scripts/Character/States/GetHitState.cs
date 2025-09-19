@@ -8,7 +8,10 @@ public class GetHitState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.ItemData;
+        var animType = character.Inventory.IsWeaponOn ? itemInstanceData.AnimationType : 0;
+        character.CharacterPlayablesAnimatorController.SetAnimationState(this, animType);
+        character.CharacterPlayablesAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
         
         character.Health.EnableHitReaction(false);
     }

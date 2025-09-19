@@ -1,4 +1,3 @@
-using Unity.Burst;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RunState", menuName = "States/RunState")]
@@ -41,6 +40,11 @@ public class RunState: State
         if (character.CharacterInputHandler.IsInventoryOpen)
         {
             character.SetState(character.StatesContainer.GetState("InventoryState"));
+        }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
     }
 

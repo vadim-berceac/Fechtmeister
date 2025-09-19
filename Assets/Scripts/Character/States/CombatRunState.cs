@@ -8,7 +8,7 @@ public class CombatRunState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.ItemData;
         character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
 
@@ -48,6 +48,11 @@ public class CombatRunState : State
         if (!character.Gravity.Grounded)
         {
             character.SetState(character.StatesContainer.GetState("FallState"));
+        }
+        
+        if (character.Health.IsHitReactionEnabled)
+        {
+            character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
     }
 
