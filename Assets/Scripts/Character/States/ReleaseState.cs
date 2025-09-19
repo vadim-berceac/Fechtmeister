@@ -12,6 +12,12 @@ public class ReleaseState : State
         character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
         character.CharacterPlayablesAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
     }
+    
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        character.CharacterPlayablesAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
+    }
 
     protected override void CheckSwitch(CharacterCore character)
     {

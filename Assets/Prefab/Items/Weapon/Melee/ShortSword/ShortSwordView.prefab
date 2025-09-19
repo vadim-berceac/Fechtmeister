@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7737072079528747900}
   - component: {fileID: 8332289003041168973}
-  m_Layer: 23
+  m_Layer: 8
   m_Name: ShortSwordView
   m_TagString: Untagged
   m_Icon: {fileID: 0}

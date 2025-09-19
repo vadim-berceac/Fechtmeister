@@ -34,9 +34,6 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
             return;
         }
         container.Inject(this);
-        
-        //временно
-        AllowToUse(true);
     }
 
     public void SetOwner(Collider coll)

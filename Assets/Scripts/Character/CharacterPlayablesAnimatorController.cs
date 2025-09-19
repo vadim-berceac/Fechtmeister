@@ -159,9 +159,43 @@ public class CharacterPlayablesAnimatorController
     /// </summary>
     public void BlendCurrentAnimationStateClips(float byValue)
     {
-        //TODO
-        //смешать все анимационные клипы, содержащиеся в текущем _currentBlendConfig
-        // по входящему параметру byValue
+        if (_currentBlendConfig == null || !_currentBlendMixer.IsValid())
+        {
+            Debug.LogWarning("BlendCurrentAnimationStateClips: No valid blend config or mixer available.");
+            return;
+        }
+
+        _currentWeights = Enumerable.Range(0, _currentBlendMixer.GetInputCount())
+            .Select(i => _currentBlendMixer.GetInputWeight(i))
+            .ToArray();
+
+        _targetWeights = _currentBlendConfig.Clips
+            .Select(clip =>
+            {
+                var distance = Mathf.Abs(byValue - clip.ParamValue);
+                return distance == 0f ? float.MaxValue : 1f / Mathf.Pow(distance, 4f);
+            })
+            .ToArray();
+
+        var maxWeight = _targetWeights.Max();
+        var threshold = 0.05f * maxWeight;
+
+        var filteredWeights = _targetWeights
+            .Select(w => w < threshold ? 0f : w)
+            .ToArray();
+
+        var totalWeight = filteredWeights.Sum();
+
+        _targetWeights = totalWeight > 0f
+            ? filteredWeights.Select(w => w / totalWeight).ToArray()
+            : Enumerable.Repeat(1f / _targetWeights.Length, _targetWeights.Length).ToArray();
+
+        _isMoveTransitioning = true;
+        _moveTransitionTime = 0f;
+        _actionTimeReached = false;
+        _previousNormalizedTime = 0f;
+
+        _playableGraph.Evaluate();
     }
 
     public void Move(float movementX, float movementY)

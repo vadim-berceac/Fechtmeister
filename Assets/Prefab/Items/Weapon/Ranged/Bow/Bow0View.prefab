@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3398091672807551234}
   - component: {fileID: 9160218615659502272}
-  m_Layer: 23
+  m_Layer: 8
   m_Name: Bow0View
   m_TagString: Untagged
   m_Icon: {fileID: 0}

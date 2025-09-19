@@ -366,7 +366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8339592821350100798}
   - component: {fileID: 7211786274501867256}
-  m_Layer: 23
+  m_Layer: 8
   m_Name: TrainingSwordView
   m_TagString: Untagged
   m_Icon: {fileID: 0}

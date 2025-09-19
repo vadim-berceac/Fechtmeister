@@ -12,6 +12,13 @@ public class LoadState : State
         character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
         character.CharacterPlayablesAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
     }
+    
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        Debug.Log(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
+        character.CharacterPlayablesAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
+    }
 
     protected override void CheckSwitch(CharacterCore character)
     {
