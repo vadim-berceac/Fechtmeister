@@ -83,6 +83,7 @@ GameObject:
   - component: {fileID: 5308955279979530949}
   - component: {fileID: 1805780133230660867}
   - component: {fileID: 6502283926946306806}
+  - component: {fileID: 7729256575959844760}
   - component: {fileID: 6848313252482120617}
   - component: {fileID: 301124297547184519}
   - component: {fileID: 5391477331367181792}
@@ -199,6 +200,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7729256575959844760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131212000758676167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22c393c8d58ab914ca5a13dfef4f9f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayableGraphCore
+  <CoreData>k__BackingField:
+    <Animator>k__BackingField: {fileID: 6502283926946306806}
+    <GeneralMixerInputsCount>k__BackingField: 2
 --- !u!114 &6848313252482120617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e305f5648a7bc114488a778dd84896f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <GraphCore>k__BackingField: {fileID: 7729256575959844760}
   <LocomotionSettings>k__BackingField:
     <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}

@@ -9,12 +9,12 @@ public class ReloadProjectileState : State
     {
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
+        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
+        if (character.GraphCore.PlayablesAnimatorController.IsCurrentClipFinished())
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }

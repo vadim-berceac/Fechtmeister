@@ -5,6 +5,7 @@ using Zenject;
 [RequireComponent(typeof(CharacterPresetLoader))]
 public class CharacterCore : MonoBehaviour
 {
+    [field: SerializeField] public PlayableGraphCore GraphCore { get; private set; }
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
     [field: SerializeField] public TargetingSettings TargetingSettings { get; set; }
@@ -14,7 +15,6 @@ public class CharacterCore : MonoBehaviour
     public Transform CashedTransform { get; private set; }
 
     public ICharacterInputSet InputByPlayer { get; private set; }
-    public CharacterPlayablesAnimatorController CharacterPlayablesAnimatorController { get; private set; }
     
     //State Machine
     public StatesContainer StatesContainer { get; private set; }
@@ -45,8 +45,6 @@ public class CharacterCore : MonoBehaviour
         CashedTransform = transform;
         CharacterInputHandler = new CharacterInputHandler(LocomotionSettings.InputSmoothingSpeed);
         Gravity = new CharacterGravity();
-
-        CharacterPlayablesAnimatorController = new CharacterPlayablesAnimatorController(LocomotionSettings.Animator);
         
         PresetLoader = GetComponent<CharacterPresetLoader>();
         CharacterColliderSizer = new CharacterColliderSizer(PresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin,
@@ -97,6 +95,5 @@ public class CharacterCore : MonoBehaviour
     {
         _sceneCharacterContainer.Remove(this);
         Inventory.Destroy();
-        CharacterPlayablesAnimatorController.OnDestroy();
     }
 }

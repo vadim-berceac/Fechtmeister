@@ -10,15 +10,15 @@ public class FastAttackState : State
         base.EnterState(character);
         
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
-        character.CharacterPlayablesAnimatorController.SetAnimationStateClip(character.AttackCounter.GetValue());
+        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
+        character.GraphCore.PlayablesAnimatorController.SetAnimationStateClip(character.AttackCounter.GetValue());
         
         character.Inventory.WeaponSystem.AllowAttack(true);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.CharacterPlayablesAnimatorController.IsCurrentClipFinished() && !character.CharacterPlayablesAnimatorController.IsTransitioning)
+        if (character.GraphCore.PlayablesAnimatorController.IsCurrentClipFinished() && !character.GraphCore.PlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }

@@ -35,8 +35,6 @@ public abstract class State : ScriptableObject
     {
         character.OnStateChanged?.Invoke();
         
-        character.LocomotionSettings.Animator.applyRootMotion = ApplyRootMotion;
-        
         character.TargetingSystem.AllowItemTargeting(AllowItemTargeting);
         character.TargetingSystem.AllowCharacterTargeting(AllowCharacterTargeting);
         
@@ -46,9 +44,6 @@ public abstract class State : ScriptableObject
     public virtual void UpdateState(CharacterCore character)
     {
         character.UpdateRotationByCamera(RotationByCamera, RotationSpeed);
-        
-        // character.PlayablesAnimatorController.OnUpdate();
-        character.CharacterPlayablesAnimatorController.OnUpdate(Time.deltaTime);
         
         CheckAction(character);
         

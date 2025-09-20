@@ -9,7 +9,7 @@ public class CombatIdleState : State
     {
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
+        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
 
     [BurstCompile]
@@ -20,13 +20,13 @@ public class CombatIdleState : State
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (!character.CharacterInputHandler.IsWeaponDraw && !character.CharacterPlayablesAnimatorController.IsTransitioning)
+        if (!character.CharacterInputHandler.IsWeaponDraw && !character.GraphCore.PlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("WeaponOffState"));
         }
         
-        if (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 && !character.CharacterPlayablesAnimatorController.IsTransitioning ||
-            Mathf.Abs(character.CharacterInputHandler.InputY) > 0 && !character.CharacterPlayablesAnimatorController.IsTransitioning)
+        if (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 && !character.GraphCore.PlayablesAnimatorController.IsTransitioning ||
+            Mathf.Abs(character.CharacterInputHandler.InputY) > 0 && !character.GraphCore.PlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("CombatWalkState"));
         }

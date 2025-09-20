@@ -11,22 +11,22 @@ public class WeaponOnState : State
         
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
         character.AttackCounter.SetValue(itemInstanceData.AttackCounterSettings.AttacksResetDelay, itemInstanceData.AttackCounterSettings.AttacksCount);
-        character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
+        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
 
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        if (character.CharacterPlayablesAnimatorController.HasReachedActionTime())
+        if (character.GraphCore.PlayablesAnimatorController.HasReachedActionTime())
         {
             character.Inventory.WeaponOn();
-            character.CharacterPlayablesAnimatorController.ResetActionTimeFlag();
+            character.GraphCore.PlayablesAnimatorController.ResetActionTimeFlag();
         }
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.CharacterPlayablesAnimatorController.IsCurrentClipFinished() && !character.CharacterPlayablesAnimatorController.IsTransitioning)
+        if (character.GraphCore.PlayablesAnimatorController.IsCurrentClipFinished() && !character.GraphCore.PlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }

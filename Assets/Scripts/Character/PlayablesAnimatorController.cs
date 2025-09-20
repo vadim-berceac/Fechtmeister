@@ -6,11 +6,10 @@ using UnityEngine.Animations;
 using UnityEngine.Playables;
 
 [BurstCompile]
-public class CharacterPlayablesAnimatorController
+public class PlayablesAnimatorController
 {
+    private readonly PlayableGraphCore _playableGraphCore;
     public bool IsTransitioning {get; private set;}
-    private PlayableGraph _playableGraph;
-    private readonly AnimationMixerPlayable _generalMixer;
     private AnimationMixerPlayable _currentBlendMixer;
     private AnimationMixerPlayable _previousBlendMixer;
     private AnimationBlendConfig _currentBlendConfig;
@@ -29,14 +28,9 @@ public class CharacterPlayablesAnimatorController
     private bool _actionTimeReached ; 
     private float _previousNormalizedTime; 
 
-    public CharacterPlayablesAnimatorController(Animator animator)
+    public PlayablesAnimatorController(PlayableGraphCore playableGraph)
     {
-        _playableGraph = PlayableGraph.Create("CharacterPlayablesAnimatorController");
-        var playableOutput = AnimationPlayableOutput.Create(_playableGraph, "Output", animator);
-        _generalMixer = AnimationMixerPlayable.Create(_playableGraph, 2);
-        playableOutput.SetSourcePlayable(_generalMixer);
-        
-        _playableGraph.Play();
+        _playableGraphCore = playableGraph;
     }
 
     public void SetAnimationState(State state, int animationBlendParamValue)
@@ -63,12 +57,12 @@ public class CharacterPlayablesAnimatorController
         _blendDuration = state.EnterTransitionDuration;
         _transitionTime = 0f;
        
-        var newBlendMixer = AnimationMixerPlayable.Create(_playableGraph, _currentBlendConfig.Clips.Length);
+        var newBlendMixer = AnimationMixerPlayable.Create(_playableGraphCore.Graph, _currentBlendConfig.Clips.Length);
         
         for (var i = 0; i < _currentBlendConfig.Clips.Length; i++)
         {
             var clip = _currentBlendConfig.Clips[i];
-            var clipPlayable = AnimationClipPlayable.Create(_playableGraph, clip.Clip);
+            var clipPlayable = AnimationClipPlayable.Create(_playableGraphCore.Graph, clip.Clip);
             clipPlayable.SetSpeed(clip.Speed);
 
             if (!clip.Clip.isLooping)
@@ -76,7 +70,7 @@ public class CharacterPlayablesAnimatorController
                 clipPlayable.SetDuration(clip.Clip.length);
             }
 
-            _playableGraph.Connect(clipPlayable, 0, newBlendMixer, i);
+            _playableGraphCore.Graph.Connect(clipPlayable, 0, newBlendMixer, i);
             newBlendMixer.SetInputWeight(i, 0.0f); 
         }
 
@@ -98,14 +92,14 @@ public class CharacterPlayablesAnimatorController
         var newSlot = _currentBlendMixer.IsValid() ? 1 - _currentSlot : 0;
         var previousSlot = _currentSlot;
 
-        if (_generalMixer.GetInput(newSlot).IsValid())
+        if (_playableGraphCore.GeneralMixerPlayable.GetInput(newSlot).IsValid())
         {
-            _playableGraph.Disconnect(_generalMixer, newSlot);
+            _playableGraphCore.Graph.Disconnect(_playableGraphCore.GeneralMixerPlayable, newSlot);
         }
 
-        _playableGraph.Connect(newBlendMixer, 0, _generalMixer, newSlot);
-        _generalMixer.SetInputWeight(previousSlot, _currentBlendMixer.IsValid() ? 1.0f : 0.0f);
-        _generalMixer.SetInputWeight(newSlot, _currentBlendMixer.IsValid() ? 0.0f : 1.0f);
+        _playableGraphCore.Graph.Connect(newBlendMixer, 0, _playableGraphCore.GeneralMixerPlayable, newSlot);
+        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(previousSlot, _currentBlendMixer.IsValid() ? 1.0f : 0.0f);
+        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(newSlot, _currentBlendMixer.IsValid() ? 0.0f : 1.0f);
 
         if (_currentBlendMixer.IsValid())
         {
@@ -121,7 +115,7 @@ public class CharacterPlayablesAnimatorController
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
         
-        _playableGraph.Evaluate();
+        _playableGraphCore.Graph.Evaluate();
     }
 
     public void SetAnimationStateClip(int animationBlendParamValue)
@@ -150,7 +144,7 @@ public class CharacterPlayablesAnimatorController
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
 
-        _playableGraph.Evaluate();
+        _playableGraphCore.Graph.Evaluate();
     }
 
 
@@ -195,7 +189,7 @@ public class CharacterPlayablesAnimatorController
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
 
-        _playableGraph.Evaluate();
+        _playableGraphCore.Graph.Evaluate();
     }
 
     public void Move(float movementX, float movementY)
@@ -238,7 +232,7 @@ public class CharacterPlayablesAnimatorController
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
 
-        _playableGraph.Evaluate();
+        _playableGraphCore.Graph.Evaluate();
     }
 
     public void OnUpdate(float deltaTime)
@@ -252,7 +246,7 @@ public class CharacterPlayablesAnimatorController
             UpdateMixerWeights(t);
 
             if (t >= 1f) FinalizeTransition(ref _isClipTransitioning);
-            _playableGraph.Evaluate();
+            _playableGraphCore.Graph.Evaluate();
         }
 
         if (_isMoveTransitioning)
@@ -262,7 +256,7 @@ public class CharacterPlayablesAnimatorController
             UpdateMixerWeights(t);
 
             if (t >= 1f) FinalizeTransition(ref _isMoveTransitioning);
-            _playableGraph.Evaluate();
+            _playableGraphCore.Graph.Evaluate();
         }
 
         if (!IsTransitioning) return;
@@ -272,8 +266,8 @@ public class CharacterPlayablesAnimatorController
         var currentWeight = Mathf.Lerp(0f, 1f, stateT);
         var previousSlot = 1 - _currentSlot;
 
-        _generalMixer.SetInputWeight(previousSlot, 1f - currentWeight);
-        _generalMixer.SetInputWeight(_currentSlot, currentWeight);
+        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(previousSlot, 1f - currentWeight);
+        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(_currentSlot, currentWeight);
 
         if (stateT < 1f) return;
 
@@ -281,15 +275,15 @@ public class CharacterPlayablesAnimatorController
 
         if (_previousBlendMixer.IsValid())
         {
-            _playableGraph.Disconnect(_generalMixer, previousSlot);
+            _playableGraphCore.Graph.Disconnect(_playableGraphCore.GeneralMixerPlayable, previousSlot);
             _previousBlendMixer.Destroy();
             _previousBlendMixer = default;
         }
 
-        _generalMixer.SetInputWeight(_currentSlot, 1f);
-        _generalMixer.SetInputWeight(previousSlot, 0f);
+        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(_currentSlot, 1f);
+        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(previousSlot, 0f);
 
-        if (!_generalMixer.GetInput(_currentSlot).IsValid())
+        if (!_playableGraphCore.GeneralMixerPlayable.GetInput(_currentSlot).IsValid())
         {
             Debug.LogError($"Current slot {_currentSlot} is invalid after transition!");
         }
@@ -298,7 +292,7 @@ public class CharacterPlayablesAnimatorController
             NormalizeMixerWeights();
         }
 
-        _playableGraph.Evaluate();
+        _playableGraphCore.Graph.Evaluate();
     }
 
 
@@ -468,15 +462,5 @@ public class CharacterPlayablesAnimatorController
         return clip.isLooping
             ? (float)((time % duration) / duration)
             : Mathf.Clamp01((float)(time / duration));
-    }
-
-
-    public void OnDestroy()
-    {
-        if (!_playableGraph.IsValid())
-        {
-            return;
-        }
-        _playableGraph.Destroy();
     }
 }

@@ -10,8 +10,8 @@ public class GetHitState : State
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.ItemData;
         var animType = character.Inventory.IsWeaponOn ? itemInstanceData.AnimationType : 0;
-        character.CharacterPlayablesAnimatorController.SetAnimationState(this, animType);
-        character.CharacterPlayablesAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
+        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, animType);
+        character.GraphCore.PlayablesAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
         
         character.Health.EnableHitReaction(false);
     }
@@ -28,12 +28,12 @@ public class GetHitState : State
             character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
         
-        if (character.CharacterInputHandler.IsWeaponDraw && character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
+        if (character.CharacterInputHandler.IsWeaponDraw && character.GraphCore.PlayablesAnimatorController.IsCurrentClipFinished())
         {
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
         
-        if (!character.CharacterInputHandler.IsWeaponDraw && character.CharacterPlayablesAnimatorController.IsCurrentClipFinished())
+        if (!character.CharacterInputHandler.IsWeaponDraw && character.GraphCore.PlayablesAnimatorController.IsCurrentClipFinished())
         {
             character.SetState(character.StatesContainer.GetState("IdleState"));
         }

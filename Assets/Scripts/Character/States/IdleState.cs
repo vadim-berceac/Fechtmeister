@@ -8,7 +8,7 @@ public class IdleState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
+        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, 0);
     }
     
     [BurstCompile]

@@ -8,7 +8,7 @@ public class WalkState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
+        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, 0);
     }
     
     protected override void CheckSwitch(CharacterCore character)
@@ -52,7 +52,7 @@ public class WalkState : State
 
     protected override void CheckAction(CharacterCore character)
     {
-        character.CharacterPlayablesAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+        character.GraphCore.PlayablesAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
     }
 
     public override void ExitState(CharacterCore character)

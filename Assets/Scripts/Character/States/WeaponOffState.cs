@@ -10,12 +10,12 @@ public class WeaponOffState : State
         base.EnterState(character);
         
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        character.CharacterPlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
+        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.CharacterPlayablesAnimatorController.IsCurrentClipFinished() && !character.CharacterPlayablesAnimatorController.IsTransitioning)
+        if (character.GraphCore.PlayablesAnimatorController.IsCurrentClipFinished() && !character.GraphCore.PlayablesAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("IdleState"));;
         }
@@ -24,10 +24,10 @@ public class WeaponOffState : State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        if (character.CharacterPlayablesAnimatorController.HasReachedActionTime())
+        if (character.GraphCore.PlayablesAnimatorController.HasReachedActionTime())
         {
             character.Inventory.WeaponOff();
-            character.CharacterPlayablesAnimatorController.ResetActionTimeFlag();
+            character.GraphCore.PlayablesAnimatorController.ResetActionTimeFlag();
         }
     }
 

@@ -9,12 +9,12 @@ public class FallDamageState : State
     {
         base.EnterState(character);
         character.Health.EnableHitReaction(false);
-        character.CharacterPlayablesAnimatorController.SetAnimationState(this, 0);
+        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, 0);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.CharacterPlayablesAnimatorController.IsTransitioning)
+        if (character.GraphCore.PlayablesAnimatorController.IsTransitioning)
         {
             return;
         }
