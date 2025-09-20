@@ -215,7 +215,15 @@ MonoBehaviour:
     <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}
     <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
-    <GeneralMixerInputsCount>k__BackingField: 2
+  <FootIKData>k__BackingField:
+    <LeftFoot>k__BackingField: {fileID: 8721643502415936856}
+    <RightFoot>k__BackingField: {fileID: 5899751074803516693}
+    <GroundLayerMask>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 1
+    <RaycastDistance>k__BackingField: 2
+    <FootOffset>k__BackingField: 0.2
+    <Weight>k__BackingField: 0.2
 --- !u!114 &301124297547184519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,8 +420,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 647c1291cacceb446935103ec6c290de, type: 3}
+--- !u!4 &5899751074803516693 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4195139935858807022, guid: 647c1291cacceb446935103ec6c290de, type: 3}
+  m_PrefabInstance: {fileID: 7770963164372391419}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6781198717429695618 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3874126597329293689, guid: 647c1291cacceb446935103ec6c290de, type: 3}
+  m_PrefabInstance: {fileID: 7770963164372391419}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8721643502415936856 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1356007200255355043, guid: 647c1291cacceb446935103ec6c290de, type: 3}
   m_PrefabInstance: {fileID: 7770963164372391419}
   m_PrefabAsset: {fileID: 0}
