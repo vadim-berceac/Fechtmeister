@@ -25,8 +25,8 @@ MonoBehaviour:
     <AttacksCount>k__BackingField: 3
     <AttacksResetDelay>k__BackingField: 5
   <BoneData>k__BackingField:
-  - <BonesType>k__BackingField: 3
-    <Position>k__BackingField: {x: 0, y: -0.14, z: 0.7}
+  - <BonesType>k__BackingField: 0
+    <Position>k__BackingField: {x: 0, y: 0.15, z: 0.7}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 1}
     <Scale>k__BackingField: {x: 1, y: 1, z: 1}
   - <BonesType>k__BackingField: 3
