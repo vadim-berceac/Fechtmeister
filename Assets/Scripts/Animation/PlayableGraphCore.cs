@@ -2,6 +2,7 @@ using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
+using Zenject;
 
 [BurstCompile]
 public class PlayableGraphCore : MonoBehaviour
@@ -14,22 +15,26 @@ public class PlayableGraphCore : MonoBehaviour
     public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
     public PlayablesRootMotionSynchronizer PlayablesRootMotionSynchronizer { get; private set; }
 
-    private void Awake()
+    [Inject]
+    private void Construct()
     {
+        Debug.Log("Construct");
         Graph = PlayableGraph.Create("General Graph");
         GeneralMixerPlayable = AnimationMixerPlayable.Create(Graph, 0);
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
         playableOutput.SetSourcePlayable(GeneralMixerPlayable);
         
+        InitializeParts();
+        
         Graph.Play();
     }
 
-    private void Start()
+    private void InitializeParts()
     {
         PlayablesAnimatorController = new PlayablesAnimatorController(this);
         PlayablesRootMotionSynchronizer = new PlayablesRootMotionSynchronizer(this);
     }
-
+    
     private void Update()
     {
         PlayablesAnimatorController.OnUpdate(Time.deltaTime);
