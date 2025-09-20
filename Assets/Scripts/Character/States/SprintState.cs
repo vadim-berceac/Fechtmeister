@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RunState", menuName = "States/RunState")]
-public class RunState: State
+[CreateAssetMenu(fileName = "SprintState", menuName = "States/SprintState")]
+public class SprintState : State
 {
     public override void EnterState(CharacterCore character)
     {
@@ -15,6 +15,11 @@ public class RunState: State
             Mathf.Abs(character.CharacterInputHandler.InputY) == 0)
         {
             character.SetState(character.StatesContainer.GetState("IdleState"));
+        }
+        
+        if (character.CharacterInputHandler.InputY < 0)
+        {
+            character.SetState(character.StatesContainer.GetState("RunState"));
         }
         
         if (!character.CharacterInputHandler.IsRun)
@@ -45,11 +50,6 @@ public class RunState: State
         if (character.Health.IsHitReactionEnabled)
         {
             character.SetState(character.StatesContainer.GetState("GetHitState"));
-        }
-
-        if (character.Gravity.Grounded && character.StateTimer.GetCurrentTimeInState() > 5f)
-        {
-            character.SetState(character.StatesContainer.GetState("SprintState"));
         }
     }
 

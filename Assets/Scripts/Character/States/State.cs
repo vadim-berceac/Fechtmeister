@@ -39,11 +39,14 @@ public abstract class State : ScriptableObject
         character.TargetingSystem.AllowCharacterTargeting(AllowCharacterTargeting);
         
         character.CharacterColliderSizer.SetSize(Height, Radius);
+        
+        character.StateTimer.ResetTime();
     }
 
     public virtual void UpdateState(CharacterCore character)
     {
         character.UpdateRotationByCamera(RotationByCamera, RotationSpeed);
+        character.StateTimer.OnUpdate(Time.deltaTime);
         
         CheckAction(character);
         

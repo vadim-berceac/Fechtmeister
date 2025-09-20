@@ -26,7 +26,10 @@ public class FallDamageState : State
         
         if ( (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 || Mathf.Abs(character.CharacterInputHandler.InputY) > 0))
         {
-            character.SetState(character.StatesContainer.GetState("StandUpState"));
+            if (character.StateTimer.GetCurrentTimeInState() > 3)
+            {
+                character.SetState(character.StatesContainer.GetState("StandUpState"));
+            }
         }
     }
 }

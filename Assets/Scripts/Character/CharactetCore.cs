@@ -21,6 +21,7 @@ public class CharacterCore : MonoBehaviour
     public State CurrentState { get; private set; }
     public Counter AttackCounter { get; private set; }
     public CurrentSpeed CurrentSpeed { get; private set; }
+    public StateTimer StateTimer { get; private set; }
     public Action OnStateChanged;
     
     public CharacterGravity Gravity { get; private set; }
@@ -53,6 +54,7 @@ public class CharacterCore : MonoBehaviour
         BonesContainer = new CharacterBonesContainer(CashedTransform);
         TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting, TargetingSettings.CharacterTargeting);
         AttackCounter = new Counter();
+        StateTimer = new StateTimer();
         CurrentSpeed = new CurrentSpeed(CashedTransform);
         
         Inventory = new Inventory(this, PresetLoader, 3);
