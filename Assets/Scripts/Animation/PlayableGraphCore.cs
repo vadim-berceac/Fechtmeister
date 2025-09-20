@@ -12,11 +12,12 @@ public class PlayableGraphCore : MonoBehaviour
     public AnimationMixerPlayable GeneralMixerPlayable { get; private set; }
     
     public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
+    public PlayablesRootMotionSynchronizer PlayablesRootMotionSynchronizer { get; private set; }
 
     private void Awake()
     {
         Graph = PlayableGraph.Create("General Graph");
-        GeneralMixerPlayable = AnimationMixerPlayable.Create(Graph, CoreData.GeneralMixerInputsCount);
+        GeneralMixerPlayable = AnimationMixerPlayable.Create(Graph, 0);
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
         playableOutput.SetSourcePlayable(GeneralMixerPlayable);
         
@@ -26,11 +27,17 @@ public class PlayableGraphCore : MonoBehaviour
     private void Start()
     {
         PlayablesAnimatorController = new PlayablesAnimatorController(this);
+        PlayablesRootMotionSynchronizer = new PlayablesRootMotionSynchronizer(this);
     }
 
     private void Update()
     {
         PlayablesAnimatorController.OnUpdate(Time.deltaTime);
+    }
+
+    private void FixedUpdate()
+    {
+        PlayablesRootMotionSynchronizer.OnFixedUpdate();
     }
 
     private void OnDestroy()
@@ -43,5 +50,6 @@ public class PlayableGraphCore : MonoBehaviour
 public struct PlayableGraphCoreData
 {
     [field: SerializeField] public Animator Animator { get; set; }
-    [field: SerializeField] public int GeneralMixerInputsCount { get; set; }
+    [field: SerializeField] public CharacterController CharacterController { get; set; }
+    [field: SerializeField] public CharacterCore CharacterCore { get; set; }
 }

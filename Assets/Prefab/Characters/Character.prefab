@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8950402006388574776}
-  - component: {fileID: 814110691455221371}
+  - component: {fileID: 8930766354038033754}
   - component: {fileID: 1204962803673603537}
   m_Layer: 23
   m_Name: ItemSelecting
@@ -27,14 +27,14 @@ Transform:
   m_GameObject: {fileID: 2054094669306368174}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.7, z: 1.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0.7}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9086983287782165238}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &814110691455221371
-SphereCollider:
+--- !u!65 &8930766354038033754
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -52,7 +52,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1204962803673603537
 MonoBehaviour:
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690add9e7d311a0408c8b9965a070978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemTargeting
-  <TargetingCollider>k__BackingField: {fileID: 814110691455221371}
+  <TargetingCollider>k__BackingField: {fileID: 8930766354038033754}
   <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
   <ParentTransform>k__BackingField: {fileID: 9086983287782165238}
   <CharacterController>k__BackingField: {fileID: 6829832979991591507}
@@ -84,7 +84,6 @@ GameObject:
   - component: {fileID: 1805780133230660867}
   - component: {fileID: 6502283926946306806}
   - component: {fileID: 7729256575959844760}
-  - component: {fileID: 6848313252482120617}
   - component: {fileID: 301124297547184519}
   - component: {fileID: 5391477331367181792}
   m_Layer: 23
@@ -214,23 +213,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayableGraphCore
   <CoreData>k__BackingField:
     <Animator>k__BackingField: {fileID: 6502283926946306806}
-    <GeneralMixerInputsCount>k__BackingField: 2
---- !u!114 &6848313252482120617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3131212000758676167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170eaf0374dc6764d9f48251d809462c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterControllerRootMotionSynchronizer
-  <Settings>k__BackingField:
-    <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}
     <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
+    <GeneralMixerInputsCount>k__BackingField: 2
 --- !u!114 &301124297547184519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +243,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GraphCore>k__BackingField: {fileID: 7729256575959844760}
   <LocomotionSettings>k__BackingField:
-    <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}
     <CharacterCollider>k__BackingField: {fileID: 5308955279979530949}
     <InputSmoothingSpeed>k__BackingField: 10

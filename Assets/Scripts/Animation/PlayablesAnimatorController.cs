@@ -31,6 +31,7 @@ public class PlayablesAnimatorController
     public PlayablesAnimatorController(PlayableGraphCore playableGraph)
     {
         _playableGraphCore = playableGraph;
+        _playableGraphCore.GeneralMixerPlayable.SetInputCount(2);
     }
 
     public void SetAnimationState(State state, int animationBlendParamValue)

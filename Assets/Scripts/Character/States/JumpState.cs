@@ -34,6 +34,6 @@ public class JumpState : State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        character.MoveLocal(character.CharacterInputHandler.DirVector3 + character.CashedTransform.up, character.CurrentSpeed.LastNotNullHorizontalSpeed);
+        character.MoveLocal(character.CharacterInputHandler.DirVector3, character.CurrentSpeed.LastNotNullHorizontalSpeed);
     }
 }

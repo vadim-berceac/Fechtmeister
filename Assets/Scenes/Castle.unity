@@ -3581,6 +3581,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 7729256575959844760, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: <CoreData>k__BackingField.<GeneralMixerInputsCount>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9086983287782165238, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
