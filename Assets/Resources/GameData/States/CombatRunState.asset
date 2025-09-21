@@ -12,20 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e058f02a699dd6344a89950f576e63d1, type: 3}
   m_Name: CombatRunState
   m_EditorClassIdentifier: 
+  <EnterTransitionDuration>k__BackingField: 0.4
+  <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: a38f98f7d6cae3c4d91dbb8b56604f90, type: 2}
   - {fileID: 11400000, guid: 8a0c362c98a15904caeec9f05f97275e, type: 2}
   - {fileID: 11400000, guid: f3103e446fa9e1f44b493c10afdc3d6f, type: 2}
   - {fileID: 11400000, guid: b2b0008c934e78141b01c9480789e749, type: 2}
   - {fileID: 11400000, guid: d1ad2626de2cf5b43bc80fd5a9258e6d, type: 2}
+  - {fileID: 11400000, guid: fc212267b1372d045af6a070491fd61d, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <AllowCharacterTargeting>k__BackingField: 1
-  <UpdateHorizontalTargetAngle>k__BackingField: 1
-  <UpdateVerticalTargetAngle>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
-  <EnterTransitionDuration>k__BackingField: 0.4
-  <AnimationLayer>k__BackingField: 0
-  <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 15
   <UseGravity>k__BackingField: 1
