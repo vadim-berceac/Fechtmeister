@@ -60,11 +60,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: blankSkinnedMesh
       objectReference: {fileID: 0}
+    - target: {fileID: 5465940246521907071, guid: 82331b99766d041489e2a799de364c54, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5465940246521907071, guid: 82331b99766d041489e2a799de364c54, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5465940246521907071, guid: 82331b99766d041489e2a799de364c54, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 82331b99766d041489e2a799de364c54, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 123c66d7ab1871a42aeb27bd3c89abc9, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 82331b99766d041489e2a799de364c54, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

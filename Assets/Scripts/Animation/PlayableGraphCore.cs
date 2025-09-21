@@ -41,7 +41,7 @@ public class PlayableGraphCore : MonoBehaviour
     private void Update()
     {
         PlayablesAnimatorController.OnUpdate(Time.deltaTime);
-        //PlayablesFootIK.OnUpdate(Time.deltaTime);
+        //PlayablesFootIK.OnUpdate();
     }
 
     private void FixedUpdate()
@@ -66,7 +66,8 @@ public struct PlayableGraphCoreData
 [System.Serializable]
 public struct FootIKData
 {
-    [field: SerializeField] public Transform LeftFoot { get; set; }
-    [field: SerializeField] public Transform RightFoot { get; set; }
     [field: SerializeField] public LayerMask GroundLayerMask { get; set; }
+    [field: SerializeField] public float RaycastDistance { get; set; }
+    [field: SerializeField] public float JobWeight { get; set; }
+    [field: SerializeField] public float PlayableInputWeight { get; set; }
 }
