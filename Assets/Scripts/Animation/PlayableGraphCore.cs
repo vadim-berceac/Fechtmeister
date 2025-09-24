@@ -8,14 +8,11 @@ using Zenject;
 public class PlayableGraphCore : MonoBehaviour
 {
     [field: SerializeField] public PlayableGraphCoreData CoreData { get; set; }
-    [field: SerializeField] public FootIKData FootIKData { get; set; }
     
     public PlayableGraph Graph { get; private set; }
     public AnimationMixerPlayable GeneralMixerPlayable { get; private set; }
     
     public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
-    //public PlayablesRootMotionSynchronizer PlayablesRootMotionSynchronizer { get; private set; }
-    //public PlayablesFootIK PlayablesFootIK { get; private set; }
 
     [Inject]
     private void Construct()
@@ -34,21 +31,13 @@ public class PlayableGraphCore : MonoBehaviour
     private void InitializeParts()
     {
         PlayablesAnimatorController = new PlayablesAnimatorController(this);
-        //PlayablesRootMotionSynchronizer = new PlayablesRootMotionSynchronizer(this);
-        //PlayablesFootIK = new PlayablesFootIK(this);
     }
     
     private void Update()
     {
         PlayablesAnimatorController.OnUpdate(Time.deltaTime);
-        //PlayablesFootIK.OnUpdate();
     }
-
-    private void FixedUpdate()
-    {
-        //PlayablesRootMotionSynchronizer.OnFixedUpdate();
-    }
-
+    
     private void OnDestroy()
     {
         Graph.Destroy();
@@ -62,13 +51,4 @@ public struct PlayableGraphCoreData
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public CharacterController CharacterController { get; set; }
     [field: SerializeField] public CharacterCore CharacterCore { get; set; }
-}
-
-[System.Serializable]
-public struct FootIKData
-{
-    [field: SerializeField] public LayerMask GroundLayerMask { get; set; }
-    [field: SerializeField] public float RaycastDistance { get; set; }
-    [field: SerializeField] public float JobWeight { get; set; }
-    [field: SerializeField] public float PlayableInputWeight { get; set; }
 }

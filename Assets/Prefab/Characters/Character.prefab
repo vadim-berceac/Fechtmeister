@@ -212,17 +212,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayableGraphCore
   <CoreData>k__BackingField:
-    <GeneralMixerCount>k__BackingField: 5
+    <GeneralMixerCount>k__BackingField: 2
     <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}
     <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
-  <FootIKData>k__BackingField:
-    <GroundLayerMask>k__BackingField:
-      serializedVersion: 2
-      m_Bits: 1
-    <RaycastDistance>k__BackingField: 2
-    <JobWeight>k__BackingField: 1
-    <PlayableInputWeight>k__BackingField: 0.03
 --- !u!114 &301124297547184519
 MonoBehaviour:
   m_ObjectHideFlags: 0
