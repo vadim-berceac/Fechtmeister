@@ -14,7 +14,7 @@ public class PlayableGraphCore : MonoBehaviour
     public AnimationMixerPlayable GeneralMixerPlayable { get; private set; }
     
     public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
-    public PlayablesRootMotionSynchronizer PlayablesRootMotionSynchronizer { get; private set; }
+    //public PlayablesRootMotionSynchronizer PlayablesRootMotionSynchronizer { get; private set; }
     //public PlayablesFootIK PlayablesFootIK { get; private set; }
 
     [Inject]
@@ -22,7 +22,7 @@ public class PlayableGraphCore : MonoBehaviour
     {
         Debug.Log("Construct");
         Graph = PlayableGraph.Create("General Graph");
-        GeneralMixerPlayable = AnimationMixerPlayable.Create(Graph, 0);
+        GeneralMixerPlayable = AnimationMixerPlayable.Create(Graph, CoreData.GeneralMixerCount);
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
         playableOutput.SetSourcePlayable(GeneralMixerPlayable);
         
@@ -34,7 +34,7 @@ public class PlayableGraphCore : MonoBehaviour
     private void InitializeParts()
     {
         PlayablesAnimatorController = new PlayablesAnimatorController(this);
-        PlayablesRootMotionSynchronizer = new PlayablesRootMotionSynchronizer(this);
+        //PlayablesRootMotionSynchronizer = new PlayablesRootMotionSynchronizer(this);
         //PlayablesFootIK = new PlayablesFootIK(this);
     }
     
@@ -46,7 +46,7 @@ public class PlayableGraphCore : MonoBehaviour
 
     private void FixedUpdate()
     {
-        PlayablesRootMotionSynchronizer.OnFixedUpdate();
+        //PlayablesRootMotionSynchronizer.OnFixedUpdate();
     }
 
     private void OnDestroy()
@@ -58,6 +58,7 @@ public class PlayableGraphCore : MonoBehaviour
 [System.Serializable]
 public struct PlayableGraphCoreData
 {
+    [field: SerializeField] public int GeneralMixerCount { get; private set; }
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public CharacterController CharacterController { get; set; }
     [field: SerializeField] public CharacterCore CharacterCore { get; set; }

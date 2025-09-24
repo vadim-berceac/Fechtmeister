@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayableGraphCore
   <CoreData>k__BackingField:
+    <GeneralMixerCount>k__BackingField: 5
     <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}
     <CharacterCore>k__BackingField: {fileID: 5391477331367181792}

@@ -1,106 +1,88 @@
-
-using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
-[BurstCompile]
 public class PlayablesRootMotionSynchronizer
 {
     private readonly PlayableGraphCore _playableGraphCore;
     private AnimationScriptPlayable _animationScriptPlayable;
-    
     private float _currentFallSpeed;
-    private Vector3 _deltaPosition;
-    private Quaternion _deltaRotation;
 
     public PlayablesRootMotionSynchronizer(PlayableGraphCore graph)
     {
         _playableGraphCore = graph;
-        
+
         var rootMotionJob = new RootMotionJob
         {
-            CharacterController = _playableGraphCore.CoreData.CharacterController,
-            CharacterTransform = _playableGraphCore.CoreData.CharacterCore.CashedTransform,
             ApplyRootMotion = _playableGraphCore.CoreData.Animator.applyRootMotion,
-            CurrentFallSpeed = _currentFallSpeed
+            CurrentFallSpeed = 0f
         };
-        
-        _animationScriptPlayable = AnimationScriptPlayable.Create(graph.Graph, rootMotionJob);
-        
-        var inputCount = graph.GeneralMixerPlayable.GetInputCount();
-        graph.GeneralMixerPlayable.SetInputCount(inputCount + 1);
 
-        graph.Graph.Connect(_animationScriptPlayable, 0, graph.GeneralMixerPlayable, inputCount);
+        _animationScriptPlayable = AnimationScriptPlayable.Create(graph.Graph, rootMotionJob);
+        graph.Graph.Connect(_animationScriptPlayable, 0, graph.GeneralMixerPlayable, 2);
+        graph.GeneralMixerPlayable.SetInputWeight(2, 1.0f);
     }
-    
+
     public void OnFixedUpdate()
     {
-        if (!_playableGraphCore.CoreData.CharacterCore.CurrentState.UseGravity)
-        {
-            _currentFallSpeed = 0;
-        }
-        else
-        {
-            _currentFallSpeed = _playableGraphCore.CoreData.CharacterCore.GetCurrentFallSpeed(
-                useGravity: true,
-                currentFallSpeed: _currentFallSpeed,
-                isOnValidGround: _playableGraphCore.CoreData.CharacterController.isGrounded
-            ) * _playableGraphCore.CoreData.CharacterCore.CurrentState.FallSpeedMultiplier;
+        var core = _playableGraphCore.CoreData.CharacterCore;
+        var controller = _playableGraphCore.CoreData.CharacterController;
+        var animator = _playableGraphCore.CoreData.Animator;
+        var transform = _playableGraphCore.transform;
 
-            if (_animationScriptPlayable.IsValid())
+        _currentFallSpeed = core.CurrentState.UseGravity
+            ? core.GetCurrentFallSpeed(true, _currentFallSpeed, controller.isGrounded) * core.CurrentState.FallSpeedMultiplier
+            : 0f;
+
+        if (_animationScriptPlayable.IsValid())
+        {
+            var jobData = _animationScriptPlayable.GetJobData<RootMotionJob>();
+            jobData.CurrentFallSpeed = _currentFallSpeed;
+            jobData.ApplyRootMotion = animator.applyRootMotion;
+            jobData.DeltaPosition = animator.deltaPosition;
+            jobData.DeltaRotation = animator.deltaRotation;
+            _animationScriptPlayable.SetJobData(jobData);
+        }
+
+        // Применение root motion на главном потоке
+        if (_animationScriptPlayable.IsValid())
+        {
+            var jobData = _animationScriptPlayable.GetJobData<RootMotionJob>();
+
+            if (core.CurrentState.UseGravity || animator.applyRootMotion)
             {
-                var jobData = _animationScriptPlayable.GetJobData<RootMotionJob>();
-                jobData.CurrentFallSpeed = _currentFallSpeed;
-                _animationScriptPlayable.SetJobData(jobData);
+                controller.Move(jobData.ComputedDeltaPosition);
+                transform.rotation *= jobData.ComputedDeltaRotation;
             }
         }
-
-        if (!_playableGraphCore.CoreData.Animator.applyRootMotion)
-        {
-            return;
-        }
-        _deltaPosition = _playableGraphCore.CoreData.Animator.deltaPosition;
-        _deltaRotation = _playableGraphCore.CoreData.Animator.deltaRotation;
-        
-        if (!_animationScriptPlayable.IsValid())
-        {
-           return;
-        }
-        var jobData2 = _animationScriptPlayable.GetJobData<RootMotionJob>();
-        jobData2.DeltaPosition = _deltaPosition;
-        jobData2.DeltaRotation = _deltaRotation;
-        _animationScriptPlayable.SetJobData(jobData2);
     }
 }
 
+
 public struct RootMotionJob : IAnimationJob
 {
-    public CharacterController CharacterController;
-    public Transform CharacterTransform;
     public bool ApplyRootMotion;
     public float CurrentFallSpeed;
     public Vector3 DeltaPosition;
     public Quaternion DeltaRotation;
-    
-    private Vector3 _finalPosition;
+
+    // Выходные данные, безопасные для чтения в MonoBehaviour
+    public Vector3 ComputedDeltaPosition;
+    public Quaternion ComputedDeltaRotation;
 
     public void ProcessAnimation(AnimationStream stream)
     {
         if (!ApplyRootMotion)
+        {
+            ComputedDeltaPosition = Vector3.zero;
+            ComputedDeltaRotation = Quaternion.identity;
             return;
-        
-        CharacterTransform.rotation *= DeltaRotation;
+        }
 
-        _finalPosition = DeltaPosition + Vector3.up * CurrentFallSpeed * Time.deltaTime;
-       
-        CharacterController.Move(_finalPosition);
-
-        CharacterController.transform.rotation = CharacterTransform.rotation;
+        ComputedDeltaRotation = DeltaRotation;
+        ComputedDeltaPosition = DeltaPosition + Vector3.up * CurrentFallSpeed * Time.deltaTime;
     }
 
-    public void ProcessRootMotion(AnimationStream stream)
-    {
-       
-    }
+    public void ProcessRootMotion(AnimationStream stream) { }
 }
+
