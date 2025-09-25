@@ -56,5 +56,10 @@ public class CombatIdleState : State
         {
             character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
+        
+        if (character.Health.IsDestroyed)
+        {
+            character.SetState(character.StatesContainer.GetState("DeathState"));
+        }
     }
 }

@@ -3,9 +3,13 @@ using Zenject;
 
 public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
 {
+    public WeaponData ItemData { get; set; }
     public Collider Owner { get; set; }
     public bool IsAllowed { get; set; }
-    private Collider _weaponCollider;
+    private WeaponData _weaponData;
+    private BoxCollider _weaponCollider;
+    private Vector3 _originalColliderSize;
+    private Vector3 _originalColliderCenter;
     private Rigidbody _rigidbody;
     
     // хранить параметры оружия
@@ -20,11 +24,13 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
 
     private void Awake()
     {
-        if (!TryGetComponent<Collider>(out _weaponCollider))
+        if (!TryGetComponent<BoxCollider>(out _weaponCollider))
         {
             Debug.LogError($"{gameObject} doesn't have a Collider");
         }
-        
+        _weaponCollider.enabled = false;
+        _originalColliderSize = _weaponCollider.size;
+        _originalColliderCenter = _weaponCollider.center;
         _rigidbody = gameObject.AddComponent<Rigidbody>();
         _rigidbody.isKinematic = true;
         
@@ -36,10 +42,24 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
     {
         Owner = coll;
     }
+
+    public void SetData(IItemData data)
+    {
+        ItemData = (WeaponData)data;
+    }
     
     public void AllowToUse(bool value)
     {
         IsAllowed = value;
+
+        _weaponCollider.enabled = IsAllowed;
+
+        if (IsAllowed)
+        {
+            SizeCollider(ItemData.WeaponParams.SizeModifer);
+            return;
+        }
+        ResetCollider();
     }
     
     private void OnTriggerEnter(Collider other)
@@ -66,7 +86,19 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
         AllowToUse(false);
         
         //временно
-        target.Health.Damage(40);
+        target.Health.Damage(ItemData.WeaponParams.Damage);
         
+    }
+
+    private void SizeCollider(float value)
+    {
+        _weaponCollider.center = new Vector3(_originalColliderCenter.x, _originalColliderCenter.y * value, _originalColliderCenter.z);
+        _weaponCollider.size =  new Vector3(_originalColliderSize.x, _originalColliderSize.y * value, _originalColliderSize.z);
+    }
+
+    private void ResetCollider()
+    {
+        _weaponCollider.center = _originalColliderCenter;
+        _weaponCollider.size = _originalColliderSize;
     }
 }

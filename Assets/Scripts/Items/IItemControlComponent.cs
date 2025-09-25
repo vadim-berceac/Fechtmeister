@@ -6,4 +6,5 @@ public interface IItemControlComponent
     public Collider Owner { get; set; }
     public void AllowToUse (bool isAllowed);
     public void SetOwner(Collider owner);
+    public void SetData(IItemData data);
 }

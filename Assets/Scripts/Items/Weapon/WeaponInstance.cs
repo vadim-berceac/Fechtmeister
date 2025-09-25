@@ -39,6 +39,7 @@ public class WeaponInstance : IItemInstance
 
         ItemControlComponent = Instance.gameObject.AddComponent<WeaponDamageComponent>();
         ItemControlComponent.SetOwner(_owner);
+        ItemControlComponent.SetData(ItemData);
         
         this.AttachToBone(Instance, ItemData.BoneData[1]);
     }

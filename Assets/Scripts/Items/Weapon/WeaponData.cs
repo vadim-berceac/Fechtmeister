@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Objects/WeaponData")]
 public class WeaponData : ScriptableObject, IItemData
 {
+    [field: SerializeField] public WeaponParams WeaponParams { get; set; }
     [field: SerializeField] public string ItemName { get; set; }
     [field: SerializeField] public string ItemDescription { get; set; }
     [field: SerializeField] public Sprite ItemIcon { get; set; }
@@ -22,4 +23,12 @@ public class WeaponData : ScriptableObject, IItemData
     {
         return BoneData.FirstOrDefault(b => b.BonesType == bone);
     }
+}
+
+[System.Serializable]
+public struct WeaponParams
+{
+    [field: SerializeField] public float Damage { get; set; }
+    [field: SerializeField] public float AttackSpeed { get; set; }
+    [field: SerializeField] public float SizeModifer { get; set; }
 }

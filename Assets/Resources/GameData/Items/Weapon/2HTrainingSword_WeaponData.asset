@@ -12,11 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d986c9d13b35d94489cd77f093f1dd32, type: 3}
   m_Name: 2HTrainingSword_WeaponData
   m_EditorClassIdentifier: 
+  <WeaponParams>k__BackingField:
+    <Damage>k__BackingField: 40
+    <AttackSpeed>k__BackingField: 1
+    <SizeModifer>k__BackingField: 1.4
   <ItemName>k__BackingField: Training Sword 2H
   <ItemDescription>k__BackingField: Training Sword 2H
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}
   <EquippedModelPrefab>k__BackingField: {fileID: 7926834445009811899, guid: 2f774d6a6843bd340ae29830bdd6a547, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 8647566733781514921, guid: ff40d79bc0dcb944b9d84a2b73d9db63, type: 3}
+  <ItemPosition>k__BackingField: 0
+  <IsRanged>k__BackingField: 0
   <AnimationType>k__BackingField: 3
   <AttackSpeed>k__BackingField: 1
   <AttackCounterSettings>k__BackingField:

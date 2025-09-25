@@ -29,6 +29,11 @@ public class JumpState : State
         {
             character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
+        
+        if (character.Health.IsDestroyed)
+        {
+            character.SetState(character.StatesContainer.GetState("DeathState"));
+        }
     }
 
     protected override void CheckAction(CharacterCore character)

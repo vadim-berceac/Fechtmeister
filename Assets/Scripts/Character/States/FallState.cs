@@ -22,5 +22,10 @@ public class FallState :  State
         {
             character.SetState(character.StatesContainer.GetState("FallDamageState"));
         }
+        
+        if (character.Health.IsDestroyed)
+        {
+            character.SetState(character.StatesContainer.GetState("DeathState"));
+        }
     }
 }

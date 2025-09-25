@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d986c9d13b35d94489cd77f093f1dd32, type: 3}
   m_Name: ShortSword_WeaponData
   m_EditorClassIdentifier: 
+  <WeaponParams>k__BackingField:
+    <Damage>k__BackingField: 25
+    <AttackSpeed>k__BackingField: 1.4
+    <SizeModifer>k__BackingField: 1.2
   <ItemName>k__BackingField: Short Sword
   <ItemDescription>k__BackingField: Short Sword
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}

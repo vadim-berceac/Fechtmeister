@@ -27,6 +27,11 @@ public class FastAttackState : State
         {
             character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
+        
+        if (character.Health.IsDestroyed)
+        {
+            character.SetState(character.StatesContainer.GetState("DeathState"));
+        }
     }
 
     public override void ExitState(CharacterCore character)

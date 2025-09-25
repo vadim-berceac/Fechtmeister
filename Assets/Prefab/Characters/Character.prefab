@@ -247,7 +247,7 @@ MonoBehaviour:
     <CharacterCollider>k__BackingField: {fileID: 5308955279979530949}
     <InputSmoothingSpeed>k__BackingField: 10
   <GravitySettings>k__BackingField:
-    <GroundOffset>k__BackingField: {x: 0, y: -0.6, z: 0}
+    <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
     <CheckSphereRadius>k__BackingField: 0.4
     <ImmuneToFallDamage>k__BackingField: 0
     <FallDamageThreshold>k__BackingField: 5

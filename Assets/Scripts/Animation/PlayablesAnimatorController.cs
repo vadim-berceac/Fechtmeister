@@ -26,7 +26,9 @@ public class PlayablesAnimatorController
     private bool _isMoveTransitioning;
     private int _currentSlot; 
     private bool _actionTimeReached ; 
-    private float _previousNormalizedTime; 
+    private float _previousNormalizedTime;
+
+    private float _defaultAnimationSpeed;
 
     public PlayablesAnimatorController(PlayableGraphCore playableGraph)
     {
@@ -408,6 +410,16 @@ public class PlayablesAnimatorController
         _previousNormalizedTime = 0f;
     }
 
+    public void SetSpeed(float value)
+    {
+        //получаем в _defaultAnimationSpeed скорость текущего BlendClip
+        //выставляем скорость текущего BlendClip равной value
+    }
+
+    public void ResetSpeed()
+    {
+        
+    }
 
     public bool HasReachedActionTime()
     {

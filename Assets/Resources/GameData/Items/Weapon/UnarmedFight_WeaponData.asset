@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d986c9d13b35d94489cd77f093f1dd32, type: 3}
   m_Name: UnarmedFight_WeaponData
   m_EditorClassIdentifier: 
+  <WeaponParams>k__BackingField:
+    <Damage>k__BackingField: 5
+    <AttackSpeed>k__BackingField: 1
+    <SizeModifer>k__BackingField: 1
   <ItemName>k__BackingField: Unarmed Fight
   <ItemDescription>k__BackingField: Unarmed Fight
   <ItemIcon>k__BackingField: {fileID: 0}

@@ -46,6 +46,11 @@ public class RunState: State
         {
             character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
+        
+        if (character.Health.IsDestroyed)
+        {
+            character.SetState(character.StatesContainer.GetState("DeathState"));
+        }
 
         if (character.Gravity.Grounded && character.StateTimer.GetCurrentTimeInState() > 5f)
         {

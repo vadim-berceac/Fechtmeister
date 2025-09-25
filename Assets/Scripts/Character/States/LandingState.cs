@@ -22,5 +22,10 @@ public class LandingState: State
          {
              character.SetState(character.StatesContainer.GetState("CombatIdleState"));
          }
+         
+         if (character.Health.IsDestroyed)
+         {
+             character.SetState(character.StatesContainer.GetState("DeathState"));
+         }
     }
 }
