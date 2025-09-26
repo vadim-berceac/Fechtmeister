@@ -17,10 +17,11 @@ public class WeaponOnState : State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        if (character.GraphCore.PlayablesAnimatorController.HasReachedActionTime())
+        if (character.GraphCore.PlayablesAnimatorController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
             character.Inventory.WeaponOn();
             character.GraphCore.PlayablesAnimatorController.ResetActionTimeFlag();
+            character.StateTimer.SetActionIsPossible(false);
         }
     }
 

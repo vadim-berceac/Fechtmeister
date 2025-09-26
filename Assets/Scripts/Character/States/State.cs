@@ -41,6 +41,7 @@ public abstract class State : ScriptableObject
         character.CharacterColliderSizer.SetSize(Height, Radius);
         
         character.StateTimer.ResetTime();
+        character.StateTimer.SetActionIsPossible(true);
     }
 
     public virtual void UpdateState(CharacterCore character)

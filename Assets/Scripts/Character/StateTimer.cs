@@ -1,10 +1,21 @@
 public class StateTimer
 {
     private float _currentTimeInState;
+    private bool _actionIsPossible;
 
     public float GetCurrentTimeInState()
     {
         return _currentTimeInState;
+    }
+
+    public bool ActionIsPossible()
+    {
+        return _actionIsPossible;
+    }
+
+    public void SetActionIsPossible(bool isPossible)
+    {
+        _actionIsPossible = isPossible;
     }
 
     public void ResetTime()
