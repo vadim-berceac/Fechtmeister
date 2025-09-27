@@ -10,34 +10,44 @@ public class PlayableGraphCore : MonoBehaviour
     [field: SerializeField] public PlayableGraphCoreData CoreData { get; set; }
     
     public PlayableGraph Graph { get; private set; }
-    public AnimationMixerPlayable GeneralMixerPlayable { get; private set; }
+    public AnimationLayerMixerPlayable LayerMixer { get; private set; }
+    public AnimationMixerPlayable FullBodyLayerMixer0 { get; private set; }
+    public AnimationMixerPlayable HalfBodyLayerMixer1 { get; private set; }
     
-    public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
-    
-    private StatesContainer _statesContainer;
+    public PlayablesAnimatorController FullBodyAnimatorController { get; private set; }
+    //написать упрощенный вариант анимационного контроллера для HalfBody
 
     [Inject]
-    private void Construct(StatesContainer statesContainer)
+    private void Construct()
     {
-        _statesContainer = statesContainer;
         Graph = PlayableGraph.Create("General Graph");
-        GeneralMixerPlayable = AnimationMixerPlayable.Create(Graph, CoreData.GeneralMixerCount);
+        LayerMixer = AnimationLayerMixerPlayable.Create(Graph, 2);
+        FullBodyLayerMixer0 = AnimationMixerPlayable.Create(Graph, CoreData.GeneralMixerCount);
+        HalfBodyLayerMixer1 = AnimationMixerPlayable.Create(Graph, 1);
+        
+        Graph.Connect(FullBodyLayerMixer0, 0, LayerMixer, 0);
+        Graph.Connect(HalfBodyLayerMixer1, 0, LayerMixer, 1);
+        LayerMixer.SetInputWeight(FullBodyLayerMixer0, 1f);
+        LayerMixer.SetInputWeight(HalfBodyLayerMixer1, 1f);
+        
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
-        playableOutput.SetSourcePlayable(GeneralMixerPlayable);
+        playableOutput.SetSourcePlayable(LayerMixer);
         
         InitializeParts();
         
         Graph.Play();
+        // вроде бы структура графа корректна
+        // осталось только подключать клип с подходящей маской к HalfBodyLayerMixer1
     }
 
     private void InitializeParts()
     {
-        PlayablesAnimatorController = new PlayablesAnimatorController(this);
+        FullBodyAnimatorController = new PlayablesAnimatorController(this);
     }
     
     private void Update()
     {
-        PlayablesAnimatorController.OnUpdate(Time.deltaTime);
+        FullBodyAnimatorController.OnUpdate(Time.deltaTime);
     }
     
     private void OnDestroy()

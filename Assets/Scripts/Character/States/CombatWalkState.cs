@@ -9,7 +9,7 @@ public class CombatWalkState : State
     {
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
+        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
     
     protected override void CheckSwitch(CharacterCore character)
@@ -64,7 +64,7 @@ public class CombatWalkState : State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        character.GraphCore.PlayablesAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+        character.GraphCore.FullBodyAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
     }
 
     public override void ExitState(CharacterCore character)

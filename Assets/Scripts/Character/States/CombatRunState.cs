@@ -9,7 +9,7 @@ public class CombatRunState : State
     {
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.ItemData;
-        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
+        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
 
     protected override void CheckSwitch(CharacterCore character)
@@ -20,12 +20,12 @@ public class CombatRunState : State
             character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
         
-        if (!character.CharacterInputHandler.IsRun && !character.GraphCore.PlayablesAnimatorController.IsTransitioning)
+        if (!character.CharacterInputHandler.IsRun && !character.GraphCore.FullBodyAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("CombatWalkState"));
         }
         
-        if (!character.CharacterInputHandler.IsWeaponDraw && !character.GraphCore.PlayablesAnimatorController.IsTransitioning)
+        if (!character.CharacterInputHandler.IsWeaponDraw && !character.GraphCore.FullBodyAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("WeaponOffState"));
         }
@@ -64,7 +64,7 @@ public class CombatRunState : State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        character.GraphCore.PlayablesAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+        character.GraphCore.FullBodyAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
     }
 
     public override void ExitState(CharacterCore character)

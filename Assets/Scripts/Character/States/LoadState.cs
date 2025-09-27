@@ -9,15 +9,15 @@ public class LoadState : State
     {
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
-        character.GraphCore.PlayablesAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
+        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
+        character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
     }
     
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
         Debug.Log(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
-        character.GraphCore.PlayablesAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
+        character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
     }
 
     protected override void CheckSwitch(CharacterCore character)
@@ -27,7 +27,7 @@ public class LoadState : State
             character.SetState(character.StatesContainer.GetState("ReloadProjectileState"));
         }
         
-        if (character.Gravity.Grounded && character.GraphCore.PlayablesAnimatorController.IsCurrentClipFinished())
+        if (character.Gravity.Grounded && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
         {
             character.SetState(character.StatesContainer.GetState("AimState"));
         }

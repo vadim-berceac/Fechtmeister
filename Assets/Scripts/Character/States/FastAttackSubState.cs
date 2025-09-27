@@ -2,8 +2,8 @@ using Unity.Burst;
 using UnityEngine;
 
 [BurstCompile]
-[CreateAssetMenu(fileName = "FastAttackState", menuName = "States/FastAttackState")]
-public class FastAttackState : State
+[CreateAssetMenu(fileName = "FastAttackSubState", menuName = "States/SubStates/FastAttackSubState")]
+public class FastAttackSubState : State
 {
     public override void EnterState(CharacterCore character)
     {

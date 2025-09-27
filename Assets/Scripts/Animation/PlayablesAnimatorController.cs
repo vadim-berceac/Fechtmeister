@@ -94,14 +94,14 @@ public class PlayablesAnimatorController
         var newSlot = _currentBlendMixer.IsValid() ? 1 - _currentSlot : 0;
         var previousSlot = _currentSlot;
 
-        if (_playableGraphCore.GeneralMixerPlayable.GetInput(newSlot).IsValid())
+        if (_playableGraphCore.FullBodyLayerMixer0.GetInput(newSlot).IsValid())
         {
-            _playableGraphCore.Graph.Disconnect(_playableGraphCore.GeneralMixerPlayable, newSlot);
+            _playableGraphCore.Graph.Disconnect(_playableGraphCore.FullBodyLayerMixer0, newSlot);
         }
 
-        _playableGraphCore.Graph.Connect(newBlendMixer, 0, _playableGraphCore.GeneralMixerPlayable, newSlot);
-        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(previousSlot, _currentBlendMixer.IsValid() ? 1.0f : 0.0f);
-        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(newSlot, _currentBlendMixer.IsValid() ? 0.0f : 1.0f);
+        _playableGraphCore.Graph.Connect(newBlendMixer, 0, _playableGraphCore.FullBodyLayerMixer0, newSlot);
+        _playableGraphCore.FullBodyLayerMixer0.SetInputWeight(previousSlot, _currentBlendMixer.IsValid() ? 1.0f : 0.0f);
+        _playableGraphCore.FullBodyLayerMixer0.SetInputWeight(newSlot, _currentBlendMixer.IsValid() ? 0.0f : 1.0f);
 
         if (_currentBlendMixer.IsValid())
         {
@@ -268,8 +268,8 @@ public class PlayablesAnimatorController
         var currentWeight = Mathf.Lerp(0f, 1f, stateT);
         var previousSlot = 1 - _currentSlot;
 
-        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(previousSlot, 1f - currentWeight);
-        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(_currentSlot, currentWeight);
+        _playableGraphCore.FullBodyLayerMixer0.SetInputWeight(previousSlot, 1f - currentWeight);
+        _playableGraphCore.FullBodyLayerMixer0.SetInputWeight(_currentSlot, currentWeight);
 
         if (stateT < 1f) return;
 
@@ -277,15 +277,15 @@ public class PlayablesAnimatorController
 
         if (_previousBlendMixer.IsValid())
         {
-            _playableGraphCore.Graph.Disconnect(_playableGraphCore.GeneralMixerPlayable, previousSlot);
+            _playableGraphCore.Graph.Disconnect(_playableGraphCore.FullBodyLayerMixer0, previousSlot);
             _previousBlendMixer.Destroy();
             _previousBlendMixer = default;
         }
 
-        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(_currentSlot, 1f);
-        _playableGraphCore.GeneralMixerPlayable.SetInputWeight(previousSlot, 0f);
+        _playableGraphCore.FullBodyLayerMixer0.SetInputWeight(_currentSlot, 1f);
+        _playableGraphCore.FullBodyLayerMixer0.SetInputWeight(previousSlot, 0f);
 
-        if (!_playableGraphCore.GeneralMixerPlayable.GetInput(_currentSlot).IsValid())
+        if (!_playableGraphCore.FullBodyLayerMixer0.GetInput(_currentSlot).IsValid())
         {
             Debug.LogError($"Current slot {_currentSlot} is invalid after transition!");
         }

@@ -10,8 +10,8 @@ public class DeathState : State
         base.EnterState(character);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.ItemData;
         var animType = character.Inventory.IsWeaponOn ? itemInstanceData.AnimationType : 0;
-        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, animType);
-        character.GraphCore.PlayablesAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
+        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, animType);
+        character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
         
         character.Health.EnableHitReaction(false);
     }

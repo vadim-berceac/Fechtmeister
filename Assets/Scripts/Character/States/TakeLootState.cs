@@ -8,13 +8,13 @@ public class TakeLootState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.GraphCore.PlayablesAnimatorController.SetAnimationState(this, 0);
-        character.GraphCore.PlayablesAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
+        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
+        character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.GraphCore.PlayablesAnimatorController.IsCurrentClipFinished())
+        if (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
         {
             character.SetState(character.StatesContainer.GetState("IdleState"));
         }
@@ -28,7 +28,7 @@ public class TakeLootState : State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        character.GraphCore.PlayablesAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
+        character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
     }
     
     public override void ExitState(CharacterCore character)
