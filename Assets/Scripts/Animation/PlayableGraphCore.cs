@@ -13,11 +13,15 @@ public class PlayableGraphCore : MonoBehaviour
     public AnimationMixerPlayable GeneralMixerPlayable { get; private set; }
     
     public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
+    
+    public PlayablesAnimationStateController PlayablesAnimationStateController { get; private set; }//тест
+    
+    private StatesContainer _statesContainer;
 
     [Inject]
-    private void Construct()
+    private void Construct(StatesContainer statesContainer)
     {
-        Debug.Log("Construct");
+        _statesContainer = statesContainer;
         Graph = PlayableGraph.Create("General Graph");
         GeneralMixerPlayable = AnimationMixerPlayable.Create(Graph, CoreData.GeneralMixerCount);
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
@@ -31,11 +35,15 @@ public class PlayableGraphCore : MonoBehaviour
     private void InitializeParts()
     {
         PlayablesAnimatorController = new PlayablesAnimatorController(this);
+
+        PlayablesAnimationStateController = new PlayablesAnimationStateController(this, _statesContainer); //тест
     }
     
     private void Update()
     {
         PlayablesAnimatorController.OnUpdate(Time.deltaTime);
+        
+        PlayablesAnimationStateController.OnUpdate(); //тест
     }
     
     private void OnDestroy()

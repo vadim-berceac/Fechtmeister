@@ -5,12 +5,12 @@ public class AnimationState
 {
     private readonly string _name;
     private AnimationMixerPlayable _mixerPlayable;
-    private readonly Dictionary<AnimationClipPlayable, AnimationBlendConfig.BlendClip> _blendClips;
+    private readonly HashSet<Dictionary<AnimationClipPlayable, AnimationBlendConfig.BlendClip>> _blendClipGroups;
     
-    public AnimationState (State state)
+    public AnimationState(State state)
     {
-        _blendClips = new Dictionary<AnimationClipPlayable, AnimationBlendConfig.BlendClip>();
         _name = state.name;
+        _blendClipGroups = new HashSet<Dictionary<AnimationClipPlayable, AnimationBlendConfig.BlendClip>>();
     }
 
     public AnimationMixerPlayable GetMixerPlayable(int blendParamValue, int clipParamValue)
@@ -26,5 +26,10 @@ public class AnimationState
     public bool IsComplete()
     {
         return false;
+    }
+
+    public float GetNormalizedDuration()
+    {
+        return 0f;
     }
 }

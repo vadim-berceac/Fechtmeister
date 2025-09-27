@@ -7,14 +7,12 @@ public class PlayablesAnimationStateController
 {
     private readonly HashSet<AnimationState> _animationStates;
     private readonly PlayableGraphCore _playableGraphCore;
-    private readonly StatesContainer _statesContainer;
     
     private AnimationState _currentAnimationState;
     
     public PlayablesAnimationStateController(PlayableGraphCore playableGraphCore, StatesContainer statesContainer)
     {
         _playableGraphCore = playableGraphCore;
-        _statesContainer = statesContainer;
         _animationStates = new HashSet<AnimationState>();
 
         var stateContainer = statesContainer.GetStates();
@@ -23,16 +21,9 @@ public class PlayablesAnimationStateController
         {
             _animationStates.Add(new AnimationState(state));
         }
-        
-        Initialize();
     }
 
-    private void Initialize()
-    {
-        
-    }
-
-    public void SetAnimationState(string animationStateName)
+    public void SetAnimationState(string animationStateName, int blendParamValue, int clipParamValue)
     {
         if (_animationStates.IsEmpty() || _animationStates.Count < 1)
         {
@@ -40,16 +31,41 @@ public class PlayablesAnimationStateController
         }
         var newState = _animationStates.FirstOrDefault(s => s.GetName() == animationStateName);
         
-        Debug.Assert(newState != null, nameof(newState) + " != null");
-        // назначить новый стейт, провести плавный переход
+        _currentAnimationState = newState;
+
+        SetAnimationBlend(blendParamValue, clipParamValue);
+        
+        Debug.LogWarning(newState?.GetName());
+    }
+
+    private void SetAnimationBlend(int blendParamValue, int clipParamValue)
+    {
+        var mixer = _currentAnimationState.GetMixerPlayable(blendParamValue, clipParamValue);
+        
+        _playableGraphCore.Graph.Connect(mixer, 0, _playableGraphCore.GeneralMixerPlayable, 1);
     }
 
     public AnimationState GetCurrentAnimationState()
     {
         return _currentAnimationState;
     }
+
+    public bool IsCurrentStateComplete()
+    {
+        return _currentAnimationState.IsComplete();
+    }
+
+    public float GetCurrentStateNormalizedDuration()
+    {
+        return _currentAnimationState.GetNormalizedDuration();
+    }
     
     public void OnUpdate()
+    {
+        SmoothBlend();
+    }
+
+    private void SmoothBlend()
     {
         
     }
