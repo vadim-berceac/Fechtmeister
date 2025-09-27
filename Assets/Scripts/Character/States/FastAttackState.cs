@@ -14,7 +14,7 @@ public class FastAttackState : State
         character.GraphCore.PlayablesAnimatorController.SetAnimationStateClip(character.AttackCounter.GetValue());
         
         //тест
-        character.GraphCore.PlayablesAnimationStateController.SetAnimationState(name, itemInstanceData.AnimationType, character.AttackCounter.GetValue());
+        //character.GraphCore.PlayablesAnimationStateController.SetAnimationState(name, itemInstanceData.AnimationType, character.AttackCounter.GetValue());
     }
 
     protected override void CheckSwitch(CharacterCore character)

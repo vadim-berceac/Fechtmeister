@@ -14,7 +14,7 @@ public class PlayableGraphCore : MonoBehaviour
     
     public PlayablesAnimatorController PlayablesAnimatorController { get; private set; }
     
-    public PlayablesAnimationStateController PlayablesAnimationStateController { get; private set; }//тест
+    //public PlayablesAnimationStateController PlayablesAnimationStateController { get; private set; }//тест
     
     private StatesContainer _statesContainer;
 
@@ -36,14 +36,14 @@ public class PlayableGraphCore : MonoBehaviour
     {
         PlayablesAnimatorController = new PlayablesAnimatorController(this);
 
-        PlayablesAnimationStateController = new PlayablesAnimationStateController(this, _statesContainer); //тест
+        //PlayablesAnimationStateController = new PlayablesAnimationStateController(this, _statesContainer); //тест
     }
     
     private void Update()
     {
         PlayablesAnimatorController.OnUpdate(Time.deltaTime);
         
-        PlayablesAnimationStateController.OnUpdate(); //тест
+        //PlayablesAnimationStateController.OnUpdate(); //тест
     }
     
     private void OnDestroy()

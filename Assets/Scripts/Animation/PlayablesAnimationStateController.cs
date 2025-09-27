@@ -19,7 +19,7 @@ public class PlayablesAnimationStateController
         
         foreach (var state in stateContainer)
         {
-            _animationStates.Add(new AnimationState(state));
+            _animationStates.Add(new AnimationState(playableGraphCore.Graph, state));
         }
     }
 
