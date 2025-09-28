@@ -12,7 +12,8 @@ public class FastAttackSubState : State
         character.GraphCore.LayerMixer.SetInputWeight(1,1f);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
         
-        character.GraphCore.UpperBodyLayerController.PlayAnimationSubState(this, itemInstanceData.AnimationType, character.AttackCounter.GetValue());
+        character.GraphCore.UpperBodyLayerController.PlayAnimationSubState(this, 
+            itemInstanceData.AnimationType, character.AttackCounter.GetValue(), EnterTransitionDuration);
     }
 
     public override void FixedUpdateState(CharacterCore character)
@@ -24,7 +25,6 @@ public class FastAttackSubState : State
     {
         if (character.GraphCore.UpperBodyLayerController.IsComplete())
         {
-            Debug.Log(character.GraphCore.UpperBodyLayerController);
             character.SetSubState(character.StatesContainer.GetState("DefaultSubState"));
         }
         
@@ -42,10 +42,10 @@ public class FastAttackSubState : State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        if (character.GraphCore.FullBodyAnimatorController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
+        if (character.GraphCore.UpperBodyLayerController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
             character.Inventory.WeaponSystem.AllowAttack(true);
-            character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
+            character.GraphCore.UpperBodyLayerController.ResetActionTimeFlag();
             character.StateTimer.SetActionIsPossible(false);
         }
     }

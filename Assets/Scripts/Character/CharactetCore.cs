@@ -68,6 +68,8 @@ public class CharacterCore : MonoBehaviour
     {
         CurrentState = StatesContainer.GetState("IdleState");
         CurrentState.EnterState(this);
+        CurrentSubState = StatesContainer.GetState("DefaultSubState");
+        CurrentSubState.EnterState(this);
     }
 
     public void SetState(State state)

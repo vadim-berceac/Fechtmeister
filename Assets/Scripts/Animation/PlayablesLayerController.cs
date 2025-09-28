@@ -1,52 +1,80 @@
 using System.Linq;
+using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
+[BurstCompile]
 public class PlayablesLayerController
 {
     private readonly PlayableGraph _playableGraph;
     private readonly AnimationMixerPlayable _animationMixer;
     private AnimationClipPlayable _animationClip;
+    private AnimationBlendConfig.BlendClip _currentBlendClip; // Store the current blend clip
+    private readonly float _targetWeight = 1f;
+    private float _currentWeight;
+    private float _blendTime;
+    private float _blendTimer;
+    private bool _isBlending;
+    private bool _actionTimeReached;
+    private float _previousNormalizedTime; // Track previous normalized time
+
     public PlayablesLayerController(PlayableGraph playableGraph, AnimationMixerPlayable maskMixer)
     {
         _playableGraph = playableGraph;
         _animationMixer = maskMixer;
+        _currentWeight = 0f;
+        _blendTime = 0f;
+        _blendTimer = 0f;
+        _isBlending = false;
+        _previousNormalizedTime = 0f;
     }
 
     public void OnUpdate()
     {
-        
+        CheckBlending();
+        UpdateActionTimeFlag();
     }
 
-    public void PlayAnimationSubState(State state, int configParam, int blendParam)
+    public void PlayAnimationSubState(State state, int configParam, int blendParam, float blendTime)
     {
-        var clip = GetAnimationClip(state, configParam, blendParam);
+        var blendClip = GetAnimationClip(state, configParam, blendParam);
+        _currentBlendClip = blendClip; // Store the current blend clip
+
         if (_animationClip.IsValid())
         {
-            _playableGraph.Disconnect(_animationMixer, 0); 
-            _animationClip.Destroy(); 
+            _playableGraph.Disconnect(_animationMixer, 0);
+            _animationClip.Destroy();
         }
-        
-        _animationClip = AnimationClipPlayable.Create(_playableGraph, clip);
-        _animationClip.SetDuration(clip.length);
-        
-        _playableGraph.Connect(_animationClip, 0, _animationMixer, 0);
-       
-        _animationMixer.SetInputWeight(0, 1f);
-        _animationClip.SetTime(0f); 
-        _animationClip.Play();
 
-        if (!_playableGraph.IsPlaying())
+        _animationClip = AnimationClipPlayable.Create(_playableGraph, blendClip.Clip);
+        _animationClip.SetDuration(blendClip.Clip.length);
+        _animationClip.SetSpeed(blendClip.Speed);
+
+        _playableGraph.Connect(_animationClip, 0, _animationMixer, 0);
+
+        _blendTime = blendTime;
+        _blendTimer = 0f;
+        _currentWeight = _animationMixer.GetInputWeight(0);
+        _isBlending = blendTime > 0f;
+
+        if (!_isBlending)
         {
-            _playableGraph.Play();
+            _animationMixer.SetInputWeight(0, 1f);
         }
+
+        _animationClip.SetTime(0f);
+        _animationClip.Play();
+        _previousNormalizedTime = 0f; // Reset on new animation
+        _actionTimeReached = false; // Reset action flag
     }
 
     public void StopAnimationSubState()
     {
         _animationClip.Pause();
-        _animationMixer.SetInputWeight(0, 0);
+        _animationMixer.SetInputWeight(0, 0f);
+        _actionTimeReached = false; // Reset when stopping
+        _previousNormalizedTime = 0f;
     }
 
     public bool IsComplete()
@@ -59,26 +87,108 @@ public class PlayablesLayerController
         var clip = _animationClip.GetAnimationClip();
         if (clip == null)
         {
-            return true; 
+            return true;
         }
         return _animationClip.GetTime() >= _animationClip.GetDuration() - 0.01f;
     }
 
-    private static AnimationClip GetAnimationClip(State state, int configParam, int blendParam)
+    public bool HasReachedActionTime()
+    {
+        return _actionTimeReached;
+    }
+
+    public void ResetActionTimeFlag()
+    {
+        _actionTimeReached = false;
+    }
+
+    private float GetCurrentClipNormalizedTime()
+    {
+        if (!_animationClip.IsValid() || _animationClip.GetAnimationClip() == null)
+        {
+            return 0f;
+        }
+
+        float duration = (float)_animationClip.GetDuration();
+        if (duration <= 0f)
+        {
+            return 0f;
+        }
+
+        float currentTime = (float)_animationClip.GetTime();
+        return currentTime / duration;
+    }
+
+    private void UpdateActionTimeFlag()
+    {
+        // Early exit if clip is invalid or has no weight
+        if (!_animationClip.IsValid() || _animationMixer.GetInputWeight(0) <= 0f || _currentBlendClip.Clip == null)
+        {
+            _actionTimeReached = false;
+            _previousNormalizedTime = 0f;
+            return;
+        }
+
+        float currentNormalized = GetCurrentClipNormalizedTime();
+        var clip = _currentBlendClip.Clip;
+        float actionTime = _currentBlendClip.ActionTime;
+
+        // Handle clip completion
+        if (IsComplete())
+        {
+            _actionTimeReached = false;
+            _previousNormalizedTime = currentNormalized;
+            return;
+        }
+
+        // Detect loop reset for looping clips
+        if (clip.isLooping && currentNormalized < _previousNormalizedTime)
+        {
+            _actionTimeReached = false; // Reset flag on loop
+        }
+
+        // Set action flag if action time is reached
+        if (!_actionTimeReached && currentNormalized >= actionTime)
+        {
+            _actionTimeReached = true;
+        }
+
+        _previousNormalizedTime = currentNormalized;
+    }
+
+    private void CheckBlending()
+    {
+        if (!_isBlending)
+        {
+            return;
+        }
+        _blendTimer += Time.deltaTime;
+        var t = Mathf.Clamp01(_blendTimer / _blendTime);
+        _currentWeight = Mathf.Lerp(_currentWeight, _targetWeight, t);
+        if (_animationClip.IsValid())
+        {
+            _animationMixer.SetInputWeight(0, _currentWeight);
+        }
+
+        if (t >= 1f)
+        {
+            _isBlending = false;
+        }
+    }
+
+    private static AnimationBlendConfig.BlendClip GetAnimationClip(State state, int configParam, int blendParam)
     {
         if (state.Clips == null || state.Clips.Length == 0)
         {
-            return null;
+            return default;
         }
         var config = state.Clips.FirstOrDefault(con => con.ParamValue == configParam);
 
         if (config == null)
         {
-            return state.Clips[0].Clips[0].Clip;
+            return state.Clips[0].Clips[0];
         }
-        
-        var blend = config.Clips.FirstOrDefault(con => con.ParamValue == blendParam);
 
-        return  blend.Clip;
+        return config.Clips.FirstOrDefault(con => con.ParamValue == blendParam);
     }
 }
