@@ -216,6 +216,9 @@ MonoBehaviour:
     <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}
     <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
+  <UpperBodySettings>k__BackingField:
+    <UpperBodyMask>k__BackingField: {fileID: 31900000, guid: e192ab7a74cf5c944819ebffd34918a7, type: 2}
+    <Test>k__BackingField: {fileID: 7400000, guid: 40c1ac70805ba5b40877e7df94667676, type: 3}
 --- !u!114 &301124297547184519
 MonoBehaviour:
   m_ObjectHideFlags: 0

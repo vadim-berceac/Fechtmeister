@@ -8,7 +8,7 @@ using Zenject;
 public class PlayableGraphCore : MonoBehaviour
 {
     [field: SerializeField] public PlayableGraphCoreData CoreData { get; set; }
-    
+    [field: SerializeField] public UpperBodySettings UpperBodySettings { get; set; }
     public PlayableGraph Graph { get; private set; }
     public AnimationLayerMixerPlayable LayerMixer { get; private set; }
     public AnimationMixerPlayable FullBodyLayerMixer0 { get; private set; }
@@ -28,7 +28,14 @@ public class PlayableGraphCore : MonoBehaviour
         Graph.Connect(FullBodyLayerMixer0, 0, LayerMixer, 0);
         Graph.Connect(HalfBodyLayerMixer1, 0, LayerMixer, 1);
         LayerMixer.SetInputWeight(FullBodyLayerMixer0, 1f);
-        LayerMixer.SetInputWeight(HalfBodyLayerMixer1, 1f);
+        LayerMixer.SetInputWeight(HalfBodyLayerMixer1, 0f);
+        
+        //
+        LayerMixer.SetLayerMaskFromAvatarMask(1, UpperBodySettings.UpperBodyMask);
+        var testPlayable = AnimationClipPlayable.Create(Graph, UpperBodySettings.Test);
+        Graph.Connect(testPlayable, 0, HalfBodyLayerMixer1, 0);
+        HalfBodyLayerMixer1.SetInputWeight(testPlayable, 1f);
+        //
         
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
         playableOutput.SetSourcePlayable(LayerMixer);
@@ -63,4 +70,11 @@ public struct PlayableGraphCoreData
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public CharacterController CharacterController { get; set; }
     [field: SerializeField] public CharacterCore CharacterCore { get; set; }
+}
+
+[System.Serializable]
+public struct UpperBodySettings
+{
+    [field: SerializeField] public AvatarMask UpperBodyMask { get; set; }
+    [field: SerializeField] public AnimationClip Test { get; set; }
 }
