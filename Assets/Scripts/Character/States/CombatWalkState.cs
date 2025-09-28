@@ -30,10 +30,10 @@ public class CombatWalkState : State
             character.SetState(character.StatesContainer.GetState("WeaponOffState"));
         }
         
-        if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
-        {
-            character.SetState(character.StatesContainer.GetState("FastAttackState"));
-        }
+        // if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
+        // {
+        //     character.SetState(character.StatesContainer.GetState("FastAttackState"));
+        // }
         
         if (character.CharacterInputHandler.IsAimBlock && character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
         {
@@ -65,6 +65,11 @@ public class CombatWalkState : State
     {
         base.CheckAction(character);
         character.GraphCore.FullBodyAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+
+        if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged && character.GraphCore.UpperBodyLayerController.IsComplete())
+        {
+            character.SetSubState(character.StatesContainer.GetState("FastAttackSubState"));
+        }
     }
 
     public override void ExitState(CharacterCore character)

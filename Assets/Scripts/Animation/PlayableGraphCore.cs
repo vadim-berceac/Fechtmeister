@@ -12,30 +12,26 @@ public class PlayableGraphCore : MonoBehaviour
     public PlayableGraph Graph { get; private set; }
     public AnimationLayerMixerPlayable LayerMixer { get; private set; }
     public AnimationMixerPlayable FullBodyLayerMixer0 { get; private set; }
-    public AnimationMixerPlayable HalfBodyLayerMixer1 { get; private set; }
+    public AnimationMixerPlayable UpperBodyLayerMixer1 { get; private set; }
     
     public PlayablesAnimatorController FullBodyAnimatorController { get; private set; }
-    //написать упрощенный вариант анимационного контроллера для HalfBody
+    public PlayablesLayerController UpperBodyLayerController { get; private set; }
 
     [Inject]
-    private void Construct()
+    private void Construct(StatesContainer statesContainer)
     {
         Graph = PlayableGraph.Create("General Graph");
         LayerMixer = AnimationLayerMixerPlayable.Create(Graph, 2);
         FullBodyLayerMixer0 = AnimationMixerPlayable.Create(Graph, CoreData.GeneralMixerCount);
-        HalfBodyLayerMixer1 = AnimationMixerPlayable.Create(Graph, 1);
+        UpperBodyLayerMixer1 = AnimationMixerPlayable.Create(Graph, 1);
         
         Graph.Connect(FullBodyLayerMixer0, 0, LayerMixer, 0);
-        Graph.Connect(HalfBodyLayerMixer1, 0, LayerMixer, 1);
+        Graph.Connect(UpperBodyLayerMixer1, 0, LayerMixer, 1);
         LayerMixer.SetInputWeight(FullBodyLayerMixer0, 1f);
-        LayerMixer.SetInputWeight(HalfBodyLayerMixer1, 0f);
-        
-        //
-        LayerMixer.SetLayerMaskFromAvatarMask(1, UpperBodySettings.UpperBodyMask);
-        var testPlayable = AnimationClipPlayable.Create(Graph, UpperBodySettings.Test);
-        Graph.Connect(testPlayable, 0, HalfBodyLayerMixer1, 0);
-        HalfBodyLayerMixer1.SetInputWeight(testPlayable, 1f);
-        //
+        LayerMixer.SetInputWeight(UpperBodyLayerMixer1, 0f);
+       
+        LayerMixer.SetLayerMaskFromAvatarMask(1, statesContainer.GetAvatarMasksSettings().UpperBodyMask);
+        LayerMixer.SetInputWeight(UpperBodyLayerMixer1, 1f);
         
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
         playableOutput.SetSourcePlayable(LayerMixer);
@@ -43,18 +39,18 @@ public class PlayableGraphCore : MonoBehaviour
         InitializeParts();
         
         Graph.Play();
-        // вроде бы структура графа корректна
-        // осталось только подключать клип с подходящей маской к HalfBodyLayerMixer1
     }
 
     private void InitializeParts()
     {
         FullBodyAnimatorController = new PlayablesAnimatorController(this);
+        UpperBodyLayerController = new PlayablesLayerController(Graph, UpperBodyLayerMixer1);
     }
     
     private void Update()
     {
         FullBodyAnimatorController.OnUpdate(Time.deltaTime);
+        UpperBodyLayerController.OnUpdate();
     }
     
     private void OnDestroy()
@@ -75,6 +71,5 @@ public struct PlayableGraphCoreData
 [System.Serializable]
 public struct UpperBodySettings
 {
-    [field: SerializeField] public AvatarMask UpperBodyMask { get; set; }
     [field: SerializeField] public AnimationClip Test { get; set; }
 }

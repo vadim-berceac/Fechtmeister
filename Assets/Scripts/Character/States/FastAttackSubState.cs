@@ -1,5 +1,6 @@
 using Unity.Burst;
 using UnityEngine;
+using UnityEngine.Playables;
 
 [BurstCompile]
 [CreateAssetMenu(fileName = "FastAttackSubState", menuName = "States/SubStates/FastAttackSubState")]
@@ -8,28 +9,34 @@ public class FastAttackSubState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        
+        character.GraphCore.LayerMixer.SetInputWeight(1,1f);
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
-        character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(character.AttackCounter.GetValue());
+        
+        character.GraphCore.UpperBodyLayerController.PlayAnimationSubState(this, itemInstanceData.AnimationType, character.AttackCounter.GetValue());
+    }
+
+    public override void FixedUpdateState(CharacterCore character)
+    {
+       
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() && !character.GraphCore.FullBodyAnimatorController.IsTransitioning)
+        if (character.GraphCore.UpperBodyLayerController.IsComplete())
         {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
+            Debug.Log(character.GraphCore.UpperBodyLayerController);
+            character.SetSubState(character.StatesContainer.GetState("DefaultSubState"));
         }
         
-        if (character.Health.IsHitReactionEnabled)
-        {
-            character.SetState(character.StatesContainer.GetState("GetHitState"));
-        }
-        
-        if (character.Health.IsDestroyed)
-        {
-            character.SetState(character.StatesContainer.GetState("DeathState"));
-        }
+        // if (character.Health.IsHitReactionEnabled)
+        // {
+        //     character.SetSubState(character.StatesContainer.GetState("GetHitState"));
+        // }
+        //
+        // if (character.Health.IsDestroyed)
+        // {
+        //     character.SetSubState(character.StatesContainer.GetState("DeathState"));
+        // }
     }
 
     protected override void CheckAction(CharacterCore character)
@@ -46,6 +53,7 @@ public class FastAttackSubState : State
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
+        character.GraphCore.UpperBodyLayerController.StopAnimationSubState();
         character.Inventory.WeaponSystem.AllowAttack(false);
     }
 }

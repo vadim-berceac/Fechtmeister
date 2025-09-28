@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851e844cdee36924d8f9dfb5145a95a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  avatarMasksSettings:
+    <FullBodyMask>k__BackingField: {fileID: 31900000, guid: 387b787d18c867349ae21600d5091d75, type: 2}
+    <UpperBodyMask>k__BackingField: {fileID: 31900000, guid: e192ab7a74cf5c944819ebffd34918a7, type: 2}
   states:
   - {fileID: 11400000, guid: 771e4573a7054824594e9333458f1933, type: 2}
   - {fileID: 11400000, guid: 60105d481ee029c4e847d2ec68a39310, type: 2}
@@ -69,3 +72,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ad5a92b2cfb335341ae3125fb5f58ae5, type: 2}
   - {fileID: 11400000, guid: b43e63aa0554d4846be4b8bed0b7db56, type: 2}
   - {fileID: 11400000, guid: 19e47467d3fd1d44a9c0d3e0b0b3af1b, type: 2}
+  - {fileID: 11400000, guid: 52ccca19c991415489d3231c6308d878, type: 2}

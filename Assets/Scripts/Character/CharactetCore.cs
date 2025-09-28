@@ -19,6 +19,7 @@ public class CharacterCore : MonoBehaviour
     //State Machine
     public StatesContainer StatesContainer { get; private set; }
     public State CurrentState { get; private set; }
+    public State CurrentSubState { get; private set; }
     public Counter AttackCounter { get; private set; }
     public CurrentSpeed CurrentSpeed { get; private set; }
     public StateTimer StateTimer { get; private set; }
@@ -76,16 +77,25 @@ public class CharacterCore : MonoBehaviour
         CurrentState.EnterState(this);
     }
 
+    public void SetSubState(State state)
+    {
+        CurrentSubState?.ExitState(this);
+        CurrentSubState = state;
+        CurrentSubState?.EnterState(this);
+    }
+
     private void Update()
     {
         CharacterInputHandler.SmoothInput(Time.deltaTime);
         CurrentState.UpdateState(this);
+        CurrentSubState?.UpdateState(this);
         CurrentSpeed.OnUpdate();
     }
 
     private void FixedUpdate()
     {
         CurrentState.FixedUpdateState(this);
+        CurrentSubState?.FixedUpdateState(this);
     }
 
     private void OnEnable()

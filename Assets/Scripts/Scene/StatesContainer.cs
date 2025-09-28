@@ -5,6 +5,7 @@ using UnityEngine;
 [BurstCompile]
 public class StatesContainer : MonoBehaviour
 {
+   [field: SerializeField] private AvatarMasksSettings avatarMasksSettings;
    [field: SerializeField] private State[] states;
    
    public State GetState(string stateName)
@@ -15,4 +16,16 @@ public class StatesContainer : MonoBehaviour
    {
       return states;
    }
+
+   public AvatarMasksSettings GetAvatarMasksSettings()
+   {
+      return avatarMasksSettings;
+   }
+}
+
+[System.Serializable]
+public struct AvatarMasksSettings
+{
+   [field: SerializeField] public AvatarMask FullBodyMask { get; private set; }
+   [field: SerializeField] public AvatarMask UpperBodyMask { get; private set; }
 }
