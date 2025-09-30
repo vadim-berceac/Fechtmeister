@@ -10,6 +10,8 @@ public abstract class State : ScriptableObject
     [field: Header("Targeting")]
     [field: SerializeField] protected bool AllowItemTargeting { get; set; }
     [field: SerializeField] protected bool AllowCharacterTargeting { get; set; }
+    [field: SerializeField] protected bool FixOnCharacterTarget {get; private set;}
+    [field: SerializeField] protected bool FixOnItemTarget {get; private set;}
     
     [field: Header("Input")]
     [field: SerializeField] public bool AllowSwitchWeaponInstance { get; set; }
@@ -46,7 +48,21 @@ public abstract class State : ScriptableObject
 
     public virtual void UpdateState(CharacterCore character)
     {
-        character.UpdateRotationByCamera(RotationByCamera, RotationSpeed);
+        if (RotationByCamera)
+        {
+            character.UpdateRotation(character.SceneCamera.SceneCameraData.MainCamera.eulerAngles, RotationSpeed);
+        }
+
+        if (FixOnCharacterTarget && character.TargetingSystem.LastCharacterTransform)
+        {
+           // реализовать
+        }
+        
+        if (FixOnItemTarget && character.TargetingSystem.LastItemTransform)
+        {
+            // реализовать
+        }
+        
         character.StateTimer.OnUpdate(Time.deltaTime);
         
         CheckAction(character);

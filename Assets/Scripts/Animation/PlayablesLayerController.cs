@@ -106,7 +106,6 @@ public class PlayablesLayerController
     public void ModifyCurrentWeight(float value)
     {
         _currentWeight += value;
-        Debug.Log(_currentWeight);
     }
 
     public float GetCurrentClipNormalizedTime()

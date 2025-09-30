@@ -4,18 +4,13 @@ using UnityEngine;
 public static class CharacterCoreExtensions
 {
     [BurstCompile]
-    public static void UpdateRotationByCamera(this CharacterCore character, bool rotationByCamera, float rotationSpeed)
+    public static void UpdateRotation(this CharacterCore character, Vector3 rotation, float rotationSpeed)
     {
-        if (!rotationByCamera)
-        {
-            return;
-        }
         if (character.SceneCamera.Target != character.CashedTransform)
         {
             return;
         }
-        
-        var targetRotation = Quaternion.Euler(0, character.SceneCamera.SceneCameraData.MainCamera.eulerAngles.y, 0);
+        var targetRotation = Quaternion.Euler(0, rotation.y, 0);
         
         if (Quaternion.Angle(character.CashedTransform.rotation, targetRotation) < 0.1f)
         {
@@ -23,30 +18,6 @@ public static class CharacterCoreExtensions
             return;
         }
         character.CashedTransform.rotation = Quaternion.Slerp(character.CashedTransform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-    }
-    
-    [BurstCompile]
-    public static float GetCurrentFallSpeed(this CharacterCore character, bool useGravity, float currentFallSpeed, bool isOnValidGround)
-    {
-        if (!useGravity)
-        {
-            return 0;
-        }
-
-        if (isOnValidGround)
-        {
-            if (currentFallSpeed < 0f)
-            {
-                currentFallSpeed = -2f;
-            }
-        }
-        else
-        {
-            var gravityDelta = GravitationConstants.GravitationForce * Time.fixedDeltaTime;
-            currentFallSpeed = Mathf.Max(currentFallSpeed - gravityDelta, -GravitationConstants.MaxFallSpeed);
-        }
-
-        return currentFallSpeed;
     }
     
     [BurstCompile]
