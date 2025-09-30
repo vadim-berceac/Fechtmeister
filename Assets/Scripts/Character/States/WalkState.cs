@@ -57,7 +57,14 @@ public class WalkState : State
 
     protected override void CheckAction(CharacterCore character)
     {
+        base.CheckAction(character);
         character.GraphCore.FullBodyAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+
+        // анимация вытаскивания зацикливается
+        // if (character.CharacterInputHandler.IsWeaponDraw && character.GraphCore.UpperBodyLayerController.IsComplete())
+        // {
+        //     character.SetSubState(character.StatesContainer.GetState("FastAttackSubState"));
+        // }
     }
 
     public override void ExitState(CharacterCore character)

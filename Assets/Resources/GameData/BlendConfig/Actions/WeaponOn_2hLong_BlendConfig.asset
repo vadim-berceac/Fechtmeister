@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa173714b11dd8842bdaecaa815f267a, type: 3}
   m_Name: WeaponOn_2hLong_BlendConfig
   m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
-  <ParameterName>k__BackingField: WeaponType
   <ParamValue>k__BackingField: 4
   <Clips>k__BackingField:
   - <Clip>k__BackingField: {fileID: -203655887218126122, guid: ca08909c7564a414e80fd78a24c82d9f, type: 3}
-    <ParamValue>k__BackingField: 4
+    <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
     <Speed>k__BackingField: 0.5
     <ActionTime>k__BackingField: 0.6

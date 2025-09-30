@@ -39,7 +39,7 @@ public class PlayablesLayerController
     public void PlayAnimationSubState(State state, int configParam, int blendParam, float blendTime)
     {
         var blendClip = GetAnimationClip(state, configParam, blendParam);
-        _currentBlendClip = blendClip; // Store the current blend clip
+        _currentBlendClip = blendClip; 
 
         if (_animationClip.IsValid())
         {
@@ -65,15 +65,15 @@ public class PlayablesLayerController
 
         _animationClip.SetTime(0f);
         _animationClip.Play();
-        _previousNormalizedTime = 0f; // Reset on new animation
-        _actionTimeReached = false; // Reset action flag
+        _previousNormalizedTime = 0f; 
+        _actionTimeReached = false; 
     }
 
     public void StopAnimationSubState()
     {
         _animationClip.Pause();
         _animationMixer.SetInputWeight(0, 0f);
-        _actionTimeReached = false; // Reset when stopping
+        _actionTimeReached = false; 
         _previousNormalizedTime = 0f;
     }
 
@@ -89,6 +89,7 @@ public class PlayablesLayerController
         {
             return true;
         }
+        // Debug.Log(_animationClip.GetTime() + " : " + _animationClip.GetDuration());
         return _animationClip.GetTime() >= _animationClip.GetDuration() - 0.01f;
     }
 
