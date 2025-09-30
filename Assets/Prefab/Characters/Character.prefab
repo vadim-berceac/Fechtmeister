@@ -81,11 +81,11 @@ GameObject:
   - component: {fileID: 9086983287782165238}
   - component: {fileID: 6829832979991591507}
   - component: {fileID: 5308955279979530949}
-  - component: {fileID: 1805780133230660867}
   - component: {fileID: 6502283926946306806}
+  - component: {fileID: 1805780133230660867}
   - component: {fileID: 7729256575959844760}
-  - component: {fileID: 301124297547184519}
   - component: {fileID: 5391477331367181792}
+  - component: {fileID: 301124297547184519}
   m_Layer: 23
   m_Name: Character
   m_TagString: Untagged
@@ -160,23 +160,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &1805780133230660867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3131212000758676167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 971dc02594ccbaa40877bc3a08edc4ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BasicRigidBodyPush
-  pushLayers:
-    serializedVersion: 2
-    m_Bits: 16777216
-  canPush: 1
-  strength: 1.1
 --- !u!95 &6502283926946306806
 Animator:
   serializedVersion: 7
@@ -199,6 +182,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1805780133230660867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131212000758676167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 971dc02594ccbaa40877bc3a08edc4ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BasicRigidBodyPush
+  pushLayers:
+    serializedVersion: 2
+    m_Bits: 16777216
+  canPush: 1
+  strength: 1.1
 --- !u!114 &7729256575959844760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,21 +216,6 @@ MonoBehaviour:
     <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}
     <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
-  <UpperBodySettings>k__BackingField:
-    <Test>k__BackingField: {fileID: 7400000, guid: 40c1ac70805ba5b40877e7df94667676, type: 3}
---- !u!114 &301124297547184519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3131212000758676167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ff13c9b085de8d428425fd407bbdaff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <CharacterPersonalityData>k__BackingField: {fileID: 11400000, guid: a8ebcc62fdff57244a3215c7cfc690ff, type: 2}
 --- !u!114 &5391477331367181792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +241,19 @@ MonoBehaviour:
   <TargetingSettings>k__BackingField:
     <ItemTargeting>k__BackingField: {fileID: 1204962803673603537}
     <CharacterTargeting>k__BackingField: {fileID: 5237636495354742196}
+--- !u!114 &301124297547184519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131212000758676167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff13c9b085de8d428425fd407bbdaff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CharacterPersonalityData>k__BackingField: {fileID: 11400000, guid: a8ebcc62fdff57244a3215c7cfc690ff, type: 2}
 --- !u!1 &3483420527028945448
 GameObject:
   m_ObjectHideFlags: 0

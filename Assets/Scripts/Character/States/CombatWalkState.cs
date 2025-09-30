@@ -30,11 +30,6 @@ public class CombatWalkState : State
             character.SetState(character.StatesContainer.GetState("WeaponOffState"));
         }
         
-        // if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
-        // {
-        //     character.SetState(character.StatesContainer.GetState("FastAttackState"));
-        // }
-        
         if (character.CharacterInputHandler.IsAimBlock && character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
         {
             character.SetState(character.StatesContainer.GetState("LoadState"));

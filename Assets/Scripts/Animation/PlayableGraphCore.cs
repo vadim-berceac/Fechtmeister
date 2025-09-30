@@ -8,7 +8,6 @@ using Zenject;
 public class PlayableGraphCore : MonoBehaviour
 {
     [field: SerializeField] public PlayableGraphCoreData CoreData { get; set; }
-    [field: SerializeField] public UpperBodySettings UpperBodySettings { get; set; }
     public PlayableGraph Graph { get; private set; }
     public AnimationLayerMixerPlayable LayerMixer { get; private set; }
     public AnimationMixerPlayable FullBodyLayerMixer0 { get; private set; }
@@ -66,10 +65,4 @@ public struct PlayableGraphCoreData
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public CharacterController CharacterController { get; set; }
     [field: SerializeField] public CharacterCore CharacterCore { get; set; }
-}
-
-[System.Serializable]
-public struct UpperBodySettings
-{
-    [field: SerializeField] public AnimationClip Test { get; set; }
 }

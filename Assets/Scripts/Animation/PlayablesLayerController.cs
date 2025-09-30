@@ -11,7 +11,8 @@ public class PlayablesLayerController
     private readonly AnimationMixerPlayable _animationMixer;
     private AnimationClipPlayable _animationClip;
     private AnimationBlendConfig.BlendClip _currentBlendClip; // Store the current blend clip
-    private readonly float _targetWeight = 1f;
+    private const float FullWeight = 1f;
+    private const float ZeroWeight = 0f;
     private float _currentWeight;
     private float _blendTime;
     private float _blendTimer;
@@ -60,7 +61,7 @@ public class PlayablesLayerController
 
         if (!_isBlending)
         {
-            _animationMixer.SetInputWeight(0, 1f);
+            _animationMixer.SetInputWeight(0, FullWeight);
         }
 
         _animationClip.SetTime(0f);
@@ -72,7 +73,7 @@ public class PlayablesLayerController
     public void StopAnimationSubState()
     {
         _animationClip.Pause();
-        _animationMixer.SetInputWeight(0, 0f);
+        _animationMixer.SetInputWeight(0, ZeroWeight);
         _actionTimeReached = false; 
         _previousNormalizedTime = 0f;
     }
@@ -89,7 +90,6 @@ public class PlayablesLayerController
         {
             return true;
         }
-        // Debug.Log(_animationClip.GetTime() + " : " + _animationClip.GetDuration());
         return _animationClip.GetTime() >= _animationClip.GetDuration() - 0.01f;
     }
 
@@ -103,26 +103,31 @@ public class PlayablesLayerController
         _actionTimeReached = false;
     }
 
-    private float GetCurrentClipNormalizedTime()
+    public void ModifyCurrentWeight(float value)
+    {
+        _currentWeight += value;
+        Debug.Log(_currentWeight);
+    }
+
+    public float GetCurrentClipNormalizedTime()
     {
         if (!_animationClip.IsValid() || _animationClip.GetAnimationClip() == null)
         {
             return 0f;
         }
 
-        float duration = (float)_animationClip.GetDuration();
+        var duration = (float)_animationClip.GetDuration();
         if (duration <= 0f)
         {
             return 0f;
         }
 
-        float currentTime = (float)_animationClip.GetTime();
+        var currentTime = (float)_animationClip.GetTime();
         return currentTime / duration;
     }
 
     private void UpdateActionTimeFlag()
     {
-        // Early exit if clip is invalid or has no weight
         if (!_animationClip.IsValid() || _animationMixer.GetInputWeight(0) <= 0f || _currentBlendClip.Clip == null)
         {
             _actionTimeReached = false;
@@ -130,25 +135,22 @@ public class PlayablesLayerController
             return;
         }
 
-        float currentNormalized = GetCurrentClipNormalizedTime();
+        var currentNormalized = GetCurrentClipNormalizedTime();
         var clip = _currentBlendClip.Clip;
-        float actionTime = _currentBlendClip.ActionTime;
-
-        // Handle clip completion
+        var actionTime = _currentBlendClip.ActionTime;
+       
         if (IsComplete())
         {
             _actionTimeReached = false;
             _previousNormalizedTime = currentNormalized;
             return;
         }
-
-        // Detect loop reset for looping clips
+       
         if (clip.isLooping && currentNormalized < _previousNormalizedTime)
         {
-            _actionTimeReached = false; // Reset flag on loop
+            _actionTimeReached = false; 
         }
-
-        // Set action flag if action time is reached
+        
         if (!_actionTimeReached && currentNormalized >= actionTime)
         {
             _actionTimeReached = true;
@@ -165,13 +167,13 @@ public class PlayablesLayerController
         }
         _blendTimer += Time.deltaTime;
         var t = Mathf.Clamp01(_blendTimer / _blendTime);
-        _currentWeight = Mathf.Lerp(_currentWeight, _targetWeight, t);
+        _currentWeight = Mathf.Lerp(_currentWeight, FullWeight, t);
         if (_animationClip.IsValid())
         {
             _animationMixer.SetInputWeight(0, _currentWeight);
         }
 
-        if (t >= 1f)
+        if (t >= FullWeight)
         {
             _isBlending = false;
         }

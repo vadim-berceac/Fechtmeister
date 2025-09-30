@@ -46,6 +46,11 @@ public class FastAttackSubState : State
             character.GraphCore.UpperBodyLayerController.ResetActionTimeFlag();
             character.StateTimer.SetActionIsPossible(false);
         }
+
+        if (character.GraphCore.UpperBodyLayerController.GetCurrentClipNormalizedTime() > 0.6f)
+        {
+            character.GraphCore.UpperBodyLayerController.ModifyCurrentWeight(- Time.deltaTime * 2);
+        }
     }
     
     public override void ExitState(CharacterCore character)
