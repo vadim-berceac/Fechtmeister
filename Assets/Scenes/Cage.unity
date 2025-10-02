@@ -1136,6 +1136,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 5951756257479577683, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: m_Data.m_WorldUpType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7729256575959844760, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: <Test>k__BackingField
       value: 

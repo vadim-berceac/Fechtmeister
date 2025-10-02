@@ -5,6 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DefaultSubState", menuName = "States/SubStates/DefaultSubState")]
 public class DefaultSubState : State
 {
+    public override void EnterState(CharacterCore character)
+    {
+        
+    }
+    
     public override void FixedUpdateState(CharacterCore character)
     {
        

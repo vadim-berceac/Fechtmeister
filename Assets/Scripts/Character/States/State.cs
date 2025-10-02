@@ -12,6 +12,7 @@ public abstract class State : ScriptableObject
     [field: SerializeField] protected bool AllowCharacterTargeting { get; set; }
     [field: SerializeField] protected bool FixOnCharacterTarget {get; private set;}
     [field: SerializeField] protected bool FixOnItemTarget {get; private set;}
+    [field: SerializeField] public float TargetingRigWeight {get; private set;} 
     
     [field: Header("Input")]
     [field: SerializeField] public bool AllowSwitchWeaponInstance { get; set; }

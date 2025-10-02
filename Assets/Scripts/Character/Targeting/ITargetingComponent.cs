@@ -65,7 +65,7 @@ public static class TargetingComponentExtensions
     }
     
     [BurstCompile]
-    private static void AddTarget(this ITargetingComponent component, Transform target)
+    public static void AddTarget(this ITargetingComponent component, Transform target)
     {
         component.Targets.Add(target);
         component.OnTargetAdded?.Invoke(target);

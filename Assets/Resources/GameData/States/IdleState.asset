@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deb165ba43da5654892ec70557012b05, type: 3}
   m_Name: IdleState
   m_EditorClassIdentifier: 
+  <EnterTransitionDuration>k__BackingField: 0.4
+  <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: a9ae9c31d9a6ccc4b9206351f7cb4296, type: 2}
   - {fileID: 11400000, guid: cb782917571429c4ba428e8627584e8c, type: 2}
@@ -19,13 +21,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e52e80277fdb3e54392dcd235cb2fa08, type: 2}
   - {fileID: 11400000, guid: 946166d48f1dac343ac6704c7442dc70, type: 2}
   <AllowItemTargeting>k__BackingField: 1
-  <AllowCharacterTargeting>k__BackingField: 0
-  <UpdateHorizontalTargetAngle>k__BackingField: 0
-  <UpdateVerticalTargetAngle>k__BackingField: 0
+  <AllowCharacterTargeting>k__BackingField: 1
+  <FixOnCharacterTarget>k__BackingField: 0
+  <FixOnItemTarget>k__BackingField: 0
+  <TargetingRigWeight>k__BackingField: 1
   <AllowSwitchWeaponInstance>k__BackingField: 1
-  <EnterTransitionDuration>k__BackingField: 0.4
-  <AnimationLayer>k__BackingField: 0
-  <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
   <UseGravity>k__BackingField: 1
