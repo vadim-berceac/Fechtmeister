@@ -10,7 +10,7 @@ public class PlayablesLayerController
     private readonly PlayableGraph _playableGraph;
     private readonly AnimationMixerPlayable _animationMixer;
     private AnimationClipPlayable _animationClip;
-    private AnimationBlendConfig.BlendClip _currentBlendClip; // Store the current blend clip
+    private AnimationBlendConfig.BlendClip _currentBlendClip; 
     private const float FullWeight = 1f;
     private const float ZeroWeight = 0f;
     private float _currentWeight;
@@ -18,7 +18,7 @@ public class PlayablesLayerController
     private float _blendTimer;
     private bool _isBlending;
     private bool _actionTimeReached;
-    private float _previousNormalizedTime; // Track previous normalized time
+    private float _previousNormalizedTime; 
 
     public PlayablesLayerController(PlayableGraph playableGraph, AnimationMixerPlayable maskMixer)
     {
@@ -98,11 +98,6 @@ public class PlayablesLayerController
         return _actionTimeReached;
     }
 
-    public void ResetActionTimeFlag()
-    {
-        _actionTimeReached = false;
-    }
-
     public void ModifyCurrentWeight(float value)
     {
         _currentWeight += value;
@@ -127,13 +122,6 @@ public class PlayablesLayerController
 
     private void UpdateActionTimeFlag()
     {
-        if (!_animationClip.IsValid() || _animationMixer.GetInputWeight(0) <= 0f || _currentBlendClip.Clip == null)
-        {
-            _actionTimeReached = false;
-            _previousNormalizedTime = 0f;
-            return;
-        }
-
         var currentNormalized = GetCurrentClipNormalizedTime();
         var clip = _currentBlendClip.Clip;
         var actionTime = _currentBlendClip.ActionTime;
@@ -152,6 +140,7 @@ public class PlayablesLayerController
         
         if (!_actionTimeReached && currentNormalized >= actionTime)
         {
+            Debug.Log(_actionTimeReached + " - " + currentNormalized + " - " + actionTime);
             _actionTimeReached = true;
         }
 

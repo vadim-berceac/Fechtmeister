@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa173714b11dd8842bdaecaa815f267a, type: 3}
-  m_Name: WeaponOff_2HBow_BlendConfig
+  m_Name: WeaponOn_2hLong_BlendConfig
   m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
-  <ParamValue>k__BackingField: 5
+  <ParamValue>k__BackingField: 4
   <Clips>k__BackingField:
-  - <Clip>k__BackingField: {fileID: -203655887218126122, guid: fbc59ed43d7ef1f468bc152877376a94, type: 3}
-    <ParamValue>k__BackingField: 5
+  - <Clip>k__BackingField: {fileID: 3094330708855449807, guid: 53647219dceac924f9aa355f4b9ceadf, type: 3}
+    <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 0.7
-    <ActionTime>k__BackingField: 0.8
+    <Speed>k__BackingField: 0.5
+    <ActionTime>k__BackingField: 0.6

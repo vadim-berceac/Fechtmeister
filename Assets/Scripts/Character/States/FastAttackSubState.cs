@@ -43,7 +43,6 @@ public class FastAttackSubState : State
         if (character.GraphCore.UpperBodyLayerController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
             character.Inventory.WeaponSystem.AllowAttack(true);
-            character.GraphCore.UpperBodyLayerController.ResetActionTimeFlag();
             character.StateTimer.SetActionIsPossible(false);
         }
 

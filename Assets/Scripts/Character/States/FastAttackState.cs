@@ -38,7 +38,6 @@ public class FastAttackState : State
         if (character.GraphCore.FullBodyAnimatorController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
             character.Inventory.WeaponSystem.AllowAttack(true);
-            character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
             character.StateTimer.SetActionIsPossible(false);
         }
     }

@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44949fd437eba15489fc2aceb6775fec, type: 3}
   m_Name: FallState
   m_EditorClassIdentifier: 
+  <EnterTransitionDuration>k__BackingField: 0
+  <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: bdb4c75cdb512064da406134e1e66745, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <AllowCharacterTargeting>k__BackingField: 0
-  <UpdateHorizontalTargetAngle>k__BackingField: 0
-  <UpdateVerticalTargetAngle>k__BackingField: 0
+  <FixOnCharacterTarget>k__BackingField: 0
+  <FixOnItemTarget>k__BackingField: 0
+  <TargetingRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
-  <EnterTransitionDuration>k__BackingField: 0
-  <AnimationLayer>k__BackingField: 0
-  <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
   <UseGravity>k__BackingField: 1
