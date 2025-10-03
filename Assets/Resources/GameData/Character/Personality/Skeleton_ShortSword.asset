@@ -24,4 +24,4 @@ MonoBehaviour:
   <HealthDataSettings>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <CurrentHealthPercentage>k__BackingField: 100
-    <HitReactionTriggerValuePercentage>k__BackingField: 25
+    <HitReactionTriggerValuePercentage>k__BackingField: 15

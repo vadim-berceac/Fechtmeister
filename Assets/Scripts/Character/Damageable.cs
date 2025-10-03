@@ -23,9 +23,12 @@ public abstract class Damageable
         CurrentHealth = Mathf.Max(0, CurrentHealth - damage);
         
         OnCurrentHealthChanged?.Invoke(CurrentHealth);
+
+        var percent = MaxHealth / 100;
         
-        if (damage > MaxHealth / 100 * HitReactionThresholdPercentage)
+        if (damage / percent > percent * HitReactionThresholdPercentage)
         {
+            Debug.Log($"Damage {damage} to {CurrentHealth} / {MaxHealth}");
             EnableHitReaction(true);
         }
 
