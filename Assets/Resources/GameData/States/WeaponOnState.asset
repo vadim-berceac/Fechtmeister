@@ -21,7 +21,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ca7fde117916f5f429eda8c8b57cb6a6, type: 2}
   - {fileID: 11400000, guid: 6764ffca5ba3c614f912c4f93b925c42, type: 2}
   <AllowItemTargeting>k__BackingField: 0
-  <AllowCharacterTargeting>k__BackingField: 0
+  <AllowCharacterTargeting>k__BackingField: 1
   <FixOnCharacterTarget>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <TargetingRigWeight>k__BackingField: 1

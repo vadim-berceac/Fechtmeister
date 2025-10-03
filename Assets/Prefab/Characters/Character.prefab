@@ -391,7 +391,7 @@ MonoBehaviour:
   <CharacterTargeting>k__BackingField: {fileID: 5237636495354742196}
   <ItemTargeting>k__BackingField: {fileID: 1204962803673603537}
   <Speed>k__BackingField: 6
-  <CharacterTargetingOffset>k__BackingField: {x: 0, y: 1.7, z: 0}
+  <CharacterTargetingOffset>k__BackingField: {x: 0, y: 1.55, z: 0}
 --- !u!1 &5455542353462452707
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +432,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 9086983287782165238}
     m_Modifications:
     - target: {fileID: 1092057809971093901, guid: 647c1291cacceb446935103ec6c290de, type: 3}
+      propertyPath: m_Data.m_SourceObjects.m_Item0.weight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1092057809971093901, guid: 647c1291cacceb446935103ec6c290de, type: 3}
+      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
+      value: 
+      objectReference: {fileID: 2911408920463635756}
+    - target: {fileID: 2199357348464807746, guid: 647c1291cacceb446935103ec6c290de, type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
       objectReference: {fileID: 2911408920463635756}
