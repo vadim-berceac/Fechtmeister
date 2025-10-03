@@ -140,7 +140,7 @@ public class PlayablesLayerController
         
         if (!_actionTimeReached && currentNormalized >= actionTime)
         {
-            Debug.Log(_actionTimeReached + " - " + currentNormalized + " - " + actionTime);
+            //Debug.Log(_actionTimeReached + " - " + currentNormalized + " - " + actionTime);
             _actionTimeReached = true;
         }
 
