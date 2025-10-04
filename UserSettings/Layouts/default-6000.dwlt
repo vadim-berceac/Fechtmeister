@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 77
+  controlID: 54
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 39
+  controlID: 55
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 40
+  controlID: 56
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 24
+    y: 79
     width: 578
     height: 840
   m_SerializedDataModeController:
@@ -470,23 +470,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: cedafffff0daffff04dbffff48dbffffe4faffff
+      m_SelectedIDs: a840feff
+      m_LastClickedID: -114520
+      m_ExpandedIDs: 2c44feff5e53feff76acffff7aacffff7eacffff82acffff86acffffe6acffffeeacfffff2acfffff6acffff00adffff12b7ffffe4faffffca3c01004c3e0100ea3f0100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Rig
+        m_OriginalName: Rig
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -21258
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
         m_ClientGUIView: {fileID: 8}
@@ -692,7 +692,7 @@ MonoBehaviour:
     m_CachedPref: 330
     m_ControlHash: 1412526313
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -9468
+  m_LastInspectedObjectInstanceID: -114520
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -909,8 +909,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 580
-    y: 24
+    x: 579
+    y: 79
     width: 1493
     height: 840
   m_SerializedDataModeController:
@@ -1425,9 +1425,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 8.536542, y: -0.075990915, z: -6.5716896}
+    m_Target: {x: -12.110831, y: -0.716055, z: -6.031223}
     speed: 2
-    m_Value: {x: 8.536542, y: -0.075990915, z: -6.5716896}
+    m_Value: {x: -12.110831, y: -0.716055, z: -6.031223}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1473,9 +1473,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.0007926719, y: -0.9979363, z: 0.06327866, w: -0.023090707}
+    m_Target: {x: 0.008404772, y: -0.9646698, z: 0.26261148, w: 0.028192632}
     speed: 2
-    m_Value: {x: 0.000792672, y: 0.99793637, z: -0.06327866, w: 0.023090709}
+    m_Value: {x: 0.008403015, y: -0.9644683, z: 0.2625566, w: 0.028186742}
   m_Size:
     m_Target: 4.6957583
     speed: 2
@@ -1535,7 +1535,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 890
+    y: 945
     width: 2073
     height: 401
   m_SerializedDataModeController:
@@ -1560,7 +1560,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Animation
+    - Assets/Scenes
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1570,16 +1570,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts/Animation
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\GitHub\Fechtmeister
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 78ec0000
-    m_LastClickedID: 60536
-    m_ExpandedIDs: 0000000070e50000
+    scrollPos: {x: 0, y: 323}
+    m_SelectedIDs: fce50000
+    m_LastClickedID: 58876
+    m_ExpandedIDs: 0000000070e50000f2e50000fee50000dafc0000dcfc00000e3b0100223b010000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1740,7 +1740,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -5866
+  m_LastSelectedObjectID: -113948
 --- !u!114 &23
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -2992,8 +2992,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 2075
-    y: 24
+    x: 2074
+    y: 79
     width: 485
     height: 1267
   m_SerializedDataModeController:
@@ -3014,7 +3014,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 0
+  m_LastVerticalScrollValue: 214
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:

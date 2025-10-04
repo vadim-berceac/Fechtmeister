@@ -1150,6 +1150,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 301124297547184519, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: <CharacterPersonalityData>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: a8ebcc62fdff57244a3215c7cfc690ff, type: 2}
     - target: {fileID: 3131212000758676167, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: m_Name
       value: Character (3)
