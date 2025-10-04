@@ -11,7 +11,7 @@ public class FastAttackSubState : State
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
         
         character.GraphCore.UpperBodyLayerController.PlayAnimationSubState(this, 
-            itemInstanceData.AnimationType, character.AttackCounter.GetValue(), EnterTransitionDuration);
+            itemInstanceData.AnimationType, character.AttackCounter.GetValue());
     }
 
     public override void FixedUpdateState(CharacterCore character)

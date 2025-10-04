@@ -37,7 +37,7 @@ public class PlayablesLayerController
         UpdateActionTimeFlag();
     }
 
-    public void PlayAnimationSubState(State state, int configParam, int blendParam, float blendTime)
+    public void PlayAnimationSubState(State state, int configParam, int blendParam)
     {
         var blendClip = GetAnimationClip(state, configParam, blendParam);
         _currentBlendClip = blendClip; 
@@ -54,10 +54,10 @@ public class PlayablesLayerController
 
         _playableGraph.Connect(_animationClip, 0, _animationMixer, 0);
 
-        _blendTime = blendTime;
+        _blendTime = state.EnterTransitionDuration;
         _blendTimer = 0f;
         _currentWeight = _animationMixer.GetInputWeight(0);
-        _isBlending = blendTime > 0f;
+        _isBlending =  state.EnterTransitionDuration > 0f;
 
         if (!_isBlending)
         {
