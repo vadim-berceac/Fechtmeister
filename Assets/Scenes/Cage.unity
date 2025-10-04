@@ -1136,18 +1136,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
-    - target: {fileID: 5951756257479577683, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
-      propertyPath: m_Data.m_WorldUpType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7729256575959844760, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
-      propertyPath: <Test>k__BackingField
-      value: 
-      objectReference: {fileID: 7400000, guid: f1613afb92638e743bace9a9392b5ee7, type: 3}
-    - target: {fileID: 7729256575959844760, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
-      propertyPath: <UpperBodyMask>k__BackingField
-      value: 
-      objectReference: {fileID: 31900000, guid: e192ab7a74cf5c944819ebffd34918a7, type: 2}
     - target: {fileID: 9086983287782165238, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.637

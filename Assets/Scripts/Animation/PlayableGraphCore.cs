@@ -31,6 +31,7 @@ public class PlayableGraphCore : MonoBehaviour
        
         LayerMixer.SetLayerMaskFromAvatarMask(1, statesContainer.GetAvatarMasksSettings().UpperBodyMask);
         LayerMixer.SetInputWeight(UpperBodyLayerMixer1, 1f);
+        LayerMixer.SetLayerAdditive(1, true);
         
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
         playableOutput.SetSourcePlayable(LayerMixer);
