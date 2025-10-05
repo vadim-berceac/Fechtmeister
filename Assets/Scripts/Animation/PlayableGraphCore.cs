@@ -14,10 +14,18 @@ public class PlayableGraphCore : MonoBehaviour
     public AnimationMixerPlayable UpperBodyLayerMixer1 { get; private set; }
     
     public PlayablesAnimatorController FullBodyAnimatorController { get; private set; }
-    public PlayablesLayerController UpperBodyLayerController { get; private set; }
+    public AnimationLayerBehaviour UpperBodyLayerController { get; private set; }
 
     [Inject]
     private void Construct(StatesContainer statesContainer)
+    {
+        CoreInitialize(statesContainer);
+        InitializeParts();
+        
+        Graph.Play();
+    }
+
+    private void CoreInitialize(StatesContainer statesContainer)
     {
         Graph = PlayableGraph.Create("General Graph");
         LayerMixer = AnimationLayerMixerPlayable.Create(Graph, 2);
@@ -35,22 +43,20 @@ public class PlayableGraphCore : MonoBehaviour
         
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
         playableOutput.SetSourcePlayable(LayerMixer);
-        
-        InitializeParts();
-        
-        Graph.Play();
     }
 
     private void InitializeParts()
     {
         FullBodyAnimatorController = new PlayablesAnimatorController(this);
-        UpperBodyLayerController = new PlayablesLayerController(Graph, UpperBodyLayerMixer1);
+        
+        var upperBodyScript = ScriptPlayable<AnimationLayerBehaviour>.Create(Graph, 0);
+        UpperBodyLayerController = upperBodyScript.GetBehaviour();
+        UpperBodyLayerController.Initialize(Graph, UpperBodyLayerMixer1);
     }
     
     private void Update()
     {
         FullBodyAnimatorController.OnUpdate(Time.deltaTime);
-        UpperBodyLayerController.OnUpdate();
     }
     
     private void OnDestroy()
