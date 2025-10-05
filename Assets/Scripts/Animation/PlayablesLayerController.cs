@@ -5,10 +5,10 @@ using UnityEngine.Animations;
 using UnityEngine.Playables;
 
 [BurstCompile]
-public class AnimationLayerBehaviour : PlayableBehaviour
+public class PlayablesLayerController
 {
-    private PlayableGraph _playableGraph;
-    private AnimationMixerPlayable _animationMixer;
+    private readonly PlayableGraph _playableGraph;
+    private readonly AnimationMixerPlayable _animationMixer;
     private AnimationClipPlayable _animationClip;
     private AnimationBlendConfig.BlendClip _currentBlendClip; 
     private const float FullWeight = 1f;
@@ -20,10 +20,10 @@ public class AnimationLayerBehaviour : PlayableBehaviour
     private bool _actionTimeReached;
     private float _previousNormalizedTime; 
 
-    public void Initialize(PlayableGraph playableGraph, AnimationMixerPlayable animationMixer)
+    public PlayablesLayerController(PlayableGraph playableGraph, AnimationMixerPlayable maskMixer)
     {
         _playableGraph = playableGraph;
-        _animationMixer = animationMixer;
+        _animationMixer = maskMixer;
         _currentWeight = 0f;
         _blendTime = 0f;
         _blendTimer = 0f;
@@ -31,9 +31,9 @@ public class AnimationLayerBehaviour : PlayableBehaviour
         _previousNormalizedTime = 0f;
     }
 
-    public override void ProcessFrame(Playable playable, FrameData info, object playerData)
+    public void OnUpdate()
     {
-        CheckBlending(info.deltaTime);
+        CheckBlending();
         UpdateActionTimeFlag();
     }
 
@@ -147,13 +147,13 @@ public class AnimationLayerBehaviour : PlayableBehaviour
         _previousNormalizedTime = currentNormalized;
     }
 
-    private void CheckBlending(float time)
+    private void CheckBlending()
     {
         if (!_isBlending)
         {
             return;
         }
-        _blendTimer += time;
+        _blendTimer += Time.deltaTime;
         var t = Mathf.Clamp01(_blendTimer / _blendTime);
         _currentWeight = Mathf.Lerp(_currentWeight, FullWeight, t);
         if (_animationClip.IsValid())

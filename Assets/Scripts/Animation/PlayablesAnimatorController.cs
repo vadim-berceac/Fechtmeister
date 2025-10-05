@@ -149,6 +149,10 @@ public class PlayablesAnimatorController
         _playableGraphCore.Graph.Evaluate();
     }
 
+
+    /// <summary>
+    /// Доделать смешивание
+    /// </summary>
     public void BlendCurrentAnimationStateClips(float byValue)
     {
         if (_currentBlendConfig == null || !_currentBlendMixer.IsValid())
@@ -404,6 +408,17 @@ public class PlayablesAnimatorController
     {
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
+    }
+
+    public void SetSpeed(float value)
+    {
+        //получаем в _defaultAnimationSpeed скорость текущего BlendClip
+        //выставляем скорость текущего BlendClip равной value
+    }
+
+    public void ResetSpeed()
+    {
+        
     }
 
     public bool HasReachedActionTime()
