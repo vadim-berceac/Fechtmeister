@@ -25,7 +25,7 @@ public static class ItemInstancesContainerExtensions
         {
             if (item is WeaponData)
             {
-                container.Instances[emptyInstance] = new WeaponInstance(ref item, container.CharacterBonesContainer, owner);
+                container.Instances[emptyInstance] = new WeaponInstance(ref item, container.CharacterBonesContainer, owner, (WeaponSystem) container);
             }
 
             if (item is ArmorData)

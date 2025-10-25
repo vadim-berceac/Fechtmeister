@@ -10,6 +10,7 @@ public class PlayablesAnimatorController
 {
     private readonly PlayableGraphCore _playableGraphCore;
     public bool IsTransitioning {get; private set;}
+    public int CurrentAnimationBlendParamValue {get; private set;}
     private AnimationMixerPlayable _currentBlendMixer;
     private AnimationMixerPlayable _previousBlendMixer;
     private AnimationBlendConfig _currentBlendConfig;
@@ -38,6 +39,7 @@ public class PlayablesAnimatorController
     public void SetAnimationState(State state, int animationBlendParamValue)
     {
         _currentBlendConfig = state.Clips.FirstOrDefault(b => (int)b.ParamValue == animationBlendParamValue);
+        CurrentAnimationBlendParamValue = animationBlendParamValue;
         if (_currentBlendConfig == null)
         {
             Debug.LogWarning($"Blend config not found for param value: {animationBlendParamValue}");

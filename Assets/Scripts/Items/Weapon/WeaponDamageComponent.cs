@@ -7,6 +7,7 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
     public Collider Owner { get; set; }
     public bool IsAllowed { get; set; }
     private WeaponData _weaponData;
+    private WeaponSystem _weaponSystem;
     private BoxCollider _weaponCollider;
     private Vector3 _originalColliderSize;
     private Vector3 _originalColliderCenter;
@@ -36,6 +37,11 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
         
         var container = FindFirstObjectByType<SceneContext>()?.Container;
         container?.Inject(this);
+    }
+
+    public void SetWeaponSystem(WeaponSystem weaponSystem)
+    {
+        _weaponSystem = weaponSystem;
     }
 
     public void SetOwner(Collider coll)
@@ -87,7 +93,7 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
         
         //временно
         target.Health.Damage(ItemData.WeaponParams.Damage);
-        
+        _weaponSystem.AllowAttack(false);
     }
 
     private void SizeCollider(float value)

@@ -4,7 +4,7 @@ using UnityEngine.Jobs;
 using Unity.Burst;
 using UnityEngine.Animations.Rigging;
 
-public class HeadTargetRigController : MonoBehaviour
+public class TargetRigController : MonoBehaviour
 {
    [field: SerializeField] public CharacterCore CharacterCore { get; set; }
    [field: SerializeField] public Rig ControlRig { get; set; }

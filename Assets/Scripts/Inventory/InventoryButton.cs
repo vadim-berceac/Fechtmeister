@@ -98,7 +98,6 @@ public class InventoryButton : MonoBehaviour
             _inventoryDrawer.UpdateInventoryBag();
             _inventoryDrawer.UpdateArmorSystem();
          }
-         
          return;
       }
 

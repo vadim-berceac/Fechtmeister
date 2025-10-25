@@ -16,7 +16,6 @@ public class LoadState : State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        Debug.Log(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
         character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
     }
 

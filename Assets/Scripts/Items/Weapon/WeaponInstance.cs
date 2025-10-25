@@ -8,14 +8,17 @@ public class WeaponInstance : IItemInstance
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
+    public WeaponSystem WeaponSystem { get; private set; }
 
     private readonly Collider _owner;
     
-    public WeaponInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer, Collider owner)
+    public WeaponInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer, Collider owner, 
+        WeaponSystem weaponSystem)
     {
         ItemData = itemData;
         itemData = null;
         CharacterBonesContainer = characterBonesContainer;
+        WeaponSystem = weaponSystem;
         _owner = owner;
         
         CreateInstance();
@@ -36,10 +39,13 @@ public class WeaponInstance : IItemInstance
         Instance = Object.Instantiate(ItemData.EquippedModelPrefab).transform;
         
         IKBoneTransform = this.TryToFindIKBoneTransform();
+        
+        var weaponDamageComponent = Instance.gameObject.AddComponent<WeaponDamageComponent>();
+        weaponDamageComponent.SetOwner(_owner);
+        weaponDamageComponent.SetData(ItemData);
+        weaponDamageComponent.SetWeaponSystem(WeaponSystem);
 
-        ItemControlComponent = Instance.gameObject.AddComponent<WeaponDamageComponent>();
-        ItemControlComponent.SetOwner(_owner);
-        ItemControlComponent.SetData(ItemData);
+        ItemControlComponent = weaponDamageComponent;
         
         this.AttachToBone(Instance, ItemData.BoneData[1]);
     }

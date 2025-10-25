@@ -26,8 +26,8 @@ MonoBehaviour:
   <AnimationType>k__BackingField: 5
   <AttackSpeed>k__BackingField: 1
   <AttackCounterSettings>k__BackingField:
-    <AttacksCount>k__BackingField: 3
-    <AttacksResetDelay>k__BackingField: 5
+    <AttacksCount>k__BackingField: 0
+    <AttacksResetDelay>k__BackingField: 0
   <BoneData>k__BackingField:
   - <BonesType>k__BackingField: 16
     <Position>k__BackingField: {x: 0, y: 0.049, z: 0.009}

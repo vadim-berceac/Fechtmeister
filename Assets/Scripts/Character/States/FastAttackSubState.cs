@@ -25,16 +25,6 @@ public class FastAttackSubState : State
         {
             character.SetSubState(character.StatesContainer.GetState("DefaultSubState"));
         }
-        
-        // if (character.Health.IsHitReactionEnabled)
-        // {
-        //     character.SetSubState(character.StatesContainer.GetState("GetHitState"));
-        // }
-        //
-        // if (character.Health.IsDestroyed)
-        // {
-        //     character.SetSubState(character.StatesContainer.GetState("DeathState"));
-        // }
     }
 
     protected override void CheckAction(CharacterCore character)
