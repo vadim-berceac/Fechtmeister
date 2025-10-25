@@ -8,17 +8,17 @@ public class WeaponInstance : IItemInstance
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
-    public WeaponSystem WeaponSystem { get; private set; }
+    public StateTimer StateTimer { get; set; }
 
     private readonly Collider _owner;
     
     public WeaponInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer, Collider owner, 
-        WeaponSystem weaponSystem)
+       StateTimer stateTimer)
     {
         ItemData = itemData;
         itemData = null;
         CharacterBonesContainer = characterBonesContainer;
-        WeaponSystem = weaponSystem;
+        StateTimer = stateTimer;
         _owner = owner;
         
         CreateInstance();
@@ -43,7 +43,7 @@ public class WeaponInstance : IItemInstance
         var weaponDamageComponent = Instance.gameObject.AddComponent<WeaponDamageComponent>();
         weaponDamageComponent.SetOwner(_owner);
         weaponDamageComponent.SetData(ItemData);
-        weaponDamageComponent.SetWeaponSystem(WeaponSystem);
+        weaponDamageComponent.SetStateTimer(StateTimer);
 
         ItemControlComponent = weaponDamageComponent;
         

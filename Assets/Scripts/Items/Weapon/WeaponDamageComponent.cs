@@ -7,11 +7,9 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
     public Collider Owner { get; set; }
     public bool IsAllowed { get; set; }
     private WeaponData _weaponData;
-    private WeaponSystem _weaponSystem;
     private BoxCollider _weaponCollider;
-    private Vector3 _originalColliderSize;
-    private Vector3 _originalColliderCenter;
     private Rigidbody _rigidbody;
+    private StateTimer _stateTimer;
     
     // хранить параметры оружия
     
@@ -25,13 +23,11 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
 
     private void Awake()
     {
-        if (!TryGetComponent<BoxCollider>(out _weaponCollider))
+        if (!TryGetComponent(out _weaponCollider))
         {
             Debug.LogError($"{gameObject} doesn't have a Collider");
         }
         _weaponCollider.enabled = false;
-        _originalColliderSize = _weaponCollider.size;
-        _originalColliderCenter = _weaponCollider.center;
         _rigidbody = gameObject.AddComponent<Rigidbody>();
         _rigidbody.isKinematic = true;
         
@@ -39,9 +35,9 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
         container?.Inject(this);
     }
 
-    public void SetWeaponSystem(WeaponSystem weaponSystem)
+    public void SetStateTimer(StateTimer stateTimer)
     {
-        _weaponSystem = weaponSystem;
+        _stateTimer = stateTimer;
     }
 
     public void SetOwner(Collider coll)
@@ -59,18 +55,11 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
         IsAllowed = value;
 
         _weaponCollider.enabled = IsAllowed;
-
-        if (IsAllowed)
-        {
-            SizeCollider(ItemData.WeaponParams.SizeModifer);
-            return;
-        }
-        ResetCollider();
     }
     
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsAllowed)
+        if (!IsAllowed || !_stateTimer.ActionIsPossible())
         {
             return;
         }
@@ -79,8 +68,6 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
         {
             return;
         }
-        
-        //одна попытка нанести урон - после этого в текущем состоянии ее отключаем
 
         var target = _sceneCharacterContainer.GetCharacter(other);
        
@@ -90,21 +77,7 @@ public class WeaponDamageComponent : MonoBehaviour , IItemControlComponent
         }
         
         AllowToUse(false);
-        
-        //временно
+        _stateTimer.SetActionIsPossible(false);
         target.Health.Damage(ItemData.WeaponParams.Damage);
-        _weaponSystem.AllowAttack(false);
-    }
-
-    private void SizeCollider(float value)
-    {
-        _weaponCollider.center = new Vector3(_originalColliderCenter.x, _originalColliderCenter.y * value, _originalColliderCenter.z);
-        _weaponCollider.size =  new Vector3(_originalColliderSize.x, _originalColliderSize.y * value, _originalColliderSize.z);
-    }
-
-    private void ResetCollider()
-    {
-        _weaponCollider.center = _originalColliderCenter;
-        _weaponCollider.size = _originalColliderSize;
     }
 }

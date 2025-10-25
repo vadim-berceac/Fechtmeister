@@ -8,6 +8,7 @@ public interface IItemInstancesContainer
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
     public Action<IItemData> OnItemUnEquipped { get; set; }
+    public StateTimer StateTimer { get; set; }
 }
 
 public static class ItemInstancesContainerExtensions
@@ -25,7 +26,7 @@ public static class ItemInstancesContainerExtensions
         {
             if (item is WeaponData)
             {
-                container.Instances[emptyInstance] = new WeaponInstance(ref item, container.CharacterBonesContainer, owner, (WeaponSystem) container);
+                container.Instances[emptyInstance] = new WeaponInstance(ref item, container.CharacterBonesContainer, owner, container.StateTimer);
             }
 
             if (item is ArmorData)

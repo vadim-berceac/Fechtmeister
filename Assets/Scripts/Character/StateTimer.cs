@@ -1,3 +1,4 @@
+
 public class StateTimer
 {
     private float _currentTimeInState;

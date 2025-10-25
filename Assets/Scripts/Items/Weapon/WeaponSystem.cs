@@ -7,6 +7,7 @@ public class WeaponSystem : IItemInstancesContainer
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
     public Action<IItemData> OnItemUnEquipped { get; set; }
+    public StateTimer StateTimer { get; set; }
     public bool WeaponInstanceIsRanged { get; private set; }
     private readonly CharacterCore _characterCore;
 
@@ -16,6 +17,7 @@ public class WeaponSystem : IItemInstancesContainer
         _characterCore = characterCore;
         CharacterBonesContainer = _characterCore.BonesContainer;
         Instances = new IItemInstance[instancesCount];
+        StateTimer = characterCore.StateTimer;
 
         _characterCore.CharacterInputHandler.OnWeaponSwitch += OnWeaponInstanceSwitched;
     }
