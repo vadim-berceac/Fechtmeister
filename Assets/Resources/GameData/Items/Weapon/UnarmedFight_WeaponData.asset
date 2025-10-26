@@ -15,7 +15,10 @@ MonoBehaviour:
   <WeaponParams>k__BackingField:
     <Damage>k__BackingField: 5
     <AttackSpeed>k__BackingField: 1
-    <SizeModifer>k__BackingField: 1
+    <HitBoxSize>k__BackingField: {x: 0, y: 0, z: 0}
+    <HitBoxForwardOffset>k__BackingField: 0
+    <WhooshSounds>k__BackingField: {fileID: 11400000, guid: 09438d1532aba75488ea5e991854f245, type: 2}
+    <HitSounds>k__BackingField: {fileID: 11400000, guid: 34349feb695bf7942814e1bbe847aada, type: 2}
   <ItemName>k__BackingField: Unarmed Fight
   <ItemDescription>k__BackingField: Unarmed Fight
   <ItemIcon>k__BackingField: {fileID: 0}

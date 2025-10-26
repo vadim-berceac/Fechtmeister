@@ -83,6 +83,7 @@ GameObject:
   - component: {fileID: 5308955279979530949}
   - component: {fileID: 6502283926946306806}
   - component: {fileID: 218653970422988893}
+  - component: {fileID: 3187117931169419587}
   - component: {fileID: 1805780133230660867}
   - component: {fileID: 7729256575959844760}
   - component: {fileID: 5391477331367181792}
@@ -201,6 +202,21 @@ MonoBehaviour:
   - m_Rig: {fileID: 8059560300876708924}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &3187117931169419587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131212000758676167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f7b0555aaa870040aa2d2a198c28c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterFootStepsPlayer
+  <CharacterPresetLoader>k__BackingField: {fileID: 301124297547184519}
+  <LFootTransform>k__BackingField: {fileID: 8721643502415936856}
+  <RFootTransform>k__BackingField: {fileID: 5899751074803516693}
 --- !u!114 &1805780133230660867
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ public class WeaponController : ItemControlComponent <WeaponData>
         }
         
         DetectHitsWithOverlap();
-        PlaySound(TypedItemData.WeaponParams.WhooshSound, Owner.transform.position);
+        PlaySound(TypedItemData.WeaponParams.WhooshSounds.GetRandomClip(), Owner.transform.position);
         ActionCompleted = true;
     }
 
@@ -47,7 +47,7 @@ public class WeaponController : ItemControlComponent <WeaponData>
             var target = _sceneCharacterContainer.GetCharacter(hit);
             if (target == null) continue;
 
-            PlaySound(TypedItemData.WeaponParams.HitSound, target.transform.position);
+            PlaySound(TypedItemData.WeaponParams.HitSounds.GetRandomClip(), target.transform.position);
             
             target.Health.Damage(weaponParams.Damage);
             Debug.Log($"Overlap Hit: {target.name} (damage: {weaponParams.Damage})");

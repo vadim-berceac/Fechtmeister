@@ -1,32 +1,33 @@
 using UnityEngine;
-using Zenject;
 
-public class CharacterFootStepsPlayer : MonoBehaviour, ISfxUser
+public class CharacterFootStepsPlayer : MonoBehaviour
 {
-    [field: SerializeField] public string SfxSetName { get; set; }
+    [field: SerializeField] private CharacterPresetLoader CharacterPresetLoader { get; set; }
     [field: SerializeField] private Transform LFootTransform { get; set; }
     [field: SerializeField] private Transform RFootTransform { get; set; }
     
-    public SfxSet SfxSet { get; set; }
-
-    [Inject]
-    private void Construct(SfxContainer sfxContainer)
+    public void LeftStep()
     {
-        SfxSet = sfxContainer.GetSfxSet(SfxSetName);
+        if (CharacterPresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.StepsBase == null)
+        {
+            return;
+        }
+        PlaySound(LFootTransform.position,
+            CharacterPresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.StepsBase.GetRandomClip());
     }
 
-    public void PlayRandomSfx(Vector3 position)
+    public void RightStep()
     {
-        SfxSet.PlayRandomAtPoint(position);
+        if (CharacterPresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.StepsBase == null)
+        {
+            return;
+        }
+        PlaySound(RFootTransform.position,
+            CharacterPresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.StepsBase.GetRandomClip());
     }
 
-    public void LStepPlay()
+    private static void PlaySound(Vector3 position, AudioClip clip)
     {
-        PlayRandomSfx(LFootTransform.position);
-    }
-
-    public void RStepPlay()
-    {
-        PlayRandomSfx(RFootTransform.position);
+        AudioSource.PlayClipAtPoint(clip, position);
     }
 }

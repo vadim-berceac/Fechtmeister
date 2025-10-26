@@ -17,3 +17,5 @@ MonoBehaviour:
   <SkinData>k__BackingField:
   - <SkinnedMeshRenderer>k__BackingField: {fileID: 2106145266610383287, guid: 82331b99766d041489e2a799de364c54, type: 3}
     <SkinMaterial>k__BackingField: {fileID: -2729557045973369312, guid: 82331b99766d041489e2a799de364c54, type: 3}
+  <StepsBase>k__BackingField: {fileID: 11400000, guid: 3f1d7d7d120f7d24b8ce7fecfd0a3fcd, type: 2}
+  <BodyHitSounds>k__BackingField: {fileID: 0}

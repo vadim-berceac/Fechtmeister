@@ -10,6 +10,10 @@ public class CharacterSkinData : ScriptableObject
     [field: SerializeField] [field: Range(0.5f, 1.5f)] public float SizeMode { get; private set; } = 1f;
     
     [field: SerializeField] public List<SkinData> SkinData { get; private set; }
+    
+    [field: Header("Sound")]
+    [field: SerializeField] public SfxSet StepsBase { get; private set; }
+    [field: SerializeField] public SfxSet BodyHitSounds { get; private set; }
 }
 
 [Serializable]
