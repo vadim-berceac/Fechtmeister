@@ -343,7 +343,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8339592821350100798}
-  - component: {fileID: 7211786274501867256}
   m_Layer: 8
   m_Name: TrainingSpearView
   m_TagString: Untagged
@@ -367,27 +366,6 @@ Transform:
   - {fileID: 7718688563364363358}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7211786274501867256
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7926834445009811899}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.25, y: 1.62, z: 0.25}
-  m_Center: {x: 0, y: 0.54, z: 0}
 --- !u!1 &9125135799609538267
 GameObject:
   m_ObjectHideFlags: 0
