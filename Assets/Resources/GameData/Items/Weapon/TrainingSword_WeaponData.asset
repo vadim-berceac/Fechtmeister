@@ -17,6 +17,8 @@ MonoBehaviour:
     <AttackSpeed>k__BackingField: 1.2
     <HitBoxSize>k__BackingField: {x: 2, y: 1, z: 2}
     <HitBoxForwardOffset>k__BackingField: 2
+    <WhooshSound>k__BackingField: {fileID: 8300000, guid: 1456baccf12851d408653ad455a14e2d, type: 3}
+    <HitSound>k__BackingField: {fileID: 8300000, guid: 604e0154854eb3e4388adbf00ee7aa70, type: 3}
   <ItemName>k__BackingField: Training Sword
   <ItemDescription>k__BackingField: Training Sword
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}

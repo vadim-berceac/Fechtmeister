@@ -32,4 +32,6 @@ public struct WeaponParams
     [field: SerializeField] public float AttackSpeed { get; set; }
     [field: SerializeField] public Vector3 HitBoxSize { get; set; }
     [field: SerializeField] public float HitBoxForwardOffset { get; set; }
+    [field: SerializeField] public AudioClip WhooshSound { get; set; }
+    [field: SerializeField] public AudioClip HitSound { get; set; }
 }
