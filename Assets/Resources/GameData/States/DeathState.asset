@@ -23,6 +23,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1bae2c6bad0a34640aeb07d6ff39b294, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <AllowCharacterTargeting>k__BackingField: 0
+  <FixOnCharacterTarget>k__BackingField: 0
+  <FixOnItemTarget>k__BackingField: 0
+  <TargetingRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
@@ -33,4 +36,5 @@ MonoBehaviour:
     m_Bits: 1
   <Height>k__BackingField: 2
   <Radius>k__BackingField: 2
+  <SetCapsuleToTrigger>k__BackingField: 1
   <UseInventory>k__BackingField: 0

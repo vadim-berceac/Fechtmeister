@@ -28,6 +28,12 @@ public class CharacterColliderSizer
         SetRadius(radius);
     }
 
+    public void SetEnabled(bool value)
+    {
+        _capsuleCollider.isTrigger = value;
+        _characterController.enabled = !value;
+    }
+
     private void SetHeight(SizeMode sizeMode)
     {
         if (sizeMode == CurrentHeight)
