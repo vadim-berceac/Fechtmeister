@@ -12,6 +12,7 @@ public class FastAttackSubState : State
         
         character.GraphCore.UpperBodyLayerController.PlayAnimationSubState(this, 
             itemInstanceData.AnimationType, character.AttackCounter.GetValue());
+        ((WeaponInstance)character.Inventory.WeaponSystem.InstanceInHands).ResetAction();
     }
 
     public override void FixedUpdateState(CharacterCore character)
@@ -32,7 +33,7 @@ public class FastAttackSubState : State
         base.CheckAction(character);
         if (character.GraphCore.UpperBodyLayerController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
-            character.Inventory.WeaponSystem.InstanceInHands.ItemControlComponent.AllowToUse(true);
+            character.Inventory.WeaponSystem.InstanceInHands.ItemControlComponent.Use();
             character.StateTimer.SetActionIsPossible(false);
             character.GraphCore.UpperBodyLayerController.ResetActionTime();
         }

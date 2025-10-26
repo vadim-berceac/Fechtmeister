@@ -8,18 +8,18 @@ public class WeaponInstance : IItemInstance
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
-    public StateTimer StateTimer { get; set; }
 
     private readonly Collider _owner;
+    private readonly SceneCharacterContainer _sceneCharacterContainer;
     
-    public WeaponInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer, Collider owner, 
-       StateTimer stateTimer)
+    public WeaponInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer, Collider owner,
+        SceneCharacterContainer sceneCharacterContainer)
     {
         ItemData = itemData;
         itemData = null;
         CharacterBonesContainer = characterBonesContainer;
-        StateTimer = stateTimer;
         _owner = owner;
+        _sceneCharacterContainer = sceneCharacterContainer;
         
         CreateInstance();
         this.CreateDecorations();
@@ -39,14 +39,14 @@ public class WeaponInstance : IItemInstance
         Instance = Object.Instantiate(ItemData.EquippedModelPrefab).transform;
         
         IKBoneTransform = this.TryToFindIKBoneTransform();
-        
-        var weaponDamageComponent = Instance.gameObject.AddComponent<WeaponDamageComponent>();
-        weaponDamageComponent.SetOwner(_owner);
-        weaponDamageComponent.SetData(ItemData);
-        weaponDamageComponent.SetStateTimer(StateTimer);
 
-        ItemControlComponent = weaponDamageComponent;
+        ItemControlComponent = new WeaponController(_owner, (WeaponData)ItemData, _sceneCharacterContainer);
         
         this.AttachToBone(Instance, ItemData.BoneData[1]);
+    }
+
+    public void ResetAction()
+    {
+        ItemControlComponent.ResetAction();
     }
 }

@@ -9,17 +9,17 @@ public class WeaponSystem : IItemInstancesContainer
     public Action<IItemData> OnItemUnEquipped { get; set; }
     public StateTimer StateTimer { get; set; }
     public bool WeaponInstanceIsRanged { get; private set; }
-    private readonly CharacterCore _characterCore;
+    public CharacterCore CharacterCore { get; private set; }
 
     public WeaponSystem(int instancesCount, CharacterCore characterCore)
     {
         InstancesCount = instancesCount;
-        _characterCore = characterCore;
-        CharacterBonesContainer = _characterCore.BonesContainer;
+        CharacterCore = characterCore;
+        CharacterBonesContainer = CharacterCore.BonesContainer;
         Instances = new IItemInstance[instancesCount];
         StateTimer = characterCore.StateTimer;
 
-        _characterCore.CharacterInputHandler.OnWeaponSwitch += OnWeaponInstanceSwitched;
+        CharacterCore.CharacterInputHandler.OnWeaponSwitch += OnWeaponInstanceSwitched;
     }
 
     public void SelectWeapon(int itemIndex)
@@ -34,7 +34,7 @@ public class WeaponSystem : IItemInstancesContainer
 
     private void OnWeaponInstanceSwitched(int itemIndex)
     {
-        if (!_characterCore.CurrentState.AllowSwitchWeaponInstance)
+        if (!CharacterCore.CurrentState.AllowSwitchWeaponInstance)
         {
             return;
         }
@@ -44,6 +44,6 @@ public class WeaponSystem : IItemInstancesContainer
     
     public void Destroy()
     {
-        _characterCore.CharacterInputHandler.OnWeaponSwitch -= OnWeaponInstanceSwitched;
+        CharacterCore.CharacterInputHandler.OnWeaponSwitch -= OnWeaponInstanceSwitched;
     }
 }

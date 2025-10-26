@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 [RequireComponent(typeof(CharacterPresetLoader))]
@@ -28,8 +29,8 @@ public class CharacterCore : MonoBehaviour
     public CharacterGravity Gravity { get; private set; }
     
     //creating
-    private SceneCharacterContainer _sceneCharacterContainer;
-    public CharacterColliderSizer CharacterColliderSizer;
+    public SceneCharacterContainer SceneCharacterContainer { get; private set; }
+    public CharacterColliderSizer CharacterColliderSizer { get; private set; }
     public CharacterPresetLoader PresetLoader { get; private set; }
     public CharacterSkinHandler SkinHandler { get; private set; }
     public CharacterBonesContainer BonesContainer { get; private set; }
@@ -41,7 +42,7 @@ public class CharacterCore : MonoBehaviour
     private void Construct(SceneCamera sceneCamera, SceneCharacterContainer sceneCharacterContainer, PlayerInput playerInput, StatesContainer statesContainer)
     {
         SceneCamera = sceneCamera;
-        _sceneCharacterContainer = sceneCharacterContainer;
+        SceneCharacterContainer = sceneCharacterContainer;
         InputByPlayer = playerInput;
         StatesContainer = statesContainer;
         CashedTransform = transform;
@@ -102,12 +103,12 @@ public class CharacterCore : MonoBehaviour
 
     private void OnEnable()
     {
-        _sceneCharacterContainer.Add(this, LocomotionSettings.CharacterCollider);
+        SceneCharacterContainer.Add(this, LocomotionSettings.CharacterCollider);
     }
 
     private void OnDisable()
     {
-        _sceneCharacterContainer.Remove(this);
+        SceneCharacterContainer.Remove(this);
         Inventory.Destroy();
     }
 }

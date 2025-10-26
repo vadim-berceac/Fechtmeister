@@ -2,9 +2,26 @@ using UnityEngine;
 
 public interface IItemControlComponent
 {
-    public bool IsAllowed  { get; set; }
     public Collider Owner { get; set; }
-    public void AllowToUse (bool isAllowed);
-    public void SetOwner(Collider owner);
-    public void SetData(IItemData data);
+    public IItemData ItemData { get; set; }
+    public bool ActionCompleted { get; set; }
+    public void Use();
+    public void ResetAction();
+}
+
+public abstract class ItemControlComponent<T> : IItemControlComponent where T : IItemData
+{
+    public Collider Owner { get; set; }
+    public IItemData ItemData { get; set; }
+    public bool ActionCompleted { get; set; }
+    protected T TypedItemData => (T)ItemData;
+    
+    protected ItemControlComponent(Collider owner, T itemData)
+    {
+        Owner = owner;
+        ItemData = itemData;
+    }
+    
+    public abstract void Use();
+    public abstract void ResetAction();
 }

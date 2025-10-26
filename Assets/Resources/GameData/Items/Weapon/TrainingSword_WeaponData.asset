@@ -15,7 +15,8 @@ MonoBehaviour:
   <WeaponParams>k__BackingField:
     <Damage>k__BackingField: 20
     <AttackSpeed>k__BackingField: 1.2
-    <SizeModifer>k__BackingField: 1.3
+    <HitBoxSize>k__BackingField: {x: 2, y: 1, z: 2}
+    <HitBoxForwardOffset>k__BackingField: 2
   <ItemName>k__BackingField: Training Sword
   <ItemDescription>k__BackingField: Training Sword
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}

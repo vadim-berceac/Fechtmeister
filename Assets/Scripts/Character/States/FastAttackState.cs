@@ -12,6 +12,7 @@ public class FastAttackState : State
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
         character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(character.AttackCounter.GetValue());
+        ((WeaponInstance)character.Inventory.WeaponSystem.InstanceInHands).ResetAction();
     }
 
     protected override void CheckSwitch(CharacterCore character)
@@ -37,7 +38,7 @@ public class FastAttackState : State
         base.CheckAction(character);
         if (character.GraphCore.FullBodyAnimatorController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
-            character.Inventory.WeaponSystem.InstanceInHands.ItemControlComponent.AllowToUse(true);
+            character.Inventory.WeaponSystem.InstanceInHands.ItemControlComponent.Use();
             character.StateTimer.SetActionIsPossible(false);
             character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
         }
