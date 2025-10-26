@@ -37,13 +37,9 @@ public class FastAttackState : State
         base.CheckAction(character);
         if (character.GraphCore.FullBodyAnimatorController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
-            character.Inventory.WeaponSystem.AllowAttack(true);
+            character.Inventory.WeaponSystem.InstanceInHands.ItemControlComponent.AllowToUse(true);
+            character.StateTimer.SetActionIsPossible(false);
+            character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
         }
-    }
-    
-    public override void ExitState(CharacterCore character)
-    {
-        base.ExitState(character);
-        character.Inventory.WeaponSystem.AllowAttack(false);
     }
 }

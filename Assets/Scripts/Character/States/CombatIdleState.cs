@@ -32,7 +32,6 @@ public class CombatIdleState : State
         }
 
         if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged 
-                                                     && character.Inventory.ProjectileSystem.ContainsProjectile()
                                                      && character.GraphCore.UpperBodyLayerController.IsComplete())
         {
             character.SetState(character.StatesContainer.GetState("FastAttackState"));

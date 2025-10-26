@@ -30,8 +30,8 @@ public class CharacterColliderSizer
 
     public void SetEnabled(bool value)
     {
-        _capsuleCollider.isTrigger = value;
-        _characterController.enabled = !value;
+        _capsuleCollider.isTrigger = !value;
+        _characterController.enabled = value;
     }
 
     private void SetHeight(SizeMode sizeMode)

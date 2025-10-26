@@ -30,7 +30,7 @@ public abstract class State : ScriptableObject
     [field: Header("Capsule Size")]
     [field: SerializeField] protected SizeMode Height { get; private set; } = SizeMode.Full;
     [field: SerializeField] protected SizeMode Radius { get; private set; } = SizeMode.Full;
-    [field: SerializeField] protected bool SetCapsuleToTrigger { get; private set; }
+   
     
     [field: Header("Inventory")]
     [field: SerializeField] public bool UseInventory {get; private set;}
@@ -87,9 +87,7 @@ public abstract class State : ScriptableObject
 
     public virtual void ExitState(CharacterCore character)
     {
-        character.CharacterInputHandler.ResetAttack(); 
-        character.CharacterColliderSizer.SetEnabled(SetCapsuleToTrigger);
-        
+        character.CharacterInputHandler.ResetAttack();
         character.TargetingSystem.AllowItemTargeting(false);
         character.TargetingSystem.AllowCharacterTargeting(false);
     }

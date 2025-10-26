@@ -12,12 +12,18 @@ public class DeathState : State
         var animType = character.Inventory.IsWeaponOn ? itemInstanceData.AnimationType : 0;
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, animType);
         character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
-        
+        character.CharacterColliderSizer.SetEnabled(false);
         character.Health.EnableHitReaction(false);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
        
+    }
+
+    public override void ExitState(CharacterCore character)
+    {
+        base.ExitState(character);
+        character.CharacterColliderSizer.SetEnabled(true);
     }
 }

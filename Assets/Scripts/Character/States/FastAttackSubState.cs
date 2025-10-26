@@ -32,7 +32,9 @@ public class FastAttackSubState : State
         base.CheckAction(character);
         if (character.GraphCore.UpperBodyLayerController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
-            character.Inventory.WeaponSystem.AllowAttack(true);
+            character.Inventory.WeaponSystem.InstanceInHands.ItemControlComponent.AllowToUse(true);
+            character.StateTimer.SetActionIsPossible(false);
+            character.GraphCore.UpperBodyLayerController.ResetActionTime();
         }
 
         if (character.GraphCore.UpperBodyLayerController.GetCurrentClipNormalizedTime() > 0.6f)
@@ -45,6 +47,5 @@ public class FastAttackSubState : State
     {
         base.ExitState(character);
         character.GraphCore.UpperBodyLayerController.StopAnimationSubState();
-        character.Inventory.WeaponSystem.AllowAttack(false);
     }
 }

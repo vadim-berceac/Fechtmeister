@@ -98,6 +98,11 @@ public class PlayablesLayerController
         return _actionTimeReached;
     }
 
+    public void ResetActionTime()
+    {
+        _actionTimeReached = false;
+    }
+
     public void ModifyCurrentWeight(float value)
     {
         _currentWeight += value;
