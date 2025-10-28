@@ -16,10 +16,6 @@ MonoBehaviour:
   <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: a38f98f7d6cae3c4d91dbb8b56604f90, type: 2}
-  - {fileID: 11400000, guid: 8a0c362c98a15904caeec9f05f97275e, type: 2}
-  - {fileID: 11400000, guid: f3103e446fa9e1f44b493c10afdc3d6f, type: 2}
-  - {fileID: 11400000, guid: b2b0008c934e78141b01c9480789e749, type: 2}
-  - {fileID: 11400000, guid: d1ad2626de2cf5b43bc80fd5a9258e6d, type: 2}
   <AllowItemTargeting>k__BackingField: 1
   <AllowCharacterTargeting>k__BackingField: 1
   <FixOnCharacterTarget>k__BackingField: 0

@@ -40,6 +40,11 @@ public class CombatRunState : State
             character.SetState(character.StatesContainer.GetState("JumpState"));
         }
         
+        if (character.Gravity.Grounded && character.StateTimer.GetCurrentTimeInState() > 5f)
+        {
+            character.SetState(character.StatesContainer.GetState("CombatSprintState"));
+        }
+        
         if (!character.Gravity.Grounded)
         {
             character.SetState(character.StatesContainer.GetState("FallState"));

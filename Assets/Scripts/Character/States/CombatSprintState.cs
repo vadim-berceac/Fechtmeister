@@ -1,12 +1,15 @@
+using Unity.Burst;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SprintState", menuName = "States/SprintState")]
-public class SprintState : State
+[BurstCompile]
+[CreateAssetMenu(fileName = "CombatSprintState", menuName = "States/CombatSprintState")]
+public class CombatSprintState : State
 {
-    public override void EnterState(CharacterCore character)
+  public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.ItemData;
+        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
     }
     
     protected override void CheckSwitch(CharacterCore character)
@@ -14,12 +17,7 @@ public class SprintState : State
         if (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
             Mathf.Abs(character.CharacterInputHandler.InputY) == 0)
         {
-            character.SetState(character.StatesContainer.GetState("IdleState"));
-        }
-        
-        if (character.CharacterInputHandler.InputY < 0)
-        {
-            character.SetState(character.StatesContainer.GetState("RunState"));
+            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
         }
         
         if (!character.CharacterInputHandler.IsRun)
@@ -27,9 +25,9 @@ public class SprintState : State
             character.SetState(character.StatesContainer.GetState("SprintStopState"));
         }
         
-        if (character.CharacterInputHandler.IsWeaponDraw)
+        if (!character.CharacterInputHandler.IsWeaponDraw && !character.GraphCore.FullBodyAnimatorController.IsTransitioning)
         {
-            character.SetState(character.StatesContainer.GetState("WeaponOnState"));
+            character.SetState(character.StatesContainer.GetState("WeaponOffState"));
         }
         
         if (character.CharacterInputHandler.IsJump)
@@ -42,9 +40,14 @@ public class SprintState : State
             character.SetState(character.StatesContainer.GetState("FallState"));
         }
         
-        if (character.CharacterInputHandler.IsInventoryOpen)
+        if (character.CharacterInputHandler.IsAimBlock && character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
         {
-            character.SetState(character.StatesContainer.GetState("InventoryState"));
+            character.SetState(character.StatesContainer.GetState("LoadState"));
+        }
+        
+        if (character.CharacterInputHandler.IsJump)
+        {
+            character.SetState(character.StatesContainer.GetState("JumpState"));
         }
         
         if (character.Health.IsHitReactionEnabled)
@@ -62,11 +65,16 @@ public class SprintState : State
     {
         base.CheckAction(character);
         character.GraphCore.FullBodyAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
+        
+        if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged && character.GraphCore.UpperBodyLayerController.IsComplete())
+        {
+            character.SetSubState(character.StatesContainer.GetState("FastAttackSubState"));
+        }
     }
 
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
         character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
-    }
+    }   
 }

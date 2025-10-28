@@ -9,21 +9,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c559fd4bce7cefe4b9a0885aa56b8f44, type: 3}
-  m_Name: WalkState
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 11500000, guid: dda8d72488d248947840c118c6cc8e13, type: 3}
+  m_Name: CombatSprintState
+  m_EditorClassIdentifier: Assembly-CSharp::CombatSprintState
   <EnterTransitionDuration>k__BackingField: 0.3
   <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
-  - {fileID: 11400000, guid: be6edac405581344d8453f6d07782a94, type: 2}
-  <AllowItemTargeting>k__BackingField: 1
+  - {fileID: 11400000, guid: 6daa4fab0029d744682bd1c3b162ec39, type: 2}
+  - {fileID: 11400000, guid: 231b18efbe403df4da224ad8ef513d1e, type: 2}
+  - {fileID: 11400000, guid: 62297784b5d3a3b4dbc6a6e464c34ccd, type: 2}
+  - {fileID: 11400000, guid: 7061baac4c1cfaf4d8829d3b09ee4429, type: 2}
+  - {fileID: 11400000, guid: 9c8e5f8902ca0e845bed8f768efa4613, type: 2}
+  <AllowItemTargeting>k__BackingField: 0
   <AllowCharacterTargeting>k__BackingField: 1
   <FixOnCharacterTarget>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <TargetingRigWeight>k__BackingField: 1
-  <AllowSwitchWeaponInstance>k__BackingField: 1
+  <AllowSwitchWeaponInstance>k__BackingField: 0
   <RotationByCamera>k__BackingField: 1
-  <RotationSpeed>k__BackingField: 15
+  <RotationSpeed>k__BackingField: 12
   <UseGravity>k__BackingField: 1
   <FallSpeedMultiplier>k__BackingField: 1
   <GroundLayer>k__BackingField:
@@ -31,4 +35,4 @@ MonoBehaviour:
     m_Bits: 1
   <Height>k__BackingField: 0
   <Radius>k__BackingField: 0
-  <UseInventory>k__BackingField: 1
+  <UseInventory>k__BackingField: 0
