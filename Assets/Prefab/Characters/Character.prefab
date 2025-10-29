@@ -114,6 +114,7 @@ Transform:
   - {fileID: 1969152943052220375}
   - {fileID: 2911408920463635756}
   - {fileID: 2377467501873531806}
+  - {fileID: 3705769080371381499}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &6829832979991591507
@@ -276,6 +277,14 @@ MonoBehaviour:
   <TargetingSettings>k__BackingField:
     <ItemTargeting>k__BackingField: {fileID: 1204962803673603537}
     <CharacterTargeting>k__BackingField: {fileID: 5237636495354742196}
+  <LedgeDetectionSettings>k__BackingField:
+    <SphereCastOrigin>k__BackingField: {fileID: 3705769080371381499}
+    <SphereRadius>k__BackingField: 0.15
+    <CastDistance>k__BackingField: 0.2
+    <OffsetOnEnd>k__BackingField: {x: 0, y: 0, z: 3}
+    <LayerMask>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 1
 --- !u!114 &301124297547184519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,6 +543,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6044736262834461055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8031916313863418812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3705769080371381499}
+  m_Layer: 23
+  m_Name: LedgeDetectionRoot0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3705769080371381499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8031916313863418812}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9086983287782165238}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8062220692105181548
 GameObject:

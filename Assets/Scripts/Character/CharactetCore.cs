@@ -9,6 +9,7 @@ public class CharacterCore : MonoBehaviour
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
     [field: SerializeField] public TargetingSettings TargetingSettings { get; set; }
+    [field: SerializeField] public LedgeDetectionSettings LedgeDetectionSettings { get; set; }
     
     public SceneCamera SceneCamera { get; private set; }
     public CharacterInputHandler CharacterInputHandler { get; private set; }
@@ -34,6 +35,7 @@ public class CharacterCore : MonoBehaviour
     public CharacterSkinHandler SkinHandler { get; private set; }
     public CharacterBonesContainer BonesContainer { get; private set; }
     public CharacterTargetingSystem TargetingSystem { get; private set; }
+    public LedgeDetection LedgeDetection { get; private set; }
     public Inventory Inventory { get; private set; }
     public CharacterHealth Health { get; private set; }
 
@@ -54,6 +56,7 @@ public class CharacterCore : MonoBehaviour
         SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData);
         BonesContainer = new CharacterBonesContainer(CashedTransform);
         TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting, TargetingSettings.CharacterTargeting);
+        LedgeDetection = new LedgeDetection(LedgeDetectionSettings);
         AttackCounter = new Counter();
         StateTimer = new StateTimer();
         CurrentSpeed = new CurrentSpeed(CashedTransform);

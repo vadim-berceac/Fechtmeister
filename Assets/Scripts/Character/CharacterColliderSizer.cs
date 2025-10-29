@@ -107,8 +107,8 @@ public class CharacterColliderSizer
         {
             case SizeMode.Full:
             {
-                _capsuleCollider.radius = _capsuleRadius;
-                _characterController.radius = _capsuleRadius;
+                _capsuleCollider.radius = 0.7f;
+                _characterController.radius = 0.3f;
             }
                 break;
             case SizeMode.Half:

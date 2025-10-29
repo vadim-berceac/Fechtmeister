@@ -34,11 +34,28 @@ public class JumpState : State
         {
             character.SetState(character.StatesContainer.GetState("DeathState"));
         }
+
+        if (character.LedgeDetection.LedgeGrabPoint != Vector3.zero &&
+            character.CharacterInputHandler.TargetInputMagnitude > 0f)
+        {
+            character.SetState(character.StatesContainer.GetState("LedgeClimbState"));
+        }
     }
 
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
         character.MoveLocal(character.CharacterInputHandler.DirVector3, character.CurrentSpeed.LastNotNullHorizontalSpeed);
+
+        if (character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.4)
+        {
+            character.LedgeDetection.UpdateDetection(true);
+        }
+    }
+
+    public override void ExitState(CharacterCore character)
+    {
+        base.ExitState(character);
+        character.LedgeDetection.UpdateDetection(false);
     }
 }

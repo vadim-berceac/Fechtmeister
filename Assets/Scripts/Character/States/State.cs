@@ -64,6 +64,8 @@ public abstract class State : ScriptableObject
         {
             // реализовать
         }
+
+        //character.LedgeDetection.UpdateDetection(LedgeDetection);
         
         character.StateTimer.OnUpdate(Time.deltaTime);
         
@@ -90,5 +92,6 @@ public abstract class State : ScriptableObject
         character.CharacterInputHandler.ResetAttack();
         character.TargetingSystem.AllowItemTargeting(false);
         character.TargetingSystem.AllowCharacterTargeting(false);
+        character.CharacterColliderSizer.SetSize(SizeMode.Full, SizeMode.Full);
     }
 }

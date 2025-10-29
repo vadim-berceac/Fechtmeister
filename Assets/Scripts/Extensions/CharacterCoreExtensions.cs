@@ -69,4 +69,35 @@ public static class CharacterCoreExtensions
         var moveDirection = character.CashedTransform.TransformDirection(direction);
         character.LocomotionSettings.CharacterController.Move(Time.deltaTime * speed * moveDirection);
     }
+    
+    [BurstCompile]
+    public static void MoveToLedge(this CharacterCore character, float speed, float stopDistance = 0.05f)
+    {
+        var currentPosition = character.CashedTransform.position;
+        var targetPosition = character.LedgeDetection.LastLedgeGrabPoint;
+        
+        if ((currentPosition - targetPosition).magnitude <= stopDistance)
+        {
+            character.LocomotionSettings.CharacterController.Move(Vector3.zero);
+            return;
+        }
+        
+        var worldDirection = (targetPosition - currentPosition).normalized;
+
+        var localDirection = character.CashedTransform.InverseTransformDirection(worldDirection);
+
+        character.MoveLocal(localDirection, speed);
+    }
+    
+    [BurstCompile]
+    public static void FaceWallNormal(this CharacterCore character, Vector3 wallNormal)
+    {
+        var lookDirection = -wallNormal;
+        lookDirection.y = 0f; 
+
+        if (lookDirection != Vector3.zero)
+        {
+            character.CashedTransform.forward = lookDirection.normalized;
+        }
+    }
 }
