@@ -17,12 +17,12 @@ public class SprintState : State
             character.SetState(character.StatesContainer.GetState("IdleState"));
         }
         
-        if (character.CharacterInputHandler.InputY < 0)
+        if (!character.CharacterInputHandler.IsRun)
         {
             character.SetState(character.StatesContainer.GetState("RunState"));
         }
         
-        if (!character.CharacterInputHandler.IsRun)
+        if (character.CharacterInputHandler.TargetInputMagnitude < 0.2f)
         {
             character.SetState(character.StatesContainer.GetState("SprintStopState"));
         }

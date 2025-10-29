@@ -19,6 +19,7 @@ public class CharacterInputHandler : IInputHandler
     public float LookX { get; private set; }
     
     public Vector3 DirVector3  { get; private set; }
+    public float TargetInputMagnitude { get; private set; }
    
     private float _targetInputX;
     private float _targetInputY;
@@ -109,6 +110,8 @@ public class CharacterInputHandler : IInputHandler
     {
         _targetInputX = move.x;
         _targetInputY = move.y;
+        
+        TargetInputMagnitude = move.magnitude;
     }
 
     private void OnJump()

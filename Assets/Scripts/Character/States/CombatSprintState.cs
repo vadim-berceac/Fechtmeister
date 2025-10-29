@@ -22,6 +22,11 @@ public class CombatSprintState : State
         
         if (!character.CharacterInputHandler.IsRun)
         {
+            character.SetState(character.StatesContainer.GetState("CombatRunState"));
+        }
+        
+        if (character.CharacterInputHandler.TargetInputMagnitude < 0.2f)
+        {
             character.SetState(character.StatesContainer.GetState("SprintStopState"));
         }
         

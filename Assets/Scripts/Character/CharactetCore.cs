@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 [RequireComponent(typeof(CharacterPresetLoader))]
