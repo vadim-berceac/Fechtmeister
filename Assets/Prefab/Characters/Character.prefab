@@ -281,10 +281,11 @@ MonoBehaviour:
     <SphereCastOrigin>k__BackingField: {fileID: 3705769080371381499}
     <SphereRadius>k__BackingField: 0.15
     <CastDistance>k__BackingField: 0.2
-    <OffsetOnEnd>k__BackingField: {x: 0, y: 0, z: 3}
     <LayerMask>k__BackingField:
       serializedVersion: 2
       m_Bits: 1
+    <GrabInwardOffset>k__BackingField: 0.6
+    <GrabUpwardOffset>k__BackingField: -0.1
 --- !u!114 &301124297547184519
 MonoBehaviour:
   m_ObjectHideFlags: 0

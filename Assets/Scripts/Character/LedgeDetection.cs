@@ -4,8 +4,9 @@ public class LedgeDetection
 {
     private readonly Transform _sphereCastOrigin; 
     private readonly float _sphereRadius; 
-    private readonly float _castDistance; 
-    private readonly Vector3 _offset;
+    private readonly float _castDistance;
+    private readonly float _grabInwardOffset;
+    private readonly float _grabUpwardOffset;
     private readonly LayerMask _ledgeLayerMask;
     private Vector3 _lastHitNormal;
     
@@ -18,7 +19,8 @@ public class LedgeDetection
         _sphereCastOrigin = ledgeDetectionSettings.SphereCastOrigin;
         _sphereRadius = ledgeDetectionSettings.SphereRadius;
         _castDistance = ledgeDetectionSettings.CastDistance;
-        _offset = ledgeDetectionSettings.OffsetOnEnd;
+        _grabInwardOffset = ledgeDetectionSettings.GrabInwardOffset;
+        _grabUpwardOffset = ledgeDetectionSettings.GrabUpwardOffset;
         _ledgeLayerMask = ledgeDetectionSettings.LayerMask;
     }
 
@@ -38,7 +40,7 @@ public class LedgeDetection
             }
 
             // Сохраняем точку и нормаль стены
-            LastLedgeGrabPoint = LedgeGrabPoint + _sphereCastOrigin.TransformDirection(_offset);
+            LastLedgeGrabPoint = LedgeGrabPoint;
             LastLedgeNormal = _lastHitNormal; // ← обновляем нормаль из последнего SphereCast
             LedgeGrabPoint = Vector3.zero;
         }
@@ -80,8 +82,12 @@ public class LedgeDetection
             return Vector3.zero;
         }
 
-        // Шаг 5: Возврат точки захвата с небольшой корректировкой 
-        return ledgeHit.point + Vector3.forward;
+        // Шаг 5: Вычисление стабильной точки захвата
+
+        var grabPoint = ledgeHit.point - hit.normal * _grabInwardOffset + Vector3.up * _grabUpwardOffset;
+
+        return grabPoint;
+
     }
 }
 
@@ -91,6 +97,7 @@ public struct LedgeDetectionSettings
     [field: SerializeField] public Transform SphereCastOrigin { get; set; }
     [field: SerializeField] public float SphereRadius { get; set; }
     [field: SerializeField] public float CastDistance { get; set; }
-    [field: SerializeField] public Vector3 OffsetOnEnd { get; set; }
     [field: SerializeField] public LayerMask LayerMask { get; set; }
+    [field: SerializeField] public float GrabInwardOffset { get; set; }
+    [field: SerializeField] public float GrabUpwardOffset { get; set; }
 }
