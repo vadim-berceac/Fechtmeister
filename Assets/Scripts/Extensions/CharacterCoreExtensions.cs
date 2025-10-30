@@ -68,70 +68,6 @@ public static class CharacterCoreExtensions
         var moveDirection = character.CashedTransform.TransformDirection(direction);
         character.LocomotionSettings.CharacterController.Move(Time.deltaTime * speed * moveDirection);
     }
-    
-    public static void MoveToLedgeBlended(this CharacterCore character, float speed, 
-    float blendFactor = 0.5f, float pullTowardsWallFactor = 0.5f, float pullIntensity = 3f, 
-    float stopDistance = 0.05f, bool useSnap = true, float ledgeDepth = 0.8f)
-    {
-        var currentPosition = character.CashedTransform.position;
-        var targetPosition = character.LedgeDetection.LastLedgeGrabPoint;
-        var wallNormal = character.LedgeDetection.LastWallNormal;
-        if (wallNormal == Vector3.zero)
-        { 
-            wallNormal = (currentPosition - targetPosition).normalized;
-            wallNormal.y = 0f;
-            wallNormal = -wallNormal.normalized;
-            
-        }
-        var delta = targetPosition - currentPosition;
-        var heightDiff = Mathf.Abs(delta.y);
-        var horizDist = new Vector2(delta.x, delta.z).magnitude;
-        if (horizDist <= stopDistance && heightDiff <= stopDistance)
-        {
-            character.LocomotionSettings.CharacterController.Move(Vector3.zero);
-            return;
-            
-        }
-        const float snapThreshold = 0.2f; 
-        if (useSnap && horizDist > snapThreshold && heightDiff < 0.1f)
-        {
-            var legOffset = 0.8f; 
-            var snapTarget = targetPosition - wallNormal * legOffset; 
-            snapTarget.y = currentPosition.y;
-            if (Physics.Raycast(currentPosition, (snapTarget - currentPosition).normalized,
-                    out var snapHit, horizDist, character.LedgeDetectionSettings.LayerMask))
-            { 
-                snapTarget = snapHit.point + snapHit.normal * character.LocomotionSettings.CharacterController.radius;
-            }
-            character.CashedTransform.position = snapTarget;
-            character.LocomotionSettings.CharacterController.Move(Vector3.zero);
-            character.FaceWallNormal(wallNormal);
-            return;
-        }
-        
-        var inwardDir = -wallNormal.normalized;
-        inwardDir.y = 0f; 
-        var deepTarget = targetPosition + inwardDir * ledgeDepth; 
-        var worldHorizDir = (deepTarget - currentPosition).normalized; 
-        var verticalDir = Vector3.up * Mathf.Sign(delta.y);
-        var horizontalDir = character.CashedTransform.InverseTransformDirection(worldHorizDir);
-        horizontalDir.y = 0f;
-        var deepHorizDist = (deepTarget - new Vector3(currentPosition.x, targetPosition.y, currentPosition.z)).magnitude; 
-        var verticalWeight = Mathf.Clamp01(heightDiff / (heightDiff + deepHorizDist));
-        var blendedLocalDir = Vector3.Lerp(horizontalDir, verticalDir, verticalWeight * blendFactor);
-    
-        if (verticalWeight > 0.5f)
-        {
-            var strongPullDir = pullTowardsWallFactor * pullIntensity * horizontalDir;
-            blendedLocalDir = (verticalDir + strongPullDir).normalized;
-        }
-        else
-        {
-            blendedLocalDir = horizontalDir.normalized;
-        }
-    
-        character.MoveLocal(blendedLocalDir, speed);
-    }
   
     public static void FaceWallNormal(this CharacterCore character, Vector3 wallNormal)
     {
@@ -142,5 +78,82 @@ public static class CharacterCoreExtensions
         {
             character.CashedTransform.forward = lookDirection.normalized;
         }
+    }
+    
+    public static void MoveToLedgeBlended(this CharacterCore character, float speed,
+        float blendFactor = 0.5f, float pullTowardsWallFactor = 0.5f, float pullIntensity = 3f,
+        float stopDistance = 0.05f, bool useSnap = true, float ledgeDepth = 0.8f)
+    {
+        var currentPosition = character.CashedTransform.position;
+        var grabPoint = character.LedgeDetection.LastLedgeGrabPoint;
+        var wallNormal = character.LedgeDetection.LastWallNormal;
+        
+        if (wallNormal == Vector3.zero)
+        {
+            wallNormal = (currentPosition - grabPoint).normalized;
+            wallNormal.y = 0f;
+            wallNormal = -wallNormal.normalized;
+            
+        }
+        
+        var inwardDir = -wallNormal.normalized;
+        inwardDir.y = 0f;
+        
+        // Целевая точка на плоскости уступа и в глубине
+        var ledgeSurfaceY = grabPoint.y + 0.05f; // фиксированная высота поверхности уступа
+        var ledgeTargetPosition = grabPoint + inwardDir * ledgeDepth;
+        ledgeTargetPosition.y = ledgeSurfaceY;
+        var delta = ledgeTargetPosition - currentPosition;
+        var heightDiff = Mathf.Abs(delta.y);
+        var horizDist = new Vector2(delta.x, delta.z).magnitude;
+        
+        // Завершение движения по высоте
+        if (Mathf.Abs(currentPosition.y - ledgeSurfaceY) <= stopDistance)
+        {
+            var smoothTarget = Vector3.Lerp(currentPosition, ledgeTargetPosition, 0.2f);
+            var moveDelta = smoothTarget - currentPosition;
+            character.LocomotionSettings.CharacterController.Move(moveDelta);
+            character.FaceWallNormal(wallNormal);
+            return;
+            
+        }
+        
+        const float snapThreshold = 0.2f;
+        if (useSnap && horizDist > snapThreshold && heightDiff < 0.1f)
+        {
+            var snapTarget = ledgeTargetPosition;
+            snapTarget.y = currentPosition.y;
+            if (Physics.Raycast(currentPosition, (snapTarget - currentPosition).normalized,
+                    out var snapHit, horizDist, character.LedgeDetectionSettings.LayerMask))
+            {
+                snapTarget = snapHit.point + snapHit.normal * ledgeDepth;
+                snapTarget.y = ledgeSurfaceY;
+                
+            }
+            character.CashedTransform.position = snapTarget;
+            character.LocomotionSettings.CharacterController.Move(Vector3.zero);
+            character.FaceWallNormal(wallNormal);
+            return;
+        }
+        
+        var worldHorizDir = (ledgeTargetPosition - currentPosition).normalized;
+        var verticalDir = Vector3.up * Mathf.Sign(ledgeSurfaceY - currentPosition.y);
+        var horizontalDir = character.CashedTransform.InverseTransformDirection(worldHorizDir);
+        horizontalDir.y = 0f;
+        var deepHorizDist = (ledgeTargetPosition - new Vector3(currentPosition.x, ledgeSurfaceY, currentPosition.z)).magnitude;
+        var verticalWeight = Mathf.Clamp01(heightDiff / (heightDiff + deepHorizDist));
+        var blendedLocalDir = Vector3.Lerp(horizontalDir, verticalDir, verticalWeight * blendFactor);
+        
+        if (verticalWeight > 0.5f)
+        {
+            var strongPullDir = pullTowardsWallFactor * pullIntensity * horizontalDir;
+            blendedLocalDir = (verticalDir + strongPullDir).normalized;
+        }
+        else
+        {
+            blendedLocalDir = horizontalDir.normalized;
+        }
+        
+        character.MoveLocal(blendedLocalDir, speed);
     }
 }
