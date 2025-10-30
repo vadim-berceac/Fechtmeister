@@ -34,12 +34,11 @@ public class LedgeClimbState: State
             character.SetState(character.StatesContainer.GetState("GetHitState"));
         }
     }
-    
-    protected override void CheckAction(CharacterCore character)
-    {
-        base.CheckAction(character);
 
-        // вероятно движение нужно будет переделать в кривую
+    public override void FixedUpdateState(CharacterCore character)
+    {
+        base.FixedUpdateState(character);
+        
         if (character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.4f)
         {
             character.MoveToLedge(1.2f);

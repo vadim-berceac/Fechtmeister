@@ -62,15 +62,13 @@ public static class CharacterCoreExtensions
 
         character.Gravity.SetWasGroundedLastFrame(character.Gravity.Grounded);
     }
-
-    [BurstCompile]
+  
     public static void MoveLocal(this CharacterCore character, Vector3 direction, float speed)
     {
         var moveDirection = character.CashedTransform.TransformDirection(direction);
         character.LocomotionSettings.CharacterController.Move(Time.deltaTime * speed * moveDirection);
     }
-    
-    [BurstCompile]
+   
     public static void MoveToLedge(this CharacterCore character, float speed, float stopDistance = 0.05f)
     {
         var currentPosition = character.CashedTransform.position;
@@ -88,8 +86,7 @@ public static class CharacterCoreExtensions
 
         character.MoveLocal(localDirection, speed);
     }
-    
-    [BurstCompile]
+  
     public static void FaceWallNormal(this CharacterCore character, Vector3 wallNormal)
     {
         var lookDirection = -wallNormal;

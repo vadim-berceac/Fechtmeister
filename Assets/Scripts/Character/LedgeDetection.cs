@@ -80,8 +80,8 @@ public class LedgeDetection
             return Vector3.zero;
         }
 
-        // Шаг 5: Возврат точки захвата с небольшой корректировкой вверх
-        return ledgeHit.point + Vector3.up * 0.5f;
+        // Шаг 5: Возврат точки захвата с небольшой корректировкой 
+        return ledgeHit.point + Vector3.forward;
     }
 }
 
