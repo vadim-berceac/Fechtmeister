@@ -11,7 +11,7 @@ public class LedgeDetection
     private Vector3 _lastHitNormal;
     
     public Vector3 LedgeGrabPoint { get; private set; }
-    public Vector3 LastLedgeNormal { get; private set; }
+    public Vector3 LastWallNormal { get; private set; }  // ← Переименовано для ясности: нормаль стены (wall), а не ledge
     public Vector3 LastLedgeGrabPoint { get; private set; }
 
     public LedgeDetection(LedgeDetectionSettings ledgeDetectionSettings)
@@ -28,6 +28,7 @@ public class LedgeDetection
     {
         LedgeGrabPoint = Vector3.zero;
         LastLedgeGrabPoint = Vector3.zero;
+        LastWallNormal = Vector3.zero;  // ← Добавлено: сброс нормали стены
     }
     
     public void UpdateDetection(bool value)
@@ -39,9 +40,9 @@ public class LedgeDetection
                 return;
             }
 
-            // Сохраняем точку и нормаль стены
+            // Сохраняем точку и нормаль стены (wall normal из последнего SphereCast)
             LastLedgeGrabPoint = LedgeGrabPoint;
-            LastLedgeNormal = _lastHitNormal; // ← обновляем нормаль из последнего SphereCast
+            LastWallNormal = _lastHitNormal;  // ← Обновлено: теперь явно LastWallNormal
             LedgeGrabPoint = Vector3.zero;
         }
 
@@ -58,7 +59,7 @@ public class LedgeDetection
             return Vector3.zero;
         }
 
-        _lastHitNormal = hit.normal;
+        _lastHitNormal = hit.normal;  // ← Нормаль стены (wall normal) — сохраняется для LastWallNormal
 
 
         // Шаг 2: Проверка верхней поверхности уступа — луч вниз
@@ -86,8 +87,11 @@ public class LedgeDetection
 
         var grabPoint = ledgeHit.point - hit.normal * _grabInwardOffset + Vector3.up * _grabUpwardOffset;
 
-        return grabPoint;
+        // ← Добавлено: Если ledge найден, можно сразу обновить LastWallNormal (опционально, для текущего использования)
+        // Но основное сохранение в UpdateDetection при отключении detection
+        LastWallNormal = hit.normal;  // ← Здесь обновляем для немедленного доступа (если climb стартует в том же кадре)
 
+        return grabPoint;
     }
 }
 

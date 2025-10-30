@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1349
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 118
+  controlID: 128
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -429,7 +429,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 3aaaf9ff52aaf9ffd2c0f9fffed7f9ffa6dbf9ff54e8ffff58e8ffff5ce8ffff88e8ffffaae8ffffc0e8ffff40f9ffffe4faffff32cc0000bacc0000
+      m_ExpandedIDs: 2c11fdff4a11fdff4624fdffee37fdff1238fdffb650fdffce50fdffd263fdff8277fdffae77fdff70dafdff88dafdff84edfdff2c01feff5001feff227cffff3a7cffff3e8fffffeea2ffff1aa3ffffe4faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -520,7 +520,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 02e60000
     m_LastClickedID: 58882
-    m_ExpandedIDs: 00000000d2e50000d4e50000d6e50000d8e50000
+    m_ExpandedIDs: 00000000cee50000d0e50000d2e50000d4e50000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -549,7 +549,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d2e50000d4e50000d6e50000d8e50000
+    m_ExpandedIDs: 00000000cee50000d0e50000d2e50000d4e50000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -649,7 +649,7 @@ MonoBehaviour:
     m_CachedPref: 330
     m_ControlHash: 1412526313
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 114302
+  m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -758,7 +758,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: be650600
     m_LastClickedID: 419262
-    m_ExpandedIDs: 00000000d2e50000d4e50000d6e50000d8e50000
+    m_ExpandedIDs: 00000000cee50000d0e50000d2e50000d4e50000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -787,7 +787,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d2e50000d4e50000d6e50000d8e50000
+    m_ExpandedIDs: 00000000cee50000d0e50000d2e50000d4e50000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1517,7 +1517,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Art/Animation/Lokomotion/Basic/Movement
+    - Assets/Resources/GameData/States
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1527,16 +1527,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Art/Animation/Lokomotion/Basic/Movement
+  - Assets/Resources/GameData/States
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\GitHub\Fechtmeister
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 287}
-    m_SelectedIDs: fa520100
-    m_LastClickedID: 86778
-    m_ExpandedIDs: 00000000d2e50000d4e50000d6e50000d8e50000
+    scrollPos: {x: 0, y: 435}
+    m_SelectedIDs: 2ce70000
+    m_LastClickedID: 59180
+    m_ExpandedIDs: 00000000cee50000d0e50000d2e50000d4e50000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1565,7 +1565,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d2e50000d4e50000d6e50000d8e50000
+    m_ExpandedIDs: 00000000cee50000d0e50000d2e50000d4e50000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1593,8 +1593,8 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: bcd1000060d500008cef000058ef000078ef000082ca000088ef000082ef000088ca0000d8cf0000b0ef0000f0c2000082c3000034c3000010c4000024c500005eca00001edc00005adc000096dc0000e6e300001eba0000ecec0000f6eb0000ceee00002ec400008aca000044d800003ab80000f4d60000fad6000006d7000068090100961401001e0a0100c21f0600420b01002205010094ee0000240d0100dad5000016fe00006cf900009ad50000980f02004ad7000030d900008cf70000940d01006aff0000a400010032db00009ebc0000a6db00002c32010030320100a0f5000042ba0000d0db0000b21601000adb0000f8da000064110200542502005a250200e6de00005cef000070da000072da000074da000076da000078da000084f0000088f00000a2da0000a4da0000a6da00006a7201006e720100b0da000090da00005ac500007c2a0100500a0100560a0100e6fe0000721001000ce000000e080100825601008a560100344a010086560100745501008e560100c450010058460100be9101001ce50000d2ba010086530100f05201007ebe0100
+    m_HadKeyboardFocusLastEvent: 0
+    m_ExpandedInstanceIDs: bcd1000060d500008cef000058ef000078ef000082ca000088ef000082ef000088ca0000d8cf0000b0ef0000f0c2000082c3000034c3000010c4000024c500005eca00001edc00005adc000096dc0000e6e300001eba0000ecec0000f6eb0000ceee00002ec400008aca000044d800003ab80000f4d60000fad6000006d7000068090100961401001e0a0100c21f0600420b01002205010094ee0000240d0100dad5000016fe00006cf900009ad50000980f02004ad7000030d900008cf70000940d01006aff0000a400010032db00009ebc0000a6db00002c32010030320100a0f5000042ba0000d0db0000b21601000adb0000f8da000064110200542502005a250200e6de00005cef000070da000072da000074da000076da000078da000084f0000088f00000a2da0000a4da0000a6da00006a7201006e720100b0da000090da00005ac500007c2a0100500a0100560a0100e6fe0000721001000ce000000e080100825601008a560100344a010086560100745501008e560100c450010058460100be9101001ce50000d2ba010086530100f05201007ebe010006e70000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1619,7 +1619,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 78}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 16
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 198
@@ -1697,7 +1697,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -5952
+  m_LastSelectedObjectID: 243916
 --- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52

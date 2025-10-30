@@ -9,7 +9,7 @@ public class LedgeClimbState: State
     {
         base.EnterState(character);
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
-        character.FaceWallNormal(character.LedgeDetection.LastLedgeNormal);
+        character.FaceWallNormal(character.LedgeDetection.LastWallNormal);
     }
     
     protected override void CheckSwitch(CharacterCore character)
@@ -41,7 +41,7 @@ public class LedgeClimbState: State
         
         if (character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.4f)
         {
-            character.MoveToLedge(1.2f);
+            character.MoveToLedgeBlended(1.2f);
         }
     }
 
