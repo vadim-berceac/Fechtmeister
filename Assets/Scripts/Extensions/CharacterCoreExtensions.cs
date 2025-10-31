@@ -194,24 +194,20 @@ public static class CharacterCoreExtensions
         {
             // Принудительно выровнять позицию по высоте уступа
             var correctedPosition = new Vector3(currentPosition.x, surfaceY, currentPosition.z);
-            var worldHorizDir = (targetPosition - correctedPosition).normalized;
-
-            var horizontalDir = character.CashedTransform.InverseTransformDirection(worldHorizDir);
-            horizontalDir.y = 0f;
-
-            return horizontalDir.normalized;
+            var localTargetPos = character.CashedTransform.InverseTransformPoint(targetPosition);
+            var localCurrentPos = character.CashedTransform.InverseTransformPoint(correctedPosition);
+            var localHorizDir = (localTargetPos - localCurrentPos);
+            localHorizDir.y = 0f;
+            return localHorizDir.normalized;
         }
-        else
-        {
-            // Вертикальное движение с притяжением к стене
-            var worldHorizDir = (targetPosition - currentPosition).normalized;
-            var verticalDir = Vector3.up * Mathf.Sign(surfaceY - currentPosition.y);
+        // Вертикальное движение с притяжением к стене
+        var worldHorizDir = (targetPosition - currentPosition).normalized;
+        var verticalDir = Vector3.up * Mathf.Sign(surfaceY - currentPosition.y);
 
-            var horizontalDir = character.CashedTransform.InverseTransformDirection(worldHorizDir);
-            horizontalDir.y = 0f;
+        var horizontalDir = character.CashedTransform.InverseTransformDirection(worldHorizDir);
+        horizontalDir.y = 0f;
 
-            var strongPullDir = pullFactor * pullIntensity * horizontalDir;
-            return (verticalDir + strongPullDir).normalized;
-        }
+        var strongPullDir = pullFactor * pullIntensity * horizontalDir;
+        return (verticalDir + strongPullDir).normalized;
     }
 }
