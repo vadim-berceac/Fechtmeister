@@ -80,16 +80,22 @@ public static class CharacterCoreExtensions
         }
     }
     
-    public static void MoveToLedgeBlended(this CharacterCore character, float speed,
-        float blendFactor = 0.5f, float pullTowardsWallFactor = 0.5f, float pullIntensity = 3f,
-        float stopDistance = 0.05f, bool useSnap = true, float ledgeDepth = 0.8f)
-    {
-        var currentPosition = character.CashedTransform.position;
-        var grabPoint = character.LedgeDetection.LastLedgeGrabPoint;
+     public static void MoveToLedgeBlended(this CharacterCore character, float speed,
+         float pullTowardsWallFactor = 0.5f, float pullIntensity = 3f,  float stopDistance = 0.05f,
+         bool useSnap = true, float ledgeDepth = 0.8f, float handToFeetOffset = 0.05f)
+     {
+         var currentPosition = character.CashedTransform.position;
+         var grabPoint = character.LedgeDetection.LastLedgeGrabPoint;
+    
+        if (grabPoint == Vector3.zero)
+        {
+            return;
+        }
+    
         var wallNormal = GetWallNormal(character, currentPosition, grabPoint);
 
         var inwardDir = GetInwardDirection(wallNormal);
-        var ledgeSurfaceY = grabPoint.y + 0.05f;
+        var ledgeSurfaceY = grabPoint.y + handToFeetOffset; 
         var ledgeTargetPosition = GetLedgeTargetPosition(grabPoint, inwardDir, ledgeDepth, ledgeSurfaceY);
 
         var delta = ledgeTargetPosition - currentPosition;
@@ -108,78 +114,96 @@ public static class CharacterCoreExtensions
             SnapToLedge(character, currentPosition, ledgeTargetPosition, ledgeSurfaceY, horizDist, ledgeDepth, wallNormal);
             return;
         }
-
-        var reachedLedgeHeight = Mathf.Abs(currentPosition.y - ledgeSurfaceY) < 0.02f;
+       
+        var reachedLledgeHeight = Mathf.Abs(currentPosition.y - ledgeSurfaceY) < (stopDistance * 0.4f); 
         var movementDir = GetSwitchedDirection(character, currentPosition, ledgeTargetPosition, ledgeSurfaceY,
-            reachedLedgeHeight, pullTowardsWallFactor, pullIntensity);
-        
-        if (reachedLedgeHeight)
+            reachedLledgeHeight, pullTowardsWallFactor, pullIntensity);
+    
+        if (reachedLledgeHeight)
         {
-            // Принудительно выровнять позицию по Y до начала горизонтального движения
             var pos = character.CashedTransform.position;
             character.CashedTransform.position = new Vector3(pos.x, ledgeSurfaceY, pos.z);
         }
-
-
         character.MoveLocal(movementDir, speed);
-    }
+     }
 
-    private static Vector3 GetWallNormal(CharacterCore character, Vector3 currentPosition, Vector3 grabPoint)
-    {
-        var wallNormal = character.LedgeDetection.LastWallNormal;
-        if (wallNormal == Vector3.zero)
-        {
-            wallNormal = (currentPosition - grabPoint).normalized;
-            wallNormal.y = 0f;
-            wallNormal = -wallNormal.normalized;
-        }
-        return wallNormal;
-    }
+     private static Vector3 GetWallNormal(CharacterCore character, Vector3 currentPosition, Vector3 grabPoint)
+     {
+         var wallNormal = character.LedgeDetection.LastWallNormal;
+         if (wallNormal == Vector3.zero)
+         {
+             var dirToGrab = (grabPoint - currentPosition).normalized;
+             var distToGrab = Vector3.Distance(currentPosition, grabPoint);
+             if (Physics.Raycast(currentPosition, dirToGrab, out var hit, distToGrab, character.LedgeDetectionSettings.LayerMask))
+             {
+                 wallNormal = hit.normal;
+                 wallNormal.y = 0f; 
+                 wallNormal = wallNormal.normalized;
+             }
+             else
+             {
+                 wallNormal = (currentPosition - grabPoint).normalized;
+                 wallNormal.y = 0f;
+                 wallNormal = wallNormal.normalized;
+             }
+         }
+         return wallNormal;
+     }
+
+     private static Vector3 GetInwardDirection(Vector3 wallNormal)
+     {
+         var inwardDir = -wallNormal.normalized; 
+         inwardDir.y = 0f;
+         return inwardDir;
     
-    private static Vector3 GetInwardDirection(Vector3 wallNormal)
-    {
-        var inwardDir = -wallNormal.normalized;
-        inwardDir.y = 0f;
-        return inwardDir;
-        
-    }
+     }
 
-    private static Vector3 GetLedgeTargetPosition(Vector3 grabPoint, Vector3 inwardDir, float depth, float surfaceY)
-    {
-        var target = grabPoint + inwardDir * depth;
-        target.y = surfaceY;
-        return target;
-    }
+     private static Vector3 GetLedgeTargetPosition(Vector3 grabPoint, Vector3 inwardDir, float depth, float surfaceY)
+     {
+         var target = grabPoint + inwardDir * depth;
+         target.y = surfaceY;
+         return target;
+     }
 
-    private static bool IsHeightAligned(float currentY, float targetY, float threshold)
-    {
-        return Mathf.Abs(currentY - targetY) <= threshold;
-    }
+     private static bool IsHeightAligned(float currentY, float targetY, float threshold)
+     {
+         return Mathf.Abs(currentY - targetY) <= threshold;
+     }
 
-    private static void MoveToSurface(CharacterCore character, Vector3 currentPosition, Vector3 targetPosition, Vector3 wallNormal)
-    {
-        var smoothTarget = Vector3.Lerp(currentPosition, targetPosition, 0.2f);
-        var moveDelta = smoothTarget - currentPosition;
-        character.LocomotionSettings.CharacterController.Move(moveDelta);
-        character.FaceWallNormal(wallNormal);
-    }
+     private static void MoveToSurface(CharacterCore character, Vector3 currentPosition, Vector3 targetPosition, Vector3 wallNormal)
+     {
+         var smoothTarget = Vector3.Lerp(currentPosition, targetPosition, 0.2f);
+         var moveDelta = smoothTarget - currentPosition;
+         character.LocomotionSettings.CharacterController.Move(moveDelta);
+         character.FaceWallNormal(wallNormal);
+     }
 
-    private static bool ShouldSnap(float horizDist, float heightDiff, float threshold)
-    {
-        return horizDist > threshold && heightDiff < 0.1f;
-    }
+     private static bool ShouldSnap(float horizDist, float heightDiff, float threshold)
+     {
+         return horizDist > threshold && heightDiff < 0.1f;
+     }
 
     private static void SnapToLedge(CharacterCore character, Vector3 currentPosition, Vector3 targetPosition,
-        float surfaceY, float horizDist, float depth, Vector3 wallNormal)
+    float surfaceY, float horizDist, float depth, Vector3 wallNormal)
     {
         var snapTarget = targetPosition;
-        snapTarget.y = currentPosition.y;
-
-        if (Physics.Raycast(currentPosition, (snapTarget - currentPosition).normalized,
-                out var snapHit, horizDist, character.LedgeDetectionSettings.LayerMask))
+        var start = new Vector3(currentPosition.x, surfaceY, currentPosition.z);
+        var dir = (targetPosition - start).normalized;
+        if (Physics.Raycast(start, dir, out var snapHit, horizDist, character.LedgeDetectionSettings.LayerMask))
         {
-            snapTarget = snapHit.point + snapHit.normal * depth;
+            if (Vector3.Angle(snapHit.normal, Vector3.up) < 45f)
+            {
+                snapTarget = snapHit.point + snapHit.normal * 0.01f;
+            }
+            else
+            {
+                snapTarget = targetPosition;
+            }
             snapTarget.y = surfaceY;
+        }
+        else
+        {
+            snapTarget = targetPosition;
         }
 
         character.CashedTransform.position = snapTarget;
@@ -192,17 +216,16 @@ public static class CharacterCoreExtensions
     {
         if (reachedLedgeHeight)
         {
-            // Принудительно выровнять позицию по высоте уступа
-            var correctedPosition = new Vector3(currentPosition.x, surfaceY, currentPosition.z);
+            var actualCurrentPos = character.CashedTransform.position; 
             var localTargetPos = character.CashedTransform.InverseTransformPoint(targetPosition);
-            var localCurrentPos = character.CashedTransform.InverseTransformPoint(correctedPosition);
+            var localCurrentPos = character.CashedTransform.InverseTransformPoint(actualCurrentPos);
             var localHorizDir = (localTargetPos - localCurrentPos);
             localHorizDir.y = 0f;
             return localHorizDir.normalized;
         }
-        // Вертикальное движение с притяжением к стене
+        
         var worldHorizDir = (targetPosition - currentPosition).normalized;
-        var verticalDir = Vector3.up * Mathf.Sign(surfaceY - currentPosition.y);
+        var verticalDir = character.CashedTransform.up * Mathf.Sign(surfaceY - currentPosition.y);
 
         var horizontalDir = character.CashedTransform.InverseTransformDirection(worldHorizDir);
         horizontalDir.y = 0f;
