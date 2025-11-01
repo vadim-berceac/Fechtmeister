@@ -12,13 +12,24 @@ public class DeathState : State
         var animType = character.Inventory.IsWeaponOn ? itemInstanceData.AnimationType : 0;
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, animType);
         character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
-        character.CharacterColliderSizer.SetEnabled(false);
+        //character.CharacterColliderSizer.SetEnabled(false);
         character.Health.EnableHitReaction(false);
     }
 
     protected override void CheckSwitch(CharacterCore character)
     {
        
+    }
+
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        if (character.GraphCore.FullBodyAnimatorController.HasReachedActionTime())
+        {
+            character.CharacterColliderSizer.SetEnabled(false);
+            character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
+            character.StateTimer.SetActionIsPossible(false);
+        }
     }
 
     public override void ExitState(CharacterCore character)
