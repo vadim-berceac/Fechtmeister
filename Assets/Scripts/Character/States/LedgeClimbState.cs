@@ -14,14 +14,9 @@ public class LedgeClimbState: State
     
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (!character.CharacterInputHandler.IsWeaponDraw && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
+        if (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
         {
-            character.SetState(character.StatesContainer.GetState("IdleState"));
-        }
-         
-        if (character.CharacterInputHandler.IsWeaponDraw && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
-        {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
+            character.SetState(character.StatesContainer.GetState("LedgeClimbEnd"));
         }
          
         if (character.Health.IsDestroyed)

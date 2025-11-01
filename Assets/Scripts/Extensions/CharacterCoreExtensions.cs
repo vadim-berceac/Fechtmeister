@@ -115,7 +115,7 @@ public static class CharacterCoreExtensions
             return;
         }
        
-        var reachedLledgeHeight = Mathf.Abs(currentPosition.y - ledgeSurfaceY) < (stopDistance * 0.4f); 
+        var reachedLledgeHeight = Mathf.Abs(currentPosition.y - ledgeSurfaceY) < 0; 
         var movementDir = GetSwitchedDirection(character, currentPosition, ledgeTargetPosition, ledgeSurfaceY,
             reachedLledgeHeight, pullTowardsWallFactor, pullIntensity);
     
