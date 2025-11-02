@@ -39,6 +39,7 @@ public class JumpState : State
             character.CharacterInputHandler.TargetInputMagnitude > 0f)
         {
             character.SetState(character.StatesContainer.GetState("LedgeClimbState"));
+            //Debug.Log("тип уступа " + character.LedgeDetection.LedgeType);
         }
     }
 
@@ -47,15 +48,30 @@ public class JumpState : State
         base.CheckAction(character);
         character.MoveLocal(character.CharacterInputHandler.DirVector3, character.CurrentSpeed.LastNotNullHorizontalSpeed);
 
-        if (character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.4)
+        var normalizedTime = character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime();
+        
+        // if (normalizedTime > 0 && normalizedTime < 0.2)
+        // {
+        //     character.LedgeDetection.UpdateDetection(true, LedgeTypeDetection.Low);
+        //     Debug.Log(2);
+        // }
+        //
+        // if (normalizedTime > 0.2 && normalizedTime < 0.4)
+        // {
+        //     character.LedgeDetection.UpdateDetection(true, LedgeTypeDetection.Middle);
+        //     Debug.Log(1);
+        // }
+
+        if (normalizedTime >= 0.4)
         {
-            character.LedgeDetection.UpdateDetection(true);
+            character.LedgeDetection.UpdateDetection(true, LedgeTypeDetection.High);
+            Debug.Log(0);
         }
     }
 
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
-        character.LedgeDetection.UpdateDetection(false);
+        character.LedgeDetection.UpdateDetection(false, LedgeTypeDetection.High);
     }
 }

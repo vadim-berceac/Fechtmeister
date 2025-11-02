@@ -2,25 +2,26 @@ using UnityEngine;
 
 public class LedgeDetection
 {
-    private readonly Transform _sphereCastOrigin; 
+    private readonly Transform _sphereCastOrigin0; 
+    private readonly Transform _sphereCastOrigin1; 
+    private readonly Transform _sphereCastOrigin2; 
     private readonly float _sphereRadius; 
     private readonly float _castDistance;
-    private readonly float _grabInwardOffset;
-    private readonly float _grabUpwardOffset;
     private readonly LayerMask _ledgeLayerMask;
     private Vector3 _lastHitNormal;
     
     public Vector3 LedgeGrabPoint { get; private set; }
-    public Vector3 LastWallNormal { get; private set; }  // ← Переименовано для ясности: нормаль стены (wall), а не ledge
+    public Vector3 LastWallNormal { get; private set; } 
     public Vector3 LastLedgeGrabPoint { get; private set; }
+    public int LedgeType { get; private set; }
 
     public LedgeDetection(LedgeDetectionSettings ledgeDetectionSettings)
     {
-        _sphereCastOrigin = ledgeDetectionSettings.SphereCastOrigin;
+        _sphereCastOrigin0 = ledgeDetectionSettings.SphereCastOrigin0;
+        _sphereCastOrigin1 = ledgeDetectionSettings.SphereCastOrigin1;
+        _sphereCastOrigin2 = ledgeDetectionSettings.SphereCastOrigin2;
         _sphereRadius = ledgeDetectionSettings.SphereRadius;
         _castDistance = ledgeDetectionSettings.CastDistance;
-        _grabInwardOffset = ledgeDetectionSettings.GrabInwardOffset;
-        _grabUpwardOffset = ledgeDetectionSettings.GrabUpwardOffset;
         _ledgeLayerMask = ledgeDetectionSettings.LayerMask;
     }
 
@@ -28,80 +29,94 @@ public class LedgeDetection
     {
         LedgeGrabPoint = Vector3.zero;
         LastLedgeGrabPoint = Vector3.zero;
-        LastWallNormal = Vector3.zero;  // ← Добавлено: сброс нормали стены
+        LastWallNormal = Vector3.zero; 
     }
     
-    public void UpdateDetection(bool value)
+    public void UpdateDetection(bool enabled, LedgeTypeDetection ledgeType)
     {
-        if (!value)
+        if (!enabled)
         {
             if (LedgeGrabPoint == Vector3.zero)
             {
                 return;
             }
-
-            // Сохраняем точку и нормаль стены (wall normal из последнего SphereCast)
             LastLedgeGrabPoint = LedgeGrabPoint;
-            LastWallNormal = _lastHitNormal;  // ← Обновлено: теперь явно LastWallNormal
+            LastWallNormal = _lastHitNormal; 
             LedgeGrabPoint = Vector3.zero;
         }
 
-        LedgeGrabPoint = DetectLedge();
+        LedgeGrabPoint = DetectLedge(GetDetectionOrigin(ledgeType));
+        LedgeType = (int)ledgeType;
     }
 
     
-    private Vector3 DetectLedge()
+    private Vector3 DetectLedge(Transform origin)
     {
-        // Шаг 1: SphereCast вперёд для обнаружения стены
-        if (!Physics.SphereCast(_sphereCastOrigin.position, _sphereRadius, _sphereCastOrigin.forward,
+        if (!Physics.SphereCast(origin.position, _sphereRadius, origin.forward,
                 out var hit, _castDistance, _ledgeLayerMask))
         {
             return Vector3.zero;
         }
 
-        _lastHitNormal = hit.normal;  // ← Нормаль стены (wall normal) — сохраняется для LastWallNormal
-
-
-        // Шаг 2: Проверка верхней поверхности уступа — луч вниз
+        _lastHitNormal = hit.normal;  
+        
         var ledgeCheckOrigin = hit.point + Vector3.up * 1.0f;
         if (!Physics.Raycast(ledgeCheckOrigin, Vector3.down, out var ledgeHit, 2.0f, _ledgeLayerMask))
         {
             return Vector3.zero;
         }
-
-        // Шаг 3: Проверка, что поверхность горизонтальна
+        
         var surfaceAngle = Vector3.Angle(ledgeHit.normal, Vector3.up);
         if (surfaceAngle > 30f)
         {
             return Vector3.zero;
         }
-
-        // Шаг 4: Проверка свободного пространства над уступом
+        
         var isSpaceAbove = !Physics.CheckSphere(ledgeHit.point + Vector3.up * 1.0f, 0.5f, _ledgeLayerMask);
         if (!isSpaceAbove)
         {
             return Vector3.zero;
         }
 
-        // Шаг 5: Вычисление стабильной точки захвата
+        var grabPoint = ledgeHit.point;
 
-        var grabPoint = ledgeHit.point - hit.normal * _grabInwardOffset + Vector3.up * _grabUpwardOffset;
-
-        // ← Добавлено: Если ledge найден, можно сразу обновить LastWallNormal (опционально, для текущего использования)
-        // Но основное сохранение в UpdateDetection при отключении detection
-        LastWallNormal = hit.normal;  // ← Здесь обновляем для немедленного доступа (если climb стартует в том же кадре)
+        LastWallNormal = hit.normal; 
 
         return grabPoint;
     }
+
+    private Transform GetDetectionOrigin(LedgeTypeDetection ledgeType)
+    {
+        switch (ledgeType)
+        {
+            case LedgeTypeDetection.High:
+                return _sphereCastOrigin0;
+            
+            case LedgeTypeDetection.Middle:
+                return _sphereCastOrigin1;
+            
+            case LedgeTypeDetection.Low:
+                return _sphereCastOrigin2;
+            
+            default: return null;
+        }
+    }
+}
+
+public enum LedgeTypeDetection
+{
+    High = 0,
+    Middle = 1,
+    Low = 2
 }
 
 [System.Serializable]
 public struct LedgeDetectionSettings
 {
-    [field: SerializeField] public Transform SphereCastOrigin { get; set; }
+    [field: SerializeField] public Transform SphereCastOrigin0 { get; set; }
+    [field: SerializeField] public Transform SphereCastOrigin1 { get; set; }
+    [field: SerializeField] public Transform SphereCastOrigin2 { get; set; }
     [field: SerializeField] public float SphereRadius { get; set; }
     [field: SerializeField] public float CastDistance { get; set; }
     [field: SerializeField] public LayerMask LayerMask { get; set; }
-    [field: SerializeField] public float GrabInwardOffset { get; set; }
-    [field: SerializeField] public float GrabUpwardOffset { get; set; }
 }

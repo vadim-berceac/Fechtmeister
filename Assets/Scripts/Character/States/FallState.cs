@@ -38,6 +38,12 @@ public class FallState :  State
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
-        character.LedgeDetection.UpdateDetection(true);
+        character.LedgeDetection.UpdateDetection(true, LedgeTypeDetection.High);
+    }
+    
+    public override void ExitState(CharacterCore character)
+    {
+        base.ExitState(character);
+        character.LedgeDetection.UpdateDetection(false, LedgeTypeDetection.High);
     }
 }
