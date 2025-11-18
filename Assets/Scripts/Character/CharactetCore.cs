@@ -77,9 +77,9 @@ public class CharacterCore : MonoBehaviour
 
     public void SetState(State state)
     {
-        CurrentState.ExitState(this);
+        CurrentState?.ExitState(this);
         CurrentState = state;
-        CurrentState.EnterState(this);
+        CurrentState?.EnterState(this);
     }
 
     public void SetSubState(State state)

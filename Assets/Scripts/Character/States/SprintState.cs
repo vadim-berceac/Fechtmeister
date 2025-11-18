@@ -1,22 +1,10 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SprintState", menuName = "States/SprintState")]
-public class SprintState : State
+public class SprintState : MovementState
 {
-    public override void EnterState(CharacterCore character)
-    {
-        base.EnterState(character);
-        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
-    }
-    
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
-            Mathf.Abs(character.CharacterInputHandler.InputY) == 0)
-        {
-            character.SetState(character.StatesContainer.GetState("IdleState"));
-        }
-        
         if (!character.CharacterInputHandler.IsRun)
         {
             character.SetState(character.StatesContainer.GetState("RunState"));
@@ -56,17 +44,5 @@ public class SprintState : State
         {
             character.SetState(character.StatesContainer.GetState("DeathState"));
         }
-    }
-
-    protected override void CheckAction(CharacterCore character)
-    {
-        base.CheckAction(character);
-        character.GraphCore.FullBodyAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
-    }
-
-    public override void ExitState(CharacterCore character)
-    {
-        base.ExitState(character);
-        character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
     }
 }

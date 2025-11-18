@@ -3,23 +3,10 @@ using UnityEngine;
 
 [BurstCompile]
 [CreateAssetMenu(fileName = "CombatRunState", menuName = "States/CombatRunState")]
-public class CombatRunState : State
+public class CombatRunState : MovementState
 {
-    public override void EnterState(CharacterCore character)
-    {
-        base.EnterState(character);
-        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.ItemData;
-        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
-    }
-
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
-            Mathf.Abs(character.CharacterInputHandler.InputY) == 0)
-        {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
-        
         if (!character.CharacterInputHandler.IsRun && !character.GraphCore.FullBodyAnimatorController.IsTransitioning)
         {
             character.SetState(character.StatesContainer.GetState("CombatWalkState"));
@@ -59,22 +46,5 @@ public class CombatRunState : State
         {
             character.SetState(character.StatesContainer.GetState("DeathState"));
         }
-    }
-
-    protected override void CheckAction(CharacterCore character)
-    {
-        base.CheckAction(character);
-        character.GraphCore.FullBodyAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
-        
-        if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged && character.GraphCore.UpperBodyLayerController.IsComplete())
-        {
-            character.SetSubState(character.StatesContainer.GetState("FastAttackSubState"));
-        }
-    }
-
-    public override void ExitState(CharacterCore character)
-    {
-        base.ExitState(character);
-        character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
     }
 }

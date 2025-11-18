@@ -11,12 +11,6 @@ public class RunState: State
     
     protected override void CheckSwitch(CharacterCore character)
     {
-        if (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
-            Mathf.Abs(character.CharacterInputHandler.InputY) == 0)
-        {
-            character.SetState(character.StatesContainer.GetState("IdleState"));
-        }
-        
         if (!character.CharacterInputHandler.IsRun)
         {
             character.SetState(character.StatesContainer.GetState("WalkState"));

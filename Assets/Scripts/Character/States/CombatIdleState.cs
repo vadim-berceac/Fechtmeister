@@ -3,21 +3,8 @@ using UnityEngine;
 
 [BurstCompile]
 [CreateAssetMenu(fileName = "CombatIdleState", menuName = "States/CombatIdleState")]
-public class CombatIdleState : State
+public class CombatIdleState : MovementState
 {
-    public override void EnterState(CharacterCore character)
-    {
-        base.EnterState(character);
-        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
-    }
-
-    [BurstCompile]
-    public override void UpdateState(CharacterCore character)
-    {
-        base.UpdateState(character);
-    }
-
     protected override void CheckSwitch(CharacterCore character)
     {
         if (!character.CharacterInputHandler.IsWeaponDraw && !character.GraphCore.FullBodyAnimatorController.IsTransitioning)

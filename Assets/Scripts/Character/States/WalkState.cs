@@ -3,14 +3,8 @@ using UnityEngine;
 
 [BurstCompile]
 [CreateAssetMenu(fileName = "WalkState", menuName = "States/WalkState")]
-public class WalkState : State
+public class WalkState : MovementState
 {
-    public override void EnterState(CharacterCore character)
-    {
-        base.EnterState(character);
-        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
-    }
-    
     protected override void CheckSwitch(CharacterCore character)
     {
         if (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
@@ -53,23 +47,5 @@ public class WalkState : State
         {
             character.SetState(character.StatesContainer.GetState("DeathState"));
         }
-    }
-
-    protected override void CheckAction(CharacterCore character)
-    {
-        base.CheckAction(character);
-        character.GraphCore.FullBodyAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
-
-        // анимация вытаскивания зацикливается
-        // if (character.CharacterInputHandler.IsWeaponDraw && character.GraphCore.UpperBodyLayerController.IsComplete())
-        // {
-        //     character.SetSubState(character.StatesContainer.GetState("FastAttackSubState"));
-        // }
-    }
-
-    public override void ExitState(CharacterCore character)
-    {
-        base.ExitState(character);
-        character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
     }
 }
