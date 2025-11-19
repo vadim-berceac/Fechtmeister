@@ -116,7 +116,7 @@ public class CharacterInputHandler : IInputHandler
 
     private void OnJump()
     {
-        IsJump = !IsJump;
+        IsJump = true;
     }
 
     private void OnLook(Vector2 look)
@@ -144,9 +144,11 @@ public class CharacterInputHandler : IInputHandler
         IsAimBlock = !IsAimBlock;
     }
 
-    public void ResetAttack()
+    public void ResetInputBuffer()
     {
         IsAttack = false;
+        IsInteract = false;
+        IsJump = false;
     }
 
     private void OnInteract()
@@ -157,11 +159,6 @@ public class CharacterInputHandler : IInputHandler
     public void InventoryOpen(bool value)
     {
         IsInventoryOpen = value;
-    }
-
-    public void ResetInteract()
-    {
-        IsInteract = false;
     }
 
     private void OnWeaponSelect0()

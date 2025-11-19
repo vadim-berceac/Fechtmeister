@@ -8,13 +8,7 @@ public class ReloadProjectileState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
-        if (character.GraphCore.FullBodyAnimatorController.CurrentAnimationBlendParamValue !=
-            itemInstanceData.AnimationType)
-        {
-            character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
-        }
-        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
+        character.SetAnimationByWeaponIndex(this);
     }
 
     protected override void CheckSwitch(CharacterCore character)

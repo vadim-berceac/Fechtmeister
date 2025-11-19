@@ -233,4 +233,45 @@ public static class CharacterCoreExtensions
         var strongPullDir = pullFactor * pullIntensity * horizontalDir;
         return (verticalDir + strongPullDir).normalized;
     }
+    
+    public static void Take(this CharacterCore character)
+    {
+        var item = character.TargetingSystem.GetTargetItem();
+        if (item == null)
+        {
+            return;
+        }
+        
+        character.Inventory.AddToInventoryBag(item);
+    }
+    
+    public static void SetAnimationByWeaponIndex(this CharacterCore character, State inState)
+    {
+        var animIndex = character.CharacterInputHandler.IsWeaponDraw
+            ? ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData).AnimationType
+            : 0;
+        character.GraphCore.FullBodyAnimatorController.SetAnimationState(inState, animIndex);
+    }
+    
+    public static void CastAttack(this CharacterCore character, MovementState inState)
+    {
+        if (!inState.FastAttackAllowed)
+        {
+            return;
+        }
+        if (!character.CharacterInputHandler.IsWeaponDraw)
+        {
+            return;
+        }
+        if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged 
+                                                     && character.GraphCore.UpperBodyLayerController.IsComplete())
+        {
+            character.SetSubState(character.StatesContainer.GetState("FastAttackSubState"));
+        } 
+    }
+    
+    public static void Move(this CharacterCore character, float inputX, float inputY)
+    {
+        character.GraphCore.FullBodyAnimatorController.Move(inputX, inputY);
+    }
 }

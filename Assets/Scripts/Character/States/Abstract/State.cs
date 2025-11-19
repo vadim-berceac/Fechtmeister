@@ -89,7 +89,7 @@ public abstract class State : ScriptableObject
 
     public virtual void ExitState(CharacterCore character)
     {
-        character.CharacterInputHandler.ResetAttack();
+        character.CharacterInputHandler.ResetInputBuffer();
         character.TargetingSystem.AllowItemTargeting(false);
         character.TargetingSystem.AllowCharacterTargeting(false);
         character.CharacterColliderSizer.SetSize(SizeMode.Full, SizeMode.Full);

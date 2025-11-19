@@ -8,7 +8,8 @@ public class TakeLootState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
+        character.CharacterInputHandler.ResetInputBuffer();
+        character.SetAnimationByWeaponIndex(this);
         character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
     }
 
@@ -34,18 +35,6 @@ public class TakeLootState : State
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
-        
-        Take(character);
-    }
-
-    private static void Take(CharacterCore character)
-    {
-        var item = character.TargetingSystem.GetTargetItem();
-        if (item == null)
-        {
-           return;
-        }
-        
-        character.Inventory.AddToInventoryBag(item);
+        character.Take();
     }
 }
