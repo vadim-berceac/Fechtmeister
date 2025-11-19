@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,6 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FastAttackState", menuName = "States/FastAttackState")]
 public class FastAttackState : State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() 
+                             && !character.GraphCore.FullBodyAnimatorController.IsTransitioning, "CombatIdleState"),
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
+            new(character => character.Health.IsDestroyed, "DeathState"),
+        };
+    }
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
@@ -14,25 +25,7 @@ public class FastAttackState : State
         character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(character.AttackCounter.GetValue());
         ((WeaponInstance)character.Inventory.WeaponSystem.InstanceInHands).ResetAction();
     }
-
-    protected override void CheckSwitch(CharacterCore character)
-    {
-        if (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() && !character.GraphCore.FullBodyAnimatorController.IsTransitioning)
-        {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
-        
-        if (character.Health.IsHitReactionEnabled)
-        {
-            character.SetState(character.StatesContainer.GetState("GetHitState"));
-        }
-        
-        if (character.Health.IsDestroyed)
-        {
-            character.SetState(character.StatesContainer.GetState("DeathState"));
-        }
-    }
-
+    
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);

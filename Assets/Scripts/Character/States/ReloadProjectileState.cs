@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,18 +6,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ReloadProjectileState", menuName = "States/ReloadProjectileState")]
 public class ReloadProjectileState : State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
+        };
+    }
+    
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
         character.SetAnimationByWeaponIndex(this);
-    }
-
-    protected override void CheckSwitch(CharacterCore character)
-    {
-        if (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
-        {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
     }
 
     public override void ExitState(CharacterCore character)

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,42 +6,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "JumpState", menuName = "States/JumpState")]
 public class JumpState : State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new(character => !character.Gravity.Grounded
+                             && character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.5, "FallState"),
+            new(character => character.Gravity.Grounded &&
+                             character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.6, "LandingState"),
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
+            new(character => character.Health.IsDestroyed, "DeathState"),
+            new(character => character.LedgeDetection.LedgeGrabPoint != Vector3.zero &&
+                             character.CharacterInputHandler.TargetInputMagnitude > 0f, "LedgeClimbState"),
+        };
+    }
+    
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
-    }
-
-    protected override void CheckSwitch(CharacterCore character)
-    {
-        if (!character.Gravity.Grounded
-            && character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.5)
-        {
-            character.SetState(character.StatesContainer.GetState("FallState"));
-        }
-
-        if (character.Gravity.Grounded &&
-            character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.6)
-        {
-            character.SetState(character.StatesContainer.GetState("LandingState"));
-        }
-        
-        if (character.Health.IsHitReactionEnabled)
-        {
-            character.SetState(character.StatesContainer.GetState("GetHitState"));
-        }
-        
-        if (character.Health.IsDestroyed)
-        {
-            character.SetState(character.StatesContainer.GetState("DeathState"));
-        }
-
-        if (character.LedgeDetection.LedgeGrabPoint != Vector3.zero &&
-            character.CharacterInputHandler.TargetInputMagnitude > 0f)
-        {
-            character.SetState(character.StatesContainer.GetState("LedgeClimbState"));
-            //Debug.Log("тип уступа " + character.LedgeDetection.LedgeType);
-        }
     }
 
     protected override void CheckAction(CharacterCore character)
@@ -49,19 +33,7 @@ public class JumpState : State
         character.MoveLocal(character.CharacterInputHandler.DirVector3, character.CurrentSpeed.LastNotNullHorizontalSpeed);
 
         var normalizedTime = character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime();
-        
-        // if (normalizedTime > 0 && normalizedTime < 0.2)
-        // {
-        //     character.LedgeDetection.UpdateDetection(true, LedgeTypeDetection.Low);
-        //     Debug.Log(2);
-        // }
-        //
-        // if (normalizedTime > 0.2 && normalizedTime < 0.4)
-        // {
-        //     character.LedgeDetection.UpdateDetection(true, LedgeTypeDetection.Middle);
-        //     Debug.Log(1);
-        // }
-
+       
         if (normalizedTime >= 0.4)
         {
             character.LedgeDetection.UpdateDetection(true, LedgeTypeDetection.High);

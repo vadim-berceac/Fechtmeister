@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,6 +6,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LedgeClimbState", menuName = "States/LedgeClimbState")]
 public class LedgeClimbState: State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "LedgeClimbEnd"),
+            new(character => character.Health.IsDestroyed, "DeathState"),
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
+        };
+    }
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
@@ -12,24 +22,6 @@ public class LedgeClimbState: State
         character.FaceWallNormal(character.LedgeDetection.LastWallNormal);
     }
     
-    protected override void CheckSwitch(CharacterCore character)
-    {
-        if (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
-        {
-            character.SetState(character.StatesContainer.GetState("LedgeClimbEnd"));
-        }
-         
-        if (character.Health.IsDestroyed)
-        {
-            character.SetState(character.StatesContainer.GetState("DeathState"));
-        }
-        
-        if (character.Health.IsHitReactionEnabled)
-        {
-            character.SetState(character.StatesContainer.GetState("GetHitState"));
-        }
-    }
-
     public override void FixedUpdateState(CharacterCore character)
     {
         base.FixedUpdateState(character);

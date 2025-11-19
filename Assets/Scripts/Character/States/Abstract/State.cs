@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class State : ScriptableObject
@@ -34,6 +35,8 @@ public abstract class State : ScriptableObject
     
     [field: Header("Inventory")]
     [field: SerializeField] public bool UseInventory {get; private set;}
+    
+    protected  List<Transition<CharacterCore>> Transitions { get;  set; }
    
     public virtual void EnterState(CharacterCore character)
     {
@@ -79,8 +82,21 @@ public abstract class State : ScriptableObject
         character.Gravity.SetGrounded(character.CheckIsGrounded(UseGravity, GroundLayer));
         character.UpdateFallDetection(UseGravity);
     }
-   
-    protected abstract void CheckSwitch(CharacterCore character);
+
+    protected virtual void CheckSwitch(CharacterCore character)
+    {
+        if (Transitions == null || Transitions.Count == 0)
+        {
+            return;
+        }
+        foreach (var t in Transitions)
+        {
+            if (t.Check(character))
+            {
+                character.SetState(character.StatesContainer.GetState(t.TargetStateName));
+            }
+        }
+    }
 
     protected virtual void CheckAction(CharacterCore character)
     {

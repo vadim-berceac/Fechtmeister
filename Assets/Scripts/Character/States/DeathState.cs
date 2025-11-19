@@ -16,11 +16,6 @@ public class DeathState : State
         character.Health.EnableHitReaction(false);
     }
 
-    protected override void CheckSwitch(CharacterCore character)
-    {
-       
-    }
-
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);

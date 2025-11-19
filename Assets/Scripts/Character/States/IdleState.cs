@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,48 +6,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "IdleState", menuName = "States/IdleState")]
 public class IdleState : MovementState
 {
-    protected override void CheckSwitch(CharacterCore character)
+    private void OnEnable()
     {
-        if (Mathf.Abs(character.CharacterInputHandler.InputX) > 0 ||
-            Mathf.Abs(character.CharacterInputHandler.InputY) > 0)
+        Transitions = new List<Transition<CharacterCore>>()
         {
-            character.SetState(character.StatesContainer.GetState("WalkState"));
-        }
-        
-        if (character.CharacterInputHandler.IsWeaponDraw)
-        {
-            character.SetState(character.StatesContainer.GetState("WeaponOnState"));
-        }
-
-        if (character.CharacterInputHandler.IsJump)
-        {
-            character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
-            character.SetState(character.StatesContainer.GetState("JumpState"));
-        }
-
-        if (!character.Gravity.Grounded)
-        {
-            character.SetState(character.StatesContainer.GetState("FallState"));
-        }
-        
-        if (character.CharacterInputHandler.IsInteract && character.TargetingSystem.HasTarget(TargetingMode.Item))
-        {
-            character.SetState(character.StatesContainer.GetState("TakeLootState"));
-        }
-        
-        if (character.CharacterInputHandler.IsInventoryOpen)
-        {
-            character.SetState(character.StatesContainer.GetState("InventoryState"));
-        }
-
-        if (character.Health.IsHitReactionEnabled)
-        {
-            character.SetState(character.StatesContainer.GetState("GetHitState"));
-        }
-
-        if (character.Health.IsDestroyed)
-        {
-            character.SetState(character.StatesContainer.GetState("DeathState"));
-        }
+            new (c => Mathf.Abs(c.CharacterInputHandler.InputX) > 0 ||
+                      Mathf.Abs(c.CharacterInputHandler.InputY) > 0, "WalkState"),
+            new(c => c.CharacterInputHandler.IsWeaponDraw, "WeaponOnState"),
+            new(c => c.CharacterInputHandler.IsJump, "JumpState"),
+            new(c => !c.Gravity.Grounded, "FallState"),
+            new(c => c.CharacterInputHandler.IsInteract && c.TargetingSystem.HasTarget(TargetingMode.Item), "TakeLootState"),
+            new(c => c.CharacterInputHandler.IsInventoryOpen, "InventoryState"),
+            new(c => c.Health.IsHitReactionEnabled, "GetHitState"),
+            new(c => c.Health.IsDestroyed, "DeathState"),
+        };
     }
 }

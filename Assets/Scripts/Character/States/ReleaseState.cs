@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,6 +6,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ReleaseState", menuName = "States/ReleaseState")]
 public class ReleaseState : State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
+        };
+    }
+    
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
@@ -18,12 +27,9 @@ public class ReleaseState : State
         character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
     }
 
-    protected override void CheckSwitch(CharacterCore character)
+    public override void ExitState(CharacterCore character)
     {
-        if (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
-        {
-            character.Inventory.ProjectileSystem.Shot();
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
+        base.ExitState(character);
+        character.Inventory.ProjectileSystem.Shot();
     }
 }

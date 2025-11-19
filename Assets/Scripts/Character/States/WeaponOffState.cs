@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,20 +6,21 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponOffState", menuName = "States/WeaponOffState")]
 public class WeaponOffState : State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new(character => (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() 
+                              && !character.GraphCore.FullBodyAnimatorController.IsTransitioning), "IdleState"),
+        };
+    }
+    
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
         
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, itemInstanceData.AnimationType);
-    }
-
-    protected override void CheckSwitch(CharacterCore character)
-    {
-        if (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() && !character.GraphCore.FullBodyAnimatorController.IsTransitioning)
-        {
-            character.SetState(character.StatesContainer.GetState("IdleState"));;
-        }
     }
 
     protected override void CheckAction(CharacterCore character)

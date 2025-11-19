@@ -1,55 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RunState", menuName = "States/RunState")]
 public class RunState: State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new(character => !character.CharacterInputHandler.IsRun, "WalkState"),
+            new(character => character.CharacterInputHandler.IsWeaponDraw, "WeaponOnState"),
+            new(character => character.CharacterInputHandler.IsJump, "JumpState"),
+            new(character => !character.Gravity.Grounded, "FallState"),
+            new(character => character.CharacterInputHandler.IsInventoryOpen, "InventoryState"),
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
+            new(character => character.Health.IsDestroyed, "DeathState"),
+            new(character => character.Gravity.Grounded && character.StateTimer.GetCurrentTimeInState() > 5f, "SprintState"),
+        };
+    }
+    
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
-    }
-    
-    protected override void CheckSwitch(CharacterCore character)
-    {
-        if (!character.CharacterInputHandler.IsRun)
-        {
-            character.SetState(character.StatesContainer.GetState("WalkState"));
-        }
-        
-        if (character.CharacterInputHandler.IsWeaponDraw)
-        {
-            character.SetState(character.StatesContainer.GetState("WeaponOnState"));
-        }
-        
-        if (character.CharacterInputHandler.IsJump)
-        {
-            character.SetState(character.StatesContainer.GetState("JumpState"));
-        }
-        
-        if (!character.Gravity.Grounded)
-        {
-            character.SetState(character.StatesContainer.GetState("FallState"));
-        }
-        
-        if (character.CharacterInputHandler.IsInventoryOpen)
-        {
-            character.SetState(character.StatesContainer.GetState("InventoryState"));
-        }
-        
-        if (character.Health.IsHitReactionEnabled)
-        {
-            character.SetState(character.StatesContainer.GetState("GetHitState"));
-        }
-        
-        if (character.Health.IsDestroyed)
-        {
-            character.SetState(character.StatesContainer.GetState("DeathState"));
-        }
-
-        if (character.Gravity.Grounded && character.StateTimer.GetCurrentTimeInState() > 5f)
-        {
-            character.SetState(character.StatesContainer.GetState("SprintState"));
-        }
     }
 
     protected override void CheckAction(CharacterCore character)

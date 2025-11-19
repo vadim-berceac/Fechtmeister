@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,22 +6,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "StandUpState", menuName = "States/StandUpState")]
 public class StandUpState : State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new(character => (!character.CharacterInputHandler.IsWeaponDraw 
+                              && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()), "IdleState"),
+            new(character => (character.CharacterInputHandler.IsWeaponDraw 
+                              && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()), "CombatIdleState"),
+        };
+    }
+    
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
-    }
-    
-    protected override void CheckSwitch(CharacterCore character)
-    {
-        if (!character.CharacterInputHandler.IsWeaponDraw && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
-        {
-            character.SetState(character.StatesContainer.GetState("IdleState"));
-        }
-         
-        if (character.CharacterInputHandler.IsWeaponDraw && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
-        {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
     }
 }

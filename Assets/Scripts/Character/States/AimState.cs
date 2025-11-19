@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,6 +6,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AimState", menuName = "States/AimState")]
 public class AimState : State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new (c => !c.CharacterInputHandler.IsAimBlock, "CombatIdleState"),
+            new(c => c.CharacterInputHandler.IsAttack, "ReleaseState")
+        };
+    }
+    
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
@@ -16,18 +26,5 @@ public class AimState : State
     {
         base.CheckAction(character);
         character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
-    }
-
-    protected override void CheckSwitch(CharacterCore character)
-    {
-        if (!character.CharacterInputHandler.IsAimBlock)
-        {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
-        
-        if (character.CharacterInputHandler.IsAttack)
-        {
-            character.SetState(character.StatesContainer.GetState("ReleaseState"));
-        }
     }
 }

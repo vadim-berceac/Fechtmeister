@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,25 +6,21 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TakeLootState", menuName = "States/TakeLootState")]
 public class TakeLootState : State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new(character => (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()), "IdleState"),
+            new(character => (character.Health.IsHitReactionEnabled), "GetHitState"),
+        };
+    }
+    
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
         character.CharacterInputHandler.ResetInputBuffer();
         character.SetAnimationByWeaponIndex(this);
         character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Item));
-    }
-
-    protected override void CheckSwitch(CharacterCore character)
-    {
-        if (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
-        {
-            character.SetState(character.StatesContainer.GetState("IdleState"));
-        }
-        
-        if (character.Health.IsHitReactionEnabled)
-        {
-            character.SetState(character.StatesContainer.GetState("GetHitState"));
-        }
     }
     
     protected override void CheckAction(CharacterCore character)

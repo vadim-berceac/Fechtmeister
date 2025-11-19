@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,6 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LoadState", menuName = "States/LoadState")]
 public class LoadState : State
 {
+    private void OnEnable()
+    {
+        Transitions = new List<Transition<CharacterCore>>()
+        {
+            new(character => !character.Inventory.ProjectileSystem.IsProjectileLoaded, "ReloadProjectileState"),
+            new(character => character.Gravity.Grounded && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "AimState"),
+            new(character => !character.CharacterInputHandler.IsAimBlock, "CombatIdleState"),
+        };
+    }
+    
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
@@ -16,23 +27,5 @@ public class LoadState : State
     {
         base.CheckAction(character);
         character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
-    }
-
-    protected override void CheckSwitch(CharacterCore character)
-    {
-        if (!character.Inventory.ProjectileSystem.IsProjectileLoaded)
-        {
-            character.SetState(character.StatesContainer.GetState("ReloadProjectileState"));
-        }
-        
-        if (character.Gravity.Grounded && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished())
-        {
-            character.SetState(character.StatesContainer.GetState("AimState"));
-        }
-        
-        if (!character.CharacterInputHandler.IsAimBlock)
-        {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
     }
 }

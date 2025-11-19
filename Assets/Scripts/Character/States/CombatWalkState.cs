@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Burst;
 using UnityEngine;
 
@@ -5,47 +6,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CombatWalkState", menuName = "States/CombatWalkState")]
 public class CombatWalkState : MovementState
 {
-    protected override void CheckSwitch(CharacterCore character)
+    private void OnEnable()
     {
-        if (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
-            Mathf.Abs(character.CharacterInputHandler.InputY) == 0)
+        Transitions = new List<Transition<CharacterCore>>()
         {
-            character.SetState(character.StatesContainer.GetState("CombatIdleState"));
-        }
-
-        if (character.CharacterInputHandler.IsRun)
-        {
-            character.SetState(character.StatesContainer.GetState("CombatRunState"));
-        }
-
-        if (!character.CharacterInputHandler.IsWeaponDraw)
-        {
-            character.SetState(character.StatesContainer.GetState("WeaponOffState"));
-        }
-        
-        if (character.CharacterInputHandler.IsAimBlock && character.Inventory.WeaponSystem.WeaponInstanceIsRanged)
-        {
-            character.SetState(character.StatesContainer.GetState("LoadState"));
-        }
-        
-        if (character.CharacterInputHandler.IsJump)
-        {
-            character.SetState(character.StatesContainer.GetState("JumpState"));
-        }
-        
-        if (!character.Gravity.Grounded)
-        {
-            character.SetState(character.StatesContainer.GetState("FallState"));
-        }
-        
-        if (character.Health.IsHitReactionEnabled)
-        {
-            character.SetState(character.StatesContainer.GetState("GetHitState"));
-        }
-        
-        if (character.Health.IsDestroyed)
-        {
-            character.SetState(character.StatesContainer.GetState("DeathState"));
-        }
+            new(character => Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
+                             Mathf.Abs(character.CharacterInputHandler.InputY) == 0, "CombatIdleState"),
+            new(character => character.CharacterInputHandler.IsRun, "CombatRunState"),
+            new(character => !character.CharacterInputHandler.IsWeaponDraw, "WeaponOffState"),
+            new(character => character.CharacterInputHandler.IsAimBlock && character.Inventory.WeaponSystem.WeaponInstanceIsRanged, "LoadState"),
+            new(character => character.CharacterInputHandler.IsJump, "JumpState"),
+            new(character => !character.Gravity.Grounded, "FallState"),
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
+            new(character => character.Health.IsDestroyed, "DeathState"),
+        };
     }
 }
