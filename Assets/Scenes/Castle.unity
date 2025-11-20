@@ -4161,6 +4161,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6866076196572246, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: IKHintMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866076196572246, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: _EditorCategory
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866076196572246, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: _Editor_OnValidateTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 301124297547184519, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: <CharacterPersonalityData>k__BackingField
       value: 
