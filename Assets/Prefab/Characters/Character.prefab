@@ -726,7 +726,7 @@ MonoBehaviour:
   _Editor_EnsureCount: 1
   _Editor_OnValidateTrigger: 1
   _EditorAllowAutoUpdateFeetParams: 1
-  _EditorCategory: 0
+  _EditorCategory: 1
   _EditorSetupCategory: 3
   _EditorMotionCategory: 3
   _EditorExtraCategory: 2
@@ -738,8 +738,8 @@ MonoBehaviour:
     HipsPoses: []
     LegPoses: []
   ExtraSetupPoses: []
-  IKHintMode: 0
-  LimitLegStretch: 0.977
+  IKHintMode: 5
+  LimitLegStretch: 1.1
   FeetYOffset: 0
   FeetLengthAdjust: 0
   baseTransform: {fileID: 9086983287782165238}
