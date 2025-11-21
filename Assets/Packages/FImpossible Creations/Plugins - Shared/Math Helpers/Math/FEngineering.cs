@@ -109,7 +109,7 @@ namespace FIMSpace
         /// For use with rigidbody.angularVelocity (Remember to set "rigidbody.maxAngularVelocity" higher)
         /// </summary>
         /// <param name="deltaRotation"> Create with [TargetRotation] * Quaternion.Inverse([CurrentRotation]) </param>
-        /// <returns> Multiply this value by rotation speed parameter like QToAngularVelocity(deltaRot) * RotationSpeed </returns>
+        /// <returns> Multiply this value by rotation Speed parameter like QToAngularVelocity(deltaRot) * RotationSpeed </returns>
         public static Vector3 QToAngularVelocity( this Quaternion deltaRotation, bool fix = false )
         {
             return QToAngularVelocity( deltaRotation, fix ? ( 1f / Time.fixedDeltaTime ) : 1f );
@@ -119,7 +119,7 @@ namespace FIMSpace
         /// For use with rigidbody.angularVelocity (Remember to set "rigidbody.maxAngularVelocity" higher)
         /// </summary>
         /// <param name="deltaRotation"> Create with [TargetRotation] * Quaternion.Inverse([CurrentRotation]) </param>
-        /// <returns> Multiply this value by rotation speed parameter like QToAngularVelocity(deltaRot) * RotationSpeed </returns>
+        /// <returns> Multiply this value by rotation Speed parameter like QToAngularVelocity(deltaRot) * RotationSpeed </returns>
         public static Vector3 QToAngularVelocity( this Quaternion deltaRotation, float multiplyAngle )
         {
             float angle; Vector3 axis;

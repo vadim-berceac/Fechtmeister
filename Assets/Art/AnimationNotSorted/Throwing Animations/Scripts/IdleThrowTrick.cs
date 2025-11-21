@@ -24,10 +24,10 @@ namespace KevinIglesias {
         //How far will the prop launched
         public float trickDistance;
         
-        //Movement speed of the prop
+        //Movement Speed of the prop
         public float trickTranslationSpeed;
         
-        //Rotation speed of the prop
+        //Rotation Speed of the prop
         public float trickRotationSpeed;
         
         //Needed for check if the trick is active

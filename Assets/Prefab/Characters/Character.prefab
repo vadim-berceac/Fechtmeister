@@ -194,7 +194,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7
+  m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -858,6 +858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e305f5648a7bc114488a778dd84896f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <DamagedObject>k__BackingField: {fileID: 1595122359814018949}
   <GraphCore>k__BackingField: {fileID: 7729256575959844760}
   <LocomotionSettings>k__BackingField:
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}
@@ -1809,6 +1810,11 @@ Transform:
 --- !u!4 &1554809466654830003 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9100590860771260488, guid: 647c1291cacceb446935103ec6c290de, type: 3}
+  m_PrefabInstance: {fileID: 7770963164372391419}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1595122359814018949 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9077852252251652734, guid: 647c1291cacceb446935103ec6c290de, type: 3}
   m_PrefabInstance: {fileID: 7770963164372391419}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2940405653628687145 stripped

@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5c6f1225e61424ead51bb0a316e92c, type: 3}
   m_Name: ReleaseState
   m_EditorClassIdentifier: 
+  <EnterTransitionDuration>k__BackingField: 0
+  <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: 1238ac14ff14dc0489456b484ec25928, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <AllowCharacterTargeting>k__BackingField: 1
-  <UpdateHorizontalTargetAngle>k__BackingField: 0
-  <UpdateVerticalTargetAngle>k__BackingField: 1
+  <FixOnCharacterTarget>k__BackingField: 0
+  <FixOnItemTarget>k__BackingField: 0
+  <TargetingRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
-  <EnterTransitionDuration>k__BackingField: 0
-  <AnimationLayer>k__BackingField: 0
-  <ApplyRootMotion>k__BackingField: 1
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 2
   <UseGravity>k__BackingField: 1
@@ -32,3 +32,4 @@ MonoBehaviour:
   <Height>k__BackingField: 0
   <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0
+  <TestProjectile>k__BackingField: {fileID: 2948567091524882811, guid: 64b93ce959296e544853c173419722e9, type: 3}

@@ -37,7 +37,7 @@ namespace FIMSpace.FProceduralAnimation
         [NonSerialized] public float DontGlueAttachIfTooNearOppositeLeg = 0f;
 
         //[Space(1)]
-        //[Tooltip("When main transform is rotating then glue transition will speed up to catch up steps better")]
+        //[Tooltip("When main transform is rotating then glue transition will Speed up to catch up steps better")]
         //[Range(0f, 1f)] public float SpeedupOnRotation = 0.0f;
         //[Space(6)]
         //public bool AllowReRaycastDuringTransition = false;

@@ -19,7 +19,7 @@ namespace FIMSpace.Basics
         /// <summary> Just multiplier for rotation </summary>
         public float MouseSensitivity = 5f;
 
-        /// <summary> Variables controlling turbo speed on shift key </summary>
+        /// <summary> Variables controlling turbo Speed on shift key </summary>
         private float turboModeMultiply = 5f;
 
         /// <summary> Variable to hold speeds of directions for camera to fly </summary>
@@ -52,7 +52,7 @@ namespace FIMSpace.Basics
             float forward = f * Time.smoothDeltaTime * SpeedMultiplier;
             float right = r * Time.smoothDeltaTime * SpeedMultiplier;
 
-            // Smooth change turbo speed
+            // Smooth change turbo Speed
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 turbo = Mathf.Lerp(turbo, turboModeMultiply, Time.smoothDeltaTime * 5f);
@@ -72,7 +72,7 @@ namespace FIMSpace.Basics
                 rotation.y += (Input.GetAxis("Mouse X") * 1f * MouseSensitivity);
             }
 
-            // Lerping speed variables for smooth effect
+            // Lerping Speed variables for smooth effect
             speeds.z = Mathf.Lerp(speeds.z, forward, Time.smoothDeltaTime * AccelerationSmothnessValue);
             speeds.x = Mathf.Lerp(speeds.x, right, Time.smoothDeltaTime * AccelerationSmothnessValue);
 

@@ -129,7 +129,7 @@ namespace FIMSpace.FProceduralAnimation
             durMulV.Editor_DisplayVariableGUI();
 
             var spdAffectLandPower = helper.RequestVariable(spdLandPower, false);
-            spdAffectLandPower.AssignTooltip("Is movement speed affecting landing power? If true, then landing will not add implulse on jump in place.");
+            spdAffectLandPower.AssignTooltip("Is movement Speed affecting landing power? If true, then landing will not add implulse on jump in place.");
             spdAffectLandPower.Editor_DisplayVariableGUI();
 
             GUILayout.Space(4);

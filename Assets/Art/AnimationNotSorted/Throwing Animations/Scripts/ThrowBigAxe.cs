@@ -24,10 +24,10 @@ namespace KevinIglesias {
         //How far will the prop launched
         public float spinDistance;
         
-        //Movement speed of the prop
+        //Movement Speed of the prop
         public float translationSpeed;
         
-        //Rotation speed of the prop
+        //Rotation Speed of the prop
         public float spinSpeed;
         
         //Needed for check if the trick is active

@@ -87,7 +87,7 @@ namespace FIMSpace.FProceduralAnimation
 
             GUILayout.Space( 2 );
             var sp = sp_SmoothSuddenSteps.Copy();
-            EditorGUILayout.PropertyField( sp ); // Aling blend in speed
+            EditorGUILayout.PropertyField( sp ); // Aling blend in Speed
 
             EditorGUILayout.BeginHorizontal();
             sp.Next( false ); EditorGUILayout.PropertyField( sp ); // Leg Elevate
@@ -202,9 +202,9 @@ namespace FIMSpace.FProceduralAnimation
                 }
 
                 var sp = sp_hipsAdjBlend.Copy();
-                sp.Next( false ); EditorGUILayout.PropertyField( sp ); // Anim speed
+                sp.Next( false ); EditorGUILayout.PropertyField( sp ); // Anim Speed
                 EditorGUILayout.BeginHorizontal();
-                sp.Next( false ); EditorGUILayout.PropertyField( sp ); // Anim speed
+                sp.Next( false ); EditorGUILayout.PropertyField( sp ); // Anim Speed
                 sp.Next( false ); EditorGUILayout.PropertyField( sp, GUIContent.none, GUILayout.Width( 50 ) ); // adjust Style
                 EditorGUILayout.EndHorizontal();
                 GUILayout.Space( 4 );
@@ -286,7 +286,7 @@ namespace FIMSpace.FProceduralAnimation
 
                 GUILayout.Space( 5 );
                 EditorGUIUtility.labelWidth = 44;
-                sp.Next( false ); EditorGUILayout.PropertyField( sp, new GUIContent( "Speed:", "Smooth reaction speed of the hips stretch preventer" ), GUILayout.Width( 72 ) ); // Hips Stretch
+                sp.Next( false ); EditorGUILayout.PropertyField( sp, new GUIContent( "Speed:", "Smooth reaction Speed of the hips stretch preventer" ), GUILayout.Width( 72 ) ); // Hips Stretch
                 sp.floatValue = Mathf.Clamp01( sp.floatValue );
                 EditorGUIUtility.labelWidth = 0;
 
@@ -444,7 +444,7 @@ namespace FIMSpace.FProceduralAnimation
                 GUILayout.Space( 4 );
                 var sp = sp_blendinspd.Copy();
                 sp.Next( false ); EditorGUILayout.PropertyField( sp ); // Glue Below Foot
-                sp.Next( false ); EditorGUILayout.PropertyField( sp ); // Glue Fade out speed
+                sp.Next( false ); EditorGUILayout.PropertyField( sp ); // Glue Fade out Speed
                 sp.Next( false ); /*if (Get.AnimateFeet) */EditorGUILayout.PropertyField( sp ); // Unglue On
 
                 GUILayout.Space( 4 );

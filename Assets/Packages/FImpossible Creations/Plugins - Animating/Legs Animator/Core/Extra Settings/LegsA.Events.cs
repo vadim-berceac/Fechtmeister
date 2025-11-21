@@ -8,7 +8,7 @@ namespace FIMSpace.FProceduralAnimation
     {
         public UnityEvent Event_OnStep = new UnityEvent();
 
-        [Tooltip("Increase to execute step event sooner (speed up step confirmation). Useful if step events are executed too late.")]
+        [Tooltip("Increase to execute step event sooner (Speed up step confirmation). Useful if step events are executed too late.")]
         [Range(0f, 0.3f)] public float EventExecuteSooner = 0.05f;
 
         [Tooltip("If you want to send step events also during movement idle (in case you already use animation clip events for it)")]

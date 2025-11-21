@@ -5,6 +5,7 @@ using Zenject;
 [RequireComponent(typeof(CharacterPresetLoader))]
 public class CharacterCore : MonoBehaviour
 {
+    [field: SerializeField] public Transform DamagedObject { get; private set; }
     [field: SerializeField] public PlayableGraphCore GraphCore { get; private set; }
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
@@ -64,7 +65,7 @@ public class CharacterCore : MonoBehaviour
         Inventory = new Inventory(this, PresetLoader, 3);
         Health = new CharacterHealth(PresetLoader.CharacterPersonalityData.HealthDataSettings.MaxHealth, 
             PresetLoader.CharacterPersonalityData.HealthDataSettings.CurrentHealthPercentage, 
-            PresetLoader.CharacterPersonalityData.HealthDataSettings.HitReactionTriggerValuePercentage);
+            PresetLoader.CharacterPersonalityData.HealthDataSettings.HitReactionTriggerValuePercentage, DamagedObject);
     }
 
     private void Start()

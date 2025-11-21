@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class Damageable
 {
+    public Transform DamagedObject { get; private set; }
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
     public float HitReactionThresholdPercentage { get; private set; }
@@ -11,11 +12,12 @@ public abstract class Damageable
 
     public Action<float> OnCurrentHealthChanged;
 
-    public Damageable(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage)
+    public Damageable(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage, Transform damagedObject)
     {
         MaxHealth = maxHealth;
         CurrentHealth = MaxHealth / 100 * currentHealthPercentage;
         HitReactionThresholdPercentage = hitReactionThresholdPercentage;
+        DamagedObject = damagedObject;
     }
     
     public virtual void Damage(float damage)
@@ -28,7 +30,7 @@ public abstract class Damageable
         
         if (damage / percent > percent * HitReactionThresholdPercentage)
         {
-            Debug.Log($"Damage {damage} to {CurrentHealth} / {MaxHealth}");
+            Debug.Log($"DamageValue {damage} to {CurrentHealth} / {MaxHealth}");
             EnableHitReaction(true);
         }
 

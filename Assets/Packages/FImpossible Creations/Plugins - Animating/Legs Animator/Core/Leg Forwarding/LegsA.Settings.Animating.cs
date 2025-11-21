@@ -37,7 +37,7 @@ namespace FIMSpace.FProceduralAnimation
 
 
             [Space(3)]
-            [Tooltip("Allowing to speed up leg adjusting animation when leg is getting stretched, when opposite leg is requesting adjustement or when main character is rotating in place quickly")]
+            [Tooltip("Allowing to Speed up leg adjusting animation when leg is getting stretched, when opposite leg is requesting adjustement or when main character is rotating in place quickly")]
             [Range(0f, 1f)] public float AllowSpeedups = 0.4f;
             [Tooltip("You can allow to use opposite leg before idle glue leg adjustement finishes")]
             [Range(0.1f,1f)] public float AllowDetachBefore = 1f;

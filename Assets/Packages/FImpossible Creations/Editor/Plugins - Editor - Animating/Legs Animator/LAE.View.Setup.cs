@@ -1071,7 +1071,7 @@ namespace FIMSpace.FProceduralAnimation
             {
                 if (t == null)
                 {
-                    EditorUtility.DisplayDialog("Assign Bone Reference, by drag & drop bone transform, from the hierarchy window", g.tooltip, "Ok");
+                    EditorUtility.DisplayDialog("Assign Bone Reference, by Drag & drop bone transform, from the hierarchy window", g.tooltip, "Ok");
                 }
                 else
                 {
