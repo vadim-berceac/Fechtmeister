@@ -24,6 +24,7 @@ public class CharacterCore : MonoBehaviour
     public State CurrentSubState { get; private set; }
     public Counter AttackCounter { get; private set; }
     public CurrentSpeed CurrentSpeed { get; private set; }
+    public ShootingSystem ShootingSystem { get; private set; }
     public StateTimer StateTimer { get; private set; }
     public Action OnStateChanged;
     
@@ -38,7 +39,7 @@ public class CharacterCore : MonoBehaviour
     public CharacterTargetingSystem TargetingSystem { get; private set; }
     public LedgeDetection LedgeDetection { get; private set; }
     public Inventory Inventory { get; private set; }
-    public CharacterHealth Health { get; private set; }
+    public IDamageable Health { get; private set; }
 
     [Inject]
     private void Construct(SceneCamera sceneCamera, SceneCharacterContainer sceneCharacterContainer, PlayerInput playerInput, StatesContainer statesContainer)
@@ -63,9 +64,12 @@ public class CharacterCore : MonoBehaviour
         CurrentSpeed = new CurrentSpeed(CashedTransform);
         
         Inventory = new Inventory(this, PresetLoader, 3);
-        Health = new CharacterHealth(PresetLoader.CharacterPersonalityData.HealthDataSettings.MaxHealth, 
+        Health = GetComponent<IDamageable>();
+        Health.Initialize(PresetLoader.CharacterPersonalityData.HealthDataSettings.MaxHealth, 
             PresetLoader.CharacterPersonalityData.HealthDataSettings.CurrentHealthPercentage, 
-            PresetLoader.CharacterPersonalityData.HealthDataSettings.HitReactionTriggerValuePercentage, DamagedObject);
+            PresetLoader.CharacterPersonalityData.HealthDataSettings.HitReactionTriggerValuePercentage, DamagedObject,
+            PresetLoader.CharacterPersonalityData.ResistanceSettings);
+        ShootingSystem = new ShootingSystem(LocomotionSettings.CharacterCollider, CashedTransform, Inventory);
     }
 
     private void Start()

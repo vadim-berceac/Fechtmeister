@@ -37,6 +37,6 @@ public class WeaponOffState : State
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
-        character.Inventory.ProjectileSystem.SetProjectileLoaded(false);
+        character.ShootingSystem.SetProjectileLoaded(false);
     }
 }

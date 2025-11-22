@@ -23,6 +23,6 @@ public class ReloadProjectileState : State
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
-        character.Inventory.ProjectileSystem.SetProjectileLoaded(true);
+        character.ShootingSystem.SetProjectileLoaded(true);
     }
 }

@@ -1,69 +1,26 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Damageable
+public interface IDamageable
 {
-    public Transform DamagedObject { get; private set; }
-    public float MaxHealth { get; private set; }
-    public float CurrentHealth { get; private set; }
-    public float HitReactionThresholdPercentage { get; private set; }
-    public bool IsHitReactionEnabled { get; private set; }
-    public bool IsDestroyed { get; private set; }
+    public Transform DamagedObject { get;  set; }
+    public float MaxHealth { get;  set; }
+    public float CurrentHealth { get;  set; }
+    public float HitReactionThresholdPercentage { get;  set; }
+    public bool IsHitReactionEnabled { get;  set; }
+    public bool IsDestroyed { get;  set; }
+    public Dictionary<DamageTypes, int> DamageResistances { get;  set; }
 
-    public Action<float> OnCurrentHealthChanged;
+    public Action<float> OnCurrentHealthChanged { get;  set; }
 
-    public Damageable(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage, Transform damagedObject)
-    {
-        MaxHealth = maxHealth;
-        CurrentHealth = MaxHealth / 100 * currentHealthPercentage;
-        HitReactionThresholdPercentage = hitReactionThresholdPercentage;
-        DamagedObject = damagedObject;
-    }
-    
-    public virtual void Damage(float damage)
-    {
-        CurrentHealth = Mathf.Max(0, CurrentHealth - damage);
-        
-        OnCurrentHealthChanged?.Invoke(CurrentHealth);
-
-        var percent = MaxHealth / 100;
-        
-        if (damage / percent > percent * HitReactionThresholdPercentage)
-        {
-            Debug.Log($"DamageValue {damage} to {CurrentHealth} / {MaxHealth}");
-            EnableHitReaction(true);
-        }
-
-        if (CurrentHealth <= 0)
-        {
-            SetDestroyed(true);
-        }
-    }
-
-    public virtual void Heal(float heal)
-    {
-        CurrentHealth = Mathf.Min(MaxHealth, CurrentHealth + heal);
-        
-        OnCurrentHealthChanged?.Invoke(CurrentHealth);
-    }
-
-    public void SetHitReactionThreshold(float hitReactionThreshold)
-    {
-        HitReactionThresholdPercentage = hitReactionThreshold;
-    }
-
-    public void SetMaxHealth(float newMaxHealth)
-    {
-        MaxHealth = newMaxHealth;
-    }
-
-    public void EnableHitReaction(bool enable)
-    {
-        IsHitReactionEnabled = enable;
-    }
-
-    public void SetDestroyed(bool destroyed)
-    {
-        IsDestroyed = destroyed;
-    }
+    public void Initialize(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage,
+        Transform damagedObject, ResistanceSettings resistanceSettings);
+    public bool CheckForResistance(float damageValue, DamageTypes damageType);
+    public void Damage(float damage, DamageTypes damageType);
+    public void Heal(float heal);
+    public void SetHitReactionThreshold(float hitReactionThreshold);
+    public void SetMaxHealth(float newMaxHealth);
+    public void EnableHitReaction(bool enable);
+    public void SetDestroyed(bool destroyed);
 }

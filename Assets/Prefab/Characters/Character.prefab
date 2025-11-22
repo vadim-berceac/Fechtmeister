@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 218653970422988893}
   - component: {fileID: 3187117931169419587}
   - component: {fileID: 7729256575959844760}
+  - component: {fileID: 3771850937632167011}
   - component: {fileID: 5391477331367181792}
   - component: {fileID: 301124297547184519}
   - component: {fileID: 6255509273067034642}
@@ -194,7 +195,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.45
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -846,6 +847,18 @@ MonoBehaviour:
     <Animator>k__BackingField: {fileID: 6502283926946306806}
     <CharacterController>k__BackingField: {fileID: 6829832979991591507}
     <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
+--- !u!114 &3771850937632167011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131212000758676167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9bfd70f74f1fe94fb31091e0f055ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
 --- !u!114 &5391477331367181792
 MonoBehaviour:
   m_ObjectHideFlags: 0

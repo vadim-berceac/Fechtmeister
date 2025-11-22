@@ -20,20 +20,14 @@ public class ReleaseState : State
         base.EnterState(character);
         character.SetAnimationByWeaponIndex(this);
         character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
+        
+        character.ShootingSystem.Shot(TestProjectile, character.transform.forward,
+            character.PresetLoader.CharacterPersonalityData.AccuracySettings.ShootingAccuracy); 
     }
     
     protected override void CheckAction(CharacterCore character)
     {
         base.CheckAction(character);
         character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
-    }
-
-    public override void ExitState(CharacterCore character)
-    {
-        base.ExitState(character);
-        //character.Inventory.ProjectileSystem.Shot();
-        var spawnPosition = character.transform.position + character.transform.forward * 0.5f + Vector3.up * 1.2f;
-        var projectile = Instantiate(TestProjectile, spawnPosition, Quaternion.identity);
-        projectile.GetComponent<Projectile>().Launch(character.LocomotionSettings.CharacterCollider,character.transform.forward);
     }
 }

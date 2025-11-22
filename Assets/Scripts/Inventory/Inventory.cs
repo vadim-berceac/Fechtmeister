@@ -4,7 +4,6 @@ public class Inventory
     private readonly CharacterPresetLoader _characterPresetLoader;
     public readonly WeaponSystem WeaponSystem;
     public readonly ArmorSystem ArmorSystem;
-    public readonly ProjectileSystem ProjectileSystem;
     public readonly InventoryBag InventoryBag;
     private readonly CharacterCore _characterCore;
 
@@ -15,8 +14,6 @@ public class Inventory
         WeaponSystem = new WeaponSystem(weaponSystemInstancesCount, characterCore);
 
         ArmorSystem = new ArmorSystem(5, characterCore);
-        
-        ProjectileSystem = new ProjectileSystem();
         
         InventoryBag = new InventoryBag(96);
         

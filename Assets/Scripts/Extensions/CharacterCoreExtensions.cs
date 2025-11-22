@@ -54,7 +54,7 @@ public static class CharacterCoreExtensions
             var fallDistance = character.Gravity.MaxHeightReached - currentHeight;
             if (fallDistance > character.GravitySettings.FallDamageThreshold && !character.GravitySettings.ImmuneToFallDamage)
             {
-                character.Health.Damage(fallDistance * fallDistance);
+                character.Health.Damage(fallDistance * fallDistance, DamageTypes.Environment);
             }
 
             character.Gravity.SetMaxHeightReached(currentHeight);

@@ -45,16 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64434b56c26fdd64a902381d7441c52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  damageValue: 40
+  additionalDamageValue: 15
   stickOffset: 0.05
+  damageType: 4
   gravity: -9.81
   drag: 0.5
-  speed: 100
+  speed: 60
+  maxSpreadRadius: 0.15
   hitRadius: 0.2
   lifetime: 5
   layerMask:
     serializedVersion: 2
     m_Bits: 8388609
+  <StartPositionOffset>k__BackingField: {x: 0, y: 1.3, z: 1}
 --- !u!1001 &1093270959248858230
 PrefabInstance:
   m_ObjectHideFlags: 0
