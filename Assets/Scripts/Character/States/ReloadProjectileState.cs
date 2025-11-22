@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ReloadProjectileState", menuName = "States/ReloadProjectileState")]
 public class ReloadProjectileState : State
 {
+    [field: SerializeField] private GameObject TestProjectile { get; set; }
     private void OnEnable()
     {
         Transitions = new List<Transition<CharacterCore>>()
@@ -24,5 +25,6 @@ public class ReloadProjectileState : State
     {
         base.ExitState(character);
         character.ShootingSystem.SetProjectileLoaded(true);
+        character.ShootingSystem.TakeProjectile(TestProjectile);
     }
 }

@@ -32,3 +32,36 @@ MonoBehaviour:
   <Height>k__BackingField: 0
   <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0
+  <Curve>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1.8219771
+      outSlope: -1.8219771
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5488543
+      value: 0
+      inSlope: -0.89515704
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0017533
+      value: 0
+      inSlope: 0.14000179
+      outSlope: 0.14000179
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

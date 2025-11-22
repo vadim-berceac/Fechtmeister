@@ -13,6 +13,7 @@ public interface IDamageable
     public Dictionary<DamageTypes, int> DamageResistances { get;  set; }
 
     public Action<float> OnCurrentHealthChanged { get;  set; }
+    public Action OnDamageAttempt { get;  set; }
 
     public void Initialize(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage,
         Transform damagedObject, ResistanceSettings resistanceSettings);

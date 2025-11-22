@@ -13,6 +13,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
     public Dictionary<DamageTypes, int> DamageResistances { get;  set; } = new();
 
     public Action<float> OnCurrentHealthChanged { get;  set; }
+    public Action OnDamageAttempt { get;  set; }
 
     public void Initialize(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage,
         Transform damagedObject, ResistanceSettings resistanceSettings)
@@ -45,8 +46,8 @@ public class HealthComponent : MonoBehaviour, IDamageable
 
     public void Damage(float damage, DamageTypes damageType)
     {
-        OnCurrentHealthChanged?.Invoke(CurrentHealth); 
-
+        OnDamageAttempt?.Invoke();
+        
         if (CheckForResistance(damage, damageType))
         {
             return;
@@ -63,6 +64,8 @@ public class HealthComponent : MonoBehaviour, IDamageable
         {
             SetDestroyed(true);
         }
+        
+        OnCurrentHealthChanged?.Invoke(CurrentHealth); 
         
         Debug.Log($"DamageValue {damage} to {CurrentHealth} / {MaxHealth}, by {damageType}");
     }

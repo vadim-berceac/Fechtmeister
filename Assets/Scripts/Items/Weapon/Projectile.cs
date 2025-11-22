@@ -36,8 +36,6 @@ public class Projectile : MonoBehaviour
     private void Start()
     {
         _transform = transform;
-        Destroy(gameObject, lifetime);
-
         _velArray = new NativeArray<Vector3>(1, Allocator.Persistent);
         _posArray = new NativeArray<Vector3>(1, Allocator.Persistent);
     }
@@ -63,6 +61,8 @@ public class Projectile : MonoBehaviour
         var finalDirection = (direction + spread).normalized;
 
         _velocity = finalDirection * speed;
+        
+        Destroy(gameObject, lifetime);
     }
 
 

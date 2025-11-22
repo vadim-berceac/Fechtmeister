@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SprintStopState", menuName = "States/SprintStopState")]
 public class SprintStopState: State
 {
+    [field: SerializeField] private AnimationCurve Curve { get; set; }
     private void OnEnable()
     {
         Transitions = new List<Transition<CharacterCore>>()
@@ -23,5 +24,12 @@ public class SprintStopState: State
     {
         base.EnterState(character);
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
+    }
+    
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        character.MoveLocal(character.CashedTransform.forward, Time.deltaTime 
+                                                               * Curve.Evaluate(character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime()));
     }
 }

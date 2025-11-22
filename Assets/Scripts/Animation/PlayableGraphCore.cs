@@ -57,6 +57,11 @@ public class PlayableGraphCore : MonoBehaviour
     {
         Graph.Destroy();
     }
+
+    public void EnableRootMotion(bool enable)
+    {
+        CoreData.Animator.enabled = enable;
+    }
 }
 
 [System.Serializable]

@@ -21,4 +21,10 @@ public class IdleState : MovementState
             new(c => c.Health.IsDestroyed, "DeathState"),
         };
     }
+
+    public override void EnterState(CharacterCore character)
+    {
+        base.EnterState(character);
+        character.ShootingSystem.ReturnProjectile();
+    }
 }
