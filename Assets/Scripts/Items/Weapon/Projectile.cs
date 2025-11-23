@@ -123,7 +123,7 @@ public class Projectile : MonoBehaviour
     {
         Debug.Log($"Попадание в {hit.name} на слое {LayerMask.LayerToName(hit.gameObject.layer)}");
 
-        var damaged = hit.GetComponent<IDamageable>();
+        var damaged = hit.GetComponent<HitBodyPart>();
         var hitDirection = _velocity.normalized;
 
         _velocity = Vector3.zero;
@@ -136,9 +136,9 @@ public class Projectile : MonoBehaviour
         {
             damaged.Damage(_data.WeaponParams.Damage, _data.WeaponParams.DamageType);
 
-            if (damaged.IsHitReactionEnabled)
+            if (damaged.HitBodyPartSettings.Health.IsHitReactionEnabled)
             {
-                _transform.SetParent(damaged.DamagedObject);
+                _transform.SetParent(damaged.HitBodyPartSettings.Transform);
             }
             else
             {

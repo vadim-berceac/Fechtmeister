@@ -25,11 +25,10 @@ MonoBehaviour:
     <Gravity>k__BackingField: -9.81
     <Drag>k__BackingField: 0.5
     <MaxSpreadAngles>k__BackingField: 7.5
-    <HitRadius>k__BackingField: 0.2
     <Lifetime>k__BackingField: 60
     <LayerMask>k__BackingField:
       serializedVersion: 2
-      m_Bits: 8388609
+      m_Bits: 4194305
   <ItemName>k__BackingField: Test Arrow
   <ItemDescription>k__BackingField: Test Arrow
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: 8fb41e818d5b60741ab39b80f5ee11eb, type: 3}

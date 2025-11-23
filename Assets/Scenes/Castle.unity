@@ -1269,6 +1269,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8745022096289617819, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: finalScaleReference
+      value: 0.8929358
+      objectReference: {fileID: 0}
     - target: {fileID: 9086983287782165238, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.58
@@ -2051,6 +2055,10 @@ PrefabInstance:
     - target: {fileID: 6999585320011918825, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745022096289617819, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: finalScaleReference
+      value: 0.89293575
       objectReference: {fileID: 0}
     - target: {fileID: 9086983287782165238, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4197,6 +4205,10 @@ PrefabInstance:
       propertyPath: m_Weight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8745022096289617819, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: finalScaleReference
+      value: 0.89293575
+      objectReference: {fileID: 0}
     - target: {fileID: 9086983287782165238, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.2909994
@@ -4254,9 +4266,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 6459183541444596217, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: m_Size.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6459183541444596217, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: m_Size.y
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6459183541444596217, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: m_Size.z
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6459183541444596217, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: m_Center.y
+      value: 0.08
+      objectReference: {fileID: 0}
     - target: {fileID: 7729256575959844760, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: <CoreData>k__BackingField.<GeneralMixerInputsCount>k__BackingField
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745022096289617819, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
+      propertyPath: finalScaleReference
+      value: 0.8929358
       objectReference: {fileID: 0}
     - target: {fileID: 9086983287782165238, guid: 2e6344428473e2d4a9d69175425efa59, type: 3}
       propertyPath: m_LocalPosition.x
