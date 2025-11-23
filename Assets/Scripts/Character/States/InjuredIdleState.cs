@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using Unity.Burst;
 using UnityEngine;
 
-[BurstCompile]
-[CreateAssetMenu(fileName = "IdleState", menuName = "States/IdleState")]
-public class IdleState : MovementState
+[CreateAssetMenu(fileName = "InjuredIdleState", menuName = "States/InjuredIdleState")]
+public class InjuredIdleState : MovementState
 {
     private void OnEnable()
     {
@@ -19,7 +17,7 @@ public class IdleState : MovementState
             new(c => c.CharacterInputHandler.IsInventoryOpen, "InventoryState"),
             new(c => c.Health.IsHitReactionEnabled, "GetHitState"),
             new(c => c.Health.IsDestroyed, "DeathState"),
-            new(c => c.Health.CurrentHealthNormalized < 0.5f, "InjuredIdleState"),
+            new(c => c.Health.CurrentHealthNormalized >= 0.5f, "IdleState"),
         };
     }
 }

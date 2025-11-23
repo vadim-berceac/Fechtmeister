@@ -8,6 +8,7 @@ public interface IDamageable
     public float MaxHealth { get;  set; }
     public float CurrentHealth { get;  set; }
     public float HitReactionThresholdPercentage { get;  set; }
+    public float CurrentHealthNormalized { get;  set; }
     public bool IsHitReactionEnabled { get;  set; }
     public bool IsDestroyed { get;  set; }
     public Dictionary<DamageTypes, int> DamageResistances { get;  set; }

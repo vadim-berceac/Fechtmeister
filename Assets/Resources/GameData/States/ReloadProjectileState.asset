@@ -17,8 +17,6 @@ MonoBehaviour:
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: ec326ac019ffb4e4588c4183f469640c, type: 2}
   <AllowItemTargeting>k__BackingField: 0
-  <AllowCharacterTargeting>k__BackingField: 0
-  <FixOnCharacterTarget>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <TargetingRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
@@ -32,5 +30,4 @@ MonoBehaviour:
   <Height>k__BackingField: 0
   <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0
-  <TestProjectile>k__BackingField: {fileID: 2948567091524882811, guid: 64b93ce959296e544853c173419722e9, type: 3}
-  <ProjectileData>k__BackingField: {fileID: 11400000, guid: 254e3277979ddde418dab7b12ba3f470, type: 2}
+  <ProjectileData>k__BackingField: {fileID: 11400000, guid: ea64c2378ecb1e14eb20d0b936f09fcb, type: 2}

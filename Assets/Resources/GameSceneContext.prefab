@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9094241518684076676}
   - component: {fileID: 291068911580769870}
   - component: {fileID: -8851382270737187299}
+  - component: {fileID: 310683302482131105}
   m_Layer: 0
   m_Name: GameSceneContext
   m_TagString: Untagged
@@ -56,6 +57,7 @@ MonoBehaviour:
   - {fileID: 9094241518684076676}
   - {fileID: 291068911580769870}
   - {fileID: -8851382270737187299}
+  - {fileID: 310683302482131105}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -138,3 +140,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6782c2b992ab1d440af9fad93688dc77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &310683302482131105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9170412857184828969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ca3d0177a6c474380f1a49bfde198d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneContainerInstaller
+  _scriptableObject: {fileID: 11400000, guid: 414d0406e031ca644b67d3316a9d2494, type: 2}

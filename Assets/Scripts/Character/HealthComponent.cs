@@ -8,6 +8,11 @@ public class HealthComponent : MonoBehaviour, IDamageable
     public float MaxHealth { get;  set; }
     public float CurrentHealth { get;  set; }
     public float HitReactionThresholdPercentage { get;  set; }
+    public float CurrentHealthNormalized
+    {
+        get => CurrentHealth / MaxHealth;
+        set => CurrentHealth = Mathf.Clamp01(value) * MaxHealth;
+    }
     public bool IsHitReactionEnabled { get;  set; }
     public bool IsDestroyed { get;  set; }
     public Dictionary<DamageTypes, int> DamageResistances { get;  set; } = new();
