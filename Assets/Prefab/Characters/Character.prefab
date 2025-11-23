@@ -144,7 +144,6 @@ Transform:
   - {fileID: 6781198717429695618}
   - {fileID: 8106359924363902097}
   - {fileID: 8950402006388574776}
-  - {fileID: 1969152943052220375}
   - {fileID: 2911408920463635756}
   - {fileID: 3705769080371381499}
   - {fileID: 6905640917610550647}
@@ -884,7 +883,6 @@ MonoBehaviour:
     <FallDamageThreshold>k__BackingField: 5
   <TargetingSettings>k__BackingField:
     <ItemTargeting>k__BackingField: {fileID: 1204962803673603537}
-    <CharacterTargeting>k__BackingField: {fileID: 5237636495354742196}
   <LedgeDetectionSettings>k__BackingField:
     <SphereCastOrigin0>k__BackingField: {fileID: 3705769080371381499}
     <SphereCastOrigin1>k__BackingField: {fileID: 6905640917610550647}
@@ -922,76 +920,6 @@ MonoBehaviour:
   localPosition: {x: 0, y: 0, z: 0}
   radius: 0.75
   strength: 2
---- !u!1 &3483420527028945448
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1969152943052220375}
-  - component: {fileID: 2528191976400956285}
-  - component: {fileID: 5237636495354742196}
-  m_Layer: 23
-  m_Name: CharacterSelecting
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1969152943052220375
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3483420527028945448}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.75, z: 1.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9086983287782165238}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2528191976400956285
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3483420527028945448}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 16785783
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5, y: 4, z: 7}
-  m_Center: {x: 0, y: 0, z: 2.5}
---- !u!114 &5237636495354742196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3483420527028945448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64139c7917ec18441b73189e6af881cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterTargeting
-  <TargetingCollider>k__BackingField: {fileID: 2528191976400956285}
-  <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
-  <ParentTransform>k__BackingField: {fileID: 9086983287782165238}
-  <CharacterController>k__BackingField: {fileID: 6829832979991591507}
 --- !u!1 &4445541140179686641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1038,7 +966,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeadTargetRigController
   <CharacterCore>k__BackingField: {fileID: 5391477331367181792}
   <ControlRig>k__BackingField: {fileID: 8059560300876708924}
-  <CharacterTargeting>k__BackingField: {fileID: 5237636495354742196}
   <ItemTargeting>k__BackingField: {fileID: 1204962803673603537}
   <Speed>k__BackingField: 6
   <CharacterTargetingOffset>k__BackingField: {x: 0, y: 1.55, z: 0}

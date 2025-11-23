@@ -36,19 +36,27 @@ public class Projectile : MonoBehaviour
     public void Launch(Collider parent, int accuracy)
     {
         _parent = parent;
-        
         var forward = transform.forward;
+        var maxSpreadAngle = _data.LaunchSettings.MaxSpreadAngles; 
+        var spreadAngle = maxSpreadAngle * (1f - accuracy / 100f);
+        var randomCircle = Random.insideUnitCircle.normalized;
 
-        var spreadRadius = _data.LaunchSettings.MaxSpreadRadius * (1f - accuracy / 100f);
-        var randomOffset = Random.insideUnitCircle * spreadRadius;
+        var right = Vector3.Cross(forward, Vector3.up).normalized;
+        if (right == Vector3.zero)
+            right = Vector3.Cross(forward, Vector3.forward).normalized;
 
-        var spreadRotation = Quaternion.Euler(randomOffset.y, randomOffset.x, 0);
+        var up = Vector3.Cross(right, forward).normalized;
+
+        var offsetDir = (right * randomCircle.x + up * randomCircle.y).normalized;
+
+        var spreadRotation = Quaternion.AngleAxis(Random.Range(0f, spreadAngle), offsetDir);
         var finalDirection = (spreadRotation * forward).normalized;
 
         _velocity = finalDirection * _data.WeaponParams.AttackSpeed;
 
         Destroy(gameObject, _data.LaunchSettings.Lifetime);
     }
+
 
     private void FixedUpdate()
     {
@@ -92,8 +100,14 @@ public class Projectile : MonoBehaviour
     
     private void DetectCollisions()
     {
-        var hitCount = Physics.OverlapSphereNonAlloc(_transform.position, _data.LaunchSettings.HitRadius, 
-            _hitResults, _data.LaunchSettings.LayerMask);
+        var center = _transform.position + _transform.forward * _data.WeaponParams.HitBoxForwardOffset;
+
+        var halfExtents = _data.WeaponParams.HitBoxSize * 0.5f;
+
+        var orientation = _transform.rotation;
+
+        var hitCount = Physics.OverlapBoxNonAlloc(center, halfExtents, _hitResults, orientation, _data.LaunchSettings.LayerMask);
+
         for (var i = 0; i < hitCount; i++)
         {
             var hit = _hitResults[i];
@@ -103,6 +117,7 @@ public class Projectile : MonoBehaviour
             return;
         }
     }
+
     
     private void HandleHit(Collider hit)
     {

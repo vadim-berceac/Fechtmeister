@@ -10,8 +10,6 @@ public abstract class State : ScriptableObject
     
     [field: Header("Targeting")]
     [field: SerializeField] protected bool AllowItemTargeting { get; set; }
-    [field: SerializeField] protected bool AllowCharacterTargeting { get; set; }
-    [field: SerializeField] protected bool FixOnCharacterTarget {get; private set;}
     [field: SerializeField] protected bool FixOnItemTarget {get; private set;}
     [field: SerializeField, Range(0f, 1f)] public float TargetingRigWeight {get; private set;} 
     
@@ -43,7 +41,6 @@ public abstract class State : ScriptableObject
         character.OnStateChanged?.Invoke();
         
         character.TargetingSystem.AllowItemTargeting(AllowItemTargeting);
-        character.TargetingSystem.AllowCharacterTargeting(AllowCharacterTargeting);
         
         character.CharacterColliderSizer.SetSize(Height, Radius);
         
@@ -57,18 +54,11 @@ public abstract class State : ScriptableObject
         {
             character.UpdateRotation(character.SceneCamera.SceneCameraData.MainCamera.eulerAngles, RotationSpeed);
         }
-
-        if (FixOnCharacterTarget && character.TargetingSystem.LastCharacterTransform)
-        {
-           // реализовать
-        }
         
         if (FixOnItemTarget && character.TargetingSystem.LastItemTransform)
         {
             // реализовать
         }
-
-        //character.LedgeDetection.UpdateDetection(LedgeDetection);
         
         character.StateTimer.OnUpdate(Time.deltaTime);
         
@@ -107,7 +97,6 @@ public abstract class State : ScriptableObject
     {
         character.CharacterInputHandler.ResetInputBuffer();
         character.TargetingSystem.AllowItemTargeting(false);
-        character.TargetingSystem.AllowCharacterTargeting(false);
         character.CharacterColliderSizer.SetSize(SizeMode.Full, SizeMode.Full);
     }
 }

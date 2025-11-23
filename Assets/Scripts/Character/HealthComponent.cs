@@ -22,7 +22,14 @@ public class HealthComponent : MonoBehaviour, IDamageable
         CurrentHealth = MaxHealth / 100 * currentHealthPercentage;
         HitReactionThresholdPercentage = hitReactionThresholdPercentage;
         DamagedObject = damagedObject;
+        
+        SetResistance(resistanceSettings);
+    }
 
+    public void SetResistance(ResistanceSettings resistanceSettings)
+    {
+        DamageResistances.Clear();
+        
         if (resistanceSettings.Resistances.Length <= 0)
         {
             return;
@@ -36,7 +43,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
 
     public bool CheckForResistance(float damageValue, DamageTypes damageType)
     {
-        if (DamageResistances == null)
+        if (DamageResistances == null || DamageResistances.Count == 0)
         {
             return false;
         }

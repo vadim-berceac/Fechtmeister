@@ -31,6 +31,7 @@ public class WeaponOffState : State
             character.Inventory.WeaponOff();
             character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
             character.StateTimer.SetActionIsPossible(false);
+            character.ShootingSystem.ReturnProjectile();
         }
     }
 

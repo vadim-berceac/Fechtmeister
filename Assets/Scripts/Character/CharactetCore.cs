@@ -57,7 +57,7 @@ public class CharacterCore : MonoBehaviour
             LocomotionSettings.CharacterCollider, LocomotionSettings.CharacterController);
         SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData);
         BonesContainer = new CharacterBonesContainer(CashedTransform);
-        TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting, TargetingSettings.CharacterTargeting);
+        TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting);
         LedgeDetection = new LedgeDetection(LedgeDetectionSettings);
         AttackCounter = new Counter();
         StateTimer = new StateTimer();

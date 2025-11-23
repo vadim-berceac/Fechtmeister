@@ -8,8 +8,6 @@ public class TargetRigController : MonoBehaviour
 {
    [field: SerializeField] public CharacterCore CharacterCore { get; set; }
    [field: SerializeField] public Rig ControlRig { get; set; }
-   [field: SerializeField, Tooltip("Reference to the CharacterTargeting component")]
-   public CharacterTargeting CharacterTargeting { get; set; }
 
    [field: SerializeField, Tooltip("Reference to the ItemTargeting component")]
    public ItemTargeting ItemTargeting { get; set; }
@@ -33,11 +31,6 @@ public class TargetRigController : MonoBehaviour
 
       _transformAccess = new TransformAccessArray(1);
       _transformAccess.Add(_cachedTransform);
-
-      if (CharacterTargeting == null || ItemTargeting == null)
-      {
-         Debug.LogError($"[{name}] CharacterTargeting or ItemTargeting is not assigned!");
-      }
    }
 
    private void OnDestroy()
@@ -74,15 +67,6 @@ public class TargetRigController : MonoBehaviour
    {
       Transform currentTarget = null;
       var isCharacterTarget = false;
-
-      if (CharacterTargeting.IsAllowed)
-      {
-         currentTarget = CharacterTargeting.GetFirstTarget();
-         if (currentTarget != null)
-         {
-            isCharacterTarget = true;
-         }
-      }
 
       if (currentTarget == null && ItemTargeting.IsAllowed)
       {

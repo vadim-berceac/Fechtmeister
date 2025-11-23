@@ -12,26 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa173714b11dd8842bdaecaa815f267a, type: 3}
   m_Name: Bow_Load_BlendConfig
   m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
-  <ParameterName>k__BackingField: WeaponType
   <ParamValue>k__BackingField: 5
   <Clips>k__BackingField:
-  - <Clip>k__BackingField: {fileID: 7400002, guid: 3b6cdb4926d7a5f4398a2f735e000c33, type: 3}
-    <ParamValue>k__BackingField: -60
-    <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
-    <ActionTime>k__BackingField: 0
   - <Clip>k__BackingField: {fileID: 7400002, guid: 9642968e7add6c144962b1c23981dae1, type: 3}
     <ParamValue>k__BackingField: 0
-    <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
-    <ActionTime>k__BackingField: 0
-  - <Clip>k__BackingField: {fileID: 7400002, guid: 259219c5f441f2d41ac19948996f894d, type: 3}
-    <ParamValue>k__BackingField: 30
-    <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
-    <ActionTime>k__BackingField: 0
-  - <Clip>k__BackingField: {fileID: 7400002, guid: 16afa70c85ba7bc408ef4b4e62385139, type: 3}
-    <ParamValue>k__BackingField: 60
     <ParamPosition>k__BackingField: {x: 0, y: 0}
     <Speed>k__BackingField: 1
     <ActionTime>k__BackingField: 0
