@@ -8,7 +8,7 @@ public class FastAttackSubState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData;
+        var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData;
         
         character.GraphCore.UpperBodyLayerController.PlayAnimationSubState(this, 
             itemInstanceData.AnimationType, character.AttackCounter.GetValue());

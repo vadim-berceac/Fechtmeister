@@ -7,7 +7,7 @@ public class InventoryButton : MonoBehaviour
 {
    [field: SerializeField] public InventoryButtonSettings Settings { get; set; }
 
-   private IItemData _itemData;
+   private IEquppiedItemData _equppiedItemData;
    private InventoryDrawer _inventoryDrawer;
 
    [Inject]
@@ -16,24 +16,24 @@ public class InventoryButton : MonoBehaviour
       _inventoryDrawer = inventoryDrawer;
    }
 
-   public IItemData GetItemData()
+   public IEquppiedItemData GetItemData()
    {
-      return _itemData;
+      return _equppiedItemData;
    }
 
-   public void SetItemData(IItemData itemData, int count)
+   public void SetItemData(IEquppiedItemData equppiedItemData, int count)
    {
-      if (itemData == null)
+      if (equppiedItemData == null)
       {
-         _itemData = null;
+         _equppiedItemData = null;
          Settings.Image.sprite = null;
          Settings.Text.enabled = false;
          Settings.Count.enabled = false;
          Settings.Button.interactable = false;
          return;
       }
-      _itemData = itemData;
-      Settings.Text.text = _itemData.ItemName;
+      _equppiedItemData = equppiedItemData;
+      Settings.Text.text = _equppiedItemData.ItemName;
       
       if (count > 0)
       {
@@ -44,7 +44,7 @@ public class InventoryButton : MonoBehaviour
       {
          Settings.Count.enabled = false;
       }
-      Settings.Image.sprite = _itemData.ItemIcon;
+      Settings.Image.sprite = _equppiedItemData.ItemIcon;
       Settings.Text.enabled = true;
      
       Settings.Button.interactable = true;
@@ -52,7 +52,7 @@ public class InventoryButton : MonoBehaviour
 
    public void OnClick()
    {
-      if (_itemData == null)
+      if (_equppiedItemData == null)
       {
          return;
       }
@@ -60,8 +60,8 @@ public class InventoryButton : MonoBehaviour
       if (_inventoryDrawer.InventoryWeaponButtons.Contains(this))
       {
          Debug.LogWarning("Inventory Button is already in WeaponButtons.");
-         _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.AddItem(_itemData);
-         _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.DestroyInstance(_itemData);
+         _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.AddItem(_equppiedItemData);
+         _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.DestroyInstance(_equppiedItemData);
          SetItemData(null, 0);
          _inventoryDrawer.UpdateInventoryBag();
          _inventoryDrawer.UpdateWeaponSystem();
@@ -71,14 +71,14 @@ public class InventoryButton : MonoBehaviour
       if (_inventoryDrawer.InventoryBagButtons.Contains(this))
       {
 
-         if (_itemData is WeaponData)
+         if (_equppiedItemData is WeaponData)
          {
-            if (!_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Equip(_itemData, 
+            if (!_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Equip(_equppiedItemData, 
                    _inventoryDrawer.InventoryUI.CurrentCharacter.LocomotionSettings.CharacterCollider))
             {
                return;
             }
-            _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.RemoveItem(_itemData);
+            _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.RemoveItem(_equppiedItemData);
             _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.WeaponSystem.SelectWeapon(0);
             SetItemData(null, 0);
             _inventoryDrawer.UpdateInventoryBag();
@@ -86,14 +86,14 @@ public class InventoryButton : MonoBehaviour
             return;
          }
 
-         if (_itemData is ArmorData)
+         if (_equppiedItemData is ArmorData)
          {
-            if (!_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.ArmorSystem.Equip(_itemData,
+            if (!_inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.ArmorSystem.Equip(_equppiedItemData,
                    _inventoryDrawer.InventoryUI.CurrentCharacter.LocomotionSettings.CharacterCollider))
             {
                return;
             }
-            _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.RemoveItem(_itemData);
+            _inventoryDrawer.InventoryUI.CurrentCharacter.Inventory.InventoryBag.RemoveItem(_equppiedItemData);
             SetItemData(null, 0);
             _inventoryDrawer.UpdateInventoryBag();
             _inventoryDrawer.UpdateArmorSystem();

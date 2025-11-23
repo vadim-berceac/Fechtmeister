@@ -72,7 +72,7 @@ public class CharacterTargetingSystem
         }
     }
 
-    public IItemData GetTargetItem()
+    public IEquppiedItemData GetTargetItem()
     {
         if (LastItemTransform == null)
         {
@@ -91,7 +91,7 @@ public class CharacterTargetingSystem
         LastItemTransform.gameObject.SetActive(false);
         LastItemTransform = null;
 
-        return item.ItemData;
+        return item.EquppiedItemData;
     }
 }
 

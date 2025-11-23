@@ -5,25 +5,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [field: Header("Damage Settings")]
-    [field: SerializeField, Range (0f, 15f)] private float additionalDamageValue;
-    [field: SerializeField] private float stickOffset = 0.05f;
-    [field: SerializeField] private DamageTypes damageType;
-
-    [field: Header("Physics Settings")]
-    [field: SerializeField] private float gravity = -9.81f;
-    [field: SerializeField] private float drag = 0.5f;
-    [field: SerializeField] private float speed = 100f;
-    [field: SerializeField, Range (0.01f, 0.5f)] private float maxSpreadRadius = 0.1f;
-
-    [field: Header("Collision Settings")]
-    [field: SerializeField] private float hitRadius = 0.2f;
-    [field: SerializeField] private float lifetime = 5f;
-    [field: SerializeField] private LayerMask layerMask;
-    
-    [field:Header("Spawn Settings")]
-    [field: SerializeField] public Vector3 StartPositionOffset {get; private set;}
-
+    private ProjectileData _data;
     private Vector3 _velocity;
     private Collider _parent;
     private Transform _transform;
@@ -46,25 +28,27 @@ public class Projectile : MonoBehaviour
         if (_posArray.IsCreated) _posArray.Dispose();
     }
 
-    public void Launch(Collider parent, Vector3 direction, int accuracy)
+    public void SetParams(ProjectileData data)
+    {
+        _data = data;
+    }
+
+    public void Launch(Collider parent, int accuracy)
     {
         _parent = parent;
         
-        var spreadRadius = maxSpreadRadius * (1f - accuracy / 100f);
-       
+        var forward = transform.forward;
+
+        var spreadRadius = _data.LaunchSettings.MaxSpreadRadius * (1f - accuracy / 100f);
         var randomOffset = Random.insideUnitCircle * spreadRadius;
-        var right = Vector3.Cross(direction, Vector3.up).normalized;
-        var up = Vector3.Cross(right, direction).normalized;
 
-        var spread = right * randomOffset.x + up * randomOffset.y;
-        
-        var finalDirection = (direction + spread).normalized;
+        var spreadRotation = Quaternion.Euler(randomOffset.y, randomOffset.x, 0);
+        var finalDirection = (spreadRotation * forward).normalized;
 
-        _velocity = finalDirection * speed;
-        
-        Destroy(gameObject, lifetime);
+        _velocity = finalDirection * _data.WeaponParams.AttackSpeed;
+
+        Destroy(gameObject, _data.LaunchSettings.Lifetime);
     }
-
 
     private void FixedUpdate()
     {
@@ -86,8 +70,8 @@ public class Projectile : MonoBehaviour
         {
             velocity = _velArray,
             position = _posArray,
-            gravity = gravity,
-            drag = drag,
+            gravity = _data.LaunchSettings.Gravity,
+            drag = _data.LaunchSettings.Drag,
             deltaTime = dt
         };
 
@@ -108,7 +92,8 @@ public class Projectile : MonoBehaviour
     
     private void DetectCollisions()
     {
-        var hitCount = Physics.OverlapSphereNonAlloc(_transform.position, hitRadius, _hitResults, layerMask);
+        var hitCount = Physics.OverlapSphereNonAlloc(_transform.position, _data.LaunchSettings.HitRadius, 
+            _hitResults, _data.LaunchSettings.LayerMask);
         for (var i = 0; i < hitCount; i++)
         {
             var hit = _hitResults[i];
@@ -130,11 +115,11 @@ public class Projectile : MonoBehaviour
         _stuck = true;
         
         var closest = hit.ClosestPoint(_transform.position);
-        _transform.position = closest - hitDirection * stickOffset;
+        _transform.position = closest - hitDirection * _data.LaunchSettings.StickOffset;
 
         if (damaged != null)
         {
-            damaged.Damage(additionalDamageValue, damageType);
+            damaged.Damage(_data.WeaponParams.Damage, _data.WeaponParams.DamageType);
 
             if (damaged.IsHitReactionEnabled)
             {

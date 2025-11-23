@@ -33,3 +33,4 @@ MonoBehaviour:
   <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0
   <TestProjectile>k__BackingField: {fileID: 2948567091524882811, guid: 64b93ce959296e544853c173419722e9, type: 3}
+  <ProjectileData>k__BackingField: {fileID: 11400000, guid: 254e3277979ddde418dab7b12ba3f470, type: 2}

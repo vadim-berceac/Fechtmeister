@@ -49,7 +49,7 @@ public class WeaponController : ItemControlComponent <WeaponData>
 
             PlaySound(TypedItemData.WeaponParams.HitSounds.GetRandomClip(), target.transform.position);
             
-            target.Health.Damage(weaponParams.Damage, TypedItemData.DamageType);
+            target.Health.Damage(weaponParams.Damage, TypedItemData.WeaponParams.DamageType);
             Debug.Log($"Overlap Hit: {target.name} (damage: {weaponParams.Damage})");
         }
     }

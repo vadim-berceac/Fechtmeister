@@ -47,7 +47,7 @@ public struct ArmorDataSettings
 [System.Serializable]
 public struct InventoryDataSettings
 {
-    [field: SerializeField] public IItemData[] Items { get; private set; }
+    [field: SerializeField] public IEquppiedItemData[] Items { get; private set; }
 }
 
 

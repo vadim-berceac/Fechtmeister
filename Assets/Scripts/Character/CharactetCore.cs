@@ -69,7 +69,7 @@ public class CharacterCore : MonoBehaviour
             PresetLoader.CharacterPersonalityData.HealthDataSettings.CurrentHealthPercentage, 
             PresetLoader.CharacterPersonalityData.HealthDataSettings.HitReactionTriggerValuePercentage, DamagedObject,
             PresetLoader.CharacterPersonalityData.ResistanceSettings);
-        ShootingSystem = new ShootingSystem(LocomotionSettings.CharacterCollider, CashedTransform, Inventory);
+        ShootingSystem = new ShootingSystem(this);
     }
 
     private void Start()

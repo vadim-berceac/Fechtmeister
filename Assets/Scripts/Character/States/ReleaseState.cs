@@ -20,7 +20,7 @@ public class ReleaseState : State
         character.SetAnimationByWeaponIndex(this);
         character.GraphCore.FullBodyAnimatorController.BlendCurrentAnimationStateClips(character.TargetingSystem.GetVerticalAngle(TargetingMode.Character));
         
-        character.ShootingSystem.Shot(character.transform.forward, character.PresetLoader.CharacterPersonalityData.AccuracySettings.ShootingAccuracy);
+        character.ShootingSystem.Shot(character.PresetLoader.CharacterPersonalityData.AccuracySettings.ShootingAccuracy);
     }
     
     protected override void CheckAction(CharacterCore character)

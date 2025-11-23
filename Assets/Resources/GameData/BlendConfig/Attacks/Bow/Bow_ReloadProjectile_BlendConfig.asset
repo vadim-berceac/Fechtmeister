@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa173714b11dd8842bdaecaa815f267a, type: 3}
   m_Name: Bow_ReloadProjectile_BlendConfig
   m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
-  <ParameterName>k__BackingField: WeaponType
   <ParamValue>k__BackingField: 5
   <Clips>k__BackingField:
   - <Clip>k__BackingField: {fileID: 7400000, guid: d50391869559c7142a4a0f972de744fc, type: 3}
     <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
     <Speed>k__BackingField: 1
-    <ActionTime>k__BackingField: 0
+    <ActionTime>k__BackingField: 0.3

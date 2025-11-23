@@ -3,23 +3,23 @@ using UnityEngine;
 public interface IItemControlComponent
 {
     public Collider Owner { get; set; }
-    public IItemData ItemData { get; set; }
+    public IEquppiedItemData EquppiedItemData { get; set; }
     public bool ActionCompleted { get; set; }
     public void Use();
     public void ResetAction();
 }
 
-public abstract class ItemControlComponent<T> : IItemControlComponent where T : IItemData
+public abstract class ItemControlComponent<T> : IItemControlComponent where T : IEquppiedItemData
 {
     public Collider Owner { get; set; }
-    public IItemData ItemData { get; set; }
+    public IEquppiedItemData EquppiedItemData { get; set; }
     public bool ActionCompleted { get; set; }
-    protected T TypedItemData => (T)ItemData;
+    protected T TypedItemData => (T)EquppiedItemData;
     
-    protected ItemControlComponent(Collider owner, T itemData)
+    protected ItemControlComponent(Collider owner, T equppiedItemData)
     {
         Owner = owner;
-        ItemData = itemData;
+        EquppiedItemData = equppiedItemData;
     }
     
     public abstract void Use();

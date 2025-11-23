@@ -4,17 +4,13 @@ public class ShootingSystem
 {
     public bool IsProjectileLoaded { get; set; }
 
-    private readonly Collider _parent;
-    private readonly Transform _characterTransform;
-    private readonly Inventory _inventory;
+    private readonly CharacterCore _characterCore;
     
     private Projectile _projectile;
     
-    public ShootingSystem(Collider parent, Transform characterTransform, Inventory inventory)
+    public ShootingSystem(CharacterCore characterCore)
     {
-        _parent = parent;
-        _characterTransform = characterTransform;
-        _inventory = inventory;
+       _characterCore = characterCore;
     }
 
     public bool ContainsProjectile()
@@ -28,18 +24,19 @@ public class ShootingSystem
         IsProjectileLoaded = value;
     }
 
-    public void TakeProjectile(GameObject projectilePrefab)
+    public void TakeProjectile(ProjectileData projectileData)
     {
-        var projectileObject = Object.Instantiate(projectilePrefab);
-        _projectile = projectileObject.GetComponent<Projectile>();
+        var projectileObject = Object.Instantiate(projectileData.EquippedModelPrefab);
+        _projectile = projectileObject.AddComponent<Projectile>();
+        _projectile.SetParams(projectileData);
         
-        var spawnPosition = _characterTransform.position 
-                            + _characterTransform.forward 
-                            + _characterTransform.TransformVector(_projectile.StartPositionOffset);
-
-        projectileObject.transform.SetPositionAndRotation(spawnPosition, _characterTransform.rotation);
-        projectileObject.transform.SetParent(_characterTransform); // тут помещать в наследники кости, которая указана в дате
-        // удалять дату из инвентаря
+        var boneTransform = _characterCore.BonesContainer.GetBoneTransform(projectileData.ShootPosition.BonesType);
+        
+        projectileObject.transform.SetParent(boneTransform.Transform);
+        
+        projectileObject.transform.SetLocalPositionAndRotation(projectileData.ShootPosition.Position, projectileData.ShootPosition.Rotation);
+        
+        projectileObject.transform.localScale = projectileData.ShootPosition.Scale;
     }
 
     public void ReturnProjectile()
@@ -50,16 +47,15 @@ public class ShootingSystem
         }
         Object.Destroy(_projectile.gameObject);
         _projectile = null;
-        //вернуть дату в инвентарь
     }
 
-    public void Shot(Vector3 direction, int accuracy)
+    public void Shot(int accuracy)
     {
-        if (_projectile == null)
-        {
-            return;
-        }
-        _projectile.Launch(_parent, direction, accuracy);
+        if (_projectile == null) return;
+
+        _projectile.transform.SetParent(null);
+
+        _projectile.Launch(_characterCore.LocomotionSettings.CharacterCollider, accuracy);
         SetProjectileLoaded(false);
         _projectile = null;
     }

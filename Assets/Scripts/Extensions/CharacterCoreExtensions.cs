@@ -248,7 +248,7 @@ public static class CharacterCoreExtensions
     public static void SetAnimationByWeaponIndex(this CharacterCore character, State inState)
     {
         var animIndex = character.CharacterInputHandler.IsWeaponDraw
-            ? ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.ItemData).AnimationType
+            ? ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData).AnimationType
             : 0;
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(inState, animIndex);
     }

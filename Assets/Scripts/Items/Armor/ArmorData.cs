@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ArmorData", menuName = "Scriptable Objects/ArmorData")]
-public class ArmorData : ScriptableObject, IItemData
+public class ArmorData : ScriptableObject, IEquppiedItemData
 {
     [field: SerializeField] public string ItemName { get; set; }
     [field: SerializeField] public string ItemDescription { get; set; }
@@ -13,9 +13,4 @@ public class ArmorData : ScriptableObject, IItemData
     [field: SerializeField] public BoneData[] BoneData { get; set; }
     [field: SerializeField] public IKBoneData IKBoneData { get; set; }
     [field: SerializeField] public ItemDecorationData[] ItemDecorationData { get; set; }
-
-    public BoneData GetBoneData(CharacterBones.Type bone)
-    {
-        return BoneData.FirstOrDefault(b => b.BonesType == bone);
-    }
 }

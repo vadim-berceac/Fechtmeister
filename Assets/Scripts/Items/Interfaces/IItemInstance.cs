@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IItemInstance
 {
-    public IItemData ItemData { get; set; }
+    public IEquppiedItemData EquppiedItemData { get; set; }
     public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public Transform Instance { get; set; }
     public Transform IKBoneTransform { get; set; }
@@ -33,23 +33,23 @@ public static class IItemInstanceExtensions
     
     public static void CreateDecorations(this IItemInstance itemInstance)
     {
-        if (itemInstance.ItemData.ItemDecorationData == null)
+        if (itemInstance.EquppiedItemData.ItemDecorationData == null)
         {
             return;
         }
         
-        itemInstance.ItemDecorations = new Transform[itemInstance.ItemData.ItemDecorationData.Length];
+        itemInstance.ItemDecorations = new Transform[itemInstance.EquppiedItemData.ItemDecorationData.Length];
 
-        foreach (var decoration in itemInstance.ItemData.ItemDecorationData)
+        foreach (var decoration in itemInstance.EquppiedItemData.ItemDecorationData)
         {
-            itemInstance.ItemDecorations[itemInstance.ItemData.ItemDecorationData.IndexOf(decoration)] = Object.Instantiate(decoration.ItemPrefab).transform;
-            AttachToBone(itemInstance, itemInstance.ItemDecorations[itemInstance.ItemData.ItemDecorationData.IndexOf(decoration)], decoration.BoneData);
+            itemInstance.ItemDecorations[itemInstance.EquppiedItemData.ItemDecorationData.IndexOf(decoration)] = Object.Instantiate(decoration.ItemPrefab).transform;
+            AttachToBone(itemInstance, itemInstance.ItemDecorations[itemInstance.EquppiedItemData.ItemDecorationData.IndexOf(decoration)], decoration.BoneData);
         }
     }
     
     public static void DestroyInstance(this IItemInstance itemInstance)
     {
-        itemInstance.ItemData = null;
+        itemInstance.EquppiedItemData = null;
         itemInstance.CharacterBonesContainer = null;
         if (itemInstance.Instance == null)
         {
@@ -72,7 +72,7 @@ public static class IItemInstanceExtensions
 
     public static Transform TryToFindIKBoneTransform(this IItemInstance itemInstance)
     {
-        return itemInstance.ItemData.IKBoneData.IKBoneName.IsEmpty()? null : itemInstance.Instance.FindChildRecursive(itemInstance.ItemData.IKBoneData.IKBoneName);
+        return itemInstance.EquppiedItemData.IKBoneData.IKBoneName.IsEmpty()? null : itemInstance.Instance.FindChildRecursive(itemInstance.EquppiedItemData.IKBoneData.IKBoneName);
     }
 }
 

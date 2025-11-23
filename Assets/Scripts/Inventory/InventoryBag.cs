@@ -21,35 +21,35 @@ public class InventoryBag : ICellContainer
         return _cells;
     }
 
-    public void AddItem(IItemData item)
+    public void AddItem(IEquppiedItemData equppiedItem)
     {
-        var cellIndex = GetCorrectIndex(item);
+        var cellIndex = GetCorrectIndex(equppiedItem);
 
         if (cellIndex == -1)
         {
             Debug.Log("Bag is full");
             return;
         }
-        _cells[cellIndex].AddItem(item);
+        _cells[cellIndex].AddItem(equppiedItem);
     }
 
-    public void RemoveItem(IItemData item)
+    public void RemoveItem(IEquppiedItemData equppiedItem)
     {
-        var cellIndex = _cells.IndexOf(_cells.FirstOrDefault(x => x.ItemData == item));
+        var cellIndex = _cells.IndexOf(_cells.FirstOrDefault(x => x.EquppiedItemData == equppiedItem));
 
         if (cellIndex == -1)
         {
-            Debug.Log("Bag does not contain item");
+            Debug.Log("Bag does not contain equppiedItem");
             return;
         }
         
         _cells[cellIndex].RemoveItem(1);
-        //Debug.Log($"Removed item {item} ostalos {_cells[cellIndex].Quantity}");
+        //Debug.Log($"Removed equppiedItem {equppiedItem} ostalos {_cells[cellIndex].Quantity}");
     }
 
-    private int GetCorrectIndex(IItemData item)
+    private int GetCorrectIndex(IEquppiedItemData equppiedItem)
     {
-        var index = GetSameItemData(item);
+        var index = GetSameItemData(equppiedItem);
 
         if (index > -1)
         {
@@ -66,9 +66,9 @@ public class InventoryBag : ICellContainer
         return -1;
     }
 
-    private int GetSameItemData(IItemData item)
+    private int GetSameItemData(IEquppiedItemData equppiedItem)
     {
-        return _cells.IndexOf(_cells.FirstOrDefault(x => x.ItemData == item && !x.MaxQuantityReached()));
+        return _cells.IndexOf(_cells.FirstOrDefault(x => x.EquppiedItemData == equppiedItem && !x.MaxQuantityReached()));
     }
     
     private int GetEmptyInstance()

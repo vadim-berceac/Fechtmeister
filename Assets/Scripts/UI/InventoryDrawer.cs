@@ -38,7 +38,7 @@ public class InventoryDrawer : MonoBehaviour
             var instance = bag[i];
             if (instance != null && !instance.IsEmpty())
             {
-                InventoryBagButtons[i].SetItemData(instance.ItemData, instance.Quantity);
+                InventoryBagButtons[i].SetItemData(instance.EquppiedItemData, instance.Quantity);
             }
         }
     }
@@ -51,9 +51,9 @@ public class InventoryDrawer : MonoBehaviour
         for (var i = 0; i < InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Instances.Length; i++)
         {
             var instance = InventoryUI.CurrentCharacter.Inventory.WeaponSystem.Instances[i];
-            if (instance != null && instance.ItemData != null)
+            if (instance != null && instance.EquppiedItemData != null)
             {
-                InventoryWeaponButtons[i].SetItemData(instance.ItemData, 0);
+                InventoryWeaponButtons[i].SetItemData(instance.EquppiedItemData, 0);
             }
         }
     }
@@ -66,9 +66,9 @@ public class InventoryDrawer : MonoBehaviour
         for (var i = 0; i < InventoryUI.CurrentCharacter.Inventory.ArmorSystem.Instances.Length; i++)
         {
             var instance = InventoryUI.CurrentCharacter.Inventory.ArmorSystem.Instances[i];
-            if (instance != null && instance.ItemData != null)
+            if (instance != null && instance.EquppiedItemData != null)
             {
-                InventoryArmorButtons[i].SetItemData(instance.ItemData, 0);
+                InventoryArmorButtons[i].SetItemData(instance.EquppiedItemData, 0);
             }
         }
     }

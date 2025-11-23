@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ArmorInstance : IItemInstance
 {
-    public IItemData ItemData { get; set; }
+    public IEquppiedItemData EquppiedItemData { get; set; }
     public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public Transform Instance { get; set; }
     public Transform IKBoneTransform { get; set; }
@@ -11,10 +11,10 @@ public class ArmorInstance : IItemInstance
 
     private Collider _owner;
 
-    public ArmorInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer, Collider owner)
+    public ArmorInstance(ref IEquppiedItemData equppiedItemData, CharacterBonesContainer characterBonesContainer, Collider owner)
     {
-        ItemData = itemData;
-        itemData = null;
+        EquppiedItemData = equppiedItemData;
+        equppiedItemData = null;
         CharacterBonesContainer = characterBonesContainer;
         _owner = owner;
 
@@ -24,12 +24,12 @@ public class ArmorInstance : IItemInstance
     
     public void CreateInstance()
     {
-        if (ItemData.EquippedModelPrefab == null)
+        if (EquppiedItemData.EquippedModelPrefab == null)
         {
             return;
         }
 
-        if (ItemData.BoneData == null || ItemData.BoneData.Length < 1 || ItemData.BoneData[0] == null)
+        if (EquppiedItemData.BoneData == null || EquppiedItemData.BoneData.Length < 1 || EquppiedItemData.BoneData[0] == null)
         {
             return;
         }
@@ -39,6 +39,6 @@ public class ArmorInstance : IItemInstance
 
     private void CreateSkinnedMesh()
     {
-        Debug.Log("Ищем SkinnedMesh в" + ItemData.EquippedModelPrefab.name);
+        Debug.Log("Ищем SkinnedMesh в" + EquppiedItemData.EquippedModelPrefab.name);
     }
 }

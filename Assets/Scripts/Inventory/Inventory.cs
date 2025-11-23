@@ -20,9 +20,9 @@ public class Inventory
         InitEquipment();
     }
 
-    public void AddToInventoryBag(IItemData itemData)
+    public void AddToInventoryBag(IEquppiedItemData equppiedItemData)
     {
-        InventoryBag.AddItem(itemData);
+        InventoryBag.AddItem(equppiedItemData);
     }
 
     public void SelectWeaponInstance(int index)
@@ -33,13 +33,13 @@ public class Inventory
     public void WeaponOn()
     {
         IsWeaponOn = true;
-        WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.ItemData.BoneData[0]);
+        WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[0]);
     }
 
     public void WeaponOff()
     {
         IsWeaponOn = false;
-        WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.ItemData.BoneData[1]);
+        WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[1]);
     }
 
     private void InitEquipment()

@@ -5,7 +5,7 @@ public class ArmorSystem : IItemInstancesContainer
     public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
-    public Action<IItemData> OnItemUnEquipped { get; set; }
+    public Action<IEquppiedItemData> OnItemUnEquipped { get; set; }
     public StateTimer StateTimer { get; set; }
     
     private readonly CharacterCore _characterCore;

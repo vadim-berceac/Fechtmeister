@@ -17,9 +17,9 @@ public class PickupItem : MonoBehaviour
         _container = container;
     }
 
-    public IItemData ItemData
+    public IEquppiedItemData EquppiedItemData
     {
-        get => itemData as IItemData; 
+        get => itemData as IEquppiedItemData; 
         set => itemData = value as ScriptableObject; 
     }
 
@@ -32,7 +32,7 @@ public class PickupItem : MonoBehaviour
 
     private void SetLayer(int layer)
     {
-        if (ItemData == null)
+        if (EquppiedItemData == null)
         {
             return;
         }
@@ -48,7 +48,7 @@ public class PickupItem : MonoBehaviour
         
         _namePlate = Instantiate(namePlatePrefab, transform).GetComponent<NameUI>();
         _container.InjectGameObject(_namePlate.gameObject);
-        _namePlate.Set(ItemData);
+        _namePlate.Set(EquppiedItemData);
     }
 
     public void ShowNamePlate(bool show)

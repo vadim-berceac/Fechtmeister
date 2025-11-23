@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class WeaponInstance : IItemInstance
 {
-    public IItemData ItemData { get; set; }
+    public IEquppiedItemData EquppiedItemData { get; set; }
     public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public Transform Instance { get; set; }
     public Transform IKBoneTransform { get; set; }
@@ -12,11 +12,11 @@ public class WeaponInstance : IItemInstance
     private readonly Collider _owner;
     private readonly SceneCharacterContainer _sceneCharacterContainer;
     
-    public WeaponInstance(ref IItemData itemData, CharacterBonesContainer characterBonesContainer, Collider owner,
+    public WeaponInstance(ref IEquppiedItemData equppiedItemData, CharacterBonesContainer characterBonesContainer, Collider owner,
         SceneCharacterContainer sceneCharacterContainer)
     {
-        ItemData = itemData;
-        itemData = null;
+        EquppiedItemData = equppiedItemData;
+        equppiedItemData = null;
         CharacterBonesContainer = characterBonesContainer;
         _owner = owner;
         _sceneCharacterContainer = sceneCharacterContainer;
@@ -27,22 +27,22 @@ public class WeaponInstance : IItemInstance
     
     public void CreateInstance()
     {
-        if (ItemData.EquippedModelPrefab == null)
+        if (EquppiedItemData.EquippedModelPrefab == null)
         {
             return;
         }
-        if (ItemData.BoneData == null)
+        if (EquppiedItemData.BoneData == null)
         {
             return;
         }
         
-        Instance = Object.Instantiate(ItemData.EquippedModelPrefab).transform;
+        Instance = Object.Instantiate(EquppiedItemData.EquippedModelPrefab).transform;
         
         IKBoneTransform = this.TryToFindIKBoneTransform();
 
-        ItemControlComponent = new WeaponController(_owner, (WeaponData)ItemData, _sceneCharacterContainer);
+        ItemControlComponent = new WeaponController(_owner, (WeaponData)EquppiedItemData, _sceneCharacterContainer);
         
-        this.AttachToBone(Instance, ItemData.BoneData[1]);
+        this.AttachToBone(Instance, EquppiedItemData.BoneData[1]);
     }
 
     public void ResetAction()

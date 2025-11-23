@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ReloadProjectileState", menuName = "States/ReloadProjectileState")]
 public class ReloadProjectileState : State
 {
-    [field: SerializeField] private GameObject TestProjectile { get; set; }
+    [field: SerializeField] private ProjectileData ProjectileData { get; set; }
     private void OnEnable()
     {
         Transitions = new List<Transition<CharacterCore>>()
@@ -21,10 +21,16 @@ public class ReloadProjectileState : State
         character.SetAnimationByWeaponIndex(this);
     }
 
-    public override void ExitState(CharacterCore character)
+    protected override void CheckAction(CharacterCore character)
     {
-        base.ExitState(character);
-        character.ShootingSystem.SetProjectileLoaded(true);
-        character.ShootingSystem.TakeProjectile(TestProjectile);
+        base.CheckAction(character);
+        if (character.GraphCore.FullBodyAnimatorController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
+        {
+            
+            character.ShootingSystem.SetProjectileLoaded(true);
+            character.ShootingSystem.TakeProjectile(ProjectileData);
+            character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
+            character.StateTimer.SetActionIsPossible(false);
+        }
     }
 }

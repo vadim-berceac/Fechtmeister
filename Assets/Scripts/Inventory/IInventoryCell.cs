@@ -1,34 +1,34 @@
 
 public interface IInventoryCell
 {
-    public IItemData ItemData { get; set; }
+    public IEquppiedItemData EquppiedItemData { get; set; }
     public int Quantity { get; set; }
     public int MaxQuantity { get; set; }
 }
 
 public static class InventoryCellExtensions
 {
-    public static void AddItem(this IInventoryCell cell, IItemData item)
+    public static void AddItem(this IInventoryCell cell, IEquppiedItemData equppiedItem)
     {
-        if (item == null)
+        if (equppiedItem == null)
         {
-            cell.ItemData = null;
+            cell.EquppiedItemData = null;
             cell.Quantity = 0;
             return;
         }
 
-        if (item == cell.ItemData && cell.Quantity < cell.MaxQuantity)
+        if (equppiedItem == cell.EquppiedItemData && cell.Quantity < cell.MaxQuantity)
         {
             cell.Quantity++;
             return;
         }
-        cell.ItemData = item;
+        cell.EquppiedItemData = equppiedItem;
         cell.Quantity = 1;
     }
 
     public static void RemoveItem(this IInventoryCell cell, int quantity)
     {
-        if (cell.ItemData == null)
+        if (cell.EquppiedItemData == null)
         {
             return;
         }
@@ -42,13 +42,13 @@ public static class InventoryCellExtensions
 
         if (cell.Quantity <= 0)
         {
-            cell.ItemData = null;
+            cell.EquppiedItemData = null;
         }
     }
     
     public static bool IsEmpty(this IInventoryCell cell)
     {
-        return cell.ItemData == null;
+        return cell.EquppiedItemData == null;
     }
 
     public static bool MaxQuantityReached(this IInventoryCell cell)

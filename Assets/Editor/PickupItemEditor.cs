@@ -7,7 +7,7 @@ public class PickupItemEditor : Editor
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        var itemDataProperty = serializedObject.FindProperty("itemData");
+        var itemDataProperty = serializedObject.FindProperty("equppiedItemData");
         var newItemData = EditorGUILayout.ObjectField(
             "Item Data",
             itemDataProperty.objectReferenceValue,
@@ -15,13 +15,13 @@ public class PickupItemEditor : Editor
             false
         ) as ScriptableObject;
 
-        if (newItemData != null && newItemData is IItemData)
+        if (newItemData != null && newItemData is IEquppiedItemData)
         {
             itemDataProperty.objectReferenceValue = newItemData;
         }
         else if (newItemData != null)
         {
-            Debug.LogWarning("Selected object must implement IItemData.");
+            Debug.LogWarning("Selected object must implement IEquppiedItemData.");
             itemDataProperty.objectReferenceValue = null;
         }
         else

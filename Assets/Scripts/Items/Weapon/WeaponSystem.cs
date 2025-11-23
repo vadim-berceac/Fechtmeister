@@ -6,7 +6,7 @@ public class WeaponSystem : IItemInstancesContainer
     public IItemInstance InstanceInHands {get; private set;}
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
-    public Action<IItemData> OnItemUnEquipped { get; set; }
+    public Action<IEquppiedItemData> OnItemUnEquipped { get; set; }
     public StateTimer StateTimer { get; set; }
     public bool WeaponInstanceIsRanged { get; private set; }
     public CharacterCore CharacterCore { get; private set; }
@@ -29,7 +29,7 @@ public class WeaponSystem : IItemInstancesContainer
             return;
         }
         InstanceInHands = Instances[itemIndex];
-        WeaponInstanceIsRanged = ((WeaponData)InstanceInHands.ItemData).IsRanged;
+        WeaponInstanceIsRanged = ((WeaponData)InstanceInHands.EquppiedItemData).IsRanged;
     }
 
     private void OnWeaponInstanceSwitched(int itemIndex)
