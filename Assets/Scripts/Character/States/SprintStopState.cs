@@ -15,7 +15,12 @@ public class SprintStopState: State
                               && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()), "IdleState"),
             new(character => (character.CharacterInputHandler.IsWeaponDraw 
                               && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()), "CombatIdleState"),
-            new(character => (character.Health.IsDestroyed), "DeathState"),
+            new(character => (!character.CharacterInputHandler.IsWeaponDraw 
+                              && (character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime()) > 0.5f)
+                              && (character.CharacterInputHandler.InputY > 0), "WalkState"),
+            new(character => (character.CharacterInputHandler.IsWeaponDraw  
+                              && (character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime()) > 0.5f)
+                              && (character.CharacterInputHandler.InputY > 0), "CombatWalkState"),
             new(character => (character.Health.IsHitReactionEnabled), "GetHitState"),
         };
     }

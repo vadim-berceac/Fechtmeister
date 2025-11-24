@@ -10,9 +10,8 @@ public class FallState :  State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new(character => character.Gravity.Grounded, "LandingState"),
             new(character => character.Health.IsHitReactionEnabled, "FallDamageState"),
-            new(character => character.Health.IsDestroyed, "DeathState"),
+            new(character => character.Gravity.Grounded, "LandingState"),
             new(character => character.LedgeDetection.LedgeGrabPoint != Vector3.zero &&
                              character.CharacterInputHandler.TargetInputMagnitude > 0f, "LedgeClimbState"),
         };

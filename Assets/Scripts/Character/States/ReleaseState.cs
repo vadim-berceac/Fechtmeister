@@ -11,6 +11,7 @@ public class ReleaseState : State
         Transitions = new List<Transition<CharacterCore>>()
         {
             new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
         };
     }
     

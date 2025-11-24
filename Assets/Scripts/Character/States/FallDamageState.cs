@@ -11,6 +11,7 @@ public class FallDamageState : State
         Transitions = new List<Transition<CharacterCore>>()
         {
             new(character => character.Health.IsDestroyed, "DeathState"),
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => Mathf.Abs(character.CharacterInputHandler.InputX) > 0 && character.StateTimer.GetCurrentTimeInState() > 3
                              || Mathf.Abs(character.CharacterInputHandler.InputY) > 0 && character.StateTimer.GetCurrentTimeInState() > 3, "StandUpState"),
         };

@@ -13,7 +13,6 @@ public class AimState : State
             new (c => !c.CharacterInputHandler.IsAimBlock, "CombatIdleState"),
             new(c => c.CharacterInputHandler.IsAttack, "ReleaseState"),
             new(c => c.Health.IsHitReactionEnabled, "GetHitState"),
-            new(c => c.Health.IsDestroyed, "DeathState")
         };
     }
     

@@ -18,7 +18,6 @@ public class IdleState : MovementState
             new(c => c.CharacterInputHandler.IsInteract && c.TargetingSystem.HasTarget(TargetingMode.Item), "TakeLootState"),
             new(c => c.CharacterInputHandler.IsInventoryOpen, "InventoryState"),
             new(c => c.Health.IsHitReactionEnabled, "GetHitState"),
-            new(c => c.Health.IsDestroyed, "DeathState"),
             new(c => c.Health.CurrentHealthNormalized < 0.5f, "InjuredIdleState"),
         };
     }

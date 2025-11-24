@@ -11,6 +11,7 @@ public class InventoryState : State
         Transitions = new List<Transition<CharacterCore>>()
         {
             new(character => !character.CharacterInputHandler.IsInventoryOpen, "IdleState"),
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
         };
     }
     

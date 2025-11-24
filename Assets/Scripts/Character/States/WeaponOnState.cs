@@ -10,8 +10,7 @@ public class WeaponOnState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new(character => (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() 
-                              && !character.GraphCore.FullBodyAnimatorController.IsTransitioning), "CombatIdleState"),
+            new(character => (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()), "CombatIdleState"),
         };
     }
     

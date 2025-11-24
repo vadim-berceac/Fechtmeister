@@ -11,7 +11,6 @@ public class LedgeClimbState: State
         Transitions = new List<Transition<CharacterCore>>()
         {
             new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "LedgeClimbEnd"),
-            new(character => character.Health.IsDestroyed, "DeathState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
         };
     }

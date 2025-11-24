@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
   <ParamValue>k__BackingField: 0
   <Clips>k__BackingField:
-  - <Clip>k__BackingField: {fileID: -6698223470261398611, guid: 3a9c939b75704a640b66d99795aa5629, type: 3}
+  - <Clip>k__BackingField: {fileID: 3094330708855449807, guid: 718a78badffd405449a88c133967f4be, type: 3}
     <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
     <Speed>k__BackingField: 1

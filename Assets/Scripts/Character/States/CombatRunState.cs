@@ -10,14 +10,13 @@ public class CombatRunState : MovementState
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new(character => !character.CharacterInputHandler.IsRun && !character.GraphCore.FullBodyAnimatorController.IsTransitioning, "CombatWalkState"),
-            new(character => !character.CharacterInputHandler.IsWeaponDraw && !character.GraphCore.FullBodyAnimatorController.IsTransitioning, "WeaponOffState"),
+            new(character => !character.CharacterInputHandler.IsRun, "CombatWalkState"),
+            new(character => !character.CharacterInputHandler.IsWeaponDraw, "WeaponOffState"),
             new(character => character.CharacterInputHandler.IsAimBlock && character.Inventory.WeaponSystem.WeaponInstanceIsRanged, "LoadState"),
             new(character => character.CharacterInputHandler.IsJump, "JumpState"),
             new(character => character.Gravity.Grounded && character.StateTimer.GetCurrentTimeInState() > 5f, "CombatSprintState"),
             new(character => !character.Gravity.Grounded, "FallState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
-            new(character => character.Health.IsDestroyed, "DeathState")
         };
     }
 }

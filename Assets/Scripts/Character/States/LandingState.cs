@@ -20,7 +20,7 @@ public class LandingState: State
             new(character => character.CharacterInputHandler.IsWeaponDraw && character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.75
                                                                           && character.CurrentSpeed.LastNotNullHorizontalSpeed > 4 
                                                                           && character.CharacterInputHandler.IsRun, "CombatRunState"),
-            new(character => character.Health.IsDestroyed, "DeathState"),
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
         };
     }
     

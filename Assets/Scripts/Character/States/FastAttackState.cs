@@ -10,10 +10,8 @@ public class FastAttackState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() 
-                             && !character.GraphCore.FullBodyAnimatorController.IsTransitioning, "CombatIdleState"),
+            new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
-            new(character => character.Health.IsDestroyed, "DeathState"),
         };
     }
     public override void EnterState(CharacterCore character)

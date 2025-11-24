@@ -18,7 +18,6 @@ public class CombatWalkState : MovementState
             new(character => character.CharacterInputHandler.IsJump, "JumpState"),
             new(character => !character.Gravity.Grounded, "FallState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
-            new(character => character.Health.IsDestroyed, "DeathState"),
         };
     }
 }

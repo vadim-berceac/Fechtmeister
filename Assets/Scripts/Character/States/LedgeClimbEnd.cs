@@ -12,7 +12,6 @@ public class LedgeClimbEnd: State
                              && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "IdleState"),
             new(character => character.CharacterInputHandler.IsWeaponDraw 
                              && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
-            new(character => character.Health.IsDestroyed, "DeathState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
         };
     }

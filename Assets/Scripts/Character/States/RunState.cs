@@ -14,7 +14,6 @@ public class RunState: State
             new(character => !character.Gravity.Grounded, "FallState"),
             new(character => character.CharacterInputHandler.IsInventoryOpen, "InventoryState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
-            new(character => character.Health.IsDestroyed, "DeathState"),
             new(character => character.Gravity.Grounded && character.StateTimer.GetCurrentTimeInState() > 5f, "SprintState"),
         };
     }
