@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa173714b11dd8842bdaecaa815f267a, type: 3}
-  m_Name: Idle_Crawler_BlendConfig
+  m_Name: Run_Crawler_BlendConfig
   m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
   <ParamValue>k__BackingField: 0
   <Clips>k__BackingField:
-  - <Clip>k__BackingField: {fileID: 7400000, guid: 3df8258174cadff448acf90de43cbcec, type: 3}
+  - <Clip>k__BackingField: {fileID: -203655887218126122, guid: 86bdc5d92d893e6438c04669e893511f, type: 3}
     <ParamValue>k__BackingField: 0
-    <ParamPosition>k__BackingField: {x: 0, y: 0}
+    <ParamPosition>k__BackingField: {x: 0, y: 0.5}
+    <Speed>k__BackingField: 1
+    <ActionTime>k__BackingField: 0
+  - <Clip>k__BackingField: {fileID: 4061839508520268033, guid: 86bdc5d92d893e6438c04669e893511f, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 0, y: -0.5}
     <Speed>k__BackingField: 1
     <ActionTime>k__BackingField: 0

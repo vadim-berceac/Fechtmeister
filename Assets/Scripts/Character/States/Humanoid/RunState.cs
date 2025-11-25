@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RunState", menuName = "States/RunState")]
-public class RunState: State
+public class RunState: MovementState
 {
     private void OnEnable()
     {
@@ -16,23 +16,5 @@ public class RunState: State
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => character.Gravity.Grounded && character.StateTimer.GetCurrentTimeInState() > 5f, "SprintState"),
         };
-    }
-    
-    public override void EnterState(CharacterCore character)
-    {
-        base.EnterState(character);
-        character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
-    }
-
-    protected override void CheckAction(CharacterCore character)
-    {
-        base.CheckAction(character);
-        character.GraphCore.FullBodyAnimatorController.Move(character.CharacterInputHandler.InputX, character.CharacterInputHandler.InputY);
-    }
-
-    public override void ExitState(CharacterCore character)
-    {
-        base.ExitState(character);
-        character.CurrentSpeed.StopUpdateLastHorizontalSpeed();
     }
 }

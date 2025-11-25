@@ -9,14 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 738a04322aba4bc4284fbc5f56d51a32, type: 3}
-  m_Name: CrawlerIdleState
-  m_EditorClassIdentifier: Assembly-CSharp::CrawlerIdleState
-  <EnterTransitionDuration>k__BackingField: 0.3
+  m_Script: {fileID: 11500000, guid: 44949fd437eba15489fc2aceb6775fec, type: 3}
+  m_Name: CrawlerFallState
+  m_EditorClassIdentifier: 
+  <EnterTransitionDuration>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
-  - {fileID: 11400000, guid: 010e8de522c48ab4ea6b55f2a4200ee5, type: 2}
+  - {fileID: 11400000, guid: bdb4c75cdb512064da406134e1e66745, type: 2}
   <AllowItemTargeting>k__BackingField: 0
+  <AllowCharacterTargeting>k__BackingField: 0
+  <FixOnCharacterTarget>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <TargetingRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
@@ -30,4 +32,3 @@ MonoBehaviour:
   <Height>k__BackingField: 0
   <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0
-  <FastAttackAllowed>k__BackingField: 1

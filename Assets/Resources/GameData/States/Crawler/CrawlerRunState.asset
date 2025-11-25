@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 738a04322aba4bc4284fbc5f56d51a32, type: 3}
-  m_Name: CrawlerIdleState
-  m_EditorClassIdentifier: Assembly-CSharp::CrawlerIdleState
+  m_Script: {fileID: 11500000, guid: 495c73db77f5c8944b2c757e651af282, type: 3}
+  m_Name: CrawlerRunState
+  m_EditorClassIdentifier: Assembly-CSharp::CrawlerRunState
   <EnterTransitionDuration>k__BackingField: 0.3
   <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
-  - {fileID: 11400000, guid: 010e8de522c48ab4ea6b55f2a4200ee5, type: 2}
+  - {fileID: 11400000, guid: 1ca8f0b095c1e9a4c908d819647dd95e, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <TargetingRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
-  <RotationByCamera>k__BackingField: 0
-  <RotationSpeed>k__BackingField: 0
+  <RotationByCamera>k__BackingField: 1
+  <RotationSpeed>k__BackingField: 10
   <UseGravity>k__BackingField: 1
   <FallSpeedMultiplier>k__BackingField: 1
   <GroundLayer>k__BackingField:

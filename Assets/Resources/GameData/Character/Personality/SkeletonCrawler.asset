@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ebbf763e9ad024986abca0e6263e5d, type: 3}
+  m_Name: SkeletonCrawler
+  m_EditorClassIdentifier: 
+  <StateMachineType>k__BackingField: 1
+  <NamingSettings>k__BackingField:
+    <CharacterName>k__BackingField: Crawler
+  <CharacterSkinDataSettings>k__BackingField:
+    <PrimarySkin>k__BackingField: {fileID: 11400000, guid: 851cdb9cc1e4bbc489d9d5daa01d169c, type: 2}
+  <WeaponDataSettings>k__BackingField:
+    <EquippedWeapons>k__BackingField: []
+  <ArmorDataSettings>k__BackingField:
+    <EquippedArmor>k__BackingField: []
+  <HealthDataSettings>k__BackingField:
+    <MaxHealth>k__BackingField: 100
+    <CurrentHealthPercentage>k__BackingField: 100
+    <HitReactionTriggerValuePercentage>k__BackingField: 15
+  <AccuracySettings>k__BackingField:
+    <ShootingAccuracy>k__BackingField: 0
+    <MeleeAccuracy>k__BackingField: 60
+    <MagicAccuracy>k__BackingField: 25
+  <ResistanceSettings>k__BackingField:
+    <Resistances>k__BackingField:
+    - <ResistancePercentage>k__BackingField: 25
+      <DamageType>k__BackingField: 4

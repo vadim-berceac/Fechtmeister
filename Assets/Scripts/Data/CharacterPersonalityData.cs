@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterPersonalityData", menuName = "Scriptable Objects/CharacterPersonalityData")]
 public class CharacterPersonalityData : ScriptableObject
 {
+    [field: SerializeField] public StateMachineType StateMachineType { get; private set; }
     [field: Header("Name")]
     [field: SerializeField] public NamingSettings NamingSettings { get; private set; }
     
