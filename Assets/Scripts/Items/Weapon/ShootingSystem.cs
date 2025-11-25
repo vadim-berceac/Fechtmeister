@@ -24,11 +24,11 @@ public class ShootingSystem
         IsProjectileLoaded = value;
     }
 
-    public void TakeProjectile(ProjectileData projectileData)
+    public void TakeProjectile(ProjectileData projectileData, WeaponData weaponData)
     {
         var projectileObject = Object.Instantiate(projectileData.EquippedModelPrefab);
         _projectile = projectileObject.AddComponent<Projectile>();
-        _projectile.SetParams(projectileData);
+        _projectile.SetParams(projectileData, weaponData);
         
         var boneTransform = _characterCore.BonesContainer.GetBoneTransform(projectileData.ShootPosition.BonesType);
         

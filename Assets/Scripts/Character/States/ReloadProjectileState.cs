@@ -29,7 +29,7 @@ public class ReloadProjectileState : State
         {
             
             character.ShootingSystem.SetProjectileLoaded(true);
-            character.ShootingSystem.TakeProjectile(ProjectileData);
+            character.ShootingSystem.TakeProjectile(ProjectileData, (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData);
             character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
             character.StateTimer.SetActionIsPossible(false);
         }

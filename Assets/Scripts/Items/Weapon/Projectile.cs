@@ -6,6 +6,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private ProjectileData _data;
+    private WeaponData _weaponData;
     private Vector3 _velocity;
     private Collider _parent;
     private Transform _transform;
@@ -28,9 +29,10 @@ public class Projectile : MonoBehaviour
         if (_posArray.IsCreated) _posArray.Dispose();
     }
 
-    public void SetParams(ProjectileData data)
+    public void SetParams(ProjectileData data, WeaponData weaponData)
     {
         _data = data;
+        _weaponData = weaponData;
     }
 
     public void Launch(Collider parent, int accuracy)
@@ -134,7 +136,7 @@ public class Projectile : MonoBehaviour
 
         if (damaged != null)
         {
-            damaged.Damage(_data.WeaponParams.Damage, _data.WeaponParams.DamageType);
+            damaged.Damage(_data.WeaponParams.Damage + _weaponData.WeaponParams.Damage, _data.WeaponParams.DamageType);
 
             if (damaged.HitBodyPartSettings.Health.IsHitReactionEnabled)
             {
