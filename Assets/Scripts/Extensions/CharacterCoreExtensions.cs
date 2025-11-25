@@ -266,7 +266,7 @@ public static class CharacterCoreExtensions
         if (character.CharacterInputHandler.IsAttack && !character.Inventory.WeaponSystem.WeaponInstanceIsRanged 
                                                      && character.GraphCore.UpperBodyLayerController.IsComplete())
         {
-            character.SetSubState(character.StatesContainer.GetState("FastAttackSubState"));
+            character.SetSubState(character.StatesSet.GetState("FastAttackSubState"));
         } 
     }
     

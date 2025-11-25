@@ -24,7 +24,7 @@ public class FastAttackSubState : State
     {
         if (character.GraphCore.UpperBodyLayerController.IsComplete())
         {
-            character.SetSubState(character.StatesContainer.GetState("DefaultSubState"));
+            character.SetSubState(character.StatesSet.GetState("DefaultSubState"));
         }
     }
 

@@ -5,6 +5,7 @@ using Zenject;
 [RequireComponent(typeof(CharacterPresetLoader))]
 public class CharacterCore : MonoBehaviour
 {
+    [field: SerializeField] public StateMachineType StateMachineType { get; private set; }
     [field: SerializeField] public Transform DamagedObject { get; private set; }
     [field: SerializeField] public PlayableGraphCore GraphCore { get; private set; }
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
@@ -19,7 +20,7 @@ public class CharacterCore : MonoBehaviour
     public ICharacterInputSet InputByPlayer { get; private set; }
     
     //State Machine
-    public StatesContainer StatesContainer { get; private set; }
+    public StatesSet StatesSet { get; private set; }
     public State CurrentState { get; private set; }
     public State CurrentSubState { get; private set; }
     public Counter AttackCounter { get; private set; }
@@ -47,7 +48,7 @@ public class CharacterCore : MonoBehaviour
         SceneCamera = sceneCamera;
         SceneCharacterContainer = sceneCharacterContainer;
         InputByPlayer = playerInput;
-        StatesContainer = statesContainer;
+        StatesSet = statesContainer.GetStateSet(StateMachineType);
         CashedTransform = transform;
         CharacterInputHandler = new CharacterInputHandler(LocomotionSettings.InputSmoothingSpeed);
         Gravity = new CharacterGravity();
@@ -74,9 +75,9 @@ public class CharacterCore : MonoBehaviour
 
     private void Start()
     {
-        CurrentState = StatesContainer.GetState("IdleState");
+        CurrentState = StatesSet.GetStartState();
         CurrentState.EnterState(this);
-        CurrentSubState = StatesContainer.GetState("DefaultSubState");
+        CurrentSubState = StatesSet.GetStartSubState();
         CurrentSubState.EnterState(this);
     }
 

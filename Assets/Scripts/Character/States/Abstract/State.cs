@@ -83,7 +83,7 @@ public abstract class State : ScriptableObject
         {
             if (t.Check(character))
             {
-                character.SetState(character.StatesContainer.GetState(t.TargetStateName));
+                character.SetState(character.StatesSet.GetState(t.TargetStateName));
             }
         }
     }
