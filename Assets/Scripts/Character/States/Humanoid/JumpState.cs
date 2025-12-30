@@ -36,7 +36,6 @@ public class JumpState : State
         if (normalizedTime >= 0.4)
         {
             character.LedgeDetection.UpdateDetection(true, LedgeTypeDetection.High);
-            Debug.Log(0);
         }
     }
 

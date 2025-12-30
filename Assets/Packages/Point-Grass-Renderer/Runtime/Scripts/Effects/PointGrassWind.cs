@@ -18,11 +18,18 @@ namespace MicahW.PointGrass {
         private Vector3 currentNoisePosition;
 
         private static int ID_vecA, ID_vecB, ID_valA;
+        private static bool shaderIDsInitialized = false;
 
 #if UNITY_EDITOR
         private double previousEditorTime = 0f;
 
-        private void OnValidate() => RefreshValues();
+        private void OnValidate() {
+            // Ensure shader IDs are initialized before refreshing
+            if (!shaderIDsInitialized) {
+                GetShaderIDs();
+            }
+            RefreshValues();
+        }
 #endif
 
         private void OnEnable() {
@@ -35,7 +42,7 @@ namespace MicahW.PointGrass {
 
 #if UNITY_EDITOR
             if (!Application.isPlaying) {
-                previousEditorTime = 0f;
+                previousEditorTime = EditorApplication.timeSinceStartup;
                 EditorApplication.update += EditorUpdate;
             }
 #endif
@@ -71,18 +78,29 @@ namespace MicahW.PointGrass {
         }
 
         private static void GetShaderIDs() {
+            if (shaderIDsInitialized) return;
+            
             ID_vecA = Shader.PropertyToID("_PG_VectorA");
             ID_vecB = Shader.PropertyToID("_PG_VectorB");
             ID_valA = Shader.PropertyToID("_PG_ValueA");
+            
+            shaderIDsInitialized = true;
         }
 
         public void RefreshValues() {
             PackedProperties properties = PackProperties();
 
-            Shader.SetGlobalVector(ID_vecA, properties.vecA);
-            Shader.SetGlobalVector(ID_vecB, properties.vecB);
-            Shader.SetGlobalFloat(ID_valA, properties.valA);
+            // Use try-catch to handle potential type conflicts gracefully
+            try {
+                Shader.SetGlobalVector(ID_vecA, properties.vecA);
+                Shader.SetGlobalVector(ID_vecB, properties.vecB);
+                Shader.SetGlobalFloat(ID_valA, properties.valA);
+            }
+            catch (System.Exception e) {
+                Debug.LogWarning($"Failed to set shader properties: {e.Message}. Property name conflict detected.");
+            }
         }
+        
         private PackedProperties PackProperties() => new PackedProperties(windDirection, currentNoisePosition, noiseRange, windScale);
 
         private struct PackedProperties {
