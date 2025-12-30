@@ -3,23 +3,23 @@ using UnityEngine;
 public class WeaponInstance : IItemInstance
 {
     public IEquppiedItemData EquppiedItemData { get; set; }
-    public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public Transform Instance { get; set; }
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
+    public Animator Animator { get; set; }
 
     private readonly Collider _owner;
     private readonly SceneCharacterContainer _sceneCharacterContainer;
     
-    public WeaponInstance(ref IEquppiedItemData equppiedItemData, CharacterBonesContainer characterBonesContainer, Collider owner,
-        SceneCharacterContainer sceneCharacterContainer)
+    public WeaponInstance(ref IEquppiedItemData equppiedItemData, Collider owner,
+        SceneCharacterContainer sceneCharacterContainer, Animator animator)
     {
         EquppiedItemData = equppiedItemData;
         equppiedItemData = null;
-        CharacterBonesContainer = characterBonesContainer;
         _owner = owner;
         _sceneCharacterContainer = sceneCharacterContainer;
+        Animator = animator;
         
         CreateInstance();
         this.CreateDecorations();
@@ -41,8 +41,11 @@ public class WeaponInstance : IItemInstance
         IKBoneTransform = this.TryToFindIKBoneTransform();
 
         ItemControlComponent = new WeaponController(_owner, (WeaponData)EquppiedItemData, _sceneCharacterContainer);
-        
-        this.AttachToBone(Instance, EquppiedItemData.BoneData[1]);
+
+        var boneData = EquppiedItemData.BoneData[1];
+      
+        Animator.AttachToBone(Instance, boneData.BonesType, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active);
     }
 
     public void ResetAction()

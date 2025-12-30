@@ -35,7 +35,6 @@ public class CharacterCore : MonoBehaviour
     public CharacterColliderSizer CharacterColliderSizer { get; private set; }
     public CharacterPresetLoader PresetLoader { get; private set; }
     public CharacterSkinHandler SkinHandler { get; private set; }
-    public CharacterBonesContainer BonesContainer { get; private set; }
     public CharacterTargetingSystem TargetingSystem { get; private set; }
     public LedgeDetection LedgeDetection { get; private set; }
     public Inventory Inventory { get; private set; }
@@ -56,7 +55,6 @@ public class CharacterCore : MonoBehaviour
         CharacterColliderSizer = new CharacterColliderSizer(PresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin,
             LocomotionSettings.CharacterCollider, LocomotionSettings.CharacterController);
         SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData);
-        BonesContainer = new CharacterBonesContainer(CashedTransform);
         TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting);
         LedgeDetection = new LedgeDetection(LedgeDetectionSettings);
         AttackCounter = new Counter();

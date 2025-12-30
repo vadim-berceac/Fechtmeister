@@ -35,7 +35,8 @@ MonoBehaviour:
   <EquippedModelPrefab>k__BackingField: {fileID: 6651120253240216896, guid: 731efbc3ec282a24081648521b8a22bb, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 911192573839133284, guid: 303861402a172554cadafbf8bdae3ffd, type: 3}
   <ShootPosition>k__BackingField:
-    <BonesType>k__BackingField: 17
+    <BonesType>k__BackingField: 18
     <Position>k__BackingField: {x: -0.028, y: 0.336, z: 0.05}
     <Rotation>k__BackingField: {x: -0.68377435, y: -0.048653245, z: -0.037986383, w: 0.7270781}
-    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+    <Scale>k__BackingField: 0.7
+    <Active>k__BackingField: 1

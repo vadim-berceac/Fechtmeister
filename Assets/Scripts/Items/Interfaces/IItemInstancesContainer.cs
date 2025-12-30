@@ -4,7 +4,6 @@ using UnityEngine;
 
 public interface IItemInstancesContainer
 {
-    public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
     public Action<IEquppiedItemData> OnItemUnEquipped { get; set; }
@@ -13,7 +12,7 @@ public interface IItemInstancesContainer
 
 public static class ItemInstancesContainerExtensions
 {
-    public static bool Equip(this IItemInstancesContainer container, IEquppiedItemData equppiedItem, Collider owner)
+    public static bool Equip(this IItemInstancesContainer container, IEquppiedItemData equppiedItem, Collider owner, Animator animator)
     {
         if (ContainsInstance(container, equppiedItem) || OccupiedSamePosition(container, equppiedItem))
         {
@@ -26,13 +25,13 @@ public static class ItemInstancesContainerExtensions
         {
             if (equppiedItem is WeaponData)
             {
-                container.Instances[emptyInstance] = new WeaponInstance(ref equppiedItem, container.CharacterBonesContainer, owner,
-                    ((WeaponSystem)container).CharacterCore.SceneCharacterContainer);
+                container.Instances[emptyInstance] = new WeaponInstance(ref equppiedItem, owner,
+                    ((WeaponSystem)container).CharacterCore.SceneCharacterContainer, animator);
             }
 
             if (equppiedItem is ArmorData)
             {
-                container.Instances[emptyInstance] = new ArmorInstance(ref equppiedItem, container.CharacterBonesContainer, owner);
+                container.Instances[emptyInstance] = new ArmorInstance(ref equppiedItem, owner, animator);
             }
         }
 

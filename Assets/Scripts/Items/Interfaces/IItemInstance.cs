@@ -4,33 +4,17 @@ using UnityEngine;
 public interface IItemInstance
 {
     public IEquppiedItemData EquppiedItemData { get; set; }
-    public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public Transform Instance { get; set; }
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
+    public Animator Animator { get; set; }
     
     public void CreateInstance();
 }
 
 public static class IItemInstanceExtensions
 {
-    public static void AttachToBone(this IItemInstance itemInstance, Transform instance, BoneData boneData)
-    {
-        if (boneData == null)
-        {
-            return;
-        }
-
-        var boneTransform = itemInstance.CharacterBonesContainer.GetBoneTransform(boneData.BonesType);
-        
-        instance.parent = boneTransform.Transform;
-        
-        instance.SetLocalPositionAndRotation(boneData.Position, boneData.Rotation);
-        
-        instance.localScale = boneData.Scale;
-    }
-    
     public static void CreateDecorations(this IItemInstance itemInstance)
     {
         if (itemInstance.EquppiedItemData.ItemDecorationData == null)
@@ -42,15 +26,18 @@ public static class IItemInstanceExtensions
 
         foreach (var decoration in itemInstance.EquppiedItemData.ItemDecorationData)
         {
-            itemInstance.ItemDecorations[itemInstance.EquppiedItemData.ItemDecorationData.IndexOf(decoration)] = Object.Instantiate(decoration.ItemPrefab).transform;
-            AttachToBone(itemInstance, itemInstance.ItemDecorations[itemInstance.EquppiedItemData.ItemDecorationData.IndexOf(decoration)], decoration.BoneData);
+            var part = Object.Instantiate(decoration.ItemPrefab).transform;
+            var index = itemInstance.EquppiedItemData.ItemDecorationData.IndexOf(decoration);
+            var boneData = itemInstance.EquppiedItemData.ItemDecorationData[index].BoneData;
+            itemInstance.ItemDecorations[index] = part;
+            itemInstance.Animator.AttachToBone(part, boneData.BonesType, boneData.Position, 
+                boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active);
         }
     }
     
     public static void DestroyInstance(this IItemInstance itemInstance)
     {
         itemInstance.EquppiedItemData = null;
-        itemInstance.CharacterBonesContainer = null;
         if (itemInstance.Instance == null)
         {
             return;
@@ -72,7 +59,8 @@ public static class IItemInstanceExtensions
 
     public static Transform TryToFindIKBoneTransform(this IItemInstance itemInstance)
     {
-        return itemInstance.EquppiedItemData.IKBoneData.IKBoneName.IsEmpty()? null : itemInstance.Instance.FindChildRecursive(itemInstance.EquppiedItemData.IKBoneData.IKBoneName);
+        return itemInstance.EquppiedItemData.IKBoneData.IKBoneName.IsEmpty()? null 
+            : itemInstance.Instance.FindChildRecursive(itemInstance.EquppiedItemData.IKBoneData.IKBoneName);
     }
 }
 

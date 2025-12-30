@@ -32,15 +32,22 @@ MonoBehaviour:
     <AttacksCount>k__BackingField: 3
     <AttacksResetDelay>k__BackingField: 2
   <BoneData>k__BackingField:
-  - <BonesType>k__BackingField: 17
+  - <BonesType>k__BackingField: 18
     <Position>k__BackingField: {x: 0.046, y: 0.084, z: 0.012}
     <Rotation>k__BackingField: {x: -0.020252148, y: -0.008273816, z: 0.6858471, w: 0.72741663}
-    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+    <Scale>k__BackingField: 1
+    <Active>k__BackingField: 1
   - <BonesType>k__BackingField: 0
     <Position>k__BackingField: {x: -0.182, y: 0.09, z: 0.109}
     <Rotation>k__BackingField: {x: -0.6962413, y: -0.22927372, z: 0.62965065, w: 0.25733572}
-    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+    <Scale>k__BackingField: 1
+    <Active>k__BackingField: 1
   <IKBoneData>k__BackingField:
     <IKBoneName>k__BackingField: Handle
-    <CharacterBoneConnected>k__BackingField: 16
+    <CharacterBoneConnected>k__BackingField:
+      <BonesType>k__BackingField: 0
+      <Position>k__BackingField: {x: 0, y: 0, z: 0}
+      <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+      <Scale>k__BackingField: 0
+      <Active>k__BackingField: 0
   <ItemDecorationData>k__BackingField: []

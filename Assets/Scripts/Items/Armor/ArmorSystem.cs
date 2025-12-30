@@ -2,7 +2,6 @@ using System;
 
 public class ArmorSystem : IItemInstancesContainer
 {
-    public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
     public Action<IEquppiedItemData> OnItemUnEquipped { get; set; }
@@ -14,7 +13,6 @@ public class ArmorSystem : IItemInstancesContainer
     {
         InstancesCount = instancesCount;
         _characterCore = characterCore;
-        CharacterBonesContainer = _characterCore.BonesContainer;
         Instances = new IItemInstance[instancesCount];
     }
 }

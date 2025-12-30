@@ -3,20 +3,20 @@ using UnityEngine;
 public class ArmorInstance : IItemInstance
 {
     public IEquppiedItemData EquppiedItemData { get; set; }
-    public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public Transform Instance { get; set; }
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
+    public Animator Animator { get; set; }
 
     private Collider _owner;
 
-    public ArmorInstance(ref IEquppiedItemData equppiedItemData, CharacterBonesContainer characterBonesContainer, Collider owner)
+    public ArmorInstance(ref IEquppiedItemData equppiedItemData, Collider owner, Animator animator)
     {
         EquppiedItemData = equppiedItemData;
         equppiedItemData = null;
-        CharacterBonesContainer = characterBonesContainer;
         _owner = owner;
+        Animator = animator;
 
         CreateInstance();
         this.CreateDecorations();
@@ -29,7 +29,7 @@ public class ArmorInstance : IItemInstance
             return;
         }
 
-        if (EquppiedItemData.BoneData == null || EquppiedItemData.BoneData.Length < 1 || EquppiedItemData.BoneData[0] == null)
+        if (EquppiedItemData.BoneData == null || EquppiedItemData.BoneData.Length < 1)
         {
             return;
         }

@@ -2,7 +2,6 @@ using System;
 
 public class WeaponSystem : IItemInstancesContainer
 {
-    public CharacterBonesContainer CharacterBonesContainer { get; set; }
     public IItemInstance InstanceInHands {get; private set;}
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
@@ -15,7 +14,6 @@ public class WeaponSystem : IItemInstancesContainer
     {
         InstancesCount = instancesCount;
         CharacterCore = characterCore;
-        CharacterBonesContainer = CharacterCore.BonesContainer;
         Instances = new IItemInstance[instancesCount];
         StateTimer = characterCore.StateTimer;
 

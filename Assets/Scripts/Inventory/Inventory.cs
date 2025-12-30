@@ -33,13 +33,17 @@ public class Inventory
     public void WeaponOn()
     {
         IsWeaponOn = true;
-        WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[0]);
+        var boneData = WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[0];
+        WeaponSystem.InstanceInHands.Animator.AttachToBone(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active);
     }
 
     public void WeaponOff()
     {
         IsWeaponOn = false;
-        WeaponSystem.InstanceInHands.AttachToBone(WeaponSystem.InstanceInHands.Instance, WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[1]);
+        var boneData = WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[1];
+        WeaponSystem.InstanceInHands.Animator.AttachToBone(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active);
     }
 
     private void InitEquipment()
@@ -52,7 +56,7 @@ public class Inventory
                 {
                     continue;
                 }
-                WeaponSystem.Equip(w, _characterCore.LocomotionSettings.CharacterCollider);
+                WeaponSystem.Equip(w, _characterCore.LocomotionSettings.CharacterCollider, _characterCore.GraphCore.CoreData.Animator);
             }
             SelectWeaponInstance(0);
         }
@@ -65,7 +69,7 @@ public class Inventory
                 {
                     continue;
                 }
-                ArmorSystem.Equip(a, _characterCore.LocomotionSettings.CharacterCollider);
+                ArmorSystem.Equip(a, _characterCore.LocomotionSettings.CharacterCollider, _characterCore.GraphCore.CoreData.Animator);
             }
         }
     }

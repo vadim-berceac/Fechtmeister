@@ -30,13 +30,9 @@ public class ShootingSystem
         _projectile = projectileObject.AddComponent<Projectile>();
         _projectile.SetParams(projectileData, weaponData);
         
-        var boneTransform = _characterCore.BonesContainer.GetBoneTransform(projectileData.ShootPosition.BonesType);
-        
-        projectileObject.transform.SetParent(boneTransform.Transform);
-        
-        projectileObject.transform.SetLocalPositionAndRotation(projectileData.ShootPosition.Position, projectileData.ShootPosition.Rotation);
-        
-        projectileObject.transform.localScale = projectileData.ShootPosition.Scale;
+        _characterCore.GraphCore.CoreData.Animator.AttachToBone(projectileObject.transform,
+            projectileData.ShootPosition.BonesType, projectileData.ShootPosition.Position, 
+            projectileData.ShootPosition.Rotation.eulerAngles,  projectileData.ShootPosition.Scale,  projectileData.ShootPosition.Active);
     }
 
     public void ReturnProjectile()

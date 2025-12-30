@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <WeaponParams>k__BackingField:
     <Damage>k__BackingField: 50
-    <SizeModifer>k__BackingField: 1
+    <DamageType>k__BackingField: 5
+    <AttackSpeed>k__BackingField: 0
+    <HitBoxSize>k__BackingField: {x: 0, y: 0, z: 0}
+    <HitBoxForwardOffset>k__BackingField: 0
+    <WhooshSounds>k__BackingField: {fileID: 0}
+    <HitSounds>k__BackingField: {fileID: 0}
   <ItemName>k__BackingField: FireBall
   <ItemDescription>k__BackingField: FireBall
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: 3e7760c6237bc714997318bd0be9a767, type: 3}
@@ -23,20 +28,26 @@ MonoBehaviour:
   <ItemPosition>k__BackingField: 6
   <IsRanged>k__BackingField: 1
   <AnimationType>k__BackingField: 6
-  <AttackSpeed>k__BackingField: 1
   <AttackCounterSettings>k__BackingField:
     <AttacksCount>k__BackingField: 3
     <AttacksResetDelay>k__BackingField: 5
   <BoneData>k__BackingField:
-  - <BonesType>k__BackingField: 0
+  - <BonesType>k__BackingField: 8
     <Position>k__BackingField: {x: 0, y: 0.15, z: 0.7}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 1}
-    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
-  - <BonesType>k__BackingField: 3
+    <Scale>k__BackingField: 1
+    <Active>k__BackingField: 1
+  - <BonesType>k__BackingField: 8
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 1}
-    <Scale>k__BackingField: {x: 1, y: 1, z: 1}
+    <Scale>k__BackingField: 1
+    <Active>k__BackingField: 0
   <IKBoneData>k__BackingField:
     <IKBoneName>k__BackingField: Handle
-    <CharacterBoneConnected>k__BackingField: 16
+    <CharacterBoneConnected>k__BackingField:
+      <BonesType>k__BackingField: 0
+      <Position>k__BackingField: {x: 0, y: 0, z: 0}
+      <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+      <Scale>k__BackingField: 0
+      <Active>k__BackingField: 0
   <ItemDecorationData>k__BackingField: []
