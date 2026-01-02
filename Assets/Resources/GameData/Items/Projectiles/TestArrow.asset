@@ -33,10 +33,18 @@ MonoBehaviour:
   <ItemDescription>k__BackingField: Test Arrow
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: 8fb41e818d5b60741ab39b80f5ee11eb, type: 3}
   <EquippedModelPrefab>k__BackingField: {fileID: 6651120253240216896, guid: 731efbc3ec282a24081648521b8a22bb, type: 3}
-  <GroundedModelPrefab>k__BackingField: {fileID: 911192573839133284, guid: 303861402a172554cadafbf8bdae3ffd, type: 3}
-  <ShootPosition>k__BackingField:
-    <BonesType>k__BackingField: 18
+  <GroundedModelPrefab>k__BackingField: {fileID: 4008575852445660223, guid: 33c21e9d0e12ba04ea767b2dbad21db0, type: 3}
+  <BoneData>k__BackingField:
+  - <BonesType>k__BackingField: 18
     <Position>k__BackingField: {x: -0.028, y: 0.336, z: 0.05}
     <Rotation>k__BackingField: {x: -0.68377435, y: -0.048653245, z: -0.037986383, w: 0.7270781}
     <Scale>k__BackingField: 0.7
     <Active>k__BackingField: 1
+  <ItemDecorationData>k__BackingField:
+  - <ItemPrefab>k__BackingField: {fileID: 4008575852445660223, guid: eb04a484b80901c43a07ca90c21f706f, type: 3}
+    <BoneData>k__BackingField:
+      <BonesType>k__BackingField: 8
+      <Position>k__BackingField: {x: 0.131, y: -0.04, z: -0.137}
+      <Rotation>k__BackingField: {x: 0.20250289, y: 0.67748994, z: -0.20250289, w: 0.6774898}
+      <Scale>k__BackingField: 1
+      <Active>k__BackingField: 1

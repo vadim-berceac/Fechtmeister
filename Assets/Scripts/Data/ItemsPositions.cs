@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ItemsPositions
 {
-    public enum Ocuupied
+    public enum Occupied
     {
         Back1,
         Back2,

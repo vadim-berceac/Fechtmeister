@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ArmorInstance : IItemInstance
+public class ProjectileInstance : IItemInstance
 {
     public IEquppiedItemData EquppiedItemData { get; set; }
     public Transform Instance { get; set; }
@@ -11,7 +11,7 @@ public class ArmorInstance : IItemInstance
 
     private Collider _owner;
 
-    public ArmorInstance(ref IEquppiedItemData equppiedItemData, Collider owner, Animator animator)
+    public ProjectileInstance(ref IEquppiedItemData equppiedItemData, Collider owner, Animator animator)
     {
         EquppiedItemData = equppiedItemData;
         equppiedItemData = null;
@@ -19,7 +19,6 @@ public class ArmorInstance : IItemInstance
         Animator = animator;
 
         CreateInstance();
-        this.CreateDecorations();
     }
     
     public void CreateInstance()
@@ -34,9 +33,9 @@ public class ArmorInstance : IItemInstance
             return;
         }
 
-        Instance = Object.Instantiate(EquppiedItemData.EquippedModelPrefab).transform;
+        Instance = Object.Instantiate(EquppiedItemData.ItemDecorationData[0].ItemPrefab).transform;
         
-        var boneData = EquppiedItemData.BoneData[0];
+        var boneData = EquppiedItemData.ItemDecorationData[0].BoneData;
       
         Animator.AttachToBone(Instance, boneData.BonesType, boneData.Position, 
             boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active);

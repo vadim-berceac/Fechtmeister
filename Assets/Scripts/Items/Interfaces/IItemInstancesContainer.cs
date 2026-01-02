@@ -19,23 +19,33 @@ public static class ItemInstancesContainerExtensions
             return false;
         }
         
-        var emptyInstance = GetEmptyInstance(container);
+        var emptyInstanceIndex = GetEmptyInstance(container);
 
-        if (emptyInstance >= 0)
+        if (emptyInstanceIndex < 0)
         {
-            if (equppiedItem is WeaponData)
-            {
-                container.Instances[emptyInstance] = new WeaponInstance(ref equppiedItem, owner,
-                    ((WeaponSystem)container).CharacterCore.SceneCharacterContainer, animator);
-            }
-
-            if (equppiedItem is ArmorData)
-            {
-                container.Instances[emptyInstance] = new ArmorInstance(ref equppiedItem, owner, animator);
-            }
+            return false;
         }
+        
+        switch (equppiedItem)
+        {
+            case WeaponData :
+                container.Instances[emptyInstanceIndex] = 
+                    new WeaponInstance(ref equppiedItem, owner, ((WeaponSystem)container).CharacterCore.SceneCharacterContainer, animator);
+                return true;
 
-        return true;
+            case ArmorData :
+                container.Instances[emptyInstanceIndex] = 
+                    new ArmorInstance(ref equppiedItem, owner, animator);
+                return true;
+            
+            case ProjectileData :
+                container.Instances[emptyInstanceIndex] =
+                    new ProjectileInstance(ref equppiedItem, owner, animator);
+                return true;
+
+            default:
+                return false;
+        }
     }
     
     private static bool ContainsInstance(this IItemInstancesContainer container, IEquppiedItemData data)
@@ -47,7 +57,8 @@ public static class ItemInstancesContainerExtensions
 
     private static bool OccupiedSamePosition(this IItemInstancesContainer container, IEquppiedItemData data)
     {
-        var instance = container.Instances.FirstOrDefault(i => i != null && i.EquppiedItemData != null && i.EquppiedItemData.ItemPosition == data.ItemPosition);
+        var instance = container.Instances.FirstOrDefault(i => i != null && i.EquppiedItemData 
+            != null && i.EquppiedItemData.ItemPosition == data.ItemPosition);
         return instance != null;
     }
 
@@ -84,6 +95,7 @@ public static class ItemInstancesContainerExtensions
 
         if (dataInstance == null)
         {
+            Debug.Log($"{data.ItemName} instance not found");
             return;
         }
         

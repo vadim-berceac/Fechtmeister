@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ProjectileData", menuName = "Scriptable Objects/ProjectileData")]
-public class ProjectileData : ScriptableObject, ISimpleItemData
+public class ProjectileData : ScriptableObject, IEquppiedItemData
 {
     [field: SerializeField] public WeaponParams WeaponParams { get; set; }
     [field: SerializeField] public LaunchSettings LaunchSettings { get; set; }
@@ -10,7 +10,11 @@ public class ProjectileData : ScriptableObject, ISimpleItemData
     [field: SerializeField] public Sprite ItemIcon { get; set; }
     [field: SerializeField] public GameObject EquippedModelPrefab { get; set; }
     [field: SerializeField] public GameObject GroundedModelPrefab { get; set; }
-    [field: SerializeField] public BoneData ShootPosition { get; set; }
+    [field: SerializeField] public BoneData[] BoneData { get; set; }
+    [field: SerializeField] public ItemDecorationData[] ItemDecorationData { get; set; }
+    public ItemsPositions.Occupied ItemPosition { get; set; } // hide
+    public IKBoneData IKBoneData { get; set; } // hide
+    
 }
 
 [System.Serializable]

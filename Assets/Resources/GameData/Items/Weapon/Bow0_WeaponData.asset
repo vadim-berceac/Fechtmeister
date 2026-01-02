@@ -50,11 +50,4 @@ MonoBehaviour:
       <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
       <Scale>k__BackingField: 0
       <Active>k__BackingField: 0
-  <ItemDecorationData>k__BackingField:
-  - <ItemPrefab>k__BackingField: {fileID: 8567398555193407271, guid: 8f45bf666665eb64c9e505a34123afa3, type: 3}
-    <BoneData>k__BackingField:
-      <BonesType>k__BackingField: 8
-      <Position>k__BackingField: {x: 0.131, y: -0.04, z: -0.137}
-      <Rotation>k__BackingField: {x: 0.20250289, y: 0.67748994, z: -0.20250289, w: 0.6774898}
-      <Scale>k__BackingField: 1
-      <Active>k__BackingField: 1
+  <ItemDecorationData>k__BackingField: []

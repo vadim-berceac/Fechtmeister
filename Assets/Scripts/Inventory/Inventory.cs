@@ -1,9 +1,11 @@
+
 public class Inventory
 {
     public bool IsWeaponOn { get; private set; }
     private readonly CharacterPresetLoader _characterPresetLoader;
     public readonly WeaponSystem WeaponSystem;
     public readonly ArmorSystem ArmorSystem;
+    public readonly ProjectileSystem ProjectileSystem;
     public readonly InventoryBag InventoryBag;
     private readonly CharacterCore _characterCore;
 
@@ -14,7 +16,7 @@ public class Inventory
         WeaponSystem = new WeaponSystem(weaponSystemInstancesCount, characterCore);
 
         ArmorSystem = new ArmorSystem(5, characterCore);
-        
+        ProjectileSystem = new ProjectileSystem(1, characterCore);
         InventoryBag = new InventoryBag(96);
         
         InitEquipment();
@@ -48,7 +50,7 @@ public class Inventory
 
     private void InitEquipment()
     {
-        if (_characterPresetLoader.CharacterPersonalityData.WeaponDataSettings.EquippedWeapons != null)
+        if (_characterPresetLoader.CharacterPersonalityData.WeaponDataSettings.EquippedWeapons.Length > 0)
         {
             foreach (var w in _characterPresetLoader.CharacterPersonalityData.WeaponDataSettings.EquippedWeapons)
             {
@@ -61,7 +63,7 @@ public class Inventory
             SelectWeaponInstance(0);
         }
 
-        if (_characterPresetLoader.CharacterPersonalityData.ArmorDataSettings.EquippedArmor != null)
+        if (_characterPresetLoader.CharacterPersonalityData.ArmorDataSettings.EquippedArmor.Length > 0)
         {
             foreach (var a in _characterPresetLoader.CharacterPersonalityData.ArmorDataSettings.EquippedArmor)
             {
@@ -71,6 +73,12 @@ public class Inventory
                 }
                 ArmorSystem.Equip(a, _characterCore.LocomotionSettings.CharacterCollider, _characterCore.GraphCore.CoreData.Animator);
             }
+        }
+
+        if (_characterPresetLoader.CharacterPersonalityData.ProjectilesDataSettings.EquippedProjectiles != null)
+        {
+            ProjectileSystem.Equip(_characterPresetLoader.CharacterPersonalityData.ProjectilesDataSettings.EquippedProjectiles,
+                _characterCore.LocomotionSettings.CharacterCollider, _characterCore.GraphCore.CoreData.Animator);
         }
     }
     

@@ -13,6 +13,7 @@ public class CharacterPersonalityData : ScriptableObject
     [field: Header("Items")]
     [field: SerializeField] public WeaponDataSettings WeaponDataSettings { get; private set; }
     [field: SerializeField] public ArmorDataSettings ArmorDataSettings { get; private set; }
+    [field: SerializeField] public ProjectilesDataSettings ProjectilesDataSettings { get; private set; }
     [field: SerializeField] public InventoryDataSettings InventoryDataSettings { get; private set; }
     
     [field: Header("Character Parameters")]
@@ -43,6 +44,12 @@ public struct WeaponDataSettings
 public struct ArmorDataSettings
 {
     [field: SerializeField] public ArmorData[] EquippedArmor { get; private set; }
+}
+
+[System.Serializable]
+public struct ProjectilesDataSettings
+{
+    [field: SerializeField] public ProjectileData EquippedProjectiles { get; private set; }
 }
 
 [System.Serializable]

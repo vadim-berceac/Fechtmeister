@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ebbf763e9ad024986abca0e6263e5d, type: 3}
   m_Name: SkeletonBowman
   m_EditorClassIdentifier: 
+  <StateMachineType>k__BackingField: 0
   <NamingSettings>k__BackingField:
     <CharacterName>k__BackingField: Skeleton Bowman
   <CharacterSkinDataSettings>k__BackingField:
@@ -19,9 +20,11 @@ MonoBehaviour:
   <WeaponDataSettings>k__BackingField:
     <EquippedWeapons>k__BackingField:
     - {fileID: 11400000, guid: eca9ed13a3b04104e8aec730d663b635, type: 2}
-    - {fileID: 11400000, guid: 447a16658c2437a43a06ee9169163162, type: 2}
+    - {fileID: 11400000, guid: 0d5b7864b639eab4ab9abcd769ab3e6e, type: 2}
   <ArmorDataSettings>k__BackingField:
     <EquippedArmor>k__BackingField: []
+  <ProjectilesDataSettings>k__BackingField:
+    <EquippedProjectiles>k__BackingField: {fileID: 11400000, guid: ea64c2378ecb1e14eb20d0b936f09fcb, type: 2}
   <HealthDataSettings>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <CurrentHealthPercentage>k__BackingField: 100

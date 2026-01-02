@@ -15,10 +15,15 @@ MonoBehaviour:
   <ItemName>k__BackingField: Kettle Helmet1
   <ItemDescription>k__BackingField: Kettle Helmet1
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: 70a98d06bc034b24d8ad22fff327a508, type: 3}
-  <EquippedModelPrefab>k__BackingField: {fileID: 0}
-  <GroundedModelPrefab>k__BackingField: {fileID: 0}
+  <EquippedModelPrefab>k__BackingField: {fileID: 963245334319926146, guid: df340c4ad2147e14d80b9d7ce99e5447, type: 3}
+  <GroundedModelPrefab>k__BackingField: {fileID: 3832376763625731302, guid: ca49747e39cd0f54fb2acf4876945ff6, type: 3}
   <ItemPosition>k__BackingField: 5
-  <BoneData>k__BackingField: []
+  <BoneData>k__BackingField:
+  - <BonesType>k__BackingField: 10
+    <Position>k__BackingField: {x: 0, y: 0.144, z: 0}
+    <Rotation>k__BackingField: {x: 0.043619387, y: 0, z: 0, w: 0.99904823}
+    <Scale>k__BackingField: 1
+    <Active>k__BackingField: 1
   <IKBoneData>k__BackingField:
     <IKBoneName>k__BackingField: 
     <CharacterBoneConnected>k__BackingField:
@@ -27,11 +32,4 @@ MonoBehaviour:
       <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
       <Scale>k__BackingField: 0
       <Active>k__BackingField: 0
-  <ItemDecorationData>k__BackingField:
-  - <ItemPrefab>k__BackingField: {fileID: 963245334319926146, guid: df340c4ad2147e14d80b9d7ce99e5447, type: 3}
-    <BoneData>k__BackingField:
-      <BonesType>k__BackingField: 10
-      <Position>k__BackingField: {x: 0, y: 0.144, z: 0}
-      <Rotation>k__BackingField: {x: 0.043619387, y: 0, z: 0, w: 0.99904823}
-      <Scale>k__BackingField: 1
-      <Active>k__BackingField: 1
+  <ItemDecorationData>k__BackingField: []

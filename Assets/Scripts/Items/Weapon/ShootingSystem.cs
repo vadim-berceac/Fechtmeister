@@ -6,7 +6,7 @@ public class ShootingSystem
 
     private readonly CharacterCore _characterCore;
     
-    private Projectile _projectile;
+    private ProjectileController _projectileController;
     
     public ShootingSystem(CharacterCore characterCore)
     {
@@ -27,32 +27,31 @@ public class ShootingSystem
     public void TakeProjectile(ProjectileData projectileData, WeaponData weaponData)
     {
         var projectileObject = Object.Instantiate(projectileData.EquippedModelPrefab);
-        _projectile = projectileObject.AddComponent<Projectile>();
-        _projectile.SetParams(projectileData, weaponData);
-        
-        _characterCore.GraphCore.CoreData.Animator.AttachToBone(projectileObject.transform,
-            projectileData.ShootPosition.BonesType, projectileData.ShootPosition.Position, 
-            projectileData.ShootPosition.Rotation.eulerAngles,  projectileData.ShootPosition.Scale,  projectileData.ShootPosition.Active);
+        _projectileController = projectileObject.AddComponent<ProjectileController>();
+        _projectileController.SetParams(projectileData, weaponData);
+        var boneData = projectileData.BoneData[0];
+        _characterCore.GraphCore.CoreData.Animator.AttachToBone(projectileObject.transform, boneData.BonesType, boneData.Position, 
+            boneData.Rotation.eulerAngles,  boneData.Scale,  boneData.Active);
     }
 
     public void ReturnProjectile()
     {
-        if (_projectile == null)
+        if (_projectileController == null)
         {
             return;
         }
-        Object.Destroy(_projectile.gameObject);
-        _projectile = null;
+        Object.Destroy(_projectileController.gameObject);
+        _projectileController = null;
     }
 
     public void Shot(int accuracy)
     {
-        if (_projectile == null) return;
+        if (_projectileController == null) return;
 
-        _projectile.transform.SetParent(null);
+        _projectileController.transform.SetParent(null);
 
-        _projectile.Launch(_characterCore.LocomotionSettings.CharacterCollider, accuracy);
+        _projectileController.Launch(_characterCore.LocomotionSettings.CharacterCollider, accuracy);
         SetProjectileLoaded(false);
-        _projectile = null;
+        _projectileController = null;
     }
 }
