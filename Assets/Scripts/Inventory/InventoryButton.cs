@@ -70,7 +70,7 @@ public class InventoryButton : MonoBehaviour
         {
             HandleArmorUnEquip();
         }
-        else if (_inventoryDrawer.InventoryArrowButtons.Contains(this))
+        else if (_inventoryDrawer.InventoryProjectilesButtons.Contains(this))
         {
             HandleProjectilesUnEquip();
         }
@@ -94,8 +94,6 @@ public class InventoryButton : MonoBehaviour
 
     private void HandleWeaponUnEquip()
     {
-        //Debug.LogWarning("Inventory Button is already in WeaponButtons.");
-        
         CharacterInventory.InventoryBag.AddItem(_equppiedItemData);
         CharacterInventory.WeaponSystem.DestroyInstance(_equppiedItemData);
         
@@ -106,8 +104,6 @@ public class InventoryButton : MonoBehaviour
 
     private void HandleArmorUnEquip()
     {
-        //Debug.LogWarning("Inventory Button is already in ArmorButtons.");
-      
         CharacterInventory.InventoryBag.AddItem(_equppiedItemData);
         CharacterInventory.ArmorSystem.DestroyInstance(_equppiedItemData);
         
@@ -118,8 +114,12 @@ public class InventoryButton : MonoBehaviour
 
     private void HandleProjectilesUnEquip()
     {
-        Debug.LogWarning("Inventory Button is already in ArrowButtons.");
-        // TODO: Implement arrow action logic
+        CharacterInventory.InventoryBag.AddItem(_equppiedItemData);
+        CharacterInventory.ProjectileSystem.DestroyInstance(_equppiedItemData);
+        
+        SetItemData(null, 0);
+        _inventoryDrawer.UpdateInventoryBag();
+        _inventoryDrawer.UpdateProjectiles();
     }
 
     private void EquipWeapon()
@@ -163,7 +163,21 @@ public class InventoryButton : MonoBehaviour
 
     private void EquipProjectiles()
     {
-        // TODO: Implement arrow action logic
+        var character = _inventoryDrawer.InventoryUI.CurrentCharacter;
+        
+        if (!CharacterInventory.ProjectileSystem.Equip(
+                _equppiedItemData,
+                character.LocomotionSettings.CharacterCollider,
+                character.GraphCore.CoreData.Animator))
+        {
+            return;
+        }
+
+        CharacterInventory.InventoryBag.RemoveItem(_equppiedItemData);
+        
+        SetItemData(null, 0);
+        _inventoryDrawer.UpdateInventoryBag();
+        _inventoryDrawer.UpdateProjectiles();
     }
 }
 

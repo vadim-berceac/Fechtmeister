@@ -8,7 +8,7 @@ public class InventoryDrawer : MonoBehaviour
     [field: SerializeField] public InventoryButton[] InventoryBagButtons { get; set; }
     [field: SerializeField] public InventoryButton[] InventoryWeaponButtons { get; set; }
     [field: SerializeField] public InventoryButton[] InventoryArmorButtons { get; set; }
-    [field: SerializeField] public InventoryButton[] InventoryArrowButtons { get; set; }
+    [field: SerializeField] public InventoryButton[] InventoryProjectilesButtons { get; set; }
 
     
     private void OnEnable()
@@ -22,7 +22,7 @@ public class InventoryDrawer : MonoBehaviour
        UpdateInventoryBag();
        UpdateWeaponSystem();
        UpdateArmorSystem();
-       UpdateArrows();
+       UpdateProjectiles();
        UpdateMoney();
     }
 
@@ -74,10 +74,15 @@ public class InventoryDrawer : MonoBehaviour
     }
 
     [BurstCompile]
-    public void UpdateArrows()
+    public void UpdateProjectiles()
     {
-        ClearButtonsSet(InventoryArrowButtons);
+        ClearButtonsSet(InventoryProjectilesButtons);
         Debug.Log($"Показываю Arrows {InventoryUI.CurrentCharacter.name}");
+        var instance = InventoryUI.CurrentCharacter.Inventory.ProjectileSystem.Instances[0];
+        if (instance != null && instance.EquppiedItemData != null)
+        {
+            InventoryProjectilesButtons[0].SetItemData(instance.EquppiedItemData, 0);
+        }
     }
 
     [BurstCompile]

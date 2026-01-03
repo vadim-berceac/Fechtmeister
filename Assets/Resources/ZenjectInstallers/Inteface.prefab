@@ -1094,7 +1094,7 @@ MonoBehaviour:
   - {fileID: 7790496079905798989}
   - {fileID: 1885195142460073477}
   - {fileID: 7057112069213255189}
-  <InventoryArrowButtons>k__BackingField:
+  <InventoryProjectilesButtons>k__BackingField:
   - {fileID: 7758154097047914439}
 --- !u!1 &3282872643056653500
 GameObject:
