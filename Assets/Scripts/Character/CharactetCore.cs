@@ -24,7 +24,6 @@ public class CharacterCore : MonoBehaviour
     public State CurrentSubState { get; private set; }
     public Counter AttackCounter { get; private set; }
     public CurrentSpeed CurrentSpeed { get; private set; }
-    public ShootingSystem ShootingSystem { get; private set; }
     public StateTimer StateTimer { get; private set; }
     public Action OnStateChanged;
     
@@ -67,7 +66,6 @@ public class CharacterCore : MonoBehaviour
             PresetLoader.CharacterPersonalityData.HealthDataSettings.CurrentHealthPercentage, 
             PresetLoader.CharacterPersonalityData.HealthDataSettings.HitReactionTriggerValuePercentage, DamagedObject,
             PresetLoader.CharacterPersonalityData.ResistanceSettings);
-        ShootingSystem = new ShootingSystem(this);
     }
 
     private void Start()

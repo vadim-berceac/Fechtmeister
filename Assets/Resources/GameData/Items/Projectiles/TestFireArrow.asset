@@ -31,8 +31,8 @@ MonoBehaviour:
       m_Bits: 4194305
   <ItemName>k__BackingField: Fire Arrow
   <ItemDescription>k__BackingField: Fire Arrow
-  <ItemIcon>k__BackingField: {fileID: 21300000, guid: 8fb41e818d5b60741ab39b80f5ee11eb, type: 3}
-  <EquippedModelPrefab>k__BackingField: {fileID: 6651120253240216896, guid: 731efbc3ec282a24081648521b8a22bb, type: 3}
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: b25c1596f6fcfdf4c854fb6aed358dd0, type: 3}
+  <EquippedModelPrefab>k__BackingField: {fileID: 6651120253240216896, guid: 845175908cf540f458c60e619ef2c7be, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 4008575852445660223, guid: b45b8b25893fb024eb094994da2c9e3e, type: 3}
   <BoneData>k__BackingField:
   - <BonesType>k__BackingField: 18

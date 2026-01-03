@@ -30,13 +30,13 @@ public class WeaponOffState : State
             character.Inventory.WeaponOff();
             character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
             character.StateTimer.SetActionIsPossible(false);
-            character.ShootingSystem.ReturnProjectile();
+            character.Inventory.ProjectileSystem.ReturnProjectile();
         }
     }
 
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
-        character.ShootingSystem.SetProjectileLoaded(false);
+        character.Inventory.ProjectileSystem.SetProjectileLoaded(false);
     }
 }

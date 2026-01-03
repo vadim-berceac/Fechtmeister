@@ -14,7 +14,8 @@ public class CombatWalkState : MovementState
                              Mathf.Abs(character.CharacterInputHandler.InputY) == 0, "CombatIdleState"),
             new(character => character.CharacterInputHandler.IsRun && character.Health.CurrentHealthNormalized >= 0.5, "CombatRunState"),
             new(character => !character.CharacterInputHandler.IsWeaponDraw, "WeaponOffState"),
-            new(character => character.CharacterInputHandler.IsAimBlock && character.Inventory.WeaponSystem.WeaponInstanceIsRanged, "LoadState"),
+            new (c => c.CharacterInputHandler.IsAimBlock && c.Inventory.WeaponSystem.WeaponInstanceIsRanged 
+                                                         && c.Inventory.ProjectileSystem.HasProjectiles(), "LoadState"),
             new(character => character.CharacterInputHandler.IsJump, "JumpState"),
             new(character => !character.Gravity.Grounded, "FallState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),

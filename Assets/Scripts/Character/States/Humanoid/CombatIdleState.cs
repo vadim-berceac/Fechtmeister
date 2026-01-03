@@ -15,7 +15,7 @@ public class CombatIdleState : MovementState
             new (c => c.CharacterInputHandler.IsAttack && !c.Inventory.WeaponSystem.WeaponInstanceIsRanged 
                                                                && c.GraphCore.UpperBodyLayerController.IsComplete(), "FastAttackState"),
             new (c => c.CharacterInputHandler.IsAimBlock && c.Inventory.WeaponSystem.WeaponInstanceIsRanged 
-                                                         && c.ShootingSystem.ContainsProjectile(), "LoadState"),
+                                                         && c.Inventory.ProjectileSystem.HasProjectiles(), "LoadState"),
             new (c => c.CharacterInputHandler.IsJump, "JumpState"),
             new (c => !c.Gravity.Grounded, "FallState"),
             new (c => c.Health.IsHitReactionEnabled, "GetHitState"),
