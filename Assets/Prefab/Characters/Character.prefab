@@ -121,6 +121,8 @@ GameObject:
   - component: {fileID: 5391477331367181792}
   - component: {fileID: 301124297547184519}
   - component: {fileID: 6255509273067034642}
+  - component: {fileID: 8828640738759389173}
+  - component: {fileID: 8295296828027865659}
   m_Layer: 23
   m_Name: Character
   m_TagString: Untagged
@@ -920,6 +922,50 @@ MonoBehaviour:
   localPosition: {x: 0, y: 0, z: 0}
   radius: 0.75
   strength: 2
+--- !u!54 &8828640738759389173
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131212000758676167}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8295296828027865659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131212000758676167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58f6f21b5986174597257f8dd7d4652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpringSpawner
+  <SpringSpawnerData>k__BackingField:
+    <SpringPrefab>k__BackingField: {fileID: 319775987781469637, guid: 90050b5ef12a7df4b9bd12a58d286237, type: 3}
+    <CharacterRigidBody>k__BackingField: {fileID: 8828640738759389173}
+    <CharacterTransform>k__BackingField: {fileID: 9086983287782165238}
+    <DeformationBodyTransform>k__BackingField: {fileID: 6781198717429695618}
 --- !u!1 &4445541140179686641
 GameObject:
   m_ObjectHideFlags: 0
