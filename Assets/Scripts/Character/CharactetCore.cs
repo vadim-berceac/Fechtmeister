@@ -93,14 +93,14 @@ public class CharacterCore : MonoBehaviour
     private void Update()
     {
         CharacterInputHandler.SmoothInput(Time.deltaTime);
-        CurrentState.UpdateState(this);
+        CurrentState?.UpdateState(this);
         CurrentSubState?.UpdateState(this);
         CurrentSpeed.OnUpdate();
     }
 
     private void FixedUpdate()
     {
-        CurrentState.FixedUpdateState(this);
+        CurrentState?.FixedUpdateState(this);
         CurrentSubState?.FixedUpdateState(this);
     }
 

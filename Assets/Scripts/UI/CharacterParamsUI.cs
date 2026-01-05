@@ -82,7 +82,7 @@ public class CharacterParamsUI : MonoBehaviour
 
     private void UpdateState()
     {
-        if (_selectedCharacter == null)
+        if (_selectedCharacter == null || _selectedCharacter.CurrentState == null)
         {
             DebugText.text = "";
             return;

@@ -55,6 +55,10 @@ public class TargetRigController : MonoBehaviour
 
    private void UpdateRigWeight()
    {
+      if (CharacterCore.CurrentState == null)
+      {
+         return;
+      }
       ControlRig.weight = CharacterCore.CurrentState.TargetingRigWeight;
    }
 
