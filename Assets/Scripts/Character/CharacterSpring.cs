@@ -34,7 +34,7 @@ public class CharacterSpring : MonoBehaviour
         _resultRotation = new NativeArray<float3>(1, Allocator.Persistent);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _jobHandle.Complete();
        
