@@ -2,6 +2,6 @@
 public interface ICellContainer
 {
     public IInventoryCell[] GetCells();
-    public void AddItem(IEquppiedItemData equppiedItem);
-    public void RemoveItem(IEquppiedItemData equppiedItem);
+    public void AddItem(ISimpleItemData data, int amount);
+    public void RemoveItem(ISimpleItemData data, int amount);
 }

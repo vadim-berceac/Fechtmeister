@@ -22,9 +22,9 @@ public class Inventory
         InitEquipment();
     }
 
-    public void AddToInventoryBag(IEquppiedItemData equppiedItemData)
+    public void AddToInventoryBag(ISimpleItemData data, int amount)
     {
-        InventoryBag.AddItem(equppiedItemData);
+        InventoryBag.AddItem(data, amount);
     }
 
     public void SelectWeaponInstance(int index)

@@ -89,7 +89,7 @@ public static class ItemInstancesContainerExtensions
         return -1; 
     }
 
-    public static void DestroyInstance(this IItemInstancesContainer container, IEquppiedItemData data)
+    public static void DestroyInstance(this IItemInstancesContainer container, ISimpleItemData data)
     {
         var dataInstance = container.Instances.FirstOrDefault(x => x.EquppiedItemData == data);
 

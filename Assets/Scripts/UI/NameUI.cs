@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class NameUI : MonoBehaviour
 {
    [field: SerializeField] private UIDocument UIDocument { get; set; }
-   private IEquppiedItemData _equppiedItemData;
+   private ISimpleItemData _equppiedItemData;
    private const string LabelName = "Name";
    private const string Pattern = @"^(.+)$";
    private const string Replacement = "[$1]";
@@ -16,7 +16,7 @@ public class NameUI : MonoBehaviour
       SetValues();
    }
    
-   public void Set(IEquppiedItemData equppiedItem)
+   public void Set(ISimpleItemData equppiedItem)
    {
       _equppiedItemData = equppiedItem;
    }

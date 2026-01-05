@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   namePlatePrefab: {fileID: 2246964393941658930, guid: f0959df5efdd56c48a2d24dcfb4a1933, type: 3}
   itemData: {fileID: 11400000, guid: 78017f8fb0c3a694d996f2cd2fa5738c, type: 2}
+  amount: 1
 --- !u!65 &-4124688884166931355
 BoxCollider:
   m_ObjectHideFlags: 0

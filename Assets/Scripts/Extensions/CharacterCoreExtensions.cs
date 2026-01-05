@@ -237,12 +237,12 @@ public static class CharacterCoreExtensions
     public static void Take(this CharacterCore character)
     {
         var item = character.TargetingSystem.GetTargetItem();
-        if (item == null)
+        if (item.data == null || item.amount <= 0)
         {
             return;
         }
         
-        character.Inventory.AddToInventoryBag(item);
+        character.Inventory.AddToInventoryBag(item.data, item.amount);
     }
     
     public static void SetAnimationByWeaponIndex(this CharacterCore character, State inState)

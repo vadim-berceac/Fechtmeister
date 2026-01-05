@@ -149,3 +149,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   namePlatePrefab: {fileID: 2246964393941658930, guid: f0959df5efdd56c48a2d24dcfb4a1933, type: 3}
   itemData: {fileID: 11400000, guid: ef59711369b1dbd4c8c894144b05fabc, type: 2}
+  amount: 1

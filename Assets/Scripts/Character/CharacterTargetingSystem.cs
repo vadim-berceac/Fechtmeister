@@ -40,11 +40,11 @@ public class CharacterTargetingSystem
         }
     }
 
-    public IEquppiedItemData GetTargetItem()
+    public (ISimpleItemData data, int amount) GetTargetItem()
     {
         if (LastItemTransform == null)
         {
-            return null;
+            return (null, 0);
         }
         
         LastItemTransform.TryGetComponent<PickupItem>(out var item);
@@ -52,14 +52,14 @@ public class CharacterTargetingSystem
         if (item == null)
         {
             LastItemTransform = null;
-            return null;
+            return (null, 0);
         }
         
         ItemTargeting.RemoveTarget(LastItemTransform);
         LastItemTransform.gameObject.SetActive(false);
         LastItemTransform = null;
 
-        return item.EquppiedItemData;
+        return item.GetItemData();
     }
 }
 

@@ -6,33 +6,34 @@ public class PickupItem : MonoBehaviour
 {
     [field: SerializeField] private GameObject namePlatePrefab;
     
-    [SerializeField] private ScriptableObject itemData; 
+    [field: SerializeField] private ScriptableObject itemData; 
+    [field: SerializeField] private int amount = 1;
     
     private NameUI _namePlate;
     private DiContainer _container;
+    
 
     [Inject]
     private void Construct(DiContainer container)
     {
         _container = container;
     }
-
-    public IEquppiedItemData EquppiedItemData
+    
+    public (ISimpleItemData data, int amount) GetItemData()
     {
-        get => itemData as IEquppiedItemData; 
-        set => itemData = value as ScriptableObject; 
+        return (itemData as ISimpleItemData, amount);
     }
 
     private void Start()
     {
-        SetLayer(24);
+        SetLayer();
         CreateNamePlate();
         ShowNamePlate(false);
     }
 
-    private void SetLayer(int layer)
+    private void SetLayer()
     {
-        if (EquppiedItemData == null)
+        if (itemData == null)
         {
             return;
         }
@@ -48,7 +49,7 @@ public class PickupItem : MonoBehaviour
         
         _namePlate = Instantiate(namePlatePrefab, transform).GetComponent<NameUI>();
         _container.InjectGameObject(_namePlate.gameObject);
-        _namePlate.Set(EquppiedItemData);
+        _namePlate.Set(GetItemData().data);
     }
 
     public void ShowNamePlate(bool show)

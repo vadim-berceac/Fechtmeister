@@ -38,7 +38,7 @@ public class InventoryDrawer : MonoBehaviour
             var instance = bag[i];
             if (instance != null && !instance.IsEmpty())
             {
-                InventoryBagButtons[i].SetItemData(instance.EquppiedItemData, instance.Quantity);
+                InventoryBagButtons[i].SetItemData(instance.Data, instance.Quantity);
             }
         }
     }

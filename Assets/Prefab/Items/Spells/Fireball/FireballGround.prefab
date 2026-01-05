@@ -109,3 +109,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   namePlatePrefab: {fileID: 2246964393941658930, guid: f0959df5efdd56c48a2d24dcfb4a1933, type: 3}
   itemData: {fileID: 11400000, guid: 159af632270c9c04986683904c272c76, type: 2}
+  amount: 1

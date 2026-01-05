@@ -1,4 +1,8 @@
 using UnityEngine;
+using Unity.Jobs;
+using Unity.Burst;
+using Unity.Mathematics;
+using Unity.Collections;
 
 public class CharacterSpring : MonoBehaviour
 {
@@ -12,9 +16,10 @@ public class CharacterSpring : MonoBehaviour
     [SerializeField] private float rotationFactor = 1f;
     
     private Transform _springTransform;
-    private Vector3 _relativePosition;
-    private Vector3 _currentScale;
-    private float _interpolant;
+    private JobHandle _jobHandle;
+    
+    private NativeArray<float3> _resultScale;
+    private NativeArray<float3> _resultRotation;
 
     public void Initialize(Transform character, Transform deformationBody, Rigidbody rb)
     {
@@ -24,20 +29,83 @@ public class CharacterSpring : MonoBehaviour
         configurableJoint.connectedBody = rb;
         
         name = _character.name + "_Spring";
+        
+        _resultScale = new NativeArray<float3>(1, Allocator.Persistent);
+        _resultRotation = new NativeArray<float3>(1, Allocator.Persistent);
     }
 
     private void Update()
     {
-        _relativePosition = _character.InverseTransformPoint(_springTransform.position);
-        _interpolant = _relativePosition.y * scaleFactor;
-        _currentScale = Lerp3(downScale, Vector3.one, upScale, _interpolant);
-        _deformationBody.localScale = _currentScale;
+        _jobHandle.Complete();
+       
+        float3 springWorldPos = _springTransform.position;
+        float3 characterWorldPos = _character.position;
+        quaternion characterRotation = _character.rotation;
+      
+        var job = new DeformationCalculationJob
+        {
+            springWorldPosition = springWorldPos,
+            characterWorldPosition = characterWorldPos,
+            characterRotation = characterRotation,
+            upScale = upScale,
+            downScale = downScale,
+            scaleFactor = scaleFactor,
+            rotationFactor = rotationFactor,
+            resultScale = _resultScale,
+            resultRotation = _resultRotation
+        };
         
-        _deformationBody.localEulerAngles = new Vector3(_relativePosition.z, 0, - _relativePosition.x) * rotationFactor;
+        _jobHandle = job.Schedule();
+        
+        _jobHandle.Complete();
+      
+        _deformationBody.localScale = _resultScale[0];
+        _deformationBody.localEulerAngles = _resultRotation[0];
     }
 
-    private static Vector3 Lerp3(Vector3 a, Vector3 b, Vector3 c, float t)
+    private void OnDestroy()
     {
-        return t < 0 ? Vector3.LerpUnclamped(a, b, t + 1) : Vector3.LerpUnclamped(b, c, t);
+        _jobHandle.Complete();
+        
+        if (_resultScale.IsCreated)
+            _resultScale.Dispose();
+        if (_resultRotation.IsCreated)
+            _resultRotation.Dispose();
+    }
+
+    [BurstCompile]
+    private struct DeformationCalculationJob : IJob
+    {
+        [ReadOnly] public float3 springWorldPosition;
+        [ReadOnly] public float3 characterWorldPosition;
+        [ReadOnly] public quaternion characterRotation;
+        [ReadOnly] public float3 upScale;
+        [ReadOnly] public float3 downScale;
+        [ReadOnly] public float scaleFactor;
+        [ReadOnly] public float rotationFactor;
+        
+        public NativeArray<float3> resultScale;
+        public NativeArray<float3> resultRotation;
+
+        public void Execute()
+        {
+            var relativePosition = math.mul(math.inverse(characterRotation), 
+                springWorldPosition - characterWorldPosition);
+            
+            var interpolant = relativePosition.y * scaleFactor;
+            var currentScale = Lerp3(downScale, new float3(1, 1, 1), upScale, interpolant);
+            
+            var rotation = new float3(relativePosition.z, 0, -relativePosition.x) * rotationFactor;
+            
+            resultScale[0] = currentScale;
+            resultRotation[0] = math.degrees(rotation);
+        }
+
+        private static float3 Lerp3(float3 a, float3 b, float3 c, float t)
+        {
+            return t < 0 
+                ? math.lerp(a, b, t + 1) 
+                : math.lerp(b, c, t);
+        }
     }
 }
