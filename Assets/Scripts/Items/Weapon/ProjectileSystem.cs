@@ -1,7 +1,7 @@
 using System;
 using Object = UnityEngine.Object;
 
-public class ProjectileSystem : IItemInstancesContainer
+public class ProjectileSystem : InventoryBag, IItemInstancesContainer
 {
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
@@ -9,17 +9,18 @@ public class ProjectileSystem : IItemInstancesContainer
     public StateTimer StateTimer { get; set; }
     
     private readonly CharacterCore _characterCore;
+    private readonly IInventoryCell[] _cells;
     private ProjectileController _projectileController;
     
     public bool IsProjectileLoaded { get; set; }
     
-    public ProjectileSystem(int instancesCount, CharacterCore characterCore)
+    public ProjectileSystem(int instancesCount, CharacterCore characterCore) : base(1)
     {
         InstancesCount = instancesCount;
         _characterCore = characterCore;
         Instances = new IItemInstance[instancesCount];
     }
-
+    
     public bool HasProjectiles()
     {
         return Instances[0] != null && Instances[0].EquppiedItemData != null;

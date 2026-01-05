@@ -27,6 +27,11 @@ public class Inventory
         InventoryBag.AddItem(data, amount);
     }
 
+    public void RemoveFromInventoryBag(ISimpleItemData data, int amount)
+    {
+        InventoryBag.RemoveItem(data, amount);
+    }
+    
     public void SelectWeaponInstance(int index)
     {
         WeaponSystem.SelectWeapon(index);

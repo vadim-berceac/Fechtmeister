@@ -21,6 +21,11 @@ public class InventoryBag : ICellContainer
         return _cells;
     }
 
+    public IInventoryCell GetCell(ISimpleItemData data)
+    {
+        return _cells.FirstOrDefault(x => x.Data == data);
+    }
+
     public void AddItem(ISimpleItemData data, int amount)
     {
         var cellIndex = GetCorrectIndex(data);
@@ -35,7 +40,7 @@ public class InventoryBag : ICellContainer
 
     public void RemoveItem(ISimpleItemData data, int amount)
     {
-        var cellIndex = _cells.IndexOf(_cells.FirstOrDefault(x => x.Data == data));
+        var cellIndex = _cells.IndexOf(GetCell(data));
 
         if (cellIndex == -1)
         {
@@ -44,7 +49,6 @@ public class InventoryBag : ICellContainer
         }
         
         _cells[cellIndex].RemoveItem(amount);
-        //Debug.Log($"Removed equppiedItem {equppiedItem} ostalos {_cells[cellIndex].Quantity}");
     }
 
     private int GetCorrectIndex(ISimpleItemData equppiedItem)

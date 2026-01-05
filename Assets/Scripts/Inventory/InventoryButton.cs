@@ -114,7 +114,10 @@ public class InventoryButton : MonoBehaviour
 
     private void HandleProjectilesUnEquip()
     {
-        CharacterInventory.InventoryBag.AddItem(_equppiedItemData, 1);
+        var quantity = CharacterInventory.ProjectileSystem.GetCell(_equppiedItemData).Quantity;
+        CharacterInventory.InventoryBag.AddItem(_equppiedItemData, quantity);
+        CharacterInventory.ProjectileSystem.RemoveItem(_equppiedItemData, quantity);
+        
         CharacterInventory.ProjectileSystem.DestroyInstance(_equppiedItemData);
         
         SetItemData(null, 0);
@@ -173,7 +176,9 @@ public class InventoryButton : MonoBehaviour
             return;
         }
 
-        CharacterInventory.InventoryBag.RemoveItem(_equppiedItemData, 1);
+        var quantity = CharacterInventory.InventoryBag.GetCell(_equppiedItemData).Quantity;
+        CharacterInventory.InventoryBag.RemoveItem(_equppiedItemData, quantity);
+        CharacterInventory.ProjectileSystem.AddItem(_equppiedItemData, quantity);
         
         SetItemData(null, 0);
         _inventoryDrawer.UpdateInventoryBag();
