@@ -9,7 +9,6 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
     public StateTimer StateTimer { get; set; }
     
     private readonly CharacterCore _characterCore;
-    private readonly IInventoryCell[] _cells;
     private ProjectileController _projectileController;
     
     public bool IsProjectileLoaded { get; set; }

@@ -50,6 +50,7 @@ public struct ArmorDataSettings
 public struct ProjectilesDataSettings
 {
     [field: SerializeField] public ProjectileData EquippedProjectiles { get; private set; }
+    [field: SerializeField, Range (1, 99)] public int AmountOfProjectiles { get; private set; }
 }
 
 [System.Serializable]

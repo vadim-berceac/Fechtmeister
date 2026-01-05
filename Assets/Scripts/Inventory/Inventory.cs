@@ -82,8 +82,10 @@ public class Inventory
 
         if (_characterPresetLoader.CharacterPersonalityData.ProjectilesDataSettings.EquippedProjectiles != null)
         {
-            ProjectileSystem.Equip(_characterPresetLoader.CharacterPersonalityData.ProjectilesDataSettings.EquippedProjectiles,
+            var projectileDataSettings = _characterPresetLoader.CharacterPersonalityData.ProjectilesDataSettings;
+            ProjectileSystem.Equip(projectileDataSettings.EquippedProjectiles, 
                 _characterCore.LocomotionSettings.CharacterCollider, _characterCore.GraphCore.CoreData.Animator);
+            ProjectileSystem.AddItem(projectileDataSettings.EquippedProjectiles, projectileDataSettings.AmountOfProjectiles);
         }
     }
     

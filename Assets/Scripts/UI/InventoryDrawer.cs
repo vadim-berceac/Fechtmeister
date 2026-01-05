@@ -77,12 +77,11 @@ public class InventoryDrawer : MonoBehaviour
     public void UpdateProjectiles()
     {
         ClearButtonsSet(InventoryProjectilesButtons);
-        var instance = InventoryUI.CurrentCharacter.Inventory.ProjectileSystem.Instances[0];
-        if (instance != null && instance.EquppiedItemData != null)
-        {
-            InventoryProjectilesButtons[0].SetItemData(instance.EquppiedItemData,
-                InventoryUI.CurrentCharacter.Inventory.ProjectileSystem.GetCell(instance.EquppiedItemData).Quantity);
-        }
+        var bag = InventoryUI.CurrentCharacter.Inventory.ProjectileSystem.GetCells();
+        var instance = bag[0];
+        InventoryProjectilesButtons[0].SetItemData(instance.Data,
+            InventoryUI.CurrentCharacter.Inventory.ProjectileSystem.GetCell(instance.Data).Quantity);
+        Debug.Log($"{instance.Quantity} {instance.Data == null}");
     }
 
     [BurstCompile]
