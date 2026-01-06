@@ -26,10 +26,8 @@ public class ReloadProjectileState : State
         base.CheckAction(character);
         if (character.GraphCore.FullBodyAnimatorController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
-            var projectileData = (ProjectileData)character.Inventory.ProjectileSystem.Instances[0].EquppiedItemData;
             character.Inventory.ProjectileSystem.SetProjectileLoaded(true);
-            character.Inventory.ProjectileSystem.TakeProjectile(projectileData,
-                (WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData);
+            character.Inventory.ProjectileSystem.TakeProjectile((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData);
             character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
             character.StateTimer.SetActionIsPossible(false);
         }

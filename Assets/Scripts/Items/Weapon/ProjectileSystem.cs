@@ -22,29 +22,37 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
     
     public bool HasProjectiles()
     {
-        return Instances[0] != null && Instances[0].EquppiedItemData != null;
+        return Instances[0] != null && Instances[0].EquppiedItemData != null 
+                                    && GetCell(Instances[0].EquppiedItemData) != null
+                                    && GetCell(Instances[0].EquppiedItemData).Quantity >= 0;
     }
+    
     public void SetProjectileLoaded(bool value)
     {
         IsProjectileLoaded = value;
     }
 
-    public void TakeProjectile(ProjectileData projectileData, WeaponData weaponData)
+    public void TakeProjectile(WeaponData weaponData)
     {
+        var projectileData = (ProjectileData) Instances[0].EquppiedItemData;
         var projectileObject = Object.Instantiate(projectileData.EquippedModelPrefab);
         _projectileController = projectileObject.AddComponent<ProjectileController>();
         _projectileController.SetParams(projectileData, weaponData);
         var boneData = projectileData.BoneData[0];
         _characterCore.GraphCore.CoreData.Animator.AttachTransformSource(projectileObject.transform, boneData.BonesType, boneData.Position, 
             boneData.Rotation.eulerAngles,  boneData.Scale,  boneData.Active, boneData.UseBone);
+        
+        RemoveItem(projectileData, weaponData.WeaponParams.WastingCharges.ChargesPerUse);
     }
 
-    public void ReturnProjectile()
+    public void ReturnProjectile(WeaponData weaponData)
     {
         if (_projectileController == null)
         {
             return;
         }
+        var projectileData = (ProjectileData) Instances[0].EquppiedItemData;
+        AddItem(projectileData, weaponData.WeaponParams.WastingCharges.ChargesPerUse);
         Object.Destroy(_projectileController.gameObject);
         _projectileController = null;
     }
@@ -58,5 +66,10 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
         _projectileController.Launch(_characterCore.LocomotionSettings.CharacterCollider, accuracy);
         SetProjectileLoaded(false);
         _projectileController = null;
+
+        if (!HasProjectiles())
+        {
+            this.DestroyInstance(Instances[0].EquppiedItemData);
+        }
     }
 }

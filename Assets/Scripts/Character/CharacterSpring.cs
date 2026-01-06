@@ -39,7 +39,7 @@ public class CharacterSpring : ManagedUpdatableObject
         
     }
 
-    public override void OnManagedFixedUpdate()
+    public override void OnManagedLateUpdate()
     {
         _jobHandle.Complete();
        

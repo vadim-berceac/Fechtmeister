@@ -10,9 +10,13 @@ public class LoadState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new(character => !character.Inventory.ProjectileSystem.IsProjectileLoaded, "ReloadProjectileState"),
-            new(character => character.Gravity.Grounded && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "AimState"),
-            new(character => !character.CharacterInputHandler.IsAimBlock, "CombatIdleState"),
+            new(character => !character.Inventory.ProjectileSystem.IsProjectileLoaded 
+                             && character.Inventory.ProjectileSystem.HasProjectiles(), "ReloadProjectileState"),
+            new(character => character.Gravity.Grounded && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() 
+                                                        && character.Inventory.ProjectileSystem.IsProjectileLoaded, "AimState"),
+            new(character => !character.CharacterInputHandler.IsAimBlock , "CombatIdleState"),
+            new(character => !character.Inventory.ProjectileSystem.HasProjectiles() 
+                             && !character.Inventory.ProjectileSystem.IsProjectileLoaded, "GetHitState"), // заменить на какое-то новое состояние по типу получения хит реакции
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
         };
     }

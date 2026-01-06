@@ -30,7 +30,7 @@ public class WeaponOffState : State
             character.Inventory.WeaponOff();
             character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
             character.StateTimer.SetActionIsPossible(false);
-            character.Inventory.ProjectileSystem.ReturnProjectile();
+            character.Inventory.ProjectileSystem.ReturnProjectile((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData);
         }
     }
 

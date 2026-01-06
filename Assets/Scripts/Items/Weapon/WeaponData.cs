@@ -28,4 +28,20 @@ public struct WeaponParams
     [field: SerializeField] public float HitBoxForwardOffset { get; set; }
     [field: SerializeField] public SfxSet WhooshSounds { get; set; }
     [field: SerializeField] public SfxSet HitSounds { get; set; }
+    [field: SerializeField] public WastingChargesSettings WastingCharges { get; set; }
+}
+
+[System.Serializable]
+public struct WastingChargesSettings
+{
+    [field: SerializeField] public WastingCharges WastingCharges { get; set; }
+    [field: SerializeField] public int ChargesPerUse {get; set;}
+}
+
+public enum WastingCharges
+{
+    None,
+    Projectiles,
+    Mana,
+    Health
 }
