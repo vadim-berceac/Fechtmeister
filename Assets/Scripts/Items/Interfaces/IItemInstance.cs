@@ -30,8 +30,8 @@ public static class IItemInstanceExtensions
             var index = itemInstance.EquppiedItemData.ItemDecorationData.IndexOf(decoration);
             var boneData = itemInstance.EquppiedItemData.ItemDecorationData[index].BoneData;
             itemInstance.ItemDecorations[index] = part;
-            itemInstance.Animator.AttachToBone(part, boneData.BonesType, boneData.Position, 
-                boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active);
+            itemInstance.Animator.AttachTransformSource(part, boneData.BonesType, boneData.Position, 
+                boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
         }
     }
     

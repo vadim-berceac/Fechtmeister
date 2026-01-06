@@ -44,8 +44,8 @@ public class WeaponInstance : IItemInstance
 
         var boneData = EquppiedItemData.BoneData[1];
       
-        Animator.AttachToBone(Instance, boneData.BonesType, boneData.Position, 
-            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active);
+        Animator.AttachTransformSource(Instance, boneData.BonesType, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
     }
 
     public void ResetAction()

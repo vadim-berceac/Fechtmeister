@@ -19,7 +19,8 @@ MonoBehaviour:
   <GroundedModelPrefab>k__BackingField: {fileID: 3832376763625731302, guid: ca49747e39cd0f54fb2acf4876945ff6, type: 3}
   <ItemPosition>k__BackingField: 5
   <BoneData>k__BackingField:
-  - <BonesType>k__BackingField: 10
+  - <UseBone>k__BackingField: 1
+    <BonesType>k__BackingField: 10
     <Position>k__BackingField: {x: 0, y: 0.144, z: 0}
     <Rotation>k__BackingField: {x: 0.043619387, y: 0, z: 0, w: 0.99904823}
     <Scale>k__BackingField: 1
@@ -27,6 +28,7 @@ MonoBehaviour:
   <IKBoneData>k__BackingField:
     <IKBoneName>k__BackingField: 
     <CharacterBoneConnected>k__BackingField:
+      <UseBone>k__BackingField: 0
       <BonesType>k__BackingField: 0
       <Position>k__BackingField: {x: 0, y: 0, z: 0}
       <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}

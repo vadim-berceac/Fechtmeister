@@ -3,10 +3,10 @@ using UnityEngine;
 
 public static class AnimatorExtensions
 {
-    public static void AttachToBone(this Animator animator, Transform source,
-        HumanBodyBones parentBone, Vector3 position, Vector3 rotation, float scale, bool enabled)
+    public static void AttachTransformSource(this Animator animator, Transform source,
+        HumanBodyBones parentBone, Vector3 position, Vector3 rotation, float scale, bool enabled, bool useBone = true)
     {
-        var bone = animator.GetBoneTransform(parentBone);
+        var bone = useBone ? animator.GetBoneTransform(parentBone) : animator.transform;
         if (bone == null || source == null)
             return;
 

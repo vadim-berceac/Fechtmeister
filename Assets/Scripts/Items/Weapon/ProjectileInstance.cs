@@ -37,7 +37,7 @@ public class ProjectileInstance : IItemInstance
         
         var boneData = EquppiedItemData.ItemDecorationData[0].BoneData;
       
-        Animator.AttachToBone(Instance, boneData.BonesType, boneData.Position, 
-            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active);
+        Animator.AttachTransformSource(Instance, boneData.BonesType, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
     }
 }

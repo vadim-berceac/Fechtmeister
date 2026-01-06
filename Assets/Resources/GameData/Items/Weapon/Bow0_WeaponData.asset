@@ -32,12 +32,14 @@ MonoBehaviour:
     <AttacksCount>k__BackingField: 0
     <AttacksResetDelay>k__BackingField: 0
   <BoneData>k__BackingField:
-  - <BonesType>k__BackingField: 17
+  - <UseBone>k__BackingField: 1
+    <BonesType>k__BackingField: 17
     <Position>k__BackingField: {x: 0, y: 0.049, z: 0.009}
     <Rotation>k__BackingField: {x: 0.43724746, y: -0.43724728, z: 0.555711, w: 0.5557111}
     <Scale>k__BackingField: 1
     <Active>k__BackingField: 1
-  - <BonesType>k__BackingField: 8
+  - <UseBone>k__BackingField: 1
+    <BonesType>k__BackingField: 8
     <Position>k__BackingField: {x: -0.007, y: -0.081, z: -0.146}
     <Rotation>k__BackingField: {x: -0.6824442, y: 0.18512051, z: 0.6824447, w: 0.1851206}
     <Scale>k__BackingField: 1
@@ -45,6 +47,7 @@ MonoBehaviour:
   <IKBoneData>k__BackingField:
     <IKBoneName>k__BackingField: Handle
     <CharacterBoneConnected>k__BackingField:
+      <UseBone>k__BackingField: 0
       <BonesType>k__BackingField: 0
       <Position>k__BackingField: {x: 0, y: 0, z: 0}
       <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}

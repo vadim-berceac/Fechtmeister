@@ -41,16 +41,16 @@ public class Inventory
     {
         IsWeaponOn = true;
         var boneData = WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[0];
-        WeaponSystem.InstanceInHands.Animator.AttachToBone(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
-            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active);
+        WeaponSystem.InstanceInHands.Animator.AttachTransformSource(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
     }
 
     public void WeaponOff()
     {
         IsWeaponOn = false;
         var boneData = WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[1];
-        WeaponSystem.InstanceInHands.Animator.AttachToBone(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
-            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active);
+        WeaponSystem.InstanceInHands.Animator.AttachTransformSource(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
     }
 
     private void InitEquipment()

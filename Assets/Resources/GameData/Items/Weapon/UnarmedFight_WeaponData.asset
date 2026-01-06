@@ -32,12 +32,14 @@ MonoBehaviour:
     <AttacksCount>k__BackingField: 3
     <AttacksResetDelay>k__BackingField: 2
   <BoneData>k__BackingField:
-  - <BonesType>k__BackingField: 17
+  - <UseBone>k__BackingField: 1
+    <BonesType>k__BackingField: 17
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
     <Scale>k__BackingField: 1
     <Active>k__BackingField: 1
-  - <BonesType>k__BackingField: 0
+  - <UseBone>k__BackingField: 1
+    <BonesType>k__BackingField: 0
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
     <Scale>k__BackingField: 1
@@ -45,6 +47,7 @@ MonoBehaviour:
   <IKBoneData>k__BackingField:
     <IKBoneName>k__BackingField: 
     <CharacterBoneConnected>k__BackingField:
+      <UseBone>k__BackingField: 0
       <BonesType>k__BackingField: 0
       <Position>k__BackingField: {x: 0, y: 0, z: 0}
       <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
@@ -53,6 +56,7 @@ MonoBehaviour:
   <ItemDecorationData>k__BackingField:
   - <ItemPrefab>k__BackingField: {fileID: 400879153211841282, guid: 80cf297667bf374429d26c6513aa2fce, type: 3}
     <BoneData>k__BackingField:
+      <UseBone>k__BackingField: 1
       <BonesType>k__BackingField: 16
       <Position>k__BackingField: {x: 0, y: 0, z: 0}
       <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}

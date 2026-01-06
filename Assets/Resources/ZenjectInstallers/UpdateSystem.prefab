@@ -49,5 +49,5 @@ MonoBehaviour:
   visibleMediumDistance: 30
   invisibleCloseDistance: 15
   invisibleMediumDistance: 30
-  maxUpdatesPerFrame: 60
+  maxUpdatesPerFrame: 30
   enableDebug: 0
