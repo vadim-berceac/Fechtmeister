@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneContainerPrefab: {fileID: 5353713140493449594, guid: 404b9a08983899748a9dbbc06e634338, type: 3}
+  updateSystemPrefab: {fileID: 1058465358048970329, guid: 8dc1e005dfd9d224d869e43151331ae3, type: 3}
 --- !u!114 &291068911580769870
 MonoBehaviour:
   m_ObjectHideFlags: 0

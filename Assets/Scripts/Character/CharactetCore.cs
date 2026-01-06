@@ -3,7 +3,7 @@ using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(CharacterPresetLoader))]
-public class CharacterCore : MonoBehaviour
+public class CharacterCore : ManagedUpdatableObject
 {
     [field: SerializeField] public Transform DamagedObject { get; private set; }
     [field: SerializeField] public PlayableGraphCore GraphCore { get; private set; }
@@ -68,12 +68,15 @@ public class CharacterCore : MonoBehaviour
             PresetLoader.CharacterPersonalityData.ResistanceSettings);
     }
 
-    private void Start()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         CurrentState = StatesSet.GetStartState();
         CurrentState.EnterState(this);
         CurrentSubState = StatesSet.GetStartSubState();
         CurrentSubState.EnterState(this);
+        
+        SceneCharacterContainer.Add(this, LocomotionSettings.CharacterCollider);
     }
 
     public void SetState(State state)
@@ -90,7 +93,7 @@ public class CharacterCore : MonoBehaviour
         CurrentSubState?.EnterState(this);
     }
 
-    private void Update()
+    public override void OnManagedUpdate()
     {
         CharacterInputHandler.SmoothInput(Time.deltaTime);
         CurrentState?.UpdateState(this);
@@ -98,19 +101,15 @@ public class CharacterCore : MonoBehaviour
         CurrentSpeed.OnUpdate();
     }
 
-    private void FixedUpdate()
+    public override void OnManagedFixedUpdate()
     {
         CurrentState?.FixedUpdateState(this);
         CurrentSubState?.FixedUpdateState(this);
     }
-
-    private void OnEnable()
+    
+    protected override void OnDisable()
     {
-        SceneCharacterContainer.Add(this, LocomotionSettings.CharacterCollider);
-    }
-
-    private void OnDisable()
-    {
+        base.OnDisable();
         SceneCharacterContainer.Remove(this);
         Inventory.Destroy();
     }

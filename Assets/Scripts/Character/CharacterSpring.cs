@@ -4,7 +4,7 @@ using Unity.Burst;
 using Unity.Mathematics;
 using Unity.Collections;
 
-public class CharacterSpring : MonoBehaviour
+public class CharacterSpring : ManagedUpdatableObject
 {
     private Transform _character;
     private Transform _deformationBody;
@@ -34,7 +34,12 @@ public class CharacterSpring : MonoBehaviour
         _resultRotation = new NativeArray<float3>(1, Allocator.Persistent);
     }
 
-    private void FixedUpdate()
+    public override void OnManagedUpdate()
+    {
+        
+    }
+
+    public override void OnManagedFixedUpdate()
     {
         _jobHandle.Complete();
        
@@ -63,8 +68,10 @@ public class CharacterSpring : MonoBehaviour
         _deformationBody.localEulerAngles = _resultRotation[0];
     }
 
-    private void OnDestroy()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+        
         _jobHandle.Complete();
         
         if (_resultScale.IsCreated)

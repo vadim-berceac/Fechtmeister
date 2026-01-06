@@ -5,7 +5,7 @@ using UnityEngine.Playables;
 using Zenject;
 
 [BurstCompile]
-public class PlayableGraphCore : MonoBehaviour
+public class PlayableGraphCore : ManagedUpdatableObject
 {
     [field: SerializeField] public PlayableGraphCoreData CoreData { get; set; }
     public PlayableGraph Graph { get; private set; }
@@ -47,14 +47,15 @@ public class PlayableGraphCore : MonoBehaviour
         UpperBodyLayerController = new PlayablesLayerController(Graph, UpperBodyLayerMixer1);
     }
     
-    private void Update()
+    public override void OnManagedUpdate()
     {
         FullBodyAnimatorController.OnUpdate(Time.deltaTime);
         UpperBodyLayerController.OnUpdate();
     }
     
-    private void OnDestroy()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         Graph.Destroy();
     }
 
