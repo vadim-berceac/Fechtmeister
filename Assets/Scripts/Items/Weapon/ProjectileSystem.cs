@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 public class ProjectileSystem : InventoryBag, IItemInstancesContainer
@@ -41,8 +42,22 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
         var boneData = projectileData.BoneData[0];
         _characterCore.GraphCore.CoreData.Animator.AttachTransformSource(projectileObject.transform, boneData.BonesType, boneData.Position, 
             boneData.Rotation.eulerAngles,  boneData.Scale,  boneData.Active, boneData.UseBone);
-        
-        RemoveItem(projectileData, weaponData.WeaponParams.WastingCharges.ChargesPerUse);
+
+        switch (weaponData.WeaponParams.WastingCharges.WastingCharges)
+        {
+            case WastingCharges.None:
+                Debug.Log("Ничего не удерживаем");
+                break;
+            case WastingCharges.Projectiles:
+                RemoveItem(projectileData, weaponData.WeaponParams.WastingCharges.ChargesPerUse);
+                break;
+            case WastingCharges.Mana:
+                Debug.Log("Удерживаем ману");
+                break;
+            case WastingCharges.Health:
+                Debug.Log("Удерживаем здоровье");
+                break;
+        }
     }
 
     public void ReturnProjectile(WeaponData weaponData)
@@ -52,7 +67,23 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
             return;
         }
         var projectileData = (ProjectileData) Instances[0].EquppiedItemData;
-        AddItem(projectileData, weaponData.WeaponParams.WastingCharges.ChargesPerUse);
+        
+        switch (weaponData.WeaponParams.WastingCharges.WastingCharges)
+        {
+            case WastingCharges.None:
+                Debug.Log("Ничего не даем");
+                break;
+            case WastingCharges.Projectiles:
+                AddItem(projectileData, weaponData.WeaponParams.WastingCharges.ChargesPerUse);
+                break;
+            case WastingCharges.Mana:
+                Debug.Log("Возвращаем удержанную ману");
+                break;
+            case WastingCharges.Health:
+                Debug.Log("Возвращаем удержанное здоровье");
+                break;
+        }
+       
         Object.Destroy(_projectileController.gameObject);
         _projectileController = null;
     }
