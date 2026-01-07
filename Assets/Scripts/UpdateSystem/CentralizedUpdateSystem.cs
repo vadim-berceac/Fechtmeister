@@ -19,6 +19,10 @@ public class CentralizedUpdateSystem : MonoBehaviour
     private List<IUpdatable> allObjects = new List<IUpdatable>();
     private Dictionary<IUpdatable, UpdateLOD> objectLODs = new Dictionary<IUpdatable, UpdateLOD>();
     
+    // Временные списки для безопасной итерации
+    private List<IUpdatable> updateBuffer = new List<IUpdatable>();
+    private List<IUpdatable> toRemove = new List<IUpdatable>();
+    
     // Счётчики для Medium и Low LOD
     private int frameCounter = 0;
     private int mediumLODOffset = 0;
@@ -26,7 +30,7 @@ public class CentralizedUpdateSystem : MonoBehaviour
 
     // Кэш для оптимизации
     private Plane[] cameraFrustumPlanes;
-    private int lodUpdateInterval = 10; // Обновлять LOD каждые N кадров
+    private int lodUpdateInterval = 10;
     private int lodUpdateCounter = 0;
 
     private void Awake()
@@ -54,12 +58,20 @@ public class CentralizedUpdateSystem : MonoBehaviour
             lodUpdateCounter = 0;
         }
 
+        // Копируем список для безопасной итерации
+        updateBuffer.Clear();
+        updateBuffer.AddRange(allObjects);
+
         // Обновляем объекты согласно их LOD
         int updatesThisFrame = 0;
-        foreach (var obj in allObjects)
+        foreach (var obj in updateBuffer)
         {
             if (updatesThisFrame >= maxUpdatesPerFrame)
                 break;
+
+            // Проверяем, что объект всё ещё зарегистрирован
+            if (!objectLODs.ContainsKey(obj))
+                continue;
 
             if (ShouldUpdate(obj, objectLODs[obj]))
             {
@@ -71,11 +83,17 @@ public class CentralizedUpdateSystem : MonoBehaviour
 
     private void FixedUpdate()
     {
+        updateBuffer.Clear();
+        updateBuffer.AddRange(allObjects);
+
         int updatesThisFrame = 0;
-        foreach (var obj in allObjects)
+        foreach (var obj in updateBuffer)
         {
             if (updatesThisFrame >= maxUpdatesPerFrame)
                 break;
+
+            if (!objectLODs.ContainsKey(obj))
+                continue;
 
             if (ShouldUpdate(obj, objectLODs[obj]))
             {
@@ -87,11 +105,17 @@ public class CentralizedUpdateSystem : MonoBehaviour
 
     private void LateUpdate()
     {
+        updateBuffer.Clear();
+        updateBuffer.AddRange(allObjects);
+
         int updatesThisFrame = 0;
-        foreach (var obj in allObjects)
+        foreach (var obj in updateBuffer)
         {
             if (updatesThisFrame >= maxUpdatesPerFrame)
                 break;
+
+            if (!objectLODs.ContainsKey(obj))
+                continue;
 
             if (ShouldUpdate(obj, objectLODs[obj]))
             {
@@ -159,10 +183,19 @@ public class CentralizedUpdateSystem : MonoBehaviour
         cameraFrustumPlanes = GeometryUtility.CalculateFrustumPlanes(mainCamera);
         Vector3 cameraPos = mainCamera.transform.position;
 
-        foreach (var obj in allObjects)
+        // Используем буфер для безопасной итерации
+        updateBuffer.Clear();
+        updateBuffer.AddRange(allObjects);
+        
+        toRemove.Clear();
+
+        foreach (var obj in updateBuffer)
         {
             if (obj.Transform == null)
+            {
+                toRemove.Add(obj);
                 continue;
+            }
 
             Vector3 objPos = obj.Transform.position;
             float distance = Vector3.Distance(cameraPos, objPos);
@@ -174,6 +207,12 @@ public class CentralizedUpdateSystem : MonoBehaviour
             if (enableDebug)
                 Debug.Log($"{obj.Transform.name}: Distance={distance:F1}, Visible={isVisible}, LOD={newLOD}");
         }
+
+        // Удаляем объекты с null Transform
+        foreach (var obj in toRemove)
+        {
+            Unregister(obj);
+        }
     }
 
     /// <summary>
@@ -181,7 +220,6 @@ public class CentralizedUpdateSystem : MonoBehaviour
     /// </summary>
     private bool IsVisibleByCamera(Transform transform)
     {
-        // Простая проверка по bounds (можно заменить на более точную)
         Bounds bounds = new Bounds(transform.position, Vector3.one * 2f);
         return GeometryUtility.TestPlanesAABB(cameraFrustumPlanes, bounds);
     }
@@ -193,7 +231,6 @@ public class CentralizedUpdateSystem : MonoBehaviour
     {
         if (isVisible)
         {
-            // В пределах видимости камеры
             if (distance < visibleCloseDistance)
                 return UpdateLOD.Full;
             else if (distance < visibleMediumDistance)
@@ -203,7 +240,6 @@ public class CentralizedUpdateSystem : MonoBehaviour
         }
         else
         {
-            // Вне видимости камеры
             if (distance < invisibleCloseDistance)
                 return UpdateLOD.Full;
             else if (distance < invisibleMediumDistance)
@@ -245,14 +281,12 @@ public class CentralizedUpdateSystem : MonoBehaviour
 
         Vector3 cameraPos = mainCamera.transform.position;
 
-        // Видимые зоны
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(cameraPos, visibleCloseDistance);
         
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(cameraPos, visibleMediumDistance);
 
-        // Невидимые зоны
         Gizmos.color = new Color(0, 1, 0, 0.3f);
         Gizmos.DrawWireSphere(cameraPos, invisibleCloseDistance);
         
