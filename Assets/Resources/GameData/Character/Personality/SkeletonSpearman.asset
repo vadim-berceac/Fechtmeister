@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ebbf763e9ad024986abca0e6263e5d, type: 3}
   m_Name: SkeletonSpearman
   m_EditorClassIdentifier: 
+  <StateMachineType>k__BackingField: 0
   <NamingSettings>k__BackingField:
     <CharacterName>k__BackingField: Skeleton Spearman
   <CharacterSkinDataSettings>k__BackingField:
@@ -21,6 +22,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 78017f8fb0c3a694d996f2cd2fa5738c, type: 2}
   <ArmorDataSettings>k__BackingField:
     <EquippedArmor>k__BackingField: []
+  <ProjectilesDataSettings>k__BackingField:
+    <EquippedProjectiles>k__BackingField: {fileID: 0}
+    <AmountOfProjectiles>k__BackingField: 1
   <HealthDataSettings>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <CurrentHealthPercentage>k__BackingField: 100
