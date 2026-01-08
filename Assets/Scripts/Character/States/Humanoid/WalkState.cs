@@ -13,7 +13,7 @@ public class WalkState : MovementState
             new(character => (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
                               Mathf.Abs(character.CharacterInputHandler.InputY) == 0), "IdleState"),
             new(character => (character.CharacterInputHandler.IsRun && character.Health.CurrentHealthNormalized >= 0.5), "RunState"),
-            new(character => (character.CharacterInputHandler.IsWeaponDraw), "WeaponOnState"),
+            new(character => (character.Inventory.WeaponSystem.CanDrawWeapon()), "WeaponOnState"),
             new(character => (character.CharacterInputHandler.IsJump), "JumpState"),
             new(character => (!character.Gravity.Grounded), "FallState"),
             new(character => (character.CharacterInputHandler.IsInventoryOpen), "InventoryState"),

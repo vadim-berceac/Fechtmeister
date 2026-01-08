@@ -32,9 +32,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     public event Action OnDrawWeapon;
     public event Action OnHoldTarget;
     public event Action OnOpenInventory;
-    public event Action OnWeaponSelect0;
-    public event Action OnWeaponSelect1;
-    public event Action OnWeaponSelect2;
+    public event Action<int> OnWeaponSelect;
     public event Action<Vector2> OnMove;
     public event Action<Vector2> OnLook;
     
@@ -223,17 +221,17 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
 
     private void OnWeaponSelect0CTX(InputAction.CallbackContext ctx)
     {
-        this.CheckSelectedWeapons(0, OnWeaponSelect0,OnDrawWeapon);
+        this.CheckSelectedWeapons(0, OnWeaponSelect,OnDrawWeapon);
     }
 
     private void OnWeaponSelect1CTX(InputAction.CallbackContext ctx)
     {
-        this.CheckSelectedWeapons(1, OnWeaponSelect1,OnDrawWeapon);
+        this.CheckSelectedWeapons(1, OnWeaponSelect,OnDrawWeapon);
     }
     
     private void OnWeaponSelect2CTX(InputAction.CallbackContext ctx)
     {
-        this.CheckSelectedWeapons(2, OnWeaponSelect2,OnDrawWeapon);
+        this.CheckSelectedWeapons(2, OnWeaponSelect,OnDrawWeapon);
     }
 
     private void OnMoveCTX(InputAction.CallbackContext ctx)
@@ -271,9 +269,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
         OnRun = null;
         OnHoldTarget = null;
         OnOpenInventory = null;
-        OnWeaponSelect0 = null;
-        OnWeaponSelect1 = null;
-        OnWeaponSelect2 = null;
+        OnWeaponSelect = null;
         OnMove = null;
         OnLook = null;
     }

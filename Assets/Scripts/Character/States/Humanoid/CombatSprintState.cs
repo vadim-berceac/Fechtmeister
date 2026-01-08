@@ -12,7 +12,7 @@ public class CombatSprintState : MovementState
         {
             new(character => !character.CharacterInputHandler.IsRun, "CombatRunState"),
             new(character => character.CharacterInputHandler.TargetInputMagnitude < 0.2f, "SprintStopState"),
-            new(character => !character.CharacterInputHandler.IsWeaponDraw, "WeaponOffState"),
+            new(character => character.Inventory.WeaponSystem.CanUnDrawWeapon(), "WeaponOffState"),
             new(character => character.CharacterInputHandler.IsJump, "JumpState"),
             new(character => !character.Gravity.Grounded, "FallState"),
             new (c => c.CharacterInputHandler.IsAimBlock && c.Inventory.WeaponSystem.WeaponInstanceIsRanged 

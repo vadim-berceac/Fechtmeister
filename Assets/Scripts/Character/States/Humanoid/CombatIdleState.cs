@@ -10,7 +10,7 @@ public class CombatIdleState : MovementState
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new (c => !c.CharacterInputHandler.IsWeaponDraw, "WeaponOffState"),
+            new (c => c.Inventory.WeaponSystem.CanUnDrawWeapon(), "WeaponOffState"),
             new (c => Mathf.Abs(c.CharacterInputHandler.InputX) > 0 || Mathf.Abs(c.CharacterInputHandler.InputY) > 0, "CombatWalkState"),
             new (c => c.CharacterInputHandler.IsAttack && !c.Inventory.WeaponSystem.WeaponInstanceIsRanged 
                                                                && c.GraphCore.UpperBodyLayerController.IsComplete(), "FastAttackState"),

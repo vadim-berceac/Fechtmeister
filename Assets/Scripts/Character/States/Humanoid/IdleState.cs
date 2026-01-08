@@ -12,7 +12,7 @@ public class IdleState : MovementState
         {
             new (c => Mathf.Abs(c.CharacterInputHandler.InputX) > 0 ||
                       Mathf.Abs(c.CharacterInputHandler.InputY) > 0, "WalkState"),
-            new(c => c.CharacterInputHandler.IsWeaponDraw, "WeaponOnState"),
+            new(c => c.Inventory.WeaponSystem.CanDrawWeapon(), "WeaponOnState"),
             new(c => c.CharacterInputHandler.IsJump, "JumpState"),
             new(c => !c.Gravity.Grounded, "FallState"),
             new(c => c.CharacterInputHandler.IsInteract && c.TargetingSystem.HasTarget(TargetingMode.Item), "TakeLootState"),

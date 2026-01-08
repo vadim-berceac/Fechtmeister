@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2615d46e3ad734a9ef9dfd90f745e7, type: 3}
   m_Name: WeaponOnState
   m_EditorClassIdentifier: 
-  <EnterTransitionDuration>k__BackingField: 0.15
+  <EnterTransitionDuration>k__BackingField: 0.3
   <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: 8a55b8d0198eed44a8980b22295ee1b6, type: 2}
@@ -21,8 +21,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ca7fde117916f5f429eda8c8b57cb6a6, type: 2}
   - {fileID: 11400000, guid: 6764ffca5ba3c614f912c4f93b925c42, type: 2}
   <AllowItemTargeting>k__BackingField: 0
-  <AllowCharacterTargeting>k__BackingField: 1
-  <FixOnCharacterTarget>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <TargetingRigWeight>k__BackingField: 1
   <AllowSwitchWeaponInstance>k__BackingField: 0
