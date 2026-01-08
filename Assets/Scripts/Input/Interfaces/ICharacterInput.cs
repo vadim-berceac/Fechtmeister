@@ -17,4 +17,18 @@ public interface ICharacterInputSet : IInputSet
     public event Action OnWeaponSelect2;
     public event Action<Vector2> OnMove;
     public event Action<Vector2> OnLook;
+    public int SelectedWeapon { get; set; }
+}
+
+public static class ICharacterInputSetExtensions
+{
+    public static void CheckSelectedWeapons(this ICharacterInputSet set, int index, Action weaponAction, Action onTrueAction)
+    {
+        weaponAction?.Invoke();
+        if (set.SelectedWeapon == index)
+        {
+            onTrueAction?.Invoke();
+        }
+        set.SelectedWeapon = index;
+    }
 }

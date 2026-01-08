@@ -38,6 +38,8 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     public event Action<Vector2> OnMove;
     public event Action<Vector2> OnLook;
     
+    public int SelectedWeapon { get; set; }
+    
     private void Awake()
     {
         FindActions();
@@ -221,17 +223,17 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
 
     private void OnWeaponSelect0CTX(InputAction.CallbackContext ctx)
     {
-        OnWeaponSelect0?.Invoke();
+        this.CheckSelectedWeapons(0, OnWeaponSelect0,OnDrawWeapon);
     }
 
     private void OnWeaponSelect1CTX(InputAction.CallbackContext ctx)
     {
-        OnWeaponSelect1?.Invoke();
+        this.CheckSelectedWeapons(1, OnWeaponSelect1,OnDrawWeapon);
     }
     
     private void OnWeaponSelect2CTX(InputAction.CallbackContext ctx)
     {
-        OnWeaponSelect2?.Invoke();
+        this.CheckSelectedWeapons(2, OnWeaponSelect2,OnDrawWeapon);
     }
 
     private void OnMoveCTX(InputAction.CallbackContext ctx)
