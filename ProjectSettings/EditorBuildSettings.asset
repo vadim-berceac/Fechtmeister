@@ -11,9 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Castle.unity
     guid: 4bb83148b876b9a478b3c67d22c60eaa
-  - enabled: 1
-    path: Assets/Scenes/Cage.unity
-    guid: 7ff51e503df827249a191b52e3e755fa
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

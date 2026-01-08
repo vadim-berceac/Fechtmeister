@@ -10,7 +10,7 @@ public class PlayablesLayerController
     private readonly PlayableGraph _playableGraph;
     private readonly AnimationMixerPlayable _animationMixer;
     private AnimationClipPlayable _animationClip;
-    private AnimationBlendConfig.BlendClip _currentBlendClip; 
+    private BlendClip _currentBlendClip; 
     private const float FullWeight = 1f;
     private const float ZeroWeight = 0f;
     private float _currentWeight;
@@ -172,7 +172,7 @@ public class PlayablesLayerController
         }
     }
 
-    private static AnimationBlendConfig.BlendClip GetAnimationClip(State state, int configParam, int blendParam)
+    private static BlendClip GetAnimationClip(State state, int configParam, int blendParam)
     {
         if (state.Clips == null || state.Clips.Length == 0)
         {
