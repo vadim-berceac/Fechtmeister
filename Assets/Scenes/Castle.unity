@@ -798,7 +798,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: _Editor_OnValidateTrigger
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895659091404197368, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: <IsAI>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2986210682719602384, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: m_Name
@@ -1384,12 +1388,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: finalScaleReference
+      value: 0.89293563
+      objectReference: {fileID: 0}
+    - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: _Editor_OnValidateTrigger
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895659091404197368, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: <IsAI>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2986210682719602384, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: m_Name
-      value: Character (4)
+      value: Character (3)
       objectReference: {fileID: 0}
     - target: {fileID: 7201767013415629698, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: <CharacterPersonalityData>k__BackingField
@@ -2103,7 +2115,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: _Editor_OnValidateTrigger
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895659091404197368, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: <IsAI>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2986210682719602384, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: m_Name
@@ -4116,7 +4132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: _Editor_OnValidateTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2986210682719602384, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: m_Name
@@ -4181,7 +4197,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: _Editor_OnValidateTrigger
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895659091404197368, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: <IsAI>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2986210682719602384, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: m_Name
@@ -4407,6 +4427,88 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c2ee0fbb23253e458a79d0a2d5930a8, type: 3}
+--- !u!1 &2001373542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2001373545}
+  - component: {fileID: 2001373544}
+  - component: {fileID: 2001373543}
+  m_Layer: 0
+  m_Name: NavMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2001373543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001373542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 5d550a2ad0645ec41961a732d37691d5, type: 2}
+  m_BuildHeightMesh: 0
+--- !u!114 &2001373544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001373542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifierVolume
+  m_SerializedVersion: 0
+  m_Size: {x: 200, y: 3, z: 200}
+  m_Center: {x: 0, y: 1, z: 0}
+  m_Area: 0
+  m_AffectedAgents: ffffffff
+--- !u!4 &2001373545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001373542}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2076883270
 GameObject:
   m_ObjectHideFlags: 0
@@ -4708,3 +4810,4 @@ SceneRoots:
   - {fileID: 319665478}
   - {fileID: 1860315580}
   - {fileID: 582953306}
+  - {fileID: 2001373545}

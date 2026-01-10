@@ -5,6 +5,7 @@ using Zenject;
 [RequireComponent(typeof(CharacterPresetLoader))]
 public class CharacterCore : ManagedUpdatableObject
 {
+    [field: SerializeField] public bool IsAI { get; private set; }
     [field: SerializeField] public Transform DamagedObject { get; private set; }
     [field: SerializeField] public PlayableGraphCore GraphCore { get; private set; }
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
@@ -40,13 +41,24 @@ public class CharacterCore : ManagedUpdatableObject
     public IDamageable Health { get; private set; }
 
     [Inject]
-    private void Construct(SceneCamera sceneCamera, SceneCharacterContainer sceneCharacterContainer, PlayerInput playerInput, StatesContainer statesContainer)
+    private void Construct(SceneCamera sceneCamera, SceneCharacterContainer sceneCharacterContainer,
+        PlayerInput playerInput, StatesContainer statesContainer)
     {
         SceneCamera = sceneCamera;
         SceneCharacterContainer = sceneCharacterContainer;
-        InputByPlayer = playerInput;
         CashedTransform = transform;
         CharacterInputHandler = new CharacterInputHandler(LocomotionSettings.InputSmoothingSpeed);
+        
+        if (!IsAI)
+        {
+            InputByPlayer = playerInput;
+        }
+        else
+        {
+            InputByPlayer = gameObject.AddComponent<NavMeshCharacterInput>();
+            CharacterInputHandler.SetupInputSet(InputByPlayer);
+        }
+        
         Gravity = new CharacterGravity();
         
         PresetLoader = GetComponent<CharacterPresetLoader>();

@@ -14,13 +14,13 @@ public class NextCharacterButton : MonoBehaviour
    public void SelectNext()
    {
       ResetSelection();
-      var character = _sceneCharacterContainer.GetNextCharacter();
+      var character = _sceneCharacterContainer.GetNextNonAICharacter();
       CharacterSelector.Select(character, true);
    }
 
    public void ResetSelection()
    {
-      foreach (var character in _sceneCharacterContainer.GetCharacters())
+      foreach (var character in _sceneCharacterContainer.GetNonAICharacters())
       {
          CharacterSelector.Select(character.Value, false);
       }
