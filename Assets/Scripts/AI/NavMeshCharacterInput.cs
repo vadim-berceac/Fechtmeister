@@ -2,19 +2,22 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NavMeshCharacterInput : MonoBehaviour, ICharacterInputSet
+public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
 {
     [Header("Navigation Settings")]
-    [SerializeField] private Transform targetTransform;
     [SerializeField] private float pathUpdateInterval = 0.5f;
-    [SerializeField] private float stoppingDistance = 0.5f;
-    [SerializeField] private float pathRecalculationThreshold = 1f;
+    [SerializeField] private float waypointReachDistance = 1.5f; 
+    [SerializeField] private float finalDestinationDistance = 2f; 
+    [SerializeField] private float pathRecalculationThreshold = 2f; 
+    [SerializeField] private float navMeshSampleDistance = 10f;
+    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float idleRotationSpeed = 3f;
+    [SerializeField] private float stuckDetectionTime = 2f; 
+    [SerializeField] private float minProgressDistance = 0.5f; 
     
     [Header("Debug")]
-    [SerializeField] private bool showDebugLogs = true;
     [SerializeField] private bool autoEnableOnStart = true;
-
-    // События интерфейса
+    
     public event Action OnAttack;
     public event Action OnAimBlock;
     public event Action OnInteract;
@@ -30,67 +33,39 @@ public class NavMeshCharacterInput : MonoBehaviour, ICharacterInputSet
 
     public int SelectedWeapon { get; set; }
 
-    // Данные пути NavMesh
-    private NavMeshPath navMeshPath;
-    private int currentWaypointIndex;
-    private float nextPathUpdateTime;
-    private Vector3 lastTargetPosition;
-    private bool isFollowing;
-    private bool isEnabled;
+    private Transform _targetTransform;
     
-    // Для отслеживания изменения цели в инспекторе
-    private Transform previousTarget;
+    private NavMeshPath _navMeshPath;
+    private int _currentWaypointIndex;
+    private float _nextPathUpdateTime;
+    private Vector3 _lastTargetPosition;
+    private Vector3 _lastCharacterPosition;
+    private float _lastProgressCheckTime;
+    private float _lastDistanceToTarget;
+    private bool _isFollowing;
+    private bool _isEnabled;
+    private bool _hasReachedDestination;
 
     private void Awake()
     {
-        navMeshPath = new NavMeshPath();
-        previousTarget = targetTransform;
+        _navMeshPath = new NavMeshPath();
         
-        if (showDebugLogs)
-            Debug.Log($"[NavMeshInput] Awake - Component initialized on {gameObject.name}");
-    }
-
-    private void Start()
-    {
-        // ВАЖНО: Вызываем FindActions для инициализации
         FindActions();
         Subscribe();
         
-        if (autoEnableOnStart)
+        if (!autoEnableOnStart)
         {
-            Enable();
-            
-            if (targetTransform != null)
-            {
-                SetTarget(targetTransform);
-            }
+            return;
         }
+        
+        Enable();
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         Unsubscribe();
-    }
-
-    private void OnValidate()
-    {
-        // Отслеживаем изменение цели в инспекторе в рантайме
-        if (Application.isPlaying && targetTransform != previousTarget)
-        {
-            previousTarget = targetTransform;
-            
-            if (showDebugLogs)
-                Debug.Log($"[NavMeshInput] Target changed in inspector to: {(targetTransform ? targetTransform.name : "null")}");
-            
-            if (targetTransform != null)
-            {
-                SetTarget(targetTransform);
-            }
-            else
-            {
-                StopFollowing();
-            }
-        }
+        Disable();
     }
 
     private void OnCharacterSelected(CharacterCore character)
@@ -102,9 +77,19 @@ public class NavMeshCharacterInput : MonoBehaviour, ICharacterInputSet
         SetTarget(character.CashedTransform);
     }
 
-    private void Update()
+    public override void OnManagedUpdate()
     {
-        if (isEnabled && targetTransform != null)
+        if (!_isEnabled || _targetTransform == null)
+        {
+            return;
+        }
+
+        if (_hasReachedDestination)
+        {
+            RotateTowardsTarget(_targetTransform.position, idleRotationSpeed);
+        }
+
+        if (_isFollowing)
         {
             UpdatePathFollowing();
         }
@@ -112,46 +97,37 @@ public class NavMeshCharacterInput : MonoBehaviour, ICharacterInputSet
 
     public void FindActions()
     {
-        if (navMeshPath == null)
+        if (_navMeshPath == null)
         {
-            navMeshPath = new NavMeshPath();
+            _navMeshPath = new NavMeshPath();
         }
         
-        // Проверяем наличие NavMesh в сцене
-        NavMeshTriangulation triangulation = NavMesh.CalculateTriangulation();
+        var triangulation = NavMesh.CalculateTriangulation();
         if (triangulation.vertices.Length == 0)
         {
             Debug.LogWarning("[NavMeshInput] NavMesh не найден в сцене! Убедитесь, что NavMesh запечён (baked).");
-        }
-        else if (showDebugLogs)
-        {
-            Debug.Log($"[NavMeshInput] NavMesh найден: {triangulation.vertices.Length} вершин");
         }
     }
 
     public void Enable()
     {
-        isEnabled = true;
-        
-        if (showDebugLogs)
-            Debug.Log($"[NavMeshInput] ENABLED on {gameObject.name}");
-        
-        // Если есть установленная цель, начинаем следование
-        if (targetTransform != null)
+        _isEnabled = true;
+       
+        if (_targetTransform == null)
         {
-            isFollowing = true;
-            CalculatePath();
+           return;
         }
+        _isFollowing = true;
+        _hasReachedDestination = false;
+        _lastCharacterPosition = transform.position;
+        _lastProgressCheckTime = Time.time;
+        _lastDistanceToTarget = float.MaxValue;
+        CalculatePath();
     }
 
     public void Disable()
     {
-        isEnabled = false;
-        
-        if (showDebugLogs)
-            Debug.Log($"[NavMeshInput] DISABLED on {gameObject.name}");
-        
-        // Останавливаем движение при отключении
+        _isEnabled = false;
         OnMove?.Invoke(Vector2.zero);
     }
 
@@ -178,64 +154,96 @@ public class NavMeshCharacterInput : MonoBehaviour, ICharacterInputSet
         OnLook = null;
     }
 
-    /// <summary>
-    /// Устанавливает цель для следования
-    /// </summary>
     public void SetTarget(Transform target)
     {
-        targetTransform = target;
-        previousTarget = target;
-        isFollowing = true;
+        _targetTransform = target;
+        _isFollowing = true;
+        _hasReachedDestination = false;
+        _lastCharacterPosition = transform.position;
+        _lastProgressCheckTime = Time.time;
+        _lastDistanceToTarget = float.MaxValue;
         
-        if (showDebugLogs)
-            Debug.Log($"[NavMeshInput] SetTarget: {(target ? target.name : "null")} | isEnabled: {isEnabled}");
+        if (!_isEnabled)
+        {
+            return;
+        }
         
-        if (isEnabled)
-        {
-            CalculatePath();
-        }
-        else
-        {
-            Debug.LogWarning($"[NavMeshInput] Target set but component is DISABLED! Call Enable() first.");
-        }
+        CalculatePath();
     }
 
-    /// <summary>
-    /// Останавливает следование за целью
-    /// </summary>
     public void StopFollowing()
     {
-        isFollowing = false;
+        _isFollowing = false;
+        _hasReachedDestination = true;
         OnMove?.Invoke(Vector2.zero);
-        
-        if (showDebugLogs)
-            Debug.Log($"[NavMeshInput] StopFollowing called");
     }
 
-    /// <summary>
-    /// Полностью очищает цель
-    /// </summary>
     public void ClearTarget()
     {
-        targetTransform = null;
-        previousTarget = null;
+        _targetTransform = null;
         StopFollowing();
-        
-        if (showDebugLogs)
-            Debug.Log($"[NavMeshInput] ClearTarget called");
     }
 
     private void UpdatePathFollowing()
     {
-        if (!isFollowing) return;
-
-        // Проверка необходимости пересчета пути
-        bool shouldRecalculate = Time.time >= nextPathUpdateTime;
-        
-        if (targetTransform != null)
+        if (!_isFollowing || _targetTransform == null)
         {
-            float distanceToLastTarget = Vector3.Distance(targetTransform.position, lastTargetPosition);
-            if (distanceToLastTarget > pathRecalculationThreshold)
+            return;
+        }
+
+        var distanceToTarget = Vector3.Distance(transform.position, _targetTransform.position);
+
+        if (distanceToTarget <= finalDestinationDistance * 2f && 
+            distanceToTarget > _lastDistanceToTarget && 
+            _lastDistanceToTarget <= finalDestinationDistance * 1.2f)
+        {
+            _hasReachedDestination = true;
+            OnMove?.Invoke(Vector2.zero);
+            return;
+        }
+        
+        _lastDistanceToTarget = distanceToTarget;
+
+        if (_hasReachedDestination && distanceToTarget > finalDestinationDistance * 1.5f)
+        {
+            _hasReachedDestination = false;
+            _lastCharacterPosition = transform.position;
+            _lastProgressCheckTime = Time.time;
+            _lastDistanceToTarget = float.MaxValue;
+            CalculatePath();
+        }
+
+        if (distanceToTarget <= finalDestinationDistance)
+        {
+            if (!_hasReachedDestination)
+            {
+                _hasReachedDestination = true;
+                OnMove?.Invoke(Vector2.zero);
+            }
+            return;
+        }
+
+        if (Time.time - _lastProgressCheckTime > stuckDetectionTime)
+        {
+            var progressDistance = Vector3.Distance(transform.position, _lastCharacterPosition);
+          
+            if (progressDistance < minProgressDistance && distanceToTarget > finalDestinationDistance)
+            {
+                _hasReachedDestination = true;
+                OnMove?.Invoke(Vector2.zero);
+                return;
+            }
+            
+            _lastCharacterPosition = transform.position;
+            _lastProgressCheckTime = Time.time;
+        }
+
+        var shouldRecalculate = Time.time >= _nextPathUpdateTime;
+
+        if (_targetTransform != null)
+        {
+            var targetMoved = Vector3.Distance(_targetTransform.position, _lastTargetPosition);
+            if (targetMoved > pathRecalculationThreshold)
             {
                 shouldRecalculate = true;
             }
@@ -244,165 +252,145 @@ public class NavMeshCharacterInput : MonoBehaviour, ICharacterInputSet
         if (shouldRecalculate)
         {
             CalculatePath();
-            nextPathUpdateTime = Time.time + pathUpdateInterval;
+            _nextPathUpdateTime = Time.time + pathUpdateInterval;
         }
 
-        // Следование по пути
-        if (navMeshPath.status == NavMeshPathStatus.PathComplete && navMeshPath.corners.Length > 0)
+        if (_navMeshPath == null || 
+            _navMeshPath.status != NavMeshPathStatus.PathComplete || 
+            _navMeshPath.corners.Length == 0)
         {
-            FollowPath();
-        }
-        else if (navMeshPath.status != NavMeshPathStatus.PathComplete && showDebugLogs)
-        {
-            Debug.LogWarning($"[NavMeshInput] Path status: {navMeshPath.status}");
-        }
-    }
-
-    private void CalculatePath()
-    {
-        if (targetTransform == null)
-        {
-            if (showDebugLogs)
-                Debug.LogWarning("[NavMeshInput] CalculatePath: targetTransform is null");
             return;
         }
 
-        Vector3 startPos = transform.position;
-        Vector3 targetPos = targetTransform.position;
-
-        // Находим ближайшую точку на NavMesh для начальной и конечной позиций
-        NavMeshHit startHit, targetHit;
-        bool startFound = NavMesh.SamplePosition(startPos, out startHit, 5f, NavMesh.AllAreas);
-        bool targetFound = NavMesh.SamplePosition(targetPos, out targetHit, 5f, NavMesh.AllAreas);
-
-        if (showDebugLogs)
+        FollowPath();
+    }
+    
+    private void CalculatePath()
+    {
+        if (_targetTransform == null)
         {
-            Debug.Log($"[NavMeshInput] CalculatePath: Start found: {startFound} | Target found: {targetFound}");
-            Debug.Log($"[NavMeshInput] Start pos: {startPos} -> NavMesh: {startHit.position}");
-            Debug.Log($"[NavMeshInput] Target pos: {targetPos} -> NavMesh: {targetHit.position}");
+            return;
         }
 
-        if (startFound && targetFound)
+        var startPos = transform.position;
+        var targetPos = _targetTransform.position;
+
+        var startFound = NavMesh.SamplePosition(startPos, out var startHit, navMeshSampleDistance, NavMesh.AllAreas);
+        var targetFound = NavMesh.SamplePosition(targetPos, out var targetHit, navMeshSampleDistance, NavMesh.AllAreas);
+
+        if (!startFound || !targetFound)
         {
-            bool pathCalculated = NavMesh.CalculatePath(startHit.position, targetHit.position, NavMesh.AllAreas, navMeshPath);
-            currentWaypointIndex = 0;
-            lastTargetPosition = targetPos;
-            
-            if (showDebugLogs)
-            {
-                Debug.Log($"[NavMeshInput] Path calculated: {pathCalculated} | Status: {navMeshPath.status} | Corners: {navMeshPath.corners.Length}");
-                
-                if (navMeshPath.corners.Length > 0)
-                {
-                    for (int i = 0; i < navMeshPath.corners.Length; i++)
-                    {
-                        Debug.Log($"[NavMeshInput] Corner {i}: {navMeshPath.corners[i]}");
-                    }
-                }
-            }
+            return;
         }
-        else
+
+        var pathCalculated = NavMesh.CalculatePath(startHit.position, targetHit.position, NavMesh.AllAreas, _navMeshPath);
+        
+        if (!pathCalculated || _navMeshPath.status != NavMeshPathStatus.PathComplete)
         {
-            Debug.LogWarning($"[NavMeshInput] Не удалось найти путь на NavMesh! StartFound: {startFound}, TargetFound: {targetFound}");
+            return;
         }
+
+        _currentWaypointIndex = 0;
+        _lastTargetPosition = targetPos;
     }
 
     private void FollowPath()
     {
-        if (currentWaypointIndex >= navMeshPath.corners.Length)
+        if (_targetTransform != null)
+        {
+            var currentDistanceToTarget = Vector3.Distance(transform.position, _targetTransform.position);
+           
+            if (currentDistanceToTarget <= finalDestinationDistance)
+            {
+                if (!_hasReachedDestination)
+                {
+                    _hasReachedDestination = true;
+                    OnMove?.Invoke(Vector2.zero);
+                }
+                return;
+            }
+        }
+        
+        if (_currentWaypointIndex >= _navMeshPath.corners.Length)
         {
             OnMove?.Invoke(Vector2.zero);
             return;
         }
 
-        Vector3 targetWaypoint = navMeshPath.corners[currentWaypointIndex];
-        Vector3 direction = (targetWaypoint - transform.position);
-        float distanceToWaypoint = direction.magnitude;
+        var targetWaypoint = _navMeshPath.corners[_currentWaypointIndex];
+        var horizontalPosition = new Vector3(transform.position.x, 0, transform.position.z);
+        var horizontalWaypoint = new Vector3(targetWaypoint.x, 0, targetWaypoint.z);
+        var distanceToWaypoint = Vector3.Distance(horizontalPosition, horizontalWaypoint);
 
-        // Достигли текущей точки пути
-        if (distanceToWaypoint < stoppingDistance)
+        if (distanceToWaypoint < waypointReachDistance)
         {
-            currentWaypointIndex++;
-            
-            if (showDebugLogs)
-                Debug.Log($"[NavMeshInput] Reached waypoint {currentWaypointIndex - 1}, moving to next");
-            
-            // Достигли конечной точки
-            if (currentWaypointIndex >= navMeshPath.corners.Length)
+            _currentWaypointIndex++;
+
+            if (_currentWaypointIndex >= _navMeshPath.corners.Length)
             {
-                OnMove?.Invoke(Vector2.zero);
-                
-                if (showDebugLogs)
-                    Debug.Log($"[NavMeshInput] Reached final destination!");
-                    
+                if (_targetTransform == null)
+                {
+                    OnMove?.Invoke(Vector2.zero);
+                    return;
+                }
+
+                var finalDistance = Vector3.Distance(transform.position, _targetTransform.position);
+                if (finalDistance <= finalDestinationDistance)
+                {
+                    _hasReachedDestination = true;
+                    OnMove?.Invoke(Vector2.zero);
+                    return;
+                }
+
+                CalculatePath();
                 return;
             }
-            
-            targetWaypoint = navMeshPath.corners[currentWaypointIndex];
-            direction = (targetWaypoint - transform.position);
-        }
 
-        // Нормализация направления (игнорируем Y для горизонтального движения)
-        direction.y = 0;
-        direction.Normalize();
-
-        // Движение к точке
-        if (direction.magnitude > 0.01f)
-        {
-            // Преобразуем 3D направление в 2D вектор движения
-            Vector2 moveInput = new Vector2(direction.x, direction.z).normalized;
+            targetWaypoint = _navMeshPath.corners[_currentWaypointIndex];
             
-            if (showDebugLogs && Time.frameCount % 60 == 0) // Лог каждую секунду
+            if (_targetTransform != null)
             {
-                Debug.Log($"[NavMeshInput] Sending moveInput: {moveInput} | Subscribers: {OnMove?.GetInvocationList().Length ?? 0}");
-            }
-            
-            // ГЛАВНОЕ: вызываем событие движения для системы персонажа
-            OnMove?.Invoke(moveInput);
-
-            // Проверяем, подписан ли кто-то на событие OnMove
-            if (OnMove == null)
-            {
-                if (showDebugLogs && Time.frameCount % 120 == 0)
+                var distCheck = Vector3.Distance(transform.position, _targetTransform.position);
+                if (distCheck <= finalDestinationDistance)
                 {
-                    Debug.LogWarning("[NavMeshInput] OnMove event has NO subscribers! " +
-                        "Your character movement system needs to subscribe to this event!");
+                    _hasReachedDestination = true;
+                    OnMove?.Invoke(Vector2.zero);
+                    return;
                 }
             }
         }
+
+        var directionWorld = targetWaypoint - transform.position;
+        directionWorld.y = 0;
+
+        if (directionWorld.magnitude <= 0.01f)
+        {
+            OnMove?.Invoke(Vector2.zero);
+            return;
+        }
+
+        directionWorld.Normalize();
+        
+        RotateTowardsTarget(targetWaypoint, rotationSpeed);
+
+        var localDirection = transform.InverseTransformDirection(directionWorld);
+        var moveInput = new Vector2(localDirection.x, localDirection.z).normalized;
+
+        OnMove?.Invoke(moveInput);
     }
 
-    /// <summary>
-    /// Рисует путь в Scene View для отладки
-    /// </summary>
-    private void OnDrawGizmos()
+    private void RotateTowardsTarget(Vector3 targetPosition, float speed)
     {
-        if (navMeshPath == null || navMeshPath.corners.Length == 0) return;
-
-        Gizmos.color = Color.green;
-        for (int i = 0; i < navMeshPath.corners.Length - 1; i++)
+        var directionToTarget = targetPosition - transform.position;
+        directionToTarget.y = 0; 
+        
+        if (directionToTarget.magnitude < 0.01f)
         {
-            Gizmos.DrawLine(navMeshPath.corners[i], navMeshPath.corners[i + 1]);
-            Gizmos.DrawSphere(navMeshPath.corners[i], 0.1f);
-        }
-
-        if (navMeshPath.corners.Length > 0)
-        {
-            Gizmos.DrawSphere(navMeshPath.corners[navMeshPath.corners.Length - 1], 0.1f);
-        }
-
-        // Отображение текущей целевой точки
-        if (currentWaypointIndex < navMeshPath.corners.Length)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(navMeshPath.corners[currentWaypointIndex], 0.2f);
+            return; 
         }
         
-        // Линия к цели
-        if (targetTransform != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, targetTransform.position);
-        }
+        directionToTarget.Normalize();
+        var targetRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
     }
 }

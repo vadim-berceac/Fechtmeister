@@ -10,10 +10,10 @@ public interface IUpdatable
 
 public enum UpdateLOD
 {
-    Full,           // Каждый кадр (1/1)
-    Medium,         // Каждый 2-3 кадр (2/3)
-    Low,            // Каждый 3 кадр (1/3)
-    Paused          // Не обновляется
+    Full,          
+    Medium,        
+    Low,           
+    Paused         
 }
 
 public abstract class ManagedUpdatableObject : MonoBehaviour, IUpdatable
