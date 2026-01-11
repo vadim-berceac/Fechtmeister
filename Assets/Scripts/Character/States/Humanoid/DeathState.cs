@@ -12,8 +12,12 @@ public class DeathState : State
         var animType = character.Inventory.IsWeaponOn ? itemInstanceData.AnimationType : 0;
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, animType);
         character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
-        //character.CharacterColliderSizer.SetEnabled(false);
         character.Health.EnableHitReaction(false);
+
+        if (character.IsAI)
+        {
+            character.InputByPlayer.Disable();
+        }
     }
 
     protected override void CheckAction(CharacterCore character)
@@ -31,5 +35,9 @@ public class DeathState : State
     {
         base.ExitState(character);
         character.CharacterColliderSizer.SetEnabled(true);
+        if (character.IsAI)
+        {
+            character.InputByPlayer.Enable();
+        }
     }
 }
