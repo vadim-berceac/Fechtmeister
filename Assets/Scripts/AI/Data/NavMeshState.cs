@@ -1,4 +1,3 @@
-
 public interface INavMeshState
 {
     void Enter(ref NavMeshStateData data, NavMeshCharacterInput input);

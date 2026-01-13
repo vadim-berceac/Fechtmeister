@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
 {
@@ -18,25 +19,22 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
     public event Action<Vector2> OnLook;
 
     public int SelectedWeapon { get; set; }
-
-    private INavMeshState _currentState;
+    
+    [SerializeField] private NavMeshSettings _settings = NavMeshSettings.Default;
+    
     private NavMeshStateData _stateData;
+    private NavMeshStateMachine _stateMachine;
 
     private void Awake()
     {
-        _stateData = new NavMeshStateData
-        {
-            NavMeshPath = new NavMeshPath(),
-            Transform = transform,
-            Settings = NavMeshSettings.Default
-        };
-        
-        FindActions();
+        InitializeStateData();
+        ValidateNavMesh();
         Subscribe();
         
-        ChangeState(new IdleBehaviorState());
+        _stateMachine = new NavMeshStateMachine(this);
+        _stateMachine.ChangeState(NavMeshStateType.Idle, ref _stateData);
         
-        if (_stateData.Settings.AutoEnableOnStart)
+        if (_settings.AutoEnableOnStart)
         {
             Enable();
         }
@@ -49,46 +47,51 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
         Disable();
     }
 
-    private void OnCharacterSelected(CharacterCore character)
-    {
-        if (character == null)
-        {
-            return;
-        }
-        SetTarget(character.CashedTransform);
-    }
-
     public override void OnManagedUpdate()
     {
-        if (!_stateData.IsEnabled)
-        {
-            return;
-        }
+        if (!_stateData.IsEnabled) return;
+        
+        _stateMachine.Update(ref _stateData);
+    }
+    
+    public void FindActions(){}
 
-        _currentState?.Update(ref _stateData, this);
+    private void InitializeStateData()
+    {
+        _stateData = new NavMeshStateData
+        {
+            NavMeshPath = new NavMeshPath(),
+            Transform = transform,
+            Settings = _settings
+        };
     }
 
-    public void FindActions()
+    private void ValidateNavMesh()
     {
-        if (_stateData.NavMeshPath == null)
-        {
-            _stateData.NavMeshPath = new NavMeshPath();
-        }
-        
         var triangulation = NavMesh.CalculateTriangulation();
         if (triangulation.vertices.Length == 0)
         {
-            Debug.LogWarning("[NavMeshInput] NavMesh не найден в сцене! Убедитесь, что NavMesh запечён (baked).");
+            Debug.LogWarning("[NavMeshInput] NavMesh not found in scene! Ensure NavMesh is baked.");
+        }
+    }
+
+    private void OnCharacterSelected(CharacterCore character)
+    {
+        if (character == null) return;
+        
+        if (Random.Range(0, 2) > 0)
+        {
+            SetTarget(character.CashedTransform);
         }
     }
 
     public void Enable()
     {
         _stateData.IsEnabled = true;
-       
+        
         if (_stateData.TargetTransform != null)
         {
-            ChangeState(new FollowTargetState());
+            _stateMachine.ChangeState(NavMeshStateType.Follow, ref _stateData);
         }
     }
 
@@ -96,7 +99,7 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
     {
         _stateData.IsEnabled = false;
         OnMove?.Invoke(Vector2.zero);
-        ChangeState(new IdleBehaviorState());
+        _stateMachine.ChangeState(NavMeshStateType.Idle, ref _stateData);
     }
 
     public void Subscribe()
@@ -107,7 +110,11 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
     public void Unsubscribe()
     {
         CharacterSelector.OnCharacterSelected -= OnCharacterSelected;
-        
+        ClearAllEvents();
+    }
+
+    private void ClearAllEvents()
+    {
         OnAttack = null;
         OnAimBlock = null;
         OnInteract = null;
@@ -126,50 +133,28 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
     {
         _stateData.TargetTransform = target;
         
-        if (!_stateData.IsEnabled)
-        {
-            return;
-        }
+        if (!_stateData.IsEnabled) return;
         
-        if (target != null)
-        {
-            ChangeState(new FollowTargetState());
-        }
-        else
-        {
-            ChangeState(new IdleBehaviorState());
-        }
-    }
-
-    public void StopFollowing()
-    {
-        OnMove?.Invoke(Vector2.zero);
-        ChangeState(new IdleBehaviorState());
+        var newState = target != null ? NavMeshStateType.Follow : NavMeshStateType.Idle;
+        _stateMachine.ChangeState(newState, ref _stateData);
     }
 
     public void ClearTarget()
     {
-        _stateData.TargetTransform = null;
-        StopFollowing();
+        SetTarget(null);
     }
 
-    private void ChangeState(INavMeshState newState)
-    {
-        _currentState?.Exit(ref _stateData, this);
-        _currentState = newState;
-        _currentState?.Enter(ref _stateData, this);
-    }
-
+    // Public API для инвокации событий
     public void InvokeMove(Vector2 moveInput) => OnMove?.Invoke(moveInput);
+    public void InvokeLook(Vector2 lookInput) => OnLook?.Invoke(lookInput);
+    public void InvokeAttack() => OnAttack?.Invoke();
+    public void InvokeDrawWeapon() => OnDrawWeapon?.Invoke();
     
     public void SetRunState(bool shouldRun)
     {
-        if (_stateData.IsRunning == shouldRun)
-        {
-            return; 
-        }
+        if (_stateData.IsRunning == shouldRun) return;
         
         _stateData.IsRunning = shouldRun;
-        OnRun?.Invoke(); 
+        OnRun?.Invoke();
     }
 }
