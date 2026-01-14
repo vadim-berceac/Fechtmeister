@@ -12,16 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa173714b11dd8842bdaecaa815f267a, type: 3}
   m_Name: BaseGetHit_BlendConfig
   m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
-  <ParameterName>k__BackingField: Speed
   <ParamValue>k__BackingField: 0
   <Clips>k__BackingField:
   - <Clip>k__BackingField: {fileID: 7400000, guid: 00480e80f5139914cb994e182462209c, type: 3}
     <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.5
     <ActionTime>k__BackingField: 0
   - <Clip>k__BackingField: {fileID: 4544669962993067940, guid: f5cb8437f05718c4285833fd366dafb9, type: 3}
     <ParamValue>k__BackingField: 1
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.5
     <ActionTime>k__BackingField: 0

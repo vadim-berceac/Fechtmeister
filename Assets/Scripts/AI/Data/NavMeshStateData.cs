@@ -17,7 +17,6 @@ public struct NavMeshStateData
     // Отслеживание движения
     public Vector3 LastCharacterPosition;
     public float LastProgressCheckTime;
-    public float LastDistanceToTarget;
     
     // Состояние
     public bool IsEnabled;
@@ -79,6 +78,8 @@ public struct NavMeshSettings
     
     [Tooltip("Минимальный dot product угла для атаки (0.866 ≈ 30°)")]
     public float AttackAngleDotThreshold;
+    public float LoseInterestTime;
+    public float MaxChaseDistance;
     
     public static readonly NavMeshSettings Default = new()
     {
@@ -95,6 +96,8 @@ public struct NavMeshSettings
         MinProgressDistance = 0.5f,
         RunDistanceThreshold = 6f,
         AttackRange = 2.5f,
-        AttackAngleDotThreshold = 0.866f // ~30 градусов
+        AttackAngleDotThreshold = 0.866f, // ~30 градусов
+        LoseInterestTime = 20,
+        MaxChaseDistance = 50
     };
 }

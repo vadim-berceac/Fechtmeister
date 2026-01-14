@@ -14,12 +14,12 @@ public interface IDamageable
     public Dictionary<DamageTypes, int> DamageResistances { get;  set; }
 
     public Action<float> OnCurrentHealthChanged { get;  set; }
-    public Action OnDamageAttempt { get;  set; }
+    public Action <Transform> OnDamageAttempt { get;  set; }
 
     public void Initialize(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage,
         Transform damagedObject, ResistanceSettings resistanceSettings);
     public bool CheckForResistance(float damageValue, DamageTypes damageType);
-    public void Damage(float damage, DamageTypes damageType);
+    public void Damage(float damage, DamageTypes damageType, Transform source = null);
     public void Heal(float heal);
     public void SetHitReactionThreshold(float hitReactionThreshold);
     public void SetMaxHealth(float newMaxHealth);

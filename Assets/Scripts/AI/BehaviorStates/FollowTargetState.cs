@@ -177,7 +177,6 @@ public struct FollowTargetState : INavMeshState
     {
         data.LastCharacterPosition = data.Transform.position;
         data.LastProgressCheckTime = Time.time;
-        data.LastDistanceToTarget = float.MaxValue;
         data.CurrentWaypointIndex = 0;
         data.IsStuck = false;
         data.HasReachedDestination = false;

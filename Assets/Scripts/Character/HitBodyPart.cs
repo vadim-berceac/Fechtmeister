@@ -4,9 +4,9 @@ public class HitBodyPart : MonoBehaviour
 {
     [field: SerializeField] public HitBodyPartSettings HitBodyPartSettings { get; set; }
     
-    public void Damage(float damage, DamageTypes damageType)
+    public void Damage(float damage, DamageTypes damageType, Transform source = null)
     {
-        HitBodyPartSettings.Health.Damage(damage * HitBodyPartSettings.DamageMultiplier, damageType);
+        HitBodyPartSettings.Health.Damage(damage * HitBodyPartSettings.DamageMultiplier, damageType, source);
     }
 }
 

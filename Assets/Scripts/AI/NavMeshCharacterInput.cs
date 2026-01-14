@@ -20,6 +20,11 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
 
     public int SelectedWeapon { get; set; }
     
+    private float _chaseDuration;
+
+    private IDamageable _health;
+    private IDamageable _targetHealth;
+    
     [SerializeField] private NavMeshSettings _settings = NavMeshSettings.Default;
     
     private NavMeshStateData _stateData;
@@ -27,6 +32,7 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
 
     private void Awake()
     {
+        TryGetComponent(out _health);
         InitializeStateData();
         ValidateNavMesh();
         Subscribe();
@@ -52,6 +58,9 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
         if (!_stateData.IsEnabled) return;
         
         _stateMachine.Update(ref _stateData);
+        
+        CheckTargetHealth();
+        UpdateChaseLogic();
     }
     
     public void FindActions(){}
@@ -75,16 +84,6 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
         }
     }
 
-    private void OnCharacterSelected(CharacterCore character)
-    {
-        if (character == null) return;
-        
-        if (Random.Range(0, 2) > 0)
-        {
-            SetTarget(character.CashedTransform);
-        }
-    }
-
     public void Enable()
     {
         _stateData.IsEnabled = true;
@@ -104,13 +103,69 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
 
     public void Subscribe()
     {
-        CharacterSelector.OnCharacterSelected += OnCharacterSelected;
+        if (_health != null)
+        {
+            _health.OnDamageAttempt += GetTargetDamageable;
+        }
     }
 
     public void Unsubscribe()
     {
-        CharacterSelector.OnCharacterSelected -= OnCharacterSelected;
+        if (_health != null)
+        {
+            _health.OnDamageAttempt -= GetTargetDamageable;
+        }
         ClearAllEvents();
+    }
+
+    private void GetTargetDamageable(Transform target)
+    {
+        var damageable = target.GetComponent<IDamageable>();
+
+        if (damageable != null)
+        {
+            _targetHealth = damageable;
+            SetTarget(target);
+        }
+    }
+    
+    private void UpdateChaseLogic()
+    {
+        if (_stateData.TargetTransform == null) 
+        {
+            _chaseDuration = 0f;
+            return;
+        }
+    
+        var distance = (transform.position - _stateData.TargetTransform.position).magnitude;
+       
+        if (distance > _settings.MaxChaseDistance)
+        {
+            _chaseDuration += Time.deltaTime;
+        
+            if (_chaseDuration >= _settings.LoseInterestTime)
+            {
+                Debug.Log("[AI] Lost interest in target");
+                ClearTarget();
+            }
+        }
+        else
+        {
+            _chaseDuration = 0f;
+        }
+    }
+
+    private void CheckTargetHealth()
+    {
+        if (_targetHealth == null)
+        {
+            return;
+        }
+
+        if (_targetHealth.IsDestroyed)
+        {
+            ClearTarget();
+        }
     }
 
     private void ClearAllEvents()
@@ -129,7 +184,7 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
         OnLook = null;
     }
 
-    public void SetTarget(Transform target)
+    private void SetTarget(Transform target)
     {
         _stateData.TargetTransform = target;
         

@@ -20,6 +20,9 @@ MonoBehaviour:
     <HitBoxForwardOffset>k__BackingField: 0.3
     <WhooshSounds>k__BackingField: {fileID: 0}
     <HitSounds>k__BackingField: {fileID: 0}
+    <WastingCharges>k__BackingField:
+      <WastingCharges>k__BackingField: 1
+      <ChargesPerUse>k__BackingField: 1
   <LaunchSettings>k__BackingField:
     <StickOffset>k__BackingField: 0.05
     <Gravity>k__BackingField: -9.81

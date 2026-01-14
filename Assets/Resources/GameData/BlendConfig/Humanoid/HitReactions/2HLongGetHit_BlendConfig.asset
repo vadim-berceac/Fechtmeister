@@ -12,31 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa173714b11dd8842bdaecaa815f267a, type: 3}
   m_Name: 2HLongGetHit_BlendConfig
   m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
-  <ParameterName>k__BackingField: Speed
   <ParamValue>k__BackingField: 4
   <Clips>k__BackingField:
   - <Clip>k__BackingField: {fileID: 7400000, guid: 9087a5f248f9b6a4084c6ca5615319f2, type: 3}
     <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.5
     <ActionTime>k__BackingField: 0
   - <Clip>k__BackingField: {fileID: 7400000, guid: ed307c621bf40514abd8853bdb6b76ca, type: 3}
     <ParamValue>k__BackingField: 1
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.5
     <ActionTime>k__BackingField: 0
   - <Clip>k__BackingField: {fileID: 7400000, guid: 41b336890a1d36e44a786c3129f24edb, type: 3}
     <ParamValue>k__BackingField: 1
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.5
     <ActionTime>k__BackingField: 0
   - <Clip>k__BackingField: {fileID: 7400000, guid: 699fc9705773ad84a8da331a924de3d2, type: 3}
     <ParamValue>k__BackingField: 1
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.5
     <ActionTime>k__BackingField: 0
   - <Clip>k__BackingField: {fileID: 7400000, guid: 9d2b9f07c2aaa3c4aa3796b16a7368de, type: 3}
     <ParamValue>k__BackingField: 1
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 1.5
     <ActionTime>k__BackingField: 0

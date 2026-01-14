@@ -11,16 +11,28 @@ public class ProjectileController : MonoBehaviour
     private Collider _parent;
     private Transform _transform;
     private readonly Collider[] _hitResults = new Collider[5];
+    private readonly Collider[] _threatResults = new Collider[10]; 
     private bool _stuck;
 
     private NativeArray<Vector3> _velArray;
     private NativeArray<Vector3> _posArray;
+
+    
+    private const float ThreatDetectionRadius = 10f; 
+    private LayerMask _characterLayerMask; 
+    
+    private bool _threatNotified; 
 
     private void Start()
     {
         _transform = transform;
         _velArray = new NativeArray<Vector3>(1, Allocator.Persistent);
         _posArray = new NativeArray<Vector3>(1, Allocator.Persistent);
+      
+        if (_characterLayerMask == 0)
+        {
+            _characterLayerMask = LayerMask.GetMask("Character");
+        }
     }
 
     private void OnDestroy()
@@ -38,6 +50,8 @@ public class ProjectileController : MonoBehaviour
     public void Launch(Collider parent, int accuracy)
     {
         _parent = parent;
+        _threatNotified = false;
+        
         var forward = transform.forward;
         var maxSpreadAngle = _data.LaunchSettings.MaxSpreadAngles; 
         var spreadAngle = maxSpreadAngle * (1f - accuracy / 100f);
@@ -59,13 +73,13 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject, _data.LaunchSettings.Lifetime);
     }
 
-
     private void FixedUpdate()
     {
         if (_stuck || _velocity.magnitude < 0.1f) return;
 
         RunPhysicsJob();
         UpdateRotation();
+        DetectThreatsNearby(); 
         DetectCollisions();
     }
     
@@ -100,12 +114,35 @@ public class ProjectileController : MonoBehaviour
         }
     }
     
+    private void DetectThreatsNearby()
+    {
+        if (_threatNotified) return;
+        
+        var hitCount = Physics.OverlapSphereNonAlloc(
+            _transform.position, 
+            ThreatDetectionRadius, 
+            _threatResults, 
+            _characterLayerMask
+        );
+
+        for (var i = 0; i < hitCount; i++)
+        {
+            var hit = _threatResults[i];
+            if (hit == null || hit == _parent) continue;
+
+            var damageable = hit.GetComponent<IDamageable>();
+            if (damageable == null) continue;
+
+            damageable.OnDamageAttempt?.Invoke(_parent.transform);
+        }
+        
+        _threatNotified = true; 
+    }
+    
     private void DetectCollisions()
     {
         var center = _transform.position + _transform.forward * _data.WeaponParams.HitBoxForwardOffset;
-
         var halfExtents = _data.WeaponParams.HitBoxSize * 0.5f;
-
         var orientation = _transform.rotation;
 
         var hitCount = Physics.OverlapBoxNonAlloc(center, halfExtents, _hitResults, orientation, _data.LaunchSettings.LayerMask);
@@ -119,7 +156,6 @@ public class ProjectileController : MonoBehaviour
             return;
         }
     }
-
     
     private void HandleHit(Collider hit)
     {
@@ -136,7 +172,8 @@ public class ProjectileController : MonoBehaviour
 
         if (damaged != null)
         {
-            damaged.Damage(_data.WeaponParams.Damage + _weaponData.WeaponParams.Damage, _data.WeaponParams.DamageType);
+            damaged.Damage(_data.WeaponParams.Damage + _weaponData.WeaponParams.Damage, 
+                _data.WeaponParams.DamageType, _parent.transform);
 
             if (damaged.HitBodyPartSettings.Health.IsHitReactionEnabled)
             {
@@ -153,7 +190,6 @@ public class ProjectileController : MonoBehaviour
         }
     }
 
-   
     [BurstCompile]
     private struct ProjectileJob : IJob
     {
