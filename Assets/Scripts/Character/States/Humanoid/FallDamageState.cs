@@ -20,7 +20,6 @@ public class FallDamageState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        character.Health.EnableHitReaction(false);
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, 0);
     }
 }

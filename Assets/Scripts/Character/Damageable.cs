@@ -23,6 +23,5 @@ public interface IDamageable
     public void Heal(float heal);
     public void SetHitReactionThreshold(float hitReactionThreshold);
     public void SetMaxHealth(float newMaxHealth);
-    public void EnableHitReaction(bool enable);
     public void SetDestroyed(bool destroyed);
 }

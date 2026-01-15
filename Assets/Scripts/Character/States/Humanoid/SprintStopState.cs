@@ -11,6 +11,7 @@ public class SprintStopState: State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new(character => (character.Health.IsHitReactionEnabled), "GetHitState"),
             new(character => (!character.CharacterInputHandler.IsWeaponDraw 
                               && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()), "IdleState"),
             new(character => (character.CharacterInputHandler.IsWeaponDraw 
@@ -21,7 +22,6 @@ public class SprintStopState: State
             new(character => (character.CharacterInputHandler.IsWeaponDraw  
                               && (character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime()) > 0.5f)
                               && (character.CharacterInputHandler.InputY > 0), "CombatWalkState"),
-            new(character => (character.Health.IsHitReactionEnabled), "GetHitState"),
         };
     }
     

@@ -1,24 +1,52 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthComponent : MonoBehaviour, IDamageable
 {
-    public Transform DamagedObject { get;  set; }
-    public float MaxHealth { get;  set; }
-    public float CurrentHealth { get;  set; }
-    public float HitReactionThresholdPercentage { get;  set; }
+    [field: SerializeField] private float HitReactionTime { get; set; } = 0.5f;
+    
+    public Transform DamagedObject { get; set; }
+    public float MaxHealth { get; set; }
+    public float CurrentHealth { get; set; }
+    public float HitReactionThresholdPercentage { get; set; }
+    
     public float CurrentHealthNormalized
     {
         get => CurrentHealth / MaxHealth;
         set => CurrentHealth = Mathf.Clamp01(value) * MaxHealth;
     }
-    public bool IsHitReactionEnabled { get;  set; }
-    public bool IsDestroyed { get;  set; }
-    public Dictionary<DamageTypes, int> DamageResistances { get;  set; } = new();
+    
+    private bool _isHitReactionEnabled;
+    private Coroutine _hitReactionCoroutine;
+    
+    public bool IsHitReactionEnabled
+    {
+        get
+        {
+            if (_isHitReactionEnabled)
+            {
+                _isHitReactionEnabled = false;
+               
+                if (_hitReactionCoroutine != null)
+                {
+                    StopCoroutine(_hitReactionCoroutine);
+                    _hitReactionCoroutine = null;
+                }
+                
+                return true;
+            }
+            return false;
+        }
+        set => _isHitReactionEnabled = value;
+    }
+    
+    public bool IsDestroyed { get; set; }
+    public Dictionary<DamageTypes, int> DamageResistances { get; set; } = new();
 
-    public Action<float> OnCurrentHealthChanged { get;  set; }
-    public Action <Transform> OnDamageAttempt { get;  set; }
+    public Action<float> OnCurrentHealthChanged { get; set; }
+    public Action<Transform> OnDamageAttempt { get; set; }
 
     public void Initialize(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage,
         Transform damagedObject, ResistanceSettings resistanceSettings)
@@ -102,13 +130,53 @@ public class HealthComponent : MonoBehaviour, IDamageable
         MaxHealth = newMaxHealth;
     }
 
-    public void EnableHitReaction(bool enable)
+    private void EnableHitReaction(bool enable)
     {
-        IsHitReactionEnabled = enable;
+        if (enable)
+        {
+            // Останавливаем предыдущую корутину, если была
+            if (_hitReactionCoroutine != null)
+            {
+                StopCoroutine(_hitReactionCoroutine);
+            }
+            
+            _isHitReactionEnabled = true;
+            _hitReactionCoroutine = StartCoroutine(ResetHitReactionAfterDelay());
+            Debug.Log("[Health] Hit reaction enabled");
+        }
+        else
+        {
+            _isHitReactionEnabled = false;
+            
+            if (_hitReactionCoroutine != null)
+            {
+                StopCoroutine(_hitReactionCoroutine);
+                _hitReactionCoroutine = null;
+            }
+        }
+    }
+
+    private IEnumerator ResetHitReactionAfterDelay()
+    {
+        yield return new WaitForSeconds(HitReactionTime);
+        
+        _isHitReactionEnabled = false;
+        _hitReactionCoroutine = null;
+        
+        Debug.Log("[Health] Hit reaction auto-reset after timeout");
     }
 
     public void SetDestroyed(bool destroyed)
     {
         IsDestroyed = destroyed;
+    }
+
+    private void OnDisable()
+    {
+        if (_hitReactionCoroutine != null)
+        {
+            StopCoroutine(_hitReactionCoroutine);
+            _hitReactionCoroutine = null;
+        }
     }
 }

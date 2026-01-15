@@ -24,6 +24,7 @@ public struct NavMeshStateData
     public bool HasReachedDestination;
     public bool IsRunning;
     public bool HasWeaponDrawn;
+    public float WeaponDrawTime;
     
     // Атака
     public float LastAttackTime;
@@ -75,6 +76,7 @@ public struct NavMeshSettings
     [Header("Combat")]
     [Tooltip("Дистанция атаки")]
     public float AttackRange;
+    public float WeaponDrawDelay;
     
     [Tooltip("Минимальный dot product угла для атаки (0.866 ≈ 30°)")]
     public float AttackAngleDotThreshold;
@@ -98,6 +100,7 @@ public struct NavMeshSettings
         AttackRange = 2.5f,
         AttackAngleDotThreshold = 0.866f, // ~30 градусов
         LoseInterestTime = 20,
-        MaxChaseDistance = 50
+        MaxChaseDistance = 50,
+        WeaponDrawDelay = 0.4f,
     };
 }

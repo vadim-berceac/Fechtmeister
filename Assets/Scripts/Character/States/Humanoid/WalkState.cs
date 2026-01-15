@@ -10,6 +10,7 @@ public class WalkState : MovementState
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new(character => (character.Health.IsHitReactionEnabled), "GetHitState"),
             new(character => (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
                               Mathf.Abs(character.CharacterInputHandler.InputY) == 0), "IdleState"),
             new(character => (character.CharacterInputHandler.IsRun && character.Health.CurrentHealthNormalized >= 0.5), "RunState"),
@@ -17,7 +18,6 @@ public class WalkState : MovementState
             new(character => (character.CharacterInputHandler.IsJump), "JumpState"),
             new(character => (!character.Gravity.Grounded), "FallState"),
             new(character => (character.CharacterInputHandler.IsInventoryOpen), "InventoryState"),
-            new(character => (character.Health.IsHitReactionEnabled), "GetHitState"),
         };
     }
 }

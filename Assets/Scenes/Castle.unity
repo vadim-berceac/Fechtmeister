@@ -1397,7 +1397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2895659091404197368, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: <IsAI>k__BackingField
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2986210682719602384, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: m_Name
@@ -2706,6 +2706,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: finalScaleReference
+      value: 0.8929357
+      objectReference: {fileID: 0}
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: _Editor_OnValidateTrigger
       value: 1
@@ -4197,6 +4201,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: _Editor_OnValidateTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895659091404197368, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: <IsAI>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2986210682719602384, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}

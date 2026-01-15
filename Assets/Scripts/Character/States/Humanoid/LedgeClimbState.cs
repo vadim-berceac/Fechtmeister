@@ -10,8 +10,8 @@ public class LedgeClimbState: State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "LedgeClimbEnd"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
+            new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "LedgeClimbEnd"),
         };
     }
     public override void EnterState(CharacterCore character)

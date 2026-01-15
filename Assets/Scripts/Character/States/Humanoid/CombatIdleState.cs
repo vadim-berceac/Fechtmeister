@@ -10,6 +10,7 @@ public class CombatIdleState : MovementState
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new (c => c.Health.IsHitReactionEnabled, "GetHitState"),
             new (c => c.Inventory.WeaponSystem.CanUnDrawWeapon(), "WeaponOffState"),
             new (c => Mathf.Abs(c.CharacterInputHandler.InputX) > 0 || Mathf.Abs(c.CharacterInputHandler.InputY) > 0, "CombatWalkState"),
             new (c => c.CharacterInputHandler.IsAttack && !c.Inventory.WeaponSystem.WeaponInstanceIsRanged 
@@ -17,7 +18,6 @@ public class CombatIdleState : MovementState
             new (c => c.CharacterInputHandler.IsAimBlock && c.Inventory.WeaponSystem.WeaponInstanceIsRanged, "LoadState"),
             new (c => c.CharacterInputHandler.IsJump, "JumpState"),
             new (c => !c.Gravity.Grounded, "FallState"),
-            new (c => c.Health.IsHitReactionEnabled, "GetHitState"),
         };
     }
 }

@@ -10,6 +10,7 @@ public class LandingState: State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => !character.CharacterInputHandler.IsWeaponDraw 
                              && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "IdleState"),
             new(character => character.CharacterInputHandler.IsWeaponDraw 
@@ -20,7 +21,6 @@ public class LandingState: State
             new(character => character.CharacterInputHandler.IsWeaponDraw && character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.75
                                                                           && character.CurrentSpeed.LastNotNullHorizontalSpeed > 4 
                                                                           && character.CharacterInputHandler.IsRun, "CombatRunState"),
-            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
         };
     }
     

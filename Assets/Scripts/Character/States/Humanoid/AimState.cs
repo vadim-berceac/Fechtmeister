@@ -10,9 +10,9 @@ public class AimState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new(c => c.Health.IsHitReactionEnabled, "GetHitState"),
             new (c => !c.CharacterInputHandler.IsAimBlock, "CombatIdleState"),
             new(c => c.CharacterInputHandler.IsAttack, "ReleaseState"),
-            new(c => c.Health.IsHitReactionEnabled, "GetHitState"),
         };
     }
     

@@ -8,11 +8,11 @@ public class LedgeClimbEnd: State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => !character.CharacterInputHandler.IsWeaponDraw 
                              && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "IdleState"),
             new(character => character.CharacterInputHandler.IsWeaponDraw 
                              && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
-            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
         };
     }
     

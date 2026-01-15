@@ -17,5 +17,5 @@ MonoBehaviour:
   - <Clip>k__BackingField: {fileID: 7400000, guid: 1a5d69c54882719458140b765e643176, type: 3}
     <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 0.5
+    <Speed>k__BackingField: 0.8
     <ActionTime>k__BackingField: 0.6

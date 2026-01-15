@@ -8,16 +8,23 @@ public struct IdleBehaviorState : INavMeshState
         input.InvokeLook(Vector2.zero);
         input.SetRunState(false);
         
-        // Убираем оружие при переходе в idle
+        // Запоминаем время входа в idle для задержки убирания оружия
         if (data.HasWeaponDrawn)
         {
-            input.InvokeDrawWeapon();
-            data.HasWeaponDrawn = false;
+            data.WeaponDrawTime = Time.time;
         }
     }
 
     public void Update(ref NavMeshStateData data, NavMeshCharacterInput input)
     {
+        // Убираем оружие с задержкой
+        if (data.HasWeaponDrawn && ShouldHolsterWeapon(ref data))
+        {
+            input.InvokeDrawWeapon();
+            data.HasWeaponDrawn = false;
+            Debug.Log("[NavMeshInput] Holstering weapon after idle delay");
+        }
+        
         // Если есть цель - поворачиваемся к ней
         if (data.TargetTransform != null)
         {
@@ -31,6 +38,14 @@ public struct IdleBehaviorState : INavMeshState
 
     public void Exit(ref NavMeshStateData data, NavMeshCharacterInput input)
     {
-        // Cleanup если нужен
+        // Сбрасываем время входа в idle
+        data.WeaponDrawTime = 0f;
+    }
+    
+    private static bool ShouldHolsterWeapon(ref NavMeshStateData data)
+    {
+        // Проверяем, прошла ли задержка с момента входа в idle
+        var timeSinceIdle = Time.time - data.WeaponDrawTime;
+        return timeSinceIdle >= data.Settings.WeaponDrawDelay;
     }
 }

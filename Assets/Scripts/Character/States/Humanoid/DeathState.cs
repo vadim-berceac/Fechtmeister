@@ -12,7 +12,6 @@ public class DeathState : State
         var animType = character.Inventory.IsWeaponOn ? itemInstanceData.AnimationType : 0;
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, animType);
         character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
-        character.Health.EnableHitReaction(false);
 
         if (character.IsAI)
         {

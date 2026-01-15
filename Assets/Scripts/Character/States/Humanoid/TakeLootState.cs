@@ -10,8 +10,8 @@ public class TakeLootState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new(character => (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()), "IdleState"),
             new(character => (character.Health.IsHitReactionEnabled), "GetHitState"),
+            new(character => (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()), "IdleState"),
         };
     }
     

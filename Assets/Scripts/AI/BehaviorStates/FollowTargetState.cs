@@ -13,6 +13,7 @@ public struct FollowTargetState : INavMeshState
         {
             input.InvokeDrawWeapon();
             data.HasWeaponDrawn = true;
+            data.WeaponDrawTime = Time.time; // Запоминаем время вытаскивания
         }
     }
 
@@ -89,6 +90,13 @@ public struct FollowTargetState : INavMeshState
                 data.TargetTransform.position, 
                 data.Settings.IdleRotationSpeed
             );
+            
+            // Атакуем только если оружие уже достали и прошла задержка
+            if (CanAttack(ref data))
+            {
+                input.InvokeAttack();
+            }
+            
             return true;
         }
 
@@ -180,5 +188,14 @@ public struct FollowTargetState : INavMeshState
         data.CurrentWaypointIndex = 0;
         data.IsStuck = false;
         data.HasReachedDestination = false;
+    }
+    
+    private static bool CanAttack(ref NavMeshStateData data)
+    {
+        // Проверяем, что оружие достали и прошла задержка
+        if (!data.HasWeaponDrawn) return false;
+        
+        var timeSinceDrawn = Time.time - data.WeaponDrawTime;
+        return timeSinceDrawn >= data.Settings.WeaponDrawDelay;
     }
 }

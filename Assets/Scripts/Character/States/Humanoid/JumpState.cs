@@ -10,11 +10,11 @@ public class JumpState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => !character.Gravity.Grounded
                              && character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.5, "FallState"),
             new(character => character.Gravity.Grounded &&
                              character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.6, "LandingState"),
-            new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => character.LedgeDetection.LedgeGrabPoint != Vector3.zero &&
                              character.CharacterInputHandler.TargetInputMagnitude > 0f, "LedgeClimbState"),
         };

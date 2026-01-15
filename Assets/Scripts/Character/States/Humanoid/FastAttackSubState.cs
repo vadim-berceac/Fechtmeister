@@ -15,10 +15,7 @@ public class FastAttackSubState : State
         ((WeaponInstance)character.Inventory.WeaponSystem.InstanceInHands).ResetAction();
     }
 
-    public override void FixedUpdateState(CharacterCore character)
-    {
-       
-    }
+    public override void FixedUpdateState(CharacterCore character){}
 
     protected override void CheckSwitch(CharacterCore character)
     {
