@@ -24,6 +24,7 @@ public struct WeaponParams
     [field: SerializeField] public float Damage { get; set; }
     [field: SerializeField] public DamageTypes DamageType { get; set; }
     [field: SerializeField] public float AttackSpeed { get; set; }
+    [field: SerializeField] public float PreferredDistance { get; set; }
     [field: SerializeField] public Vector3 HitBoxSize { get; set; }
     [field: SerializeField] public float HitBoxForwardOffset { get; set; }
     [field: SerializeField] public SfxSet WhooshSounds { get; set; }

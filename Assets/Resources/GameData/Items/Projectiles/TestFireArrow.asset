@@ -16,13 +16,14 @@ MonoBehaviour:
     <Damage>k__BackingField: 30
     <DamageType>k__BackingField: 5
     <AttackSpeed>k__BackingField: 60
+    <PreferredDistance>k__BackingField: 0
     <HitBoxSize>k__BackingField: {x: 0.1, y: 0.1, z: 0.3}
     <HitBoxForwardOffset>k__BackingField: 0.3
     <WhooshSounds>k__BackingField: {fileID: 0}
     <HitSounds>k__BackingField: {fileID: 0}
     <WastingCharges>k__BackingField:
-      <WastingCharges>k__BackingField: 1
-      <ChargesPerUse>k__BackingField: 1
+      <WastingCharges>k__BackingField: 0
+      <ChargesPerUse>k__BackingField: 0
   <LaunchSettings>k__BackingField:
     <StickOffset>k__BackingField: 0.05
     <Gravity>k__BackingField: -9.81

@@ -16,10 +16,14 @@ MonoBehaviour:
     <Damage>k__BackingField: 40
     <DamageType>k__BackingField: 2
     <AttackSpeed>k__BackingField: 1
+    <PreferredDistance>k__BackingField: 2.2
     <HitBoxSize>k__BackingField: {x: 2, y: 1, z: 2}
     <HitBoxForwardOffset>k__BackingField: 2
     <WhooshSounds>k__BackingField: {fileID: 11400000, guid: 09438d1532aba75488ea5e991854f245, type: 2}
     <HitSounds>k__BackingField: {fileID: 11400000, guid: 34349feb695bf7942814e1bbe847aada, type: 2}
+    <WastingCharges>k__BackingField:
+      <WastingCharges>k__BackingField: 0
+      <ChargesPerUse>k__BackingField: 0
   <ItemName>k__BackingField: Training Sword 2H
   <ItemDescription>k__BackingField: Training Sword 2H
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf275b1241c0fa04e83b0288eaecab84, type: 3}

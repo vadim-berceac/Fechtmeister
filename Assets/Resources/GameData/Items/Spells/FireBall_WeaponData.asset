@@ -16,6 +16,7 @@ MonoBehaviour:
     <Damage>k__BackingField: 50
     <DamageType>k__BackingField: 5
     <AttackSpeed>k__BackingField: 0
+    <PreferredDistance>k__BackingField: 20
     <HitBoxSize>k__BackingField: {x: 0, y: 0, z: 0}
     <HitBoxForwardOffset>k__BackingField: 0
     <WhooshSounds>k__BackingField: {fileID: 0}

@@ -22,17 +22,16 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
     
     private float _chaseDuration;
 
-    private IDamageable _health;
     private IDamageable _targetHealth;
     
-    [SerializeField] private NavMeshSettings _settings = NavMeshSettings.Default;
+    [field: SerializeField] public NavMeshSettings Settings { get; set; }= NavMeshSettings.Default;
+    [field: SerializeField] public CharacterCore Character { get; set; }
     
     private NavMeshStateData _stateData;
     private NavMeshStateMachine _stateMachine;
 
     private void Awake()
     {
-        TryGetComponent(out _health);
         InitializeStateData();
         ValidateNavMesh();
         Subscribe();
@@ -40,10 +39,7 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
         _stateMachine = new NavMeshStateMachine(this);
         _stateMachine.ChangeState(NavMeshStateType.Idle, ref _stateData);
         
-        if (_settings.AutoEnableOnStart)
-        {
-            Enable();
-        }
+        Enable();
     }
 
     protected override void OnDisable()
@@ -71,7 +67,7 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
         {
             NavMeshPath = new NavMeshPath(),
             Transform = transform,
-            Settings = _settings
+            Settings = Settings
         };
     }
 
@@ -103,17 +99,17 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
 
     public void Subscribe()
     {
-        if (_health != null)
+        if (Character != null)
         {
-            _health.OnDamageAttempt += GetTargetDamageable;
+            Character.Health.OnDamageAttempt += GetTargetDamageable;
         }
     }
 
     public void Unsubscribe()
     {
-        if (_health != null)
+        if (Character != null)
         {
-            _health.OnDamageAttempt -= GetTargetDamageable;
+            Character.Health.OnDamageAttempt -= GetTargetDamageable;
         }
         ClearAllEvents();
     }
@@ -139,11 +135,11 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
     
         var distance = (transform.position - _stateData.TargetTransform.position).magnitude;
        
-        if (distance > _settings.MaxChaseDistance)
+        if (distance > Settings.MaxChaseDistance)
         {
             _chaseDuration += Time.deltaTime;
         
-            if (_chaseDuration >= _settings.LoseInterestTime)
+            if (_chaseDuration >= Settings.LoseInterestTime)
             {
                 Debug.Log("[AI] Lost interest in target");
                 ClearTarget();

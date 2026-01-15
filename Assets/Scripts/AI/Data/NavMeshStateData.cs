@@ -17,6 +17,8 @@ public struct NavMeshStateData
     // Отслеживание движения
     public Vector3 LastCharacterPosition;
     public float LastProgressCheckTime;
+    public int StrafeDirection;       
+    public float LastStrafeChangeTime;
     
     // Состояние
     public bool IsEnabled;
@@ -28,13 +30,14 @@ public struct NavMeshStateData
     
     // Атака
     public float LastAttackTime;
+    public bool IsWeaponReady;
 }
 
 [System.Serializable]
 public struct NavMeshSettings
 {
     [Header("General")]
-    public bool AutoEnableOnStart;
+    public float StrafeChangeInterval;
     
     [Header("Pathfinding")]
     [Tooltip("Как часто пересчитывать путь (секунды)")]
@@ -85,8 +88,8 @@ public struct NavMeshSettings
     
     public static readonly NavMeshSettings Default = new()
     {
-        AutoEnableOnStart = true,
         PathUpdateInterval = 0.5f,
+        StrafeChangeInterval = 1.5f,
         WaypointReachDistance = 1.5f,
         FinalDestinationDistance = 2f,
         PathRecalculationThreshold = 2f,

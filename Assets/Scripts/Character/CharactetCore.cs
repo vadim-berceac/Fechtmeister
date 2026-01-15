@@ -12,6 +12,7 @@ public class CharacterCore : ManagedUpdatableObject
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
     [field: SerializeField] public TargetingSettings TargetingSettings { get; set; }
     [field: SerializeField] public LedgeDetectionSettings LedgeDetectionSettings { get; set; }
+    [field: SerializeField] public NavMeshCharacterInput NavMeshCharacterInput { get; private set; }
     
     public SceneCamera SceneCamera { get; private set; }
     public CharacterInputHandler CharacterInputHandler { get; private set; }
@@ -55,7 +56,7 @@ public class CharacterCore : ManagedUpdatableObject
         }
         else
         {
-            InputByPlayer = gameObject.AddComponent<NavMeshCharacterInput>();
+            InputByPlayer = NavMeshCharacterInput;
             CharacterInputHandler.SetupInputSet(InputByPlayer);
         }
         
