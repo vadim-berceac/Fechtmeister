@@ -13,7 +13,6 @@ public class CharacterCore : ManagedUpdatableObject
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
     [field: SerializeField] public TargetingSettings TargetingSettings { get; set; }
     [field: SerializeField] public LedgeDetectionSettings LedgeDetectionSettings { get; set; }
-    [field: SerializeField] public NavMeshCharacterInput NavMeshCharacterInput { get; private set; }
     [field: SerializeField] public BehaviorNewInput BehaviorNewInput { get; private set; }
     
     public SceneCamera SceneCamera { get; private set; }
@@ -58,16 +57,9 @@ public class CharacterCore : ManagedUpdatableObject
         }
         else
         {
-            if (!IsTestBehavior)
-            {
-                InputByPlayer = BehaviorNewInput;
-                CharacterInputHandler.SetupInputSet(InputByPlayer);
-            }
-            else
-            {
-                InputByPlayer = BehaviorNewInput;
-                CharacterInputHandler.SetupInputSet(InputByPlayer);
-            }
+            InputByPlayer = BehaviorNewInput;
+            BehaviorNewInput.Enable();
+            CharacterInputHandler.SetupInputSet(InputByPlayer);
         }
         
         Gravity = new CharacterGravity();

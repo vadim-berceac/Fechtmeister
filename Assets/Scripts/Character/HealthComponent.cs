@@ -47,6 +47,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
 
     public Action<float> OnCurrentHealthChanged { get; set; }
     public Action<Transform> OnDamageAttempt { get; set; }
+    public Action<bool> OnDestroyed { get;  set; }
 
     public void Initialize(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage,
         Transform damagedObject, ResistanceSettings resistanceSettings)
@@ -169,6 +170,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
     public void SetDestroyed(bool destroyed)
     {
         IsDestroyed = destroyed;
+        OnDestroyed?.Invoke(IsDestroyed);
     }
 
     private void OnDisable()

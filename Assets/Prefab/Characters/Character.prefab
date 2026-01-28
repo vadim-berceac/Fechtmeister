@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 1153103242609571977}
   - component: {fileID: 6453623000234550772}
   - component: {fileID: 2232302326239593477}
+  - component: {fileID: 5597927657040709477}
   - component: {fileID: 6169312492197996676}
   - component: {fileID: 4521586255099012928}
   - component: {fileID: 2826338849064805150}
@@ -176,13 +177,13 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &2120405729584095489
 CapsuleCollider:
@@ -855,6 +856,53 @@ MonoBehaviour:
   - m_Rig: {fileID: 6465556295910519844}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &5597927657040709477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2986210682719602384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
+  m_Graph: {fileID: -5999970649627627247, guid: e28b8c13c67615748833d867be0c1e48, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 4500087333253021778
+  - rid: 4500087333863031052
+  - rid: 4500087333863031053
+  m_OriginalGraph: {fileID: 0}
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 4500087333253021778
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 2986210682719602384}
+    - rid: 4500087333863031052
+      type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 8924938042346119453
+          m_Value1: 10034048450604474005
+        Name: SelfTransform
+        m_Value: {fileID: 8531776840989775669}
+    - rid: 4500087333863031053
+      type: {class: 'BlackboardVariable`1[[BehaviorNewInput, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 11815244395699368635
+          m_Value1: 314972691228026061
+        Name: InputSystem
+        m_Value: {fileID: 647213276134918066}
 --- !u!114 &6169312492197996676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -936,7 +984,6 @@ MonoBehaviour:
     <LayerMask>k__BackingField:
       serializedVersion: 2
       m_Bits: 1
-  <NavMeshCharacterInput>k__BackingField: {fileID: 0}
   <BehaviorNewInput>k__BackingField: {fileID: 647213276134918066}
 --- !u!114 &647213276134918066
 MonoBehaviour:
@@ -950,6 +997,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a48a23927349fd4aa959384b4f6e173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BehaviorNewInput
+  <Health>k__BackingField: {fileID: 2826338849064805150}
+  <Agent>k__BackingField: {fileID: 5597927657040709477}
 --- !u!114 &7201767013415629698
 MonoBehaviour:
   m_ObjectHideFlags: 0
