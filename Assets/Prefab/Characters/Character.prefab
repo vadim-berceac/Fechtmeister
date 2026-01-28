@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 4521586255099012928}
   - component: {fileID: 2826338849064805150}
   - component: {fileID: 2895659091404197368}
-  - component: {fileID: 6998196018361506662}
+  - component: {fileID: 647213276134918066}
   - component: {fileID: 7201767013415629698}
   - component: {fileID: 9127581496330606050}
   - component: {fileID: 2787132427695430361}
@@ -913,6 +913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsAI>k__BackingField: 0
+  <IsTestBehavior>k__BackingField: 0
   <DamagedObject>k__BackingField: {fileID: 5343873234729745239}
   <GraphCore>k__BackingField: {fileID: 4521586255099012928}
   <LocomotionSettings>k__BackingField:
@@ -935,8 +936,9 @@ MonoBehaviour:
     <LayerMask>k__BackingField:
       serializedVersion: 2
       m_Bits: 1
-  <NavMeshCharacterInput>k__BackingField: {fileID: 6998196018361506662}
---- !u!114 &6998196018361506662
+  <NavMeshCharacterInput>k__BackingField: {fileID: 0}
+  <BehaviorNewInput>k__BackingField: {fileID: 647213276134918066}
+--- !u!114 &647213276134918066
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -945,28 +947,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2986210682719602384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e828022431029542b5da9a26720c28f, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a48a23927349fd4aa959384b4f6e173, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NavMeshCharacterInput
-  <_settings>k__BackingField:
-    AutoEnableOnStart: 1
-    PathUpdateInterval: 0.5
-    WaypointReachDistance: 1.5
-    FinalDestinationDistance: 2
-    PathRecalculationThreshold: 2
-    NavMeshSampleDistance: 10
-    RotationSpeed: 5
-    IdleRotationSpeed: 3
-    AttackRotationSpeed: 8
-    RunDistanceThreshold: 6
-    StuckDetectionTime: 2
-    MinProgressDistance: 0.5
-    AttackRange: 2.5
-    WeaponDrawDelay: 0.4
-    AttackAngleDotThreshold: 0.866
-    LoseInterestTime: 20
-    MaxChaseDistance: 50
-  <Character>k__BackingField: {fileID: 2895659091404197368}
+  m_EditorClassIdentifier: Assembly-CSharp::BehaviorNewInput
 --- !u!114 &7201767013415629698
 MonoBehaviour:
   m_ObjectHideFlags: 0

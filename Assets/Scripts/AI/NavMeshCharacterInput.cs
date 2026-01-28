@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
-using Random = UnityEngine.Random;
 
 public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
 {
@@ -19,6 +18,7 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
     public event Action<Vector2> OnLook;
 
     public int SelectedWeapon { get; set; }
+    public bool IsEnabled { get; set; }
     
     private float _chaseDuration;
 
@@ -51,7 +51,7 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
 
     public override void OnManagedUpdate()
     {
-        if (!_stateData.IsEnabled) return;
+        if (!_stateData.IsEnabled || !IsEnabled) return;
         
         _stateMachine.Update(ref _stateData);
         
@@ -83,6 +83,7 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
     public void Enable()
     {
         _stateData.IsEnabled = true;
+        IsEnabled = true;
         
         if (_stateData.TargetTransform != null)
         {
@@ -93,6 +94,8 @@ public class NavMeshCharacterInput : ManagedUpdatableObject, ICharacterInputSet
     public void Disable()
     {
         _stateData.IsEnabled = false;
+        IsEnabled = false;
+        
         OnMove?.Invoke(Vector2.zero);
         _stateMachine.ChangeState(NavMeshStateType.Idle, ref _stateData);
     }

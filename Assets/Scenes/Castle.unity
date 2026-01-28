@@ -4276,6 +4276,10 @@ PrefabInstance:
       propertyPath: <IsAI>k__BackingField
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2895659091404197368, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: <IsTestBehavior>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2986210682719602384, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: m_Name
       value: Character (3)

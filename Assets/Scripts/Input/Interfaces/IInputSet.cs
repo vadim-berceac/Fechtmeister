@@ -1,6 +1,7 @@
 
 public interface IInputSet
 {
+    public bool IsEnabled { get; set; }
     public void FindActions();
     public void Enable();
     public void Disable();

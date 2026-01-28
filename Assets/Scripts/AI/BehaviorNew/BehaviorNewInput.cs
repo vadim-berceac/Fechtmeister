@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public interface ICharacterInputSet : IInputSet
+public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
 {
     public event Action OnAttack;
     public event Action OnAimBlock;
@@ -15,18 +15,34 @@ public interface ICharacterInputSet : IInputSet
     public event Action<int> OnWeaponSelect;
     public event Action<Vector2> OnMove;
     public event Action<Vector2> OnLook;
-    public int SelectedWeapon { get; set; }
-}
+    public bool IsEnabled { get; set; }
 
-public static class ICharacterInputSetExtensions
-{
-    public static void CheckSelectedWeapons(this ICharacterInputSet set, int index, Action<int> weaponAction, Action onTrueAction)
+    public int SelectedWeapon { get; set; }
+    
+    public override void OnManagedUpdate()
     {
-        weaponAction?.Invoke(index);
-        if (set.SelectedWeapon == index)
-        {
-            onTrueAction?.Invoke();
-        }
-        set.SelectedWeapon = index;
+       
+    }
+    
+    public void FindActions(){}
+    
+    public void Enable()
+    {
+       
+    }
+
+    public void Disable()
+    {
+      
+    }
+
+    public void Subscribe()
+    {
+       
+    }
+
+    public void Unsubscribe()
+    {
+       
     }
 }

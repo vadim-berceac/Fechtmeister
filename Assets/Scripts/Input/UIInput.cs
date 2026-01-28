@@ -7,6 +7,7 @@ public class UIInput : MonoBehaviour, IUIInputSet
 {
    [SerializeField] private InputActionAsset inputActionAsset;
    [SerializeField] private UIActionsNames uiActionsNames;
+   public bool IsEnabled { get; set; }
 
    private readonly List<InputAction> _actions = new ();
    private InputAction _onSubmit;
