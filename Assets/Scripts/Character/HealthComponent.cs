@@ -162,13 +162,10 @@ public class HealthComponent : MonoBehaviour, IDamageable
 
     private void OnDisable()
     {
-        // Только при отключении компонента можем остановить
         if (_hitReactionCoroutine != null)
         {
             StopCoroutine(_hitReactionCoroutine);
             _hitReactionCoroutine = null;
-            
-            // И вызываем событие для корректного сброса состояния
             if (_isHitReactionEnabled)
             {
                 _isHitReactionEnabled = false;

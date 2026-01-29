@@ -13,7 +13,7 @@ using UnityEngine;
 )]
 public partial class FollowTargetAction : Action
 {
-    [SerializeReference] public BlackboardVariable<GameObject> CurrentTarget;
+    [SerializeReference] public BlackboardVariable<HealthComponent> CurrentTarget;
     [SerializeReference] public BlackboardVariable<float> AttackRange;
     [SerializeReference] public BlackboardVariable<float> MoveSpeed;
     [SerializeReference] public BlackboardVariable<float> RotationSpeed;

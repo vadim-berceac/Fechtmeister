@@ -92,8 +92,8 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
     private void OnPossibleDamage(Transform source)
     {
         IsInCombatMode = true;
-        
-        Agent.BlackboardReference.SetVariableValue("CurrentTarget", source.gameObject);
+        source.TryGetComponent<HealthComponent>(out var targetHealth);
+        Agent.BlackboardReference.SetVariableValue("CurrentTarget", targetHealth);
         Agent.BlackboardReference.SetVariableValue("IsInCombat", true);
     }
 

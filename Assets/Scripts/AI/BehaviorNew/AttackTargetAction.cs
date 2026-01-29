@@ -8,7 +8,7 @@ using Unity.Properties;
 [NodeDescription(name: "AttackTargetAction ", story: "Attack target", category: "Action/Combat", id: "19de88cb64fc20c7a6057050b50c32fc")]
 public partial class AttackTargetAction : Action
 {
-    [SerializeReference] public BlackboardVariable<GameObject> CurrentTarget;
+    [SerializeReference] public BlackboardVariable<HealthComponent> CurrentTarget;
     [SerializeReference] public BlackboardVariable<float> AttackRange;
     [SerializeReference] public BlackboardVariable<float> AttackCooldown;
     [SerializeReference] public BlackboardVariable<float> RotationSpeed;
