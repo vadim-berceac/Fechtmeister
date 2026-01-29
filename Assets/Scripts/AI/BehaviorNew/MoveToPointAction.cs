@@ -15,7 +15,7 @@ public partial class MoveToPointAction : Action
     [SerializeReference] public BlackboardVariable<float> StoppingDistance;
     [SerializeReference] public BlackboardVariable<float> RotationSpeed = new BlackboardVariable<float>(5f);
     [SerializeReference] public BlackboardVariable<float> MaxRotationBeforeMove = new BlackboardVariable<float>(45f);
-    [SerializeReference] public BlackboardVariable<float> TimeoutDuration = new BlackboardVariable<float>(5f);
+    [SerializeReference] public BlackboardVariable<float> TimeoutDuration = new BlackboardVariable<float>(1f);
 
     private float _timeElapsed;
     private Vector3 _lastPosition;

@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireballGround
       objectReference: {fileID: 0}
+    - target: {fileID: 1925481177651670, guid: 193cf1e59d4c0e44fa30acf094379063, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4278501022115968, guid: 193cf1e59d4c0e44fa30acf094379063, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

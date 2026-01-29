@@ -45,14 +45,14 @@ MonoBehaviour:
           rid: 4500087333253021768
         BlackboardGroupReferences: []
         Root:
-          rid: 4500087339756290283
+          rid: 4500087353404031060
         m_ActiveNodes: []
         m_NodesToTick: []
         m_NodesToEnd:
           rid: 4500087333253021770
         m_EndedNodes:
           rid: 4500087333253021771
-        m_VersionTimestamp: 639052313904462821
+        m_VersionTimestamp: 639052827876102163
     - rid: 4500087333253021768
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -85,42 +85,6 @@ MonoBehaviour:
         - rid: 4500087339756290298
         - rid: 4500087339756290299
         - rid: 4500087339756290300
-    - rid: 4500087339756290283
-      type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 5947515902825608934
-          m_Value1: 9358651274824601161
-        Graph:
-          rid: 4500087333253021767
-        m_Parent:
-          rid: -2
-        m_Child:
-          rid: 4500087339756290284
-        Repeat: 1
-        AllowMultipleRepeatsPerTick: 0
-    - rid: 4500087339756290284
-      type: {class: BranchingConditionComposite, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 8431650327234462666
-          m_Value1: 12922725047856614387
-        Graph:
-          rid: 4500087333253021767
-        m_Parent:
-          rid: 4500087339756290283
-        m_Children:
-        - rid: 4500087339756290301
-        - rid: 4500087339756290302
-        m_Conditions:
-        - rid: 4500087339756290303
-        m_RequiresAllConditions: 0
-        True:
-          rid: 4500087339756290301
-        False:
-          rid: 4500087339756290302
-        m_CurrentChild:
-          rid: -2
     - rid: 4500087339756290285
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -249,7 +213,43 @@ MonoBehaviour:
           m_Value1: 8503201889699310215
         Name: WeaponDrawDelay
         m_Value: 0.5
-    - rid: 4500087339756290301
+    - rid: 4500087353404031060
+      type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 5947515902825608934
+          m_Value1: 9358651274824601161
+        Graph:
+          rid: 4500087333253021767
+        m_Parent:
+          rid: -2
+        m_Child:
+          rid: 4500087353404031061
+        Repeat: 1
+        AllowMultipleRepeatsPerTick: 0
+    - rid: 4500087353404031061
+      type: {class: BranchingConditionComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 8431650327234462666
+          m_Value1: 12922725047856614387
+        Graph:
+          rid: 4500087333253021767
+        m_Parent:
+          rid: 4500087353404031060
+        m_Children:
+        - rid: 4500087353404031062
+        - rid: 4500087353404031063
+        m_Conditions:
+        - rid: 4500087353404031064
+        m_RequiresAllConditions: 0
+        True:
+          rid: 4500087353404031062
+        False:
+          rid: 4500087353404031063
+        m_CurrentChild:
+          rid: -2
+    - rid: 4500087353404031062
       type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -258,11 +258,11 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290284
+          rid: 4500087353404031061
         m_Children:
-        - rid: 4500087339756290304
-        - rid: 4500087339756290305
-    - rid: 4500087339756290302
+        - rid: 4500087353404031065
+        - rid: 4500087353404031066
+    - rid: 4500087353404031063
       type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -271,19 +271,19 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290284
+          rid: 4500087353404031061
         m_Children:
-        - rid: 4500087339756290306
-        - rid: 4500087339756290307
-        - rid: 4500087339756290308
-    - rid: 4500087339756290303
+        - rid: 4500087353404031067
+        - rid: 4500087353404031068
+        - rid: 4500087353404031069
+    - rid: 4500087353404031064
       type: {class: CheckInCombatCondition, ns: , asm: Assembly-CSharp}
       data:
         Graph:
           rid: 4500087333253021767
         IsInCombat:
           rid: 4500087339756290295
-    - rid: 4500087339756290304
+    - rid: 4500087353404031065
       type: {class: DrawWeaponAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -292,10 +292,10 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290301
+          rid: 4500087353404031062
         HasWeaponDrawn:
           rid: 4500087339756290299
-    - rid: 4500087339756290305
+    - rid: 4500087353404031066
       type: {class: BranchingConditionComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -304,20 +304,20 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290301
+          rid: 4500087353404031062
         m_Children:
-        - rid: 4500087339756290309
-        - rid: 4500087339756290310
+        - rid: 4500087353404031070
+        - rid: 4500087353404031071
         m_Conditions:
-        - rid: 4500087339756290311
+        - rid: 4500087353404031072
         m_RequiresAllConditions: 0
         True:
-          rid: 4500087339756290309
+          rid: 4500087353404031070
         False:
-          rid: 4500087339756290310
+          rid: 4500087353404031071
         m_CurrentChild:
           rid: -2
-    - rid: 4500087339756290306
+    - rid: 4500087353404031067
       type: {class: GetRandomNavMeshPointAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -326,7 +326,7 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290302
+          rid: 4500087353404031063
         SelfTransform:
           rid: 4500087339756290286
         WanderRadius:
@@ -335,7 +335,7 @@ MonoBehaviour:
           rid: 4500087339756290288
         InputSystem:
           rid: 4500087339756290287
-    - rid: 4500087339756290307
+    - rid: 4500087353404031068
       type: {class: MoveToPointAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -344,7 +344,7 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290302
+          rid: 4500087353404031063
         InputSystem:
           rid: 4500087339756290287
         SelfTransform:
@@ -358,10 +358,10 @@ MonoBehaviour:
         RotationSpeed:
           rid: 4500087339756290292
         MaxRotationBeforeMove:
-          rid: 4500087339756290312
+          rid: 4500087353404031073
         TimeoutDuration:
-          rid: 4500087339756290313
-    - rid: 4500087339756290308
+          rid: 4500087353404031074
+    - rid: 4500087353404031069
       type: {class: WaitAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -370,12 +370,12 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290302
+          rid: 4500087353404031063
         WaitDuration:
           rid: 4500087339756290293
         InputSystem:
           rid: 4500087339756290287
-    - rid: 4500087339756290309
+    - rid: 4500087353404031070
       type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -384,11 +384,11 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290305
+          rid: 4500087353404031066
         m_Children:
-        - rid: 4500087339756290314
-        - rid: 4500087339756290315
-    - rid: 4500087339756290310
+        - rid: 4500087353404031075
+        - rid: 4500087353404031076
+    - rid: 4500087353404031071
       type: {class: ClearCombatStateAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -397,21 +397,21 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290305
+          rid: 4500087353404031066
         CurrentTarget:
           rid: 4500087339756290294
         IsInCombat:
           rid: 4500087339756290295
         HasWeaponDrawn:
-          rid: 4500087339756290316
-    - rid: 4500087339756290311
+          rid: 4500087353404031077
+    - rid: 4500087353404031072
       type: {class: CheckTargetExistsCondition, ns: , asm: Assembly-CSharp}
       data:
         Graph:
           rid: 4500087333253021767
         CurrentTarget:
           rid: 4500087339756290294
-    - rid: 4500087339756290312
+    - rid: 4500087353404031073
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -419,15 +419,15 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 45
-    - rid: 4500087339756290313
+    - rid: 4500087353404031074
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
           m_Value0: 0
           m_Value1: 0
         Name: 
-        m_Value: 5
-    - rid: 4500087339756290314
+        m_Value: 1
+    - rid: 4500087353404031075
       type: {class: AttackTargetAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -436,7 +436,7 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290309
+          rid: 4500087353404031070
         CurrentTarget:
           rid: 4500087339756290294
         AttackRange:
@@ -445,7 +445,7 @@ MonoBehaviour:
           rid: 4500087339756290297
         RotationSpeed:
           rid: 4500087339756290292
-    - rid: 4500087339756290315
+    - rid: 4500087353404031076
       type: {class: FollowTargetAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -454,7 +454,7 @@ MonoBehaviour:
         Graph:
           rid: 4500087333253021767
         m_Parent:
-          rid: 4500087339756290309
+          rid: 4500087353404031070
         CurrentTarget:
           rid: 4500087339756290294
         AttackRange:
@@ -463,7 +463,7 @@ MonoBehaviour:
           rid: 4500087339756290290
         RotationSpeed:
           rid: 4500087339756290292
-    - rid: 4500087339756290316
+    - rid: 4500087353404031077
       type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -669,7 +669,7 @@ MonoBehaviour:
   - rid: 4500087339756290053
   - rid: 4500087339756290054
   - rid: 4500087339756290070
-  m_VersionTimestamp: 639052313904462821
+  m_VersionTimestamp: 639052827876102163
   m_SerializedVersion: 1
   m_DebugInfo: {fileID: -6878248899590179982}
   m_RuntimeGraph: {fileID: -5999970649627627247}
@@ -1387,7 +1387,7 @@ MonoBehaviour:
           m_Value0: 0
           m_Value1: 0
         Name: 
-        m_Value: 5
+        m_Value: 1
     - rid: 4500087337252029122
       type: {class: FloatingPortNodeModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
