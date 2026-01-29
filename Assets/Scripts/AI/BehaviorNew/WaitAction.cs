@@ -15,6 +15,7 @@ public partial class WaitAction : Action
 
     protected override Status OnStart()
     {
+        Debug.Log("[WaitAction] Activated after Restart");
         _elapsedTime = 0f;
         return Status.Running;
     }

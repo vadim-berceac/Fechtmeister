@@ -34,7 +34,7 @@ public partial class AttackTargetAction : Action
             return Status.Failure;
 
         // Проверяем наличие цели
-        if (CurrentTarget.Value == null)
+        if (CurrentTarget.Value == null || CurrentTarget.Value.IsDestroyed)
         {
             _inputSystem.SimulateMove(Vector2.zero);
             return Status.Success; // Цель исчезла, выходим из состояния боя

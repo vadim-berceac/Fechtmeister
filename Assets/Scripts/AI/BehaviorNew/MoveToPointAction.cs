@@ -23,6 +23,7 @@ public partial class MoveToPointAction : Action
 
     protected override Status OnStart()
     {
+        Debug.Log("[MoveToPointAction] Activated after Restart");
         _timeElapsed = 0f;
         _stuckTime = 0f;
         _lastPosition = SelfTransform.Value.position;

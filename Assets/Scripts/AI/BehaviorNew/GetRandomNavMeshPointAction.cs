@@ -18,6 +18,7 @@ public partial class GetRandomNavMeshPointAction : Action
 
     protected override Status OnStart()
     {
+        Debug.Log("[GetRandomNavMeshPointAction] Activated after Restart");
         Vector3 randomPoint = GetRandomNavMeshPoint(
             SelfTransform.Value.position, 
             WanderRadius.Value
@@ -28,21 +29,6 @@ public partial class GetRandomNavMeshPointAction : Action
             
         TargetPosition.Value = randomPoint;
         return Status.Success;
-    }
-    
-    protected override Status OnUpdate()
-    {
-        if (InputSystem.Value == null || !InputSystem.Value.IsEnabled)
-            return Status.Failure;
-
-        if (InputSystem.Value.IsInCombatMode)
-        {
-            InputSystem.Value.SimulateMove(Vector2.zero);
-            Debug.Log("<color=yellow>[MoveToPoint] Combat started, aborting patrol</color>");
-            return Status.Failure;
-        }
-
-        return Status.Running;
     }
     
     private Vector3 GetRandomNavMeshPoint(Vector3 center, float radius)
