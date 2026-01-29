@@ -121,6 +121,12 @@ public class CharacterCore : ManagedUpdatableObject
         CurrentState?.FixedUpdateState(this);
         CurrentSubState?.FixedUpdateState(this);
     }
+
+    public override void OnManagedLateUpdate()
+    {
+        CurrentState?.LateUpdateState(this);
+        CurrentSubState?.LateUpdateState(this);
+    }
     
     protected override void OnDisable()
     {

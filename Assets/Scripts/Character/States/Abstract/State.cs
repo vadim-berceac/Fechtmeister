@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class State : ScriptableObject
@@ -62,8 +63,6 @@ public abstract class State : ScriptableObject
         
         character.StateTimer.OnUpdate(Time.deltaTime);
         
-        CheckAction(character);
-        
         CheckSwitch(character);
     }
 
@@ -71,6 +70,11 @@ public abstract class State : ScriptableObject
     {
         character.Gravity.SetGrounded(character.CheckIsGrounded(UseGravity, GroundLayer));
         character.UpdateFallDetection(UseGravity);
+    }
+
+    public virtual void LateUpdateState(CharacterCore character)
+    {
+        CheckAction(character);
     }
 
     protected virtual void CheckSwitch(CharacterCore character)

@@ -39,17 +39,15 @@ public class Inventory
 
     public void WeaponOn()
     {
-        IsWeaponOn = true;
         var boneData = WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[0];
-        WeaponSystem.InstanceInHands.Animator.AttachTransformSource(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
+        IsWeaponOn = WeaponSystem.InstanceInHands.Animator.AttachTransformSource(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
             boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
     }
 
     public void WeaponOff()
     {
-        IsWeaponOn = false;
         var boneData = WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[1];
-        WeaponSystem.InstanceInHands.Animator.AttachTransformSource(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
+        IsWeaponOn = !WeaponSystem.InstanceInHands.Animator.AttachTransformSource(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
             boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
     }
 

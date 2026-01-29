@@ -6,13 +6,14 @@ using Unity.Properties;
 [Serializable, GeneratePropertyBag]
 [Condition(
     name: "Has Target", 
-    story: "[CurrentTarget] exists",  // ← Квадратные скобки!
+    story: "[CurrentTarget] exists [WeaponReady]",  
     category: "Conditions/Combat", 
     id: "9869341555042a31c94556a5656c1fc6"
 )]
 public partial class CheckTargetExistsCondition : Condition
 {
     [SerializeReference] public BlackboardVariable<GameObject> CurrentTarget;
+    [SerializeReference] public BlackboardVariable<bool> WeaponReady;
 
     public override bool IsTrue()
     {
@@ -22,7 +23,7 @@ public partial class CheckTargetExistsCondition : Condition
             return false;
         }
 
-        bool hasTarget = CurrentTarget.Value != null;
+        bool hasTarget = CurrentTarget.Value != null && WeaponReady;
         
         return hasTarget;
     }

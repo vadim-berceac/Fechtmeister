@@ -5,6 +5,7 @@ using Action = System.Action;
 
 public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
 {
+    [field: SerializeField] public CharacterCore Core { get; set; }
     [field: SerializeField] public HealthComponent Health { get; set; }
     [field: SerializeField] public BehaviorGraphAgent Agent { get; set; }
     
@@ -46,6 +47,10 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
     public void Enable()
     {
         IsEnabled = true;
+    }
+
+    public void Start()
+    {
         Subscribe();
     }
 
@@ -61,6 +66,8 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
         _isSubscribed = true;
         Health.OnDestroyed += OnDeath;
         Health.OnDamageAttempt += OnPossibleDamage;
+        Health.OnHitReaction += OnHitReactionUpdate;
+        Core.Inventory.WeaponSystem.OnWeaponInHandsSelected += OnWeaponUpdate;
     }
 
     public void Unsubscribe()
@@ -68,6 +75,8 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
         _isSubscribed = false;
         Health.OnDestroyed -= OnDeath;
         Health.OnDamageAttempt -= OnPossibleDamage;
+        Health.OnHitReaction -= OnHitReactionUpdate;
+        Core.Inventory.WeaponSystem.OnWeaponInHandsSelected -= OnWeaponUpdate;
     }
 
     private void OnDeath(bool isDead)
@@ -86,6 +95,16 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
         
         Agent.BlackboardReference.SetVariableValue("CurrentTarget", source.gameObject);
         Agent.BlackboardReference.SetVariableValue("IsInCombat", true);
+    }
+
+    private void OnWeaponUpdate(WeaponData data)
+    {
+        Agent.BlackboardReference.SetVariableValue("AttackRange", data.WeaponParams.PreferredDistance);
+    }
+
+    private void OnHitReactionUpdate(bool value)
+    {
+        Agent.BlackboardReference.SetVariableValue("OnHitReaction", value);
     }
 
     protected override void OnDisable()

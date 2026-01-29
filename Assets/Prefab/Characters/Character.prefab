@@ -997,6 +997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a48a23927349fd4aa959384b4f6e173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BehaviorNewInput
+  <Core>k__BackingField: {fileID: 2895659091404197368}
   <Health>k__BackingField: {fileID: 2826338849064805150}
   <Agent>k__BackingField: {fileID: 5597927657040709477}
 --- !u!114 &7201767013415629698

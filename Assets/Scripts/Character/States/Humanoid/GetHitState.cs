@@ -12,9 +12,9 @@ public class GetHitState : State
         {
             new(character => character.Health.IsDestroyed, "DeathState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
-            new(character => character.CharacterInputHandler.IsWeaponDraw 
+            new(character => character.Inventory.IsWeaponOn 
                              && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
-            new(character => !character.CharacterInputHandler.IsWeaponDraw 
+            new(character => !character.Inventory.IsWeaponOn
                              && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "IdleState"),
         };
     }
