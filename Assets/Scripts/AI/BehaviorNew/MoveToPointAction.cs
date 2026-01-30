@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
@@ -10,86 +11,60 @@ public partial class MoveToPointAction : Action
 {
     [SerializeReference] public BlackboardVariable<BehaviorNewInput> InputSystem;
     [SerializeReference] public BlackboardVariable<Transform> SelfTransform;
-    [SerializeReference] public BlackboardVariable<Vector3> TargetPosition;
+    [SerializeReference] public BlackboardVariable<List<Vector3>> Waypoints; // List вместо массива
     [SerializeReference] public BlackboardVariable<float> MoveSpeed;
     [SerializeReference] public BlackboardVariable<float> StoppingDistance;
     [SerializeReference] public BlackboardVariable<float> RotationSpeed = new BlackboardVariable<float>(5f);
     [SerializeReference] public BlackboardVariable<float> MaxRotationBeforeMove = new BlackboardVariable<float>(45f);
     [SerializeReference] public BlackboardVariable<float> TimeoutDuration = new BlackboardVariable<float>(1f);
 
-    private float _timeElapsed;
     private Vector3 _lastPosition;
     private float _stuckTime;
-
+    private int _currentWaypointIndex;
+    private PathFollowingState _state;
+    
     protected override Status OnStart()
     {
-        Debug.Log("[MoveToPointAction] Activated after Restart");
-        _timeElapsed = 0f;
-        _stuckTime = 0f;
-        _lastPosition = SelfTransform.Value.position;
-        return Status.Running;
-    }
-
-    protected override Status OnUpdate()
-    {
-        if (InputSystem.Value == null || !InputSystem.Value.IsEnabled)
+        _state = new PathFollowingState
+        {
+            CurrentWaypointIndex = 0,
+            LastPosition = SelfTransform.Value.position,
+            StuckTime = 0f
+        };
+       
+        if (Waypoints.Value == null || Waypoints.Value.Count == 0)
+        {
+            Debug.LogError("[MoveToPointAction] No waypoints provided!");
             return Status.Failure;
-
-        _timeElapsed += Time.deltaTime;
-
-        Vector3 currentPos = SelfTransform.Value.position;
-        Vector3 targetPos = TargetPosition.Value;
-       
-        float distance = Vector3.Distance(currentPos, targetPos);
-        if (distance <= StoppingDistance.Value)
-        {
-            InputSystem.Value.SimulateMove(Vector2.zero);
-            return Status.Success;
         }
-
-        float movedDistance = Vector3.Distance(currentPos, _lastPosition);
-        if (movedDistance < 0.01f) // Почти не движется
+     
+        if (Waypoints.Value.Count > 1)
         {
-            _stuckTime += Time.deltaTime;
-            if (_stuckTime >= TimeoutDuration.Value)
+            var distToFirst = (SelfTransform.Value.position - Waypoints.Value[0]).magnitude;
+            if (distToFirst < StoppingDistance.Value)
             {
-                InputSystem.Value.SimulateMove(Vector2.zero);
-                Debug.LogWarning($"MoveToPoint: Stuck for {TimeoutDuration.Value}s, aborting");
-                return Status.Failure;
+                _state.CurrentWaypointIndex = 1;
             }
-        }
-        else
-        {
-            _stuckTime = 0f; 
-        }
-        _lastPosition = currentPos;
-
-        Vector3 direction = (targetPos - currentPos).normalized;
-       
-        Vector3 forward = SelfTransform.Value.forward;
-        float angleToTarget = Vector3.Angle(forward, direction);
-
-        if (direction.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            SelfTransform.Value.rotation = Quaternion.Slerp(
-                SelfTransform.Value.rotation, 
-                targetRotation, 
-                RotationSpeed.Value * Time.deltaTime
-            );
-        }
-
-        if (angleToTarget < MaxRotationBeforeMove.Value)
-        {
-            Vector2 moveInput = Vector2.up * MoveSpeed.Value;
-            InputSystem.Value.SimulateMove(moveInput);
-        }
-        else
-        {
-            InputSystem.Value.SimulateMove(Vector2.zero);
         }
         
         return Status.Running;
+    }
+    
+    protected override Status OnUpdate()
+    {
+        var config = new PathFollowingConfig
+        {
+            Waypoints = Waypoints.Value,
+            SelfTransform = SelfTransform.Value,
+            InputSystem = InputSystem.Value,
+            StoppingDistance = StoppingDistance.Value,
+            MoveSpeed = MoveSpeed.Value,
+            RotationSpeed = RotationSpeed.Value,
+            MaxRotationBeforeMove = MaxRotationBeforeMove.Value,
+            TimeoutDuration = TimeoutDuration.Value
+        };
+
+        return this.FollowPath(config, ref _state);
     }
 
     protected override void OnEnd()
