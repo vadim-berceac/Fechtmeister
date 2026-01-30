@@ -54,7 +54,7 @@ public static class ActionExtensions
         }
         
         var targetPos = config.Waypoints[state.CurrentWaypointIndex];
-        var distance = Vector3.Distance(currentPos, targetPos);
+        var distance = (currentPos - targetPos).magnitude;
        
         // Достигли текущего waypoint
         if (distance <= config.StoppingDistance)
@@ -115,5 +115,88 @@ public static class ActionExtensions
         }
         
         return Status.Running;
+    }
+    
+    public static Status MoveDirectlyToTarget(
+        this Action action,
+        Transform selfTransform,
+        Vector3 targetPosition,
+        BehaviorNewInput inputSystem,
+        float moveSpeed,
+        float rotationSpeed,
+        float stoppingDistance = 0f)
+    {
+        if (inputSystem == null || !inputSystem.IsEnabled)
+            return Status.Failure;
+
+        var currentPos = selfTransform.position;
+        var distance = Vector3.Distance(currentPos, targetPosition);
+
+        // Достигли цели
+        if (stoppingDistance > 0 && distance <= stoppingDistance)
+        {
+            inputSystem.SimulateMove(Vector2.zero);
+            return Status.Success;
+        }
+
+        var direction = (targetPosition - currentPos).normalized;
+        var horizontalDirection = new Vector3(direction.x, 0, direction.z).normalized;
+
+        if (horizontalDirection.magnitude > 0.1f)
+        {
+            var targetRotation = Quaternion.LookRotation(horizontalDirection);
+            selfTransform.rotation = Quaternion.Slerp(
+                selfTransform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
+            );
+        }
+
+        var moveInput = Vector2.up * moveSpeed;
+        inputSystem.SimulateMove(moveInput);
+
+        return Status.Running;
+    }
+    
+    /// <summary>
+    /// Вычисляет NavMesh путь между двумя точками
+    /// </summary>
+    public static bool TryCalculateNavMeshPath(
+        this Action action,
+        Vector3 from,
+        Vector3 to,
+        out List<Vector3> waypoints,
+        int areaMask = NavMesh.AllAreas)
+    {
+        waypoints = null;
+        var path = new NavMeshPath();
+        
+        if (!NavMesh.CalculatePath(from, to, areaMask, path))
+        {
+           return false;
+        }
+        
+        if (path.status != NavMeshPathStatus.PathComplete)
+        {
+           return false;
+        }
+        waypoints = new List<Vector3>(path.corners);
+        return true;
+    }
+    
+    /// <summary>
+    /// Проверяет нужно ли пересчитать путь до движущейся цели
+    /// </summary>
+    public static bool ShouldRecalculatePath(
+        float timeSinceLastRecalculation,
+        float recalculationInterval,
+        Vector3 currentTargetPosition,
+        Vector3 lastTargetPosition,
+        float movementThreshold = 2f)
+    {
+        var timeElapsed = timeSinceLastRecalculation >= recalculationInterval;
+        var targetMoved = (currentTargetPosition - lastTargetPosition).magnitude > movementThreshold;
+        
+        return timeElapsed || targetMoved;
     }
 }

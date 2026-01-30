@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Behavior;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
@@ -17,9 +18,18 @@ public partial class FollowTargetAction : Action
     [SerializeReference] public BlackboardVariable<float> AttackRange;
     [SerializeReference] public BlackboardVariable<float> MoveSpeed;
     [SerializeReference] public BlackboardVariable<float> RotationSpeed;
+    [SerializeReference] public BlackboardVariable<float> PathRecalculateInterval = new BlackboardVariable<float>(0.5f);
+    [SerializeReference] public BlackboardVariable<float> StoppingDistance = new BlackboardVariable<float>(0.5f);
+    [SerializeReference] public BlackboardVariable<float> MaxRotationBeforeMove = new BlackboardVariable<float>(45f);
+    [SerializeReference] public BlackboardVariable<float> TimeoutDuration = new BlackboardVariable<float>(2f);
+    [SerializeReference] public BlackboardVariable<float> TargetMovementThreshold = new BlackboardVariable<float>(2f);
 
     private BehaviorNewInput _inputSystem;
     private Transform _selfTransform;
+    private List<Vector3> _currentPath;
+    private PathFollowingState _pathState;
+    private float _lastPathRecalculateTime;
+    private Vector3 _lastTargetPosition;
 
     protected override Status OnStart()
     {
@@ -28,6 +38,16 @@ public partial class FollowTargetAction : Action
 
         if (_selfTransform == null)
             _selfTransform = GameObject.transform;
+
+        _currentPath = new List<Vector3>();
+        _pathState = new PathFollowingState
+        {
+            CurrentWaypointIndex = 0,
+            LastPosition = _selfTransform.position,
+            StuckTime = 0f
+        };
+        _lastPathRecalculateTime = -PathRecalculateInterval.Value;
+        _lastTargetPosition = Vector3.zero;
 
         return Status.Running;
     }
@@ -43,11 +63,10 @@ public partial class FollowTargetAction : Action
             return Status.Failure;
         }
 
-        Transform targetTransform = CurrentTarget.Value.transform;
-        Vector3 currentPos = _selfTransform.position;
-        Vector3 targetPos = targetTransform.position;
-
-        float distance = Vector3.Distance(currentPos, targetPos);
+        var targetTransform = CurrentTarget.Value.transform;
+        var currentPos = _selfTransform.position;
+        var targetPos = targetTransform.position;
+        var distance = (currentPos - targetPos).magnitude;
 
         if (distance <= AttackRange.Value)
         {
@@ -55,28 +74,56 @@ public partial class FollowTargetAction : Action
             return Status.Success;
         }
 
-        Vector3 direction = (targetPos - currentPos).normalized;
-        Vector3 horizontalDirection = new Vector3(direction.x, 0, direction.z).normalized;
+        var timeSinceLastRecalc = Time.time - _lastPathRecalculateTime;
+        var needRecalculate = ActionExtensions.ShouldRecalculatePath(
+            timeSinceLastRecalc,
+            PathRecalculateInterval.Value,
+            targetPos,
+            _lastTargetPosition,
+            TargetMovementThreshold.Value
+        );
 
-        if (horizontalDirection.magnitude > 0.1f)
+        if (needRecalculate || _currentPath.Count == 0)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(horizontalDirection);
-            _selfTransform.rotation = Quaternion.Slerp(
-                _selfTransform.rotation,
-                targetRotation,
-                RotationSpeed.Value * Time.deltaTime
-            );
+            if (this.TryCalculateNavMeshPath(currentPos, targetPos, out _currentPath))
+            {
+                _lastPathRecalculateTime = Time.time;
+                _lastTargetPosition = targetPos;
+                _pathState.CurrentWaypointIndex = 0;
+                _pathState.StuckTime = 0f;
+            }
+            else
+            {
+                return this.MoveDirectlyToTarget(
+                    _selfTransform,
+                    targetPos,
+                    _inputSystem,
+                    MoveSpeed.Value,
+                    RotationSpeed.Value
+                );
+            }
         }
 
-        Vector2 moveInput = Vector2.up * MoveSpeed.Value;
-        _inputSystem.SimulateMove(moveInput);
+        var config = new PathFollowingConfig
+        {
+            Waypoints = _currentPath,
+            SelfTransform = _selfTransform,
+            InputSystem = _inputSystem,
+            StoppingDistance = StoppingDistance.Value,
+            MoveSpeed = MoveSpeed.Value,
+            RotationSpeed = RotationSpeed.Value,
+            MaxRotationBeforeMove = MaxRotationBeforeMove.Value,
+            TimeoutDuration = TimeoutDuration.Value
+        };
 
-        Vector3 euler = _selfTransform.eulerAngles;
-        euler.x = 0;
-        euler.z = 0;
-        _selfTransform.eulerAngles = euler;
+        var pathStatus = this.FollowPath(config, ref _pathState);
 
-        return Status.Running;
+        if (pathStatus == Status.Success && distance > AttackRange.Value)
+        {
+            return Status.Running;
+        }
+
+        return pathStatus;
     }
 
     protected override void OnEnd()
@@ -85,4 +132,3 @@ public partial class FollowTargetAction : Action
             _inputSystem.SimulateMove(Vector2.zero);
     }
 }
-
