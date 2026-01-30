@@ -34,13 +34,6 @@ public partial class MoveToPointAction : Action
     {
         if (InputSystem.Value == null || !InputSystem.Value.IsEnabled)
             return Status.Failure;
-        
-        if (InputSystem.Value.IsInCombatMode)
-        {
-            InputSystem.Value.SimulateMove(Vector2.zero);
-            Debug.Log("<color=yellow>[MoveToPoint] Combat started, aborting patrol</color>");
-            return Status.Failure;
-        }
 
         _timeElapsed += Time.deltaTime;
 

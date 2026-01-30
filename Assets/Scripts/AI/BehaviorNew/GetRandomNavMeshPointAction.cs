@@ -18,7 +18,6 @@ public partial class GetRandomNavMeshPointAction : Action
 
     protected override Status OnStart()
     {
-        Debug.Log("[GetRandomNavMeshPointAction] Activated after Restart");
         Vector3 randomPoint = GetRandomNavMeshPoint(
             SelfTransform.Value.position, 
             WanderRadius.Value
@@ -33,7 +32,7 @@ public partial class GetRandomNavMeshPointAction : Action
     
     private Vector3 GetRandomNavMeshPoint(Vector3 center, float radius)
     {
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 3; i++)
         {
             Vector3 randomDirection = Random.insideUnitSphere * radius;
             randomDirection += center;
@@ -41,9 +40,25 @@ public partial class GetRandomNavMeshPointAction : Action
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomDirection, out hit, radius, NavMesh.AllAreas))
             {
-                return hit.position;
+                // Проверяем, что персонаж может достичь эту точку
+                if (IsPointReachable(center, hit.position))
+                {
+                    return hit.position;
+                }
             }
         }
         return Vector3.zero;
+    }
+    
+    private bool IsPointReachable(Vector3 from, Vector3 to)
+    {
+        NavMeshPath path = new NavMeshPath();
+        
+        if (NavMesh.CalculatePath(from, to, NavMesh.AllAreas, path))
+        {
+            return path.status == NavMeshPathStatus.PathComplete;
+        }
+        
+        return false;
     }
 }
