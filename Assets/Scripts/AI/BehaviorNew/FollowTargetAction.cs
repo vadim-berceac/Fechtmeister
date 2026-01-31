@@ -23,14 +23,15 @@ public partial class FollowTargetAction : Action
     [SerializeReference] public BlackboardVariable<float> StoppingDistance = new BlackboardVariable<float>(0.5f);
     [SerializeReference] public BlackboardVariable<float> MaxRotationBeforeMove = new BlackboardVariable<float>(45f);
     [SerializeReference] public BlackboardVariable<float> TimeoutDuration = new BlackboardVariable<float>(2f);
-    [SerializeReference] public BlackboardVariable<float> TargetMovementThreshold = new BlackboardVariable<float>(2f);
+    [SerializeReference] public BlackboardVariable<float> TargetSpeedThreshold = new BlackboardVariable<float>(0.5f); 
 
     private Transform _selfTransform;
     private List<Vector3> _currentPath;
     private PathFollowingState _pathState;
     private float _lastPathRecalculateTime;
     private Vector3 _lastTargetPosition;
-    private bool _needToRun;
+    private Vector3 _previousTargetPosition;
+    private float _previousCheckTime;
     private bool _isRunning;
 
     protected override Status OnStart()
@@ -47,6 +48,9 @@ public partial class FollowTargetAction : Action
         };
         _lastPathRecalculateTime = -PathRecalculateInterval.Value;
         _lastTargetPosition = Vector3.zero;
+        _previousTargetPosition = Vector3.zero;
+        _previousCheckTime = Time.time;
+        _isRunning = false;
 
         return Status.Running;
     }
@@ -66,20 +70,20 @@ public partial class FollowTargetAction : Action
         var currentPos = _selfTransform.position;
         var targetPos = targetTransform.position;
         var distance = (currentPos - targetPos).magnitude;
-        
-        _needToRun = this.CheckTargetLeaves(CurrentTarget, _selfTransform, AttackRange,
-            ref _lastTargetPosition, _pathState);
 
-        if (_needToRun && !_isRunning)
+        var needToRun = this.CheckIfNeedToRun(currentPos, targetPos, distance, AttackRange, ref _previousTargetPosition,
+            ref _previousCheckTime, _isRunning, TargetSpeedThreshold);
+        
+        if (needToRun && !_isRunning)
         {
             _isRunning = true;
             InputSystem.Value.SwitchRunMode();
         }
-        // else if (!_needToRun && _isRunning)
-        // {
-        //     _isRunning = false;
-        //     InputSystem.Value.SwitchRunMode();
-        // }
+        else if (!needToRun && _isRunning)
+        {
+            _isRunning = false;
+            InputSystem.Value.SwitchRunMode();
+        }
 
         if (distance <= AttackRange.Value)
         {
@@ -93,7 +97,7 @@ public partial class FollowTargetAction : Action
             PathRecalculateInterval.Value,
             targetPos,
             _lastTargetPosition,
-            TargetMovementThreshold.Value
+            0.5f
         );
 
         if (needRecalculate || _currentPath.Count == 0)
@@ -123,7 +127,7 @@ public partial class FollowTargetAction : Action
             SelfTransform = _selfTransform,
             InputSystem = InputSystem.Value,
             StoppingDistance = StoppingDistance.Value,
-            IsRun = _needToRun,
+            IsRun = _isRunning,
             RotationSpeed = RotationSpeed.Value,
             MaxRotationBeforeMove = MaxRotationBeforeMove.Value,
             TimeoutDuration = TimeoutDuration.Value

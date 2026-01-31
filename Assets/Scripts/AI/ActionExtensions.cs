@@ -235,4 +235,39 @@ public static class ActionExtensions
 
         return targetIsMovingAway;
     }
+    
+    /// <summary>
+    /// Проверяет нужно ли бежать за целью
+    /// </summary>
+    public static bool CheckIfNeedToRun(this Action action, Vector3 currentPos, Vector3 targetPos, float currentDistance,
+        BlackboardVariable<float> attackRange, ref Vector3 previousTargetPosition, ref float previousCheckTime,
+        bool isRunning, BlackboardVariable<float> targetSpeedThreshold)
+    {
+        if (currentDistance <= attackRange.Value)
+            return false;
+
+        if (previousTargetPosition == Vector3.zero)
+        {
+            previousTargetPosition = targetPos;
+            previousCheckTime = Time.time;
+            return false;
+        }
+
+        var deltaTime = Time.time - previousCheckTime;
+        if (deltaTime < 0.1f) 
+            return isRunning; 
+
+        var targetMovement = (targetPos - previousTargetPosition).magnitude;
+        var targetSpeed = targetMovement / deltaTime;
+
+        var previousDistance = (currentPos - previousTargetPosition).magnitude;
+        var targetMovingAway = currentDistance > previousDistance + 0.1f; 
+
+        previousTargetPosition = targetPos;
+        previousCheckTime = Time.time;
+
+        bool needRun = targetSpeed > targetSpeedThreshold.Value && targetMovingAway;
+
+        return needRun;
+    }
 }
