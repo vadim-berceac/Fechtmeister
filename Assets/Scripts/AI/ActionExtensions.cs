@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.AI;
 using Action = Unity.Behavior.Action;
@@ -106,7 +107,7 @@ public static class ActionExtensions
         // Движение если повернуты достаточно
         if (angleToTarget < config.MaxRotationBeforeMove)
         {
-            var moveInput = Vector2.up * config.MoveSpeed;
+            var moveInput = config.IsRun ? Vector2.up : Vector2.up * 0.5f;
             config.InputSystem.SimulateMove(moveInput);
         }
         else
@@ -198,5 +199,40 @@ public static class ActionExtensions
         var targetMoved = (currentTargetPosition - lastTargetPosition).magnitude > movementThreshold;
         
         return timeElapsed || targetMoved;
+    }
+    
+    /// <summary>
+    /// Проверяет удяляется ли цель
+    /// </summary>
+    public static bool CheckTargetLeaves(this Action action, BlackboardVariable<HealthComponent> currentTarget,
+        Transform selfTransform, BlackboardVariable<float> attackRange, ref Vector3 lastTargetPosition,
+        PathFollowingState pathState, float targetMovementThreshold = 0.1f)
+    {
+        if (currentTarget.Value == null)
+            return false;
+
+        var currentPos = selfTransform.position;
+        var targetPos = currentTarget.Value.transform.position;
+        var currentDistance = (currentPos - targetPos).magnitude;
+
+        if (currentDistance <= attackRange.Value)
+            return false;
+
+        if (lastTargetPosition == Vector3.zero)
+        {
+            lastTargetPosition = targetPos;
+            return false;
+        }
+
+        var targetMovementDelta = (targetPos - lastTargetPosition).magnitude;
+        var targetIsStopped = targetMovementDelta < targetMovementThreshold;
+
+        if (targetIsStopped)
+            return false;
+
+        var previousDistance = (pathState.LastPosition - lastTargetPosition).magnitude;
+        var targetIsMovingAway = currentDistance > previousDistance;
+
+        return targetIsMovingAway;
     }
 }

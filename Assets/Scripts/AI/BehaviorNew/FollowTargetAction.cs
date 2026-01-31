@@ -14,6 +14,7 @@ using UnityEngine;
 )]
 public partial class FollowTargetAction : Action
 {
+    [SerializeReference] public BlackboardVariable<BehaviorNewInput> InputSystem;
     [SerializeReference] public BlackboardVariable<HealthComponent> CurrentTarget;
     [SerializeReference] public BlackboardVariable<float> AttackRange;
     [SerializeReference] public BlackboardVariable<float> MoveSpeed;
@@ -24,18 +25,16 @@ public partial class FollowTargetAction : Action
     [SerializeReference] public BlackboardVariable<float> TimeoutDuration = new BlackboardVariable<float>(2f);
     [SerializeReference] public BlackboardVariable<float> TargetMovementThreshold = new BlackboardVariable<float>(2f);
 
-    private BehaviorNewInput _inputSystem;
     private Transform _selfTransform;
     private List<Vector3> _currentPath;
     private PathFollowingState _pathState;
     private float _lastPathRecalculateTime;
     private Vector3 _lastTargetPosition;
+    private bool _needToRun;
+    private bool _isRunning;
 
     protected override Status OnStart()
     {
-        if (_inputSystem == null)
-            _inputSystem = GameObject.GetComponent<BehaviorNewInput>();
-
         if (_selfTransform == null)
             _selfTransform = GameObject.transform;
 
@@ -54,12 +53,12 @@ public partial class FollowTargetAction : Action
 
     protected override Status OnUpdate()
     {
-        if (_inputSystem == null || !_inputSystem.IsEnabled)
+        if (InputSystem == null || !InputSystem.Value.IsEnabled)
             return Status.Failure;
 
         if (CurrentTarget.Value == null)
         {
-            _inputSystem.SimulateMove(Vector2.zero);
+            InputSystem.Value.SimulateMove(Vector2.zero);
             return Status.Failure;
         }
 
@@ -67,10 +66,24 @@ public partial class FollowTargetAction : Action
         var currentPos = _selfTransform.position;
         var targetPos = targetTransform.position;
         var distance = (currentPos - targetPos).magnitude;
+        
+        _needToRun = this.CheckTargetLeaves(CurrentTarget, _selfTransform, AttackRange,
+            ref _lastTargetPosition, _pathState);
+
+        if (_needToRun && !_isRunning)
+        {
+            _isRunning = true;
+            InputSystem.Value.SwitchRunMode();
+        }
+        // else if (!_needToRun && _isRunning)
+        // {
+        //     _isRunning = false;
+        //     InputSystem.Value.SwitchRunMode();
+        // }
 
         if (distance <= AttackRange.Value)
         {
-            _inputSystem.SimulateMove(Vector2.zero);
+            InputSystem.Value.SimulateMove(Vector2.zero);
             return Status.Success;
         }
 
@@ -97,7 +110,7 @@ public partial class FollowTargetAction : Action
                 return this.MoveDirectlyToTarget(
                     _selfTransform,
                     targetPos,
-                    _inputSystem,
+                    InputSystem.Value,
                     MoveSpeed.Value,
                     RotationSpeed.Value
                 );
@@ -108,9 +121,9 @@ public partial class FollowTargetAction : Action
         {
             Waypoints = _currentPath,
             SelfTransform = _selfTransform,
-            InputSystem = _inputSystem,
+            InputSystem = InputSystem.Value,
             StoppingDistance = StoppingDistance.Value,
-            MoveSpeed = MoveSpeed.Value,
+            IsRun = _needToRun,
             RotationSpeed = RotationSpeed.Value,
             MaxRotationBeforeMove = MaxRotationBeforeMove.Value,
             TimeoutDuration = TimeoutDuration.Value
@@ -125,10 +138,10 @@ public partial class FollowTargetAction : Action
 
         return pathStatus;
     }
-
+    
     protected override void OnEnd()
     {
-        if (_inputSystem != null)
-            _inputSystem.SimulateMove(Vector2.zero);
+        if (InputSystem.Value != null)
+            InputSystem.Value.SimulateMove(Vector2.zero);
     }
 }

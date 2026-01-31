@@ -12,7 +12,6 @@ public partial class MoveToPointAction : Action
     [SerializeReference] public BlackboardVariable<BehaviorNewInput> InputSystem;
     [SerializeReference] public BlackboardVariable<Transform> SelfTransform;
     [SerializeReference] public BlackboardVariable<List<Vector3>> Waypoints; // List вместо массива
-    [SerializeReference] public BlackboardVariable<float> MoveSpeed;
     [SerializeReference] public BlackboardVariable<float> StoppingDistance;
     [SerializeReference] public BlackboardVariable<float> RotationSpeed = new BlackboardVariable<float>(5f);
     [SerializeReference] public BlackboardVariable<float> MaxRotationBeforeMove = new BlackboardVariable<float>(45f);
@@ -21,6 +20,7 @@ public partial class MoveToPointAction : Action
     private Vector3 _lastPosition;
     private float _stuckTime;
     private int _currentWaypointIndex;
+    private bool _needToRun;
     private PathFollowingState _state;
     
     protected override Status OnStart()
@@ -58,7 +58,7 @@ public partial class MoveToPointAction : Action
             SelfTransform = SelfTransform.Value,
             InputSystem = InputSystem.Value,
             StoppingDistance = StoppingDistance.Value,
-            MoveSpeed = MoveSpeed.Value,
+            IsRun = _needToRun,
             RotationSpeed = RotationSpeed.Value,
             MaxRotationBeforeMove = MaxRotationBeforeMove.Value,
             TimeoutDuration = TimeoutDuration.Value

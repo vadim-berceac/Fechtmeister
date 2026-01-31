@@ -34,7 +34,7 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
     public void SimulateBlock() => OnAimBlock?.Invoke();
     public void SimulateInteract() => OnInteract?.Invoke();
     public void SimulateSneak() => OnSneak?.Invoke();
-    public void SimulateRun() => OnRun?.Invoke();
+    public void SwitchRunMode() => OnRun?.Invoke();
     public void SimulateDrawWeapon() => OnDrawWeapon?.Invoke();
     public void SimulateHoldTarget() => OnHoldTarget?.Invoke();
     public void SimulateOpenInventory() => OnOpenInventory?.Invoke();

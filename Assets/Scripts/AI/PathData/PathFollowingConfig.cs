@@ -10,7 +10,7 @@ public struct PathFollowingConfig
     public Transform SelfTransform;
     public BehaviorNewInput InputSystem;
     public float StoppingDistance;
-    public float MoveSpeed;
+    public bool IsRun;
     public float RotationSpeed;
     public float MaxRotationBeforeMove;
     public float TimeoutDuration;
