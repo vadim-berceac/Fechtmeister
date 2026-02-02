@@ -979,7 +979,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsAI>k__BackingField: 0
-  <IsTestBehavior>k__BackingField: 0
   <DamagedObject>k__BackingField: {fileID: 5343873234729745239}
   <GraphCore>k__BackingField: {fileID: 4521586255099012928}
   <LocomotionSettings>k__BackingField:
@@ -1235,13 +1234,13 @@ GameObject:
   - component: {fileID: 2773584687911113252}
   - component: {fileID: 8919026238944805005}
   - component: {fileID: 7396156009152057455}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: FieldOfView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &163576134441224606
 Transform:
   m_ObjectHideFlags: 0
@@ -1282,7 +1281,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 2168463735
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -1309,7 +1308,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 2160075127
+    m_Bits: 2168463735
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
