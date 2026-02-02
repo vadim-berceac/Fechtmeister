@@ -6,6 +6,7 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
 {
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
+    public Action<IEquppiedItemData> OnItemEquipped { get; set; }
     public Action<IEquppiedItemData> OnItemUnEquipped { get; set; }
     public StateTimer StateTimer { get; set; }
     

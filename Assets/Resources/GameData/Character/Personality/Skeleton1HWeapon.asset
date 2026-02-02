@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ebbf763e9ad024986abca0e6263e5d, type: 3}
   m_Name: Skeleton1HWeapon
   m_EditorClassIdentifier: 
+  <StateMachineType>k__BackingField: 0
   <NamingSettings>k__BackingField:
     <CharacterName>k__BackingField: Skeleton 1H Weapon
+  <Faction>k__BackingField: 2
   <CharacterSkinDataSettings>k__BackingField:
     <PrimarySkin>k__BackingField: {fileID: 11400000, guid: 62573faa9a6a36a488bba5928ca5db71, type: 2}
   <WeaponDataSettings>k__BackingField:
@@ -22,6 +24,9 @@ MonoBehaviour:
   <ArmorDataSettings>k__BackingField:
     <EquippedArmor>k__BackingField:
     - {fileID: 11400000, guid: c5947ca9435b33e4ab7348a7d07deb86, type: 2}
+  <ProjectilesDataSettings>k__BackingField:
+    <EquippedProjectiles>k__BackingField: {fileID: 0}
+    <AmountOfProjectiles>k__BackingField: 0
   <HealthDataSettings>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <CurrentHealthPercentage>k__BackingField: 100

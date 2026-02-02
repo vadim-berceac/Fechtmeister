@@ -35,6 +35,7 @@ public class PlayerInput : MonoBehaviour, ICharacterInputSet
     public event Action<int> OnWeaponSelect;
     public event Action<Vector2> OnMove;
     public event Action<Vector2> OnLook;
+    public bool IsEnabled { get; set; }
     
     public int SelectedWeapon { get; set; }
     

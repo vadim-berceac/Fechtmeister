@@ -21,9 +21,13 @@ public class ItemTargeting : MonoBehaviour, ITargetingComponent
         CharacterSelector.OnCharacterSelected += OnCharacterSelected;
     }
     
-    public void OnCharacterSelected(CharacterCore characterCoreSelected)
+    public void OnCharacterSelected(CharacterInfo characterSelected)
     {
-        if (characterCoreSelected == CharacterCore)
+        if (characterSelected == null)
+        {
+            return;
+        }
+        if (characterSelected.Core == CharacterCore)
         {
             IsSelectedCharacter = true;
             return;

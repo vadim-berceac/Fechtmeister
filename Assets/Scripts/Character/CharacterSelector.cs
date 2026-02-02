@@ -2,18 +2,20 @@ using System;
 
 public static class CharacterSelector
 {
-    public static Action<CharacterCore> OnCharacterSelected;
-    public static void Select(CharacterCore characterCore, bool value)
+    public static Action<CharacterInfo> OnCharacterSelected;
+    public static void Select(CharacterInfo characterInfo, bool value)
     {
         if (value)
         {
-            characterCore.SceneCamera.SetTarget(characterCore.CashedTransform);
-            characterCore.CharacterInputHandler.SetupInputSet(characterCore.InputByPlayer);
-            OnCharacterSelected?.Invoke(characterCore);
+            characterInfo.Core.SceneCamera.SetTarget(characterInfo.Core.CashedTransform);
+            characterInfo.Core.CharacterInputHandler.SetupInputSet(characterInfo.Core.InputByPlayer);
+            characterInfo.ControlledByPlayer(true);
+            OnCharacterSelected?.Invoke(characterInfo);
             return;
         }
-        characterCore.SceneCamera.SetTarget(null);
-        characterCore.CharacterInputHandler.SetupInputSet(null);
+        characterInfo.Core.SceneCamera.SetTarget(null);
+        characterInfo.Core.CharacterInputHandler.SetupInputSet(null);
+        characterInfo.ControlledByPlayer(false);
         OnCharacterSelected?.Invoke(null);
     }
 }

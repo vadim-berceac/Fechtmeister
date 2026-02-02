@@ -17,7 +17,7 @@ public interface ITargetingComponent
     public Action<Transform> OnTargetAdded { get; set; }
     public Action<Transform> OnTargetRemoved { get; set; }
 
-    public void OnCharacterSelected(CharacterCore characterCoreSelected);
+    public void OnCharacterSelected(CharacterInfo characterSelected);
     public void ShowTargetName(Transform target, bool show);
 }
 

@@ -12,7 +12,7 @@ public class CharacterCore : ManagedUpdatableObject
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
     [field: SerializeField] public TargetingSettings TargetingSettings { get; set; }
     [field: SerializeField] public LedgeDetectionSettings LedgeDetectionSettings { get; set; }
-    [field: SerializeField] public NavMeshCharacterInput NavMeshCharacterInput { get; private set; }
+    [field: SerializeField] public BehaviorNewInput BehaviorNewInput { get; private set; }
     
     public SceneCamera SceneCamera { get; private set; }
     public CharacterInputHandler CharacterInputHandler { get; private set; }
@@ -56,7 +56,8 @@ public class CharacterCore : ManagedUpdatableObject
         }
         else
         {
-            InputByPlayer = NavMeshCharacterInput;
+            InputByPlayer = BehaviorNewInput;
+            BehaviorNewInput.Enable();
             CharacterInputHandler.SetupInputSet(InputByPlayer);
         }
         
@@ -88,8 +89,6 @@ public class CharacterCore : ManagedUpdatableObject
         CurrentState.EnterState(this);
         CurrentSubState = StatesSet.GetStartSubState();
         CurrentSubState.EnterState(this);
-        
-        SceneCharacterContainer.Add(this, LocomotionSettings.CharacterCollider);
     }
 
     public void SetState(State state)
@@ -119,11 +118,16 @@ public class CharacterCore : ManagedUpdatableObject
         CurrentState?.FixedUpdateState(this);
         CurrentSubState?.FixedUpdateState(this);
     }
+
+    public override void OnManagedLateUpdate()
+    {
+        CurrentState?.LateUpdateState(this);
+        CurrentSubState?.LateUpdateState(this);
+    }
     
     protected override void OnDisable()
     {
         base.OnDisable();
-        SceneCharacterContainer.Remove(this);
         Inventory.Destroy();
     }
 }

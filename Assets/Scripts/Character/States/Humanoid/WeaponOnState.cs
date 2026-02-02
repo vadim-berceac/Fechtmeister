@@ -10,7 +10,8 @@ public class WeaponOnState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new(character => (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()), "CombatIdleState"),
+            new(character => (character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished()
+                              && character.Inventory.IsWeaponOn), "CombatIdleState"),
         };
     }
     
@@ -28,9 +29,19 @@ public class WeaponOnState : State
         base.CheckAction(character);
         if (character.GraphCore.FullBodyAnimatorController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
-            character.Inventory.WeaponOn();
-            character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
-            character.StateTimer.SetActionIsPossible(false);
+            WeaponOn(character);
         }
+    }
+
+    public override void ExitState(CharacterCore character)
+    {
+        WeaponOn(character);
+    }
+
+    private void WeaponOn(CharacterCore character)
+    {
+        character.Inventory.WeaponOn();
+        character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();
+        character.StateTimer.SetActionIsPossible(false);
     }
 }

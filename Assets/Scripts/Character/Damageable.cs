@@ -15,6 +15,7 @@ public interface IDamageable
 
     public Action<float> OnCurrentHealthChanged { get;  set; }
     public Action <Transform> OnDamageAttempt { get;  set; }
+    public Action<bool> OnDestroyed { get;  set; }
 
     public void Initialize(float maxHealth, float currentHealthPercentage, float hitReactionThresholdPercentage,
         Transform damagedObject, ResistanceSettings resistanceSettings);

@@ -6,7 +6,9 @@ public class WeaponSystem : IItemInstancesContainer
     public IItemInstance InstanceInHands {get; private set;}
     public IItemInstance[] Instances { get; set; }
     public int InstancesCount { get; set; }
+    public Action<IEquppiedItemData> OnItemEquipped { get; set; }
     public Action<IEquppiedItemData> OnItemUnEquipped { get; set; }
+    public Action<WeaponData> OnWeaponInHandsSelected { get; set; }
     public StateTimer StateTimer { get; set; }
     public bool WeaponInstanceIsRanged { get; private set; }
     public CharacterCore CharacterCore { get; private set; }
@@ -36,6 +38,7 @@ public class WeaponSystem : IItemInstancesContainer
         SelectedInstanceNotEmpty = true;
         InstanceInHands = Instances[itemIndex];
         WeaponInstanceIsRanged = ((WeaponData)InstanceInHands.EquppiedItemData).IsRanged;
+        OnWeaponInHandsSelected?.Invoke((WeaponData)InstanceInHands.EquppiedItemData);
     }
 
     public bool CanDrawWeapon()
