@@ -15,17 +15,21 @@ public class CharacterParamsUI : MonoBehaviour
     private bool _isOpen;
     private CharacterCore _selectedCharacter;
 
-    private void Awake()
+    private void Start()
     {
         CharacterSelector.OnCharacterSelected += OnCharacterSelected;
         ShowWindow(false);
         DebugWindow.SetActive(Debug);
     }
 
-    private void OnCharacterSelected(CharacterCore character)
+    private void OnCharacterSelected(CharacterInfo character)
     {
+        if (character == null)
+        {
+            return;
+        }
         UnsubScribe();
-        _selectedCharacter = character;
+        _selectedCharacter = character.Core;
         
         if (_selectedCharacter == null)
         {

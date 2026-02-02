@@ -6,7 +6,6 @@ using Zenject;
 public class CharacterCore : ManagedUpdatableObject
 {
     [field: SerializeField] public bool IsAI { get; private set; }
-    [field: SerializeField] public bool IsTestBehavior { get; private set; }
     [field: SerializeField] public Transform DamagedObject { get; private set; }
     [field: SerializeField] public PlayableGraphCore GraphCore { get; private set; }
     [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
@@ -90,8 +89,6 @@ public class CharacterCore : ManagedUpdatableObject
         CurrentState.EnterState(this);
         CurrentSubState = StatesSet.GetStartSubState();
         CurrentSubState.EnterState(this);
-        
-        SceneCharacterContainer.Add(this, LocomotionSettings.CharacterCollider);
     }
 
     public void SetState(State state)
@@ -131,7 +128,6 @@ public class CharacterCore : ManagedUpdatableObject
     protected override void OnDisable()
     {
         base.OnDisable();
-        SceneCharacterContainer.Remove(this);
         Inventory.Destroy();
     }
 }

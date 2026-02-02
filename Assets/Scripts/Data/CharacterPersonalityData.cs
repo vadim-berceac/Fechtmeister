@@ -7,6 +7,9 @@ public class CharacterPersonalityData : ScriptableObject
     [field: Header("Name")]
     [field: SerializeField] public NamingSettings NamingSettings { get; private set; }
     
+    [field: Header("Faction")]
+    [field: SerializeField] public FactionsEnum Faction { get; private set; }
+    
     [field: Header("Appearance")]
     [field: SerializeField] public CharacterSkinDataSettings CharacterSkinDataSettings { get; private set; }
     

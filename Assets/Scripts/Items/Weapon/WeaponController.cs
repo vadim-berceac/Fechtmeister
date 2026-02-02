@@ -72,7 +72,7 @@ public class WeaponController : ItemControlComponent<WeaponData>
             var target = _sceneCharacterContainer.GetCharacter(hit);
             if (target == null) continue;
 
-            onTargetDetected?.Invoke(target);
+            onTargetDetected?.Invoke(target.Core);
         }
     }
 
