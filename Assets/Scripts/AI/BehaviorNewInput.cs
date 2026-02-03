@@ -1,13 +1,19 @@
 using System;
 using Unity.Behavior;
 using UnityEngine;
+using Zenject;
 using Action = System.Action;
 
 public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
 {
+    [field: SerializeField] public CharacterInfoComponent CharacterInfo { get; set; }
     [field: SerializeField] public CharacterCore Core { get; set; }
     [field: SerializeField] public HealthComponent Health { get; set; }
     [field: SerializeField] public BehaviorGraphAgent Agent { get; set; }
+    
+    [field: Header("Vision Settings")]
+    [field: SerializeField] public float VisionRange { get; set; }
+    [field: SerializeField] public float VisionAngle { get; set; }
     
     public event Action OnAttack;
     public event Action OnAimBlock;
@@ -26,6 +32,13 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
     public int SelectedWeapon { get; set; }
     public bool IsInCombatMode { get; private set; }
     private bool _isSubscribed;
+    private VisionSystem _visionSystem;
+
+    [Inject]
+    private void Construct(VisionSystem visionSystem)
+    {
+        _visionSystem = visionSystem;
+    }
     
     public void SimulateMove(Vector2 direction) => OnMove?.Invoke(direction);
     public void SimulateLook(Vector2 direction) => OnLook?.Invoke(direction);
@@ -39,8 +52,18 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
     public void SimulateHoldTarget() => OnHoldTarget?.Invoke();
     public void SimulateOpenInventory() => OnOpenInventory?.Invoke();
     public void SimulateWeaponSelect(int weaponIndex) => OnWeaponSelect?.Invoke(weaponIndex);
-    
-    public override void OnManagedUpdate(){}
+
+    public override void OnManagedUpdate()
+    {
+        var enemy = _visionSystem.GetClosestHostileCharacter(CharacterInfo.CharacterInfo,
+            VisionRange, VisionAngle);
+        if (enemy != null)
+        {
+            // Debug.LogWarning($"{CharacterInfo.CharacterInfo.Name} из фракции {CharacterInfo.CharacterInfo.Faction.Name}" +
+            //           $" видит {enemy.Name} из фракции {enemy.Faction.Name}");
+            SetHostileTarget(enemy.Health);
+        }
+    }
     
     public void FindActions(){}
     
@@ -93,7 +116,12 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
     {
         IsInCombatMode = true;
         source.TryGetComponent<HealthComponent>(out var targetHealth);
-        Agent.BlackboardReference.SetVariableValue("CurrentTarget", targetHealth);
+        SetHostileTarget(targetHealth);
+    }
+
+    private void SetHostileTarget(HealthComponent healthComponent)
+    {
+        Agent.BlackboardReference.SetVariableValue("CurrentTarget", healthComponent);
         Agent.BlackboardReference.SetVariableValue("IsInCombat", true);
     }
 

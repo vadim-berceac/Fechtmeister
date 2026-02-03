@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8012686392668108405}
   - component: {fileID: 1791452361773483558}
   - component: {fileID: 3868591547208123532}
+  - component: {fileID: 8579291231303795973}
   m_Layer: 0
   m_Name: Containers
   m_TagString: Untagged
@@ -57,3 +58,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e616bef758c50c488f492cffc07fb89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8579291231303795973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353713140493449594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27d4a76616215584ca6f5139bb947e6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisionSystem
+  _defaultVisionRadius: 15
+  _defaultVisionAngle: 120
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 1
+  _cellSize: 5
+  _updateInterval: 0.1
+  _enableDebug: 0

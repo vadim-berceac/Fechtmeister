@@ -10,5 +10,6 @@ public class SceneContainersInstaller : MonoInstaller
         Container.Bind<SceneCharacterContainer>().FromComponentInNewPrefab(sceneContainerPrefab).AsSingle().NonLazy();
         Container.Bind<GameWindowContainer>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<CentralizedUpdateSystem>().FromComponentInNewPrefab(updateSystemPrefab).AsSingle().NonLazy();
+        Container.Bind<VisionSystem>().FromComponentInHierarchy().AsSingle().NonLazy();
     }
 }

@@ -2,19 +2,19 @@
 public class CharacterInfo
 {
     public string Name { get; set; }
-    public FactionsEnum FactionType { get; set; }
+    public Faction Faction { get; set; }
     public CharacterCore Core { get; set; }
-    public IDamageable Health { get; set; }
-    public FactionsEnum OriginalFactionType { get; set; }
+    public HealthComponent Health { get; set; }
+    public Faction OriginalFaction { get; set; }
 
-    public CharacterInfo(string name, FactionsEnum factionType, CharacterCore core, IDamageable health)
+    public CharacterInfo(string name, FactionsEnum factionType, CharacterCore core, HealthComponent health)
     {
         Name = name;
-        FactionType = factionType;
+        Faction = Factions.GetFaction(factionType);
         Core = core;
         Health = health;
-        
-        OriginalFactionType = FactionType;
+       
+        OriginalFaction = Faction;
     }
 
     public void SetName(string name)
@@ -24,17 +24,17 @@ public class CharacterInfo
 
     public void SetFactionType(FactionsEnum factionType)
     {
-        FactionType = factionType;
+        Faction = Factions.GetFaction(factionType);
     }
     
     public void ControlledByPlayer(bool isPlayerControlled)
     {
         if (isPlayerControlled)
         {
-            OriginalFactionType = FactionType;
+            OriginalFaction = Faction;
             SetFactionType(FactionsEnum.Player);
             return;
         }
-        SetFactionType(OriginalFactionType);
+        SetFactionType(OriginalFaction.FactionType);
     }
 }

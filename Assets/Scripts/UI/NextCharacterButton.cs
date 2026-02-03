@@ -22,7 +22,6 @@ public class NextCharacterButton : MonoBehaviour
    {
       foreach (var character in _sceneCharacterContainer.GetNonAICharacters())
       {
-         Debug.Log(character);
          CharacterSelector.Select(character.Value, false);
       }
    }
