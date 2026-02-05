@@ -240,10 +240,10 @@ public static class ActionExtensions
     /// Проверяет нужно ли бежать за целью
     /// </summary>
     public static bool CheckIfNeedToRun(this Action action, Vector3 currentPos, Vector3 targetPos, float currentDistance,
-        BlackboardVariable<float> attackRange, ref Vector3 previousTargetPosition, ref float previousCheckTime,
+        float attackRange, ref Vector3 previousTargetPosition, ref float previousCheckTime,
         bool isRunning, BlackboardVariable<float> targetSpeedThreshold)
     {
-        if (currentDistance <= attackRange.Value)
+        if (currentDistance <= attackRange)
             return false;
 
         if (previousTargetPosition == Vector3.zero)
@@ -269,5 +269,13 @@ public static class ActionExtensions
         bool needRun = targetSpeed > targetSpeedThreshold.Value && targetMovingAway;
 
         return needRun;
+    }
+
+    public static float GetAttackRange(this Action action, CharacterCore character)
+    {
+        return character.Inventory.WeaponSystem.InstanceInHands == null
+            ? 2.5f
+            : ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData).WeaponParams
+            .PreferredDistance;
     }
 }

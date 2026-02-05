@@ -874,12 +874,21 @@ MonoBehaviour:
   - rid: 4500087333253021778
   - rid: 4500087333863031052
   - rid: 4500087333863031053
+  - rid: 2143866375665877413
   m_OriginalGraph: {fileID: 0}
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
     version: 2
     RefIds:
+    - rid: 2143866375665877413
+      type: {class: 'BlackboardVariable`1[[CharacterCore, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 9641227715388846065
+          m_Value1: 7750103555757273826
+        Name: CharacterCore
+        m_Value: {fileID: 2895659091404197368}
     - rid: 4500087333253021778
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:

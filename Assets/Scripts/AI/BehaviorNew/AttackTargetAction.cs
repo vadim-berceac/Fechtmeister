@@ -9,12 +9,13 @@ using Unity.Properties;
 public partial class AttackTargetAction : Action
 {
     [SerializeReference] public BlackboardVariable<HealthComponent> CurrentTarget;
-    [SerializeReference] public BlackboardVariable<float> AttackRange;
+    [SerializeReference] public BlackboardVariable<CharacterCore> CharacterCore;
     [SerializeReference] public BlackboardVariable<float> AttackCooldown;
     [SerializeReference] public BlackboardVariable<float> RotationSpeed;
     
     private BehaviorNewInput _inputSystem;
     private Transform _selfTransform;
+    private float _attackRange;
     private float _lastAttackTime = -999f;
 
     protected override Status OnStart()
@@ -24,6 +25,8 @@ public partial class AttackTargetAction : Action
         
         if (_selfTransform == null)
             _selfTransform = GameObject.transform;
+        
+        _attackRange = this.GetAttackRange(CharacterCore.Value);
 
         return Status.Running;
     }
@@ -47,7 +50,7 @@ public partial class AttackTargetAction : Action
         float distance = Vector3.Distance(currentPos, targetPos);
         
         // Если цель слишком далеко - возвращаемся к преследованию
-        if (distance > AttackRange.Value * 1.2f)
+        if (distance > _attackRange * 1.2f)
         {
             _inputSystem.SimulateMove(Vector2.zero);
             return Status.Failure;
@@ -89,12 +92,12 @@ public partial class AttackTargetAction : Action
     private void HandlePositioning(float distance)
     {
         // Если слишком далеко - подойти
-        if (distance > AttackRange.Value * 0.9f)
+        if (distance > _attackRange * 0.9f)
         {
             _inputSystem.SimulateMove(Vector2.up * 0.5f);
         }
         // Если слишком близко - отступить
-        else if (distance < AttackRange.Value * 0.5f)
+        else if (distance < _attackRange * 0.5f)
         {
             _inputSystem.SimulateMove(Vector2.down * 0.5f);
         }

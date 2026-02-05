@@ -15,12 +15,11 @@ using UnityEngine;
 public partial class FollowTargetAction : Action
 {
     [SerializeReference] public BlackboardVariable<BehaviorNewInput> InputSystem;
+    [SerializeReference] public BlackboardVariable<CharacterCore> CharacterCore;
     [SerializeReference] public BlackboardVariable<HealthComponent> CurrentTarget;
-    [SerializeReference] public BlackboardVariable<float> AttackRange;
     [SerializeReference] public BlackboardVariable<float> MoveSpeed;
     [SerializeReference] public BlackboardVariable<float> RotationSpeed;
     [SerializeReference] public BlackboardVariable<float> PathRecalculateInterval = new BlackboardVariable<float>(0.5f);
-    [SerializeReference] public BlackboardVariable<float> StoppingDistance = new BlackboardVariable<float>(0.5f);
     [SerializeReference] public BlackboardVariable<float> MaxRotationBeforeMove = new BlackboardVariable<float>(45f);
     [SerializeReference] public BlackboardVariable<float> TimeoutDuration = new BlackboardVariable<float>(2f);
     [SerializeReference] public BlackboardVariable<float> TargetSpeedThreshold = new BlackboardVariable<float>(0.5f); 
@@ -31,6 +30,7 @@ public partial class FollowTargetAction : Action
     private float _lastPathRecalculateTime;
     private Vector3 _lastTargetPosition;
     private Vector3 _previousTargetPosition;
+    private float _attackRange;
     private float _previousCheckTime;
     private bool _isRunning;
 
@@ -52,6 +52,8 @@ public partial class FollowTargetAction : Action
         _previousCheckTime = Time.time;
         _isRunning = false;
 
+        _attackRange = this.GetAttackRange(CharacterCore.Value);
+
         return Status.Running;
     }
 
@@ -71,7 +73,7 @@ public partial class FollowTargetAction : Action
         var targetPos = targetTransform.position;
         var distance = (currentPos - targetPos).magnitude;
 
-        var needToRun = this.CheckIfNeedToRun(currentPos, targetPos, distance, AttackRange, ref _previousTargetPosition,
+        var needToRun = this.CheckIfNeedToRun(currentPos, targetPos, distance, _attackRange, ref _previousTargetPosition,
             ref _previousCheckTime, _isRunning, TargetSpeedThreshold);
         
         if (needToRun && !_isRunning)
@@ -85,7 +87,7 @@ public partial class FollowTargetAction : Action
             InputSystem.Value.SwitchRunMode();
         }
 
-        if (distance <= AttackRange.Value)
+        if (distance <= _attackRange)
         {
             InputSystem.Value.SimulateMove(Vector2.zero);
             return Status.Success;
@@ -126,7 +128,7 @@ public partial class FollowTargetAction : Action
             Waypoints = _currentPath,
             SelfTransform = _selfTransform,
             InputSystem = InputSystem.Value,
-            StoppingDistance = StoppingDistance.Value,
+            StoppingDistance = _attackRange,
             IsRun = _isRunning,
             RotationSpeed = RotationSpeed.Value,
             MaxRotationBeforeMove = MaxRotationBeforeMove.Value,
@@ -135,7 +137,7 @@ public partial class FollowTargetAction : Action
 
         var pathStatus = this.FollowPath(config, ref _pathState);
 
-        if (pathStatus == Status.Success && distance > AttackRange.Value)
+        if (pathStatus == Status.Success && distance > _attackRange)
         {
             return Status.Running;
         }
