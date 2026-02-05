@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 [NodeDescription(name: "WaitAction", story: "Wait", category: "Action/Movement", id: "1f3c9e653f97b4ed45815493b145cbc2")]
 public partial class WaitAction : Action
 {
+    [SerializeReference] public BlackboardVariable<HealthComponent> CurrentTarget;
     [SerializeReference] public BlackboardVariable<float> MinWaitDuration;
     [SerializeReference] public BlackboardVariable<float> MaxWaitDuration;
     [SerializeReference] public BlackboardVariable<BehaviorNewInput> InputSystem;
@@ -37,9 +38,11 @@ public partial class WaitAction : Action
         
         _elapsedTime += Time.deltaTime;
         
-        if (_elapsedTime >= _waitDuration)
+        if (_elapsedTime >= _waitDuration || CurrentTarget.Value != null)
+        {
             return Status.Success;
-            
+        }
+
         return Status.Running;
     }
 }

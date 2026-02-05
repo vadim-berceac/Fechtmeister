@@ -280,8 +280,8 @@ MonoBehaviour:
     y: 0
     width: 472.80005
     height: 1023.19995
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 25}
   m_Panes:
   - {fileID: 25}
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 70.4
+    y: 24
     width: 464.6
     height: 642
   m_SerializedDataModeController:
@@ -427,7 +427,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: be9d0000
+      m_SelectedIDs: 
       m_LastClickedID: 0
       m_ExpandedIDs: defaffff
       m_RenameOverlay:
@@ -867,8 +867,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 465.6
-    y: 70.4
+    x: 466.6
+    y: 24
     width: 1107.6
     height: 642
   m_SerializedDataModeController:
@@ -1433,7 +1433,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.20725396, y: 0.1290178, z: -0.027552404, w: 0.96946245}
     speed: 2
-    m_Value: {x: 0.20723155, y: 0.12900385, z: -0.027549425, w: 0.96935767}
+    m_Value: {x: -0.20725395, y: -0.1290178, z: 0.027552402, w: -0.9694624}
   m_Size:
     m_Target: 21.860401
     speed: 2
@@ -1493,7 +1493,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 738.4
+    y: 692
     width: 1574.2
     height: 329.19995
   m_SerializedDataModeController:
@@ -1537,7 +1537,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 234.80005}
     m_SelectedIDs: be610100
     m_LastClickedID: 90558
-    m_ExpandedIDs: 000000009af9000030fa000036fa000040fa0000002f010000ca9a3b
+    m_ExpandedIDs: 000000009af90000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1598,18 +1598,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: bcd1000060d500008cef000058ef000078ef000082ca000088ef000082ef000088ca0000d8cf0000b0ef0000f0c2000082c3000034c3000010c4000024c500005eca00001edc00005adc000096dc0000e6e300001eba0000ecec0000f6eb0000ceee00002ec400008aca000044d800003ab80000f4d60000fad6000006d7000068090100961401001e0a0100c21f0600420b01002205010094ee0000240d0100dad5000016fe00006cf900009ad50000980f02004ad7000030d900008cf70000940d01006aff0000a400010032db00009ebc0000a6db00002c32010030320100a0f5000042ba0000d0db0000b21601000adb0000f8da000064110200542502005a250200e6de00005cef000070da000072da000074da000076da000078da000084f0000088f00000a2da0000a4da0000a6da00006a7201006e720100b0da000090da00005ac500007c2a0100500a0100560a0100e6fe0000721001000ce000000e080100825601008a560100344a010086560100745501008e560100c450010058460100be9101001ce50000d2ba010086530100f05201007ebe010006e70000b6960400de7d0100442c0100502c01005017010074170100a8020100fe2d0100daff0000b8010100de6f0100deeb0000e4eb00004ad50000646f0100626f010042ec00000000000068ad01007cd20000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: UnarmedFight_WeaponData
-      m_OriginalName: UnarmedFight_WeaponData
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 54874
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
       m_ClientGUIView: {fileID: 10}
@@ -2821,8 +2821,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1575.2001
-    y: 70.4
+    x: 1576.2
+    y: 24
     width: 471.80005
     height: 997.19995
   m_SerializedDataModeController:

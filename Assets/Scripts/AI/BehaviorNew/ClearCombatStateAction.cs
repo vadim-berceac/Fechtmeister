@@ -9,6 +9,7 @@ using Unity.Properties;
     category: "Action/Combat", id: "bff275451aede3da8fec194c8b5d256c")]
 public partial class ClearCombatStateAction : Action
 {
+    [SerializeReference] public BlackboardVariable<HealthComponent> CurrentTarget;
     [SerializeReference] public BlackboardVariable<bool> IsInCombat;
     [SerializeReference] public BlackboardVariable<bool> HasWeaponDrawn;
     [SerializeReference] public BlackboardVariable<bool> IsWeaponReady;
@@ -40,6 +41,7 @@ public partial class ClearCombatStateAction : Action
         HasWeaponDrawn.Value = false;
         IsWeaponReady.Value = false;
         OnHitReaction.Value = false;
+        CurrentTarget.Value = null;
 
         Debug.Log($"<color=blue>[AI] Combat cleared, sheathing weapon, returning to patrol</color>");
 

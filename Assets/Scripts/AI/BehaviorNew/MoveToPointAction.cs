@@ -9,6 +9,7 @@ using Unity.Properties;
 [NodeDescription(name: "MoveToPointAction", story: "Move to point", category: "Action/Movement", id: "04ff221d32a60605efc6e9de9a07558e")]
 public partial class MoveToPointAction : Action
 {
+    [SerializeReference] public BlackboardVariable<HealthComponent> CurrentTarget;
     [SerializeReference] public BlackboardVariable<BehaviorNewInput> InputSystem;
     [SerializeReference] public BlackboardVariable<Transform> SelfTransform;
     [SerializeReference] public BlackboardVariable<List<Vector3>> Waypoints; // List вместо массива
@@ -52,6 +53,11 @@ public partial class MoveToPointAction : Action
     
     protected override Status OnUpdate()
     {
+        if (CurrentTarget.Value != null)
+        {
+            return Status.Success;
+        }
+        
         var config = new PathFollowingConfig
         {
             Waypoints = Waypoints.Value,

@@ -278,4 +278,13 @@ public static class ActionExtensions
             : ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData).WeaponParams
             .PreferredDistance;
     }
+
+    public static bool IsWeaponRanged(this Action action, CharacterCore character)
+    {
+        if (character.Inventory.WeaponSystem.InstanceInHands == null)
+        {
+            return false;
+        }
+        return ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData).IsRanged;
+    }
 }

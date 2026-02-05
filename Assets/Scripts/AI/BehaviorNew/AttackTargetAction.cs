@@ -16,6 +16,7 @@ public partial class AttackTargetAction : Action
     private BehaviorNewInput _inputSystem;
     private Transform _selfTransform;
     private float _attackRange;
+    private bool _isRangedWeapon;
     private float _lastAttackTime = -999f;
 
     protected override Status OnStart()
@@ -27,6 +28,7 @@ public partial class AttackTargetAction : Action
             _selfTransform = GameObject.transform;
         
         _attackRange = this.GetAttackRange(CharacterCore.Value);
+        _isRangedWeapon = this.IsWeaponRanged(CharacterCore.Value);
 
         return Status.Running;
     }
@@ -43,11 +45,11 @@ public partial class AttackTargetAction : Action
             return Status.Success; // Цель исчезла, выходим из состояния боя
         }
 
-        Transform targetTransform = CurrentTarget.Value.transform;
-        Vector3 currentPos = _selfTransform.position;
-        Vector3 targetPos = targetTransform.position;
+        var targetTransform = CurrentTarget.Value.transform;
+        var currentPos = _selfTransform.position;
+        var targetPos = targetTransform.position;
         
-        float distance = Vector3.Distance(currentPos, targetPos);
+        var distance = (currentPos - targetPos).magnitude;
         
         // Если цель слишком далеко - возвращаемся к преследованию
         if (distance > _attackRange * 1.2f)
@@ -57,12 +59,12 @@ public partial class AttackTargetAction : Action
         }
 
         // Поворачиваемся к цели
-        Vector3 direction = (targetPos - currentPos).normalized;
-        Vector3 horizontalDirection = new Vector3(direction.x, 0, direction.z).normalized;
+        var direction = (targetPos - currentPos).normalized;
+        var horizontalDirection = new Vector3(direction.x, 0, direction.z).normalized;
         
         if (horizontalDirection.magnitude > 0.1f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(horizontalDirection);
+            var targetRotation = Quaternion.LookRotation(horizontalDirection);
             _selfTransform.rotation = Quaternion.Slerp(
                 _selfTransform.rotation, 
                 targetRotation, 
@@ -81,7 +83,7 @@ public partial class AttackTargetAction : Action
         }
         
         // Выравниваем капсулу
-        Vector3 euler = _selfTransform.eulerAngles;
+        var euler = _selfTransform.eulerAngles;
         euler.x = 0;
         euler.z = 0;
         _selfTransform.eulerAngles = euler;
