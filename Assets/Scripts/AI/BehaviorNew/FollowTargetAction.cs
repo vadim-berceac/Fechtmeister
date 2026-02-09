@@ -22,7 +22,8 @@ public partial class FollowTargetAction : Action
     [SerializeReference] public BlackboardVariable<float> PathRecalculateInterval = new BlackboardVariable<float>(0.5f);
     [SerializeReference] public BlackboardVariable<float> MaxRotationBeforeMove = new BlackboardVariable<float>(45f);
     [SerializeReference] public BlackboardVariable<float> TimeoutDuration = new BlackboardVariable<float>(2f);
-    [SerializeReference] public BlackboardVariable<float> TargetSpeedThreshold = new BlackboardVariable<float>(0.5f); 
+    [SerializeReference] public BlackboardVariable<float> TargetSpeedThreshold = new BlackboardVariable<float>(0.5f);
+    [SerializeReference] public BlackboardVariable<bool> IsAttacking; 
 
     private Transform _selfTransform;
     private List<Vector3> _currentPath;
@@ -66,6 +67,13 @@ public partial class FollowTargetAction : Action
         {
             InputSystem.Value.SimulateMove(Vector2.zero);
             return Status.Failure;
+        }
+
+        // КРИТИЧНО: Если атакует - не двигаемся
+        if (IsAttacking != null && IsAttacking.Value)
+        {
+            InputSystem.Value.SimulateMove(Vector2.zero);
+            return Status.Running;
         }
 
         var targetTransform = CurrentTarget.Value.transform;

@@ -14,6 +14,7 @@ public partial class AttackTargetAction : Action
     [SerializeReference] public BlackboardVariable<float> AttackCooldown;
     [SerializeReference] public BlackboardVariable<float> RotationSpeed;
     [SerializeReference] public BlackboardVariable<float> AimTime;
+    [SerializeReference] public BlackboardVariable<bool> IsAttacking; 
 
     private BehaviorNewInput _inputSystem;
     private Transform _selfTransform;
@@ -25,6 +26,7 @@ public partial class AttackTargetAction : Action
     private int _releaseBlockFrame;
     private float _lastAttackTime = -999f;
     private float _aimStartTime;
+    private const float CooldownBuffer = 0.1f;
 
     protected override Status OnStart()
     {
@@ -53,32 +55,49 @@ public partial class AttackTargetAction : Action
     
         var targetStatus = CheckTarget();
         if (targetStatus == Status.Success)
+        {
+            SetAttackingFlag(false);
             return Status.Success;
+        }
     
         var targetTransform = CurrentTarget.Value.transform;
         var currentPos = _selfTransform.position;
         var targetPos = targetTransform.position;
         var distance = (currentPos - targetPos).magnitude;
     
-        var followStatus = CheckFollowing(distance);
-        if (followStatus == Status.Failure)
-            return Status.Failure;
+        if (!_isAiming && !_shotFired)
+        {
+            var followStatus = CheckFollowing(distance);
+            if (followStatus == Status.Failure)
+            {
+                SetAttackingFlag(false);
+                return Status.Failure;
+            }
+        }
     
         RotateToTarget(targetPos, currentPos);
     
         if (_isAiming || _shotFired)
         {
+            SetAttackingFlag(true);
             HandleAiming();
             _inputSystem.SimulateMove(Vector2.zero);
             LevelTransform(_selfTransform);
             return Status.Running;
         }
     
+        SetAttackingFlag(false);
         HandlePositioning(targetPos, currentPos, distance);
         CheckAttackConditions();
         LevelTransform(_selfTransform);
     
         return Status.Running;
+    }
+
+    private void SetAttackingFlag(bool isAttacking)
+    {
+        if (IsAttacking != null)
+            IsAttacking.Value = isAttacking;
     }
 
     private void HandleAiming()
@@ -112,15 +131,13 @@ public partial class AttackTargetAction : Action
 
     private Status CheckTarget()
     {
-        // Проверяем что цель существует и жива
-        if (CurrentTarget.Value == null || 
-            CurrentTarget.Value.IsDestroyed )
+        if (CurrentTarget.Value == null || CurrentTarget.Value.IsDestroyed)
         {
             _inputSystem.SimulateMove(Vector2.zero);
             StopAiming();
-            return Status.Success; // Цель мертва/исчезла, выходим
+            return Status.Success;
         }
-        return Status.Failure; // Цель жива, продолжаем
+        return Status.Failure;
     }
 
     private Status CheckFollowing(float distance)
@@ -129,7 +146,7 @@ public partial class AttackTargetAction : Action
         {
             _inputSystem.SimulateMove(Vector2.zero);
             StopAiming();
-            return Status.Failure; // Слишком далеко
+            return Status.Failure;
         }
         return Status.Success;
     }
@@ -152,17 +169,14 @@ public partial class AttackTargetAction : Action
 
     private void HandlePositioning(Vector3 targetPos, Vector3 currentPos, float distance)
     {
-        // Если слишком далеко - подойти
         if (distance > _attackRange * 0.9f)
         {
             _inputSystem.SimulateMove(Vector2.up * 0.5f);
         }
-        // Если слишком близко - отступить
         else if (distance < _attackRange * 0.5f)
         {
             _inputSystem.SimulateMove(Vector2.down * 0.5f);
         }
-        // Оптимальная дистанция - стоим
         else
         {
             _inputSystem.SimulateMove(Vector2.zero);
@@ -174,7 +188,11 @@ public partial class AttackTargetAction : Action
         if (_isAiming)
             return;
         
-        if (Time.time - _lastAttackTime < AttackCooldown.Value)
+        float effectiveCooldown = _isRangedWeapon 
+            ? AttackCooldown.Value + CooldownBuffer 
+            : AttackCooldown.Value;
+        
+        if (Time.time - _lastAttackTime < effectiveCooldown)
             return;
         
         if (!_isRangedWeapon)
@@ -226,5 +244,6 @@ public partial class AttackTargetAction : Action
             _inputSystem.SimulateMove(Vector2.zero);
             StopAiming();
         }
+        SetAttackingFlag(false);
     }
 }
