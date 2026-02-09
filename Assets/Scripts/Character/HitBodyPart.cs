@@ -6,7 +6,14 @@ public class HitBodyPart : MonoBehaviour
     
     public void Damage(float damage, DamageTypes damageType, Transform source = null)
     {
-        HitBodyPartSettings.Health.Damage(damage * HitBodyPartSettings.DamageMultiplier, damageType, source);
+        var finalDamage = damage * HitBodyPartSettings.DamageMultiplier;
+    
+        if (finalDamage <= 0)
+        {
+            return;
+        }
+    
+        HitBodyPartSettings.Health.Damage(finalDamage, damageType, source);
     }
 }
 

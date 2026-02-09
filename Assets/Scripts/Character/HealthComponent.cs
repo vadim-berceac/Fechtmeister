@@ -86,27 +86,25 @@ public class HealthComponent : MonoBehaviour, IDamageable
         {
             OnDamageAttempt?.Invoke(source);
         }
-        
+    
         if (CheckForResistance(damage, damageType))
         {
             return;
         }
-        
+    
         CurrentHealth = Mathf.Max(0, CurrentHealth - damage);
-        
+    
         if ((damage / MaxHealth) * 100f > HitReactionThresholdPercentage)
         {
             EnableHitReaction(true);
         }
 
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 && !IsDestroyed)
         {
             SetDestroyed(true);
         }
-        
+    
         OnCurrentHealthChanged?.Invoke(CurrentHealth);
-        
-        Debug.Log($"DamageValue {damage} to {CurrentHealth} / {MaxHealth}, by {damageType}");
     }
 
     public void Heal(float heal)
@@ -128,19 +126,18 @@ public class HealthComponent : MonoBehaviour, IDamageable
 
     private void EnableHitReaction(bool enable)
     {
-        if (enable)
+        if (!enable)
         {
-            // Если уже идет хитреакция - перезапускаем таймер
-            if (_hitReactionCoroutine != null)
-            {
-                StopCoroutine(_hitReactionCoroutine);
-            }
-            
-            OnHitReaction?.Invoke(true);
-            _isHitReactionEnabled = true;
-            _hitReactionCoroutine = StartCoroutine(ResetHitReactionAfterDelay());
-            Debug.Log("[Health] Hit reaction enabled");
+           return;
         }
+        if (_hitReactionCoroutine != null)
+        {
+            StopCoroutine(_hitReactionCoroutine);
+        }
+            
+        OnHitReaction?.Invoke(true);
+        _isHitReactionEnabled = true;
+        _hitReactionCoroutine = StartCoroutine(ResetHitReactionAfterDelay());
     }
 
     private IEnumerator ResetHitReactionAfterDelay()
@@ -150,8 +147,6 @@ public class HealthComponent : MonoBehaviour, IDamageable
         _isHitReactionEnabled = false;
         OnHitReaction?.Invoke(false);
         _hitReactionCoroutine = null;
-        
-        Debug.Log("[Health] Hit reaction auto-reset after timeout");
     }
 
     public void SetDestroyed(bool destroyed)
@@ -162,15 +157,17 @@ public class HealthComponent : MonoBehaviour, IDamageable
 
     private void OnDisable()
     {
-        if (_hitReactionCoroutine != null)
+        if (_hitReactionCoroutine == null)
         {
-            StopCoroutine(_hitReactionCoroutine);
-            _hitReactionCoroutine = null;
-            if (_isHitReactionEnabled)
-            {
-                _isHitReactionEnabled = false;
-                OnHitReaction?.Invoke(false);
-            }
+           return;
         }
+        StopCoroutine(_hitReactionCoroutine);
+        _hitReactionCoroutine = null;
+        if (!_isHitReactionEnabled)
+        {
+            return;
+        }
+        _isHitReactionEnabled = false;
+        OnHitReaction?.Invoke(false);
     }
 }

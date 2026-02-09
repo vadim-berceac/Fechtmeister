@@ -3,7 +3,6 @@ using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
-using UnityEngine.Serialization;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "AttackTargetAction ", story: "Attack target", category: "Action/Combat",
@@ -38,8 +37,6 @@ public partial class AttackTargetAction : Action
         _attackRange = this.GetAttackRange(CharacterCore.Value);
         _isRangedWeapon = this.IsWeaponRanged(CharacterCore.Value);
     
-        Debug.Log($"[{Time.frameCount}] AttackTargetAction started - attackRange: {_attackRange}, isRanged: {_isRangedWeapon}");
-    
         _isAiming = false;
         _aimBlockActivated = false;
         _shotFired = false;
@@ -62,8 +59,6 @@ public partial class AttackTargetAction : Action
         var currentPos = _selfTransform.position;
         var targetPos = targetTransform.position;
         var distance = (currentPos - targetPos).magnitude;
-    
-        Debug.Log($"[{Time.frameCount}] Current: {currentPos}, Target: {targetPos}, Distance: {distance:F2}");
     
         var followStatus = CheckFollowing(distance);
         if (followStatus == Status.Failure)
@@ -157,25 +152,19 @@ public partial class AttackTargetAction : Action
 
     private void HandlePositioning(Vector3 targetPos, Vector3 currentPos, float distance)
     {
-        Debug.Log($"[{Time.frameCount}] HandlePositioning - distance: {distance:F2}, attackRange: {_attackRange:F2}, " +
-                  $"too far: {distance > _attackRange * 0.9f}, too close: {distance < _attackRange * 0.5f}");
-    
         // Если слишком далеко - подойти
         if (distance > _attackRange * 0.9f)
         {
-            Debug.Log($"[{Time.frameCount}] Moving FORWARD");
             _inputSystem.SimulateMove(Vector2.up * 0.5f);
         }
         // Если слишком близко - отступить
         else if (distance < _attackRange * 0.5f)
         {
-            Debug.Log($"[{Time.frameCount}] Moving BACKWARD");
             _inputSystem.SimulateMove(Vector2.down * 0.5f);
         }
         // Оптимальная дистанция - стоим
         else
         {
-            Debug.Log($"[{Time.frameCount}] STANDING STILL");
             _inputSystem.SimulateMove(Vector2.zero);
         }
     }

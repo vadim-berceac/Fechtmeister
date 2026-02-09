@@ -9,6 +9,7 @@ public class ProjectileController : MonoBehaviour
     private WeaponData _weaponData;
     private Vector3 _velocity;
     private Collider _parent;
+    private HealthComponent _parentHealth;
     private Transform _transform;
     private readonly Collider[] _hitResults = new Collider[5];
     private readonly Collider[] _threatResults = new Collider[10]; 
@@ -50,6 +51,7 @@ public class ProjectileController : MonoBehaviour
     public void Launch(Collider parent, int accuracy)
     {
         _parent = parent;
+        _parentHealth = parent.GetComponentInParent<HealthComponent>();
         _threatNotified = false;
         
         var forward = transform.forward;
@@ -117,10 +119,10 @@ public class ProjectileController : MonoBehaviour
     private void DetectThreatsNearby()
     {
         if (_threatNotified) return;
-        
+    
         var hitCount = Physics.OverlapSphereNonAlloc(
             _transform.position, 
-            ThreatDetectionRadius, 
+            ThreatDetectionRadius,
             _threatResults, 
             _characterLayerMask
         );
@@ -128,14 +130,16 @@ public class ProjectileController : MonoBehaviour
         for (var i = 0; i < hitCount; i++)
         {
             var hit = _threatResults[i];
-            if (hit == null || hit == _parent) continue;
+            if (hit == null) continue;
 
             var damageable = hit.GetComponent<IDamageable>();
             if (damageable == null) continue;
+        
+            if (damageable == _parentHealth) continue;
 
             damageable.OnDamageAttempt?.Invoke(_parent.transform);
         }
-        
+    
         _threatNotified = true; 
     }
     
@@ -159,8 +163,6 @@ public class ProjectileController : MonoBehaviour
     
     private void HandleHit(Collider hit)
     {
-        Debug.Log($"Попадание в {hit.name} на слое {LayerMask.LayerToName(hit.gameObject.layer)}");
-
         var damaged = hit.GetComponent<HitBodyPart>();
         var hitDirection = _velocity.normalized;
 
@@ -170,23 +172,24 @@ public class ProjectileController : MonoBehaviour
         var closest = hit.ClosestPoint(_transform.position);
         _transform.position = closest - hitDirection * _data.LaunchSettings.StickOffset;
 
-        if (damaged != null)
+        if (damaged == null)
         {
-            damaged.Damage(_data.WeaponParams.Damage + _weaponData.WeaponParams.Damage, 
-                _data.WeaponParams.DamageType, _parent.transform);
+           return;
+        }
+        var totalDamage = _data.WeaponParams.Damage + _weaponData.WeaponParams.Damage;
+        damaged.Damage(totalDamage, _data.WeaponParams.DamageType, _parent.transform);
 
-            if (damaged.HitBodyPartSettings.Health.IsHitReactionEnabled)
-            {
-                _transform.SetParent(damaged.HitBodyPartSettings.Transform);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+        if (damaged.HitBodyPartSettings.Health.IsDestroyed)
+        {
+            Destroy(gameObject);
+        }
+        else if (damaged.HitBodyPartSettings.Health.IsHitReactionEnabled)
+        {
+            _transform.SetParent(damaged.HitBodyPartSettings.Transform);
         }
         else
         {
-            _transform.SetParent(hit.transform);
+            Destroy(gameObject);
         }
     }
 
