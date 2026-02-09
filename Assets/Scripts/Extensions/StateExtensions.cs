@@ -1,10 +1,15 @@
 using System.Linq;
+using UnityEngine;
 
 public static class StateExtensions
 {
-    public static int GetBlendAnimationsCount(this State state, int animationType)
+    public static int GetRandomBlendAnimationIndex(this State state, int animationType)
     {
         var animationBlendConfig = state.Clips.FirstOrDefault(a => (int)a.ParamValue == animationType);
-        return animationBlendConfig == null ? 0 : animationBlendConfig.Clips.Length;
+    
+        if (animationBlendConfig == null || animationBlendConfig.Clips.Length == 0)
+            return 0; 
+    
+        return Random.Range(0, animationBlendConfig.Clips.Length);
     }
 }

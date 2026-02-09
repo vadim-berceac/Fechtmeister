@@ -28,7 +28,6 @@ public class HealthComponent : MonoBehaviour, IDamageable
             if (_isHitReactionEnabled)
             {
                 _isHitReactionEnabled = false;
-            
                 return true;
             }
             return false;
@@ -126,15 +125,14 @@ public class HealthComponent : MonoBehaviour, IDamageable
 
     private void EnableHitReaction(bool enable)
     {
-        if (!enable)
-        {
-           return;
-        }
+        if (!enable) return;
+    
         if (_hitReactionCoroutine != null)
         {
             StopCoroutine(_hitReactionCoroutine);
         }
-            
+    
+        Debug.Log($"[Health] Hit reaction ENABLED at {Time.frameCount}");
         OnHitReaction?.Invoke(true);
         _isHitReactionEnabled = true;
         _hitReactionCoroutine = StartCoroutine(ResetHitReactionAfterDelay());

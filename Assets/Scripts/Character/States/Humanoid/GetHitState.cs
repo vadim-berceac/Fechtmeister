@@ -25,6 +25,7 @@ public class GetHitState : State
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.EquppiedItemData;
         var animType = character.Inventory.IsWeaponOn ? itemInstanceData.AnimationType : 0;
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, animType);
-        character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(Random.Range(0, this.GetBlendAnimationsCount(animType)));
+        character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(Random.Range(0,
+            this.GetRandomBlendAnimationIndex(animType)));
     }
 }
