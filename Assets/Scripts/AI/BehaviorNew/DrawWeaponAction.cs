@@ -25,21 +25,17 @@ public partial class DrawWeaponAction : Action
 
     protected override Status OnStart()
     {
-        Debug.Log("[DrawWeapon] OnStart called");
-        
         if (_inputSystem == null)
             _inputSystem = GameObject.GetComponent<BehaviorNewInput>();
 
         if (HasWeaponDrawn == null || IsWeaponReady == null || WeaponDrawDelay == null || OnHitReaction == null)
         {
-            Debug.LogError("[DrawWeapon] Blackboard variables are null");
             return Status.Failure;
         }
 
         // Если оружие УЖЕ вытащено И готово - сразу Success
         if (HasWeaponDrawn.Value && IsWeaponReady.Value)
         {
-            Debug.Log("[DrawWeapon] Weapon already drawn and ready");
             _isDrawing = false;
             _waitingForHitReaction = false;
             return Status.Success;
@@ -48,14 +44,12 @@ public partial class DrawWeaponAction : Action
         // Если уже в процессе вытаскивания (повторный вход в OnStart)
         if (_isDrawing && HasWeaponDrawn.Value)
         {
-            Debug.Log("[DrawWeapon] Already drawing, continuing...");
             return Status.Running;
         }
 
         // Если идет хитреакция - ждем её завершения
         if (OnHitReaction.Value)
         {
-            Debug.Log("[DrawWeapon] Hit reaction active, waiting...");
             _waitingForHitReaction = true;
             _isDrawing = false;
             return Status.Running;
@@ -84,7 +78,6 @@ public partial class DrawWeaponAction : Action
             else
             {
                 // Хитреакция закончилась, начинаем вытаскивание
-                Debug.Log("[DrawWeapon] Hit reaction ended, starting draw");
                 _waitingForHitReaction = false;
                 StartDrawing();
                 return Status.Running;
@@ -94,7 +87,6 @@ public partial class DrawWeaponAction : Action
         // Если во время вытаскивания началась хитреакция - прерываемся
         if (_isDrawing && OnHitReaction.Value)
         {
-            Debug.Log("[DrawWeapon] Hit reaction interrupted drawing, resetting");
             _isDrawing = false;
             _waitingForHitReaction = true;
             HasWeaponDrawn.Value = false;
@@ -105,7 +97,6 @@ public partial class DrawWeaponAction : Action
         // Если оружие готово - завершаем
         if (IsWeaponReady.Value)
         {
-            Debug.Log("[DrawWeapon] Weapon ready (set externally)");
             _isDrawing = false;
             return Status.Success;
         }
@@ -117,7 +108,6 @@ public partial class DrawWeaponAction : Action
         {
             IsWeaponReady.Value = true;
             _isDrawing = false;
-            Debug.Log($"[DrawWeapon] Weapon ready after {timeSinceDrawn:F2}s");
             return Status.Success;
         }
 
@@ -132,8 +122,6 @@ public partial class DrawWeaponAction : Action
             _isDrawing = false;
             _waitingForHitReaction = false;
         }
-        
-        Debug.Log($"[DrawWeapon] OnEnd called, isDrawing={_isDrawing}, waiting={_waitingForHitReaction}");
     }
 
     private void StartDrawing()
@@ -144,7 +132,5 @@ public partial class DrawWeaponAction : Action
         _weaponDrawTime = Time.time;
         _isDrawing = true;
         _waitingForHitReaction = false;
-        
-        Debug.Log($"[DrawWeapon] Draw command sent, waiting {WeaponDrawDelay.Value}s for animation");
     }
 }

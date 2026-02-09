@@ -54,25 +54,35 @@ public class ProjectileController : MonoBehaviour
         _parentHealth = parent.GetComponentInParent<HealthComponent>();
         _threatNotified = false;
         
-        var forward = transform.forward;
+        var direction = GetDirectionPitch();
         var maxSpreadAngle = _data.LaunchSettings.MaxSpreadAngles; 
         var spreadAngle = maxSpreadAngle * (1f - accuracy / 100f);
         var randomCircle = Random.insideUnitCircle.normalized;
 
-        var right = Vector3.Cross(forward, Vector3.up).normalized;
+        var right = Vector3.Cross(direction, Vector3.up).normalized;
         if (right == Vector3.zero)
-            right = Vector3.Cross(forward, Vector3.forward).normalized;
+            right = Vector3.Cross(direction, Vector3.forward).normalized;
 
-        var up = Vector3.Cross(right, forward).normalized;
+        var up = Vector3.Cross(right, direction).normalized;
 
         var offsetDir = (right * randomCircle.x + up * randomCircle.y).normalized;
 
         var spreadRotation = Quaternion.AngleAxis(Random.Range(0f, spreadAngle), offsetDir);
-        var finalDirection = (spreadRotation * forward).normalized;
+        var finalDirection = (spreadRotation * direction).normalized;
 
         _velocity = finalDirection * _data.WeaponParams.AttackSpeed;
 
         Destroy(gameObject, _data.LaunchSettings.Lifetime);
+    }
+
+    private Vector3 GetDirectionPitch()
+    {
+        // получать направление от форварда персонажа к цели
+        // чтобы сделать возможной стрельбу вверх и вниз
+        // стрельба влево и вправо уже реализована разворотом всего персонажа
+        // отдельные анимации для стрельбы прямо вверх и вниз есть (для лука по крайней мере)
+        // возможно прицеливание в этой ситуации лучше всего привязать к LookAction интерфейса инпута
+        return _transform.forward;
     }
 
     private void FixedUpdate()
