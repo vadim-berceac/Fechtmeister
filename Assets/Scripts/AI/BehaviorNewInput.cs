@@ -59,8 +59,6 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
             VisionRange, VisionAngle);
         if (enemy != null)
         {
-            // Debug.LogWarning($"{CharacterInfo.CharacterInfo.Name} из фракции {CharacterInfo.CharacterInfo.Faction.Name}" +
-            //           $" видит {enemy.Name} из фракции {enemy.Faction.Name}");
             SetHostileTarget(enemy.Health);
         }
     }
