@@ -2,12 +2,11 @@ using UnityEngine;
 using Unity.Jobs;
 using UnityEngine.Jobs;
 using Unity.Burst;
-using UnityEngine.Animations.Rigging;
 
 public class TargetRigController : ManagedUpdatableObject
 {
    [field: SerializeField] public CharacterCore CharacterCore { get; set; }
-   [field: SerializeField] public Rig ControlRig { get; set; }
+   //[field: SerializeField] public Rig ControlRig { get; set; }
 
    [field: SerializeField, Tooltip("Reference to the ItemTargeting component")]
    public ItemTargeting ItemTargeting { get; set; }
@@ -59,7 +58,7 @@ public class TargetRigController : ManagedUpdatableObject
       {
          return;
       }
-      ControlRig.weight = CharacterCore.CurrentState.TargetingRigWeight;
+      //ControlRig.weight = CharacterCore.CurrentState.TargetingRigWeight;
    }
 
    public override void OnManagedLateUpdate()

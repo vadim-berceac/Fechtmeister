@@ -13,9 +13,11 @@ public class SpringSpawner : MonoBehaviour
 
     private void Spawn()
     {
-        _spawnedObject = Instantiate(SpringSpawnerData.SpringPrefab, transform.position, Quaternion.identity).GetComponent<CharacterSpring>();
+        _spawnedObject = Instantiate(SpringSpawnerData.SpringPrefab,
+            SpringSpawnerData.CharacterTransform.position, Quaternion.identity).GetComponent<CharacterSpring>();
         
-        _spawnedObject.Initialize(SpringSpawnerData.CharacterTransform, SpringSpawnerData.DeformationBodyTransform, SpringSpawnerData.CharacterRigidBody);
+        _spawnedObject.Initialize(SpringSpawnerData.CharacterTransform,
+            SpringSpawnerData.DeformationBodyTransform, SpringSpawnerData.CharacterRigidBody);
     }
 }
 
