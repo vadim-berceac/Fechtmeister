@@ -63,7 +63,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7385866524462690004
 Transform:
   m_ObjectHideFlags: 0
@@ -92,9 +92,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeadTargetRigController
   <CharacterCore>k__BackingField: {fileID: 2895659091404197368}
+  <GraphCore>k__BackingField: {fileID: 4521586255099012928}
   <ItemTargeting>k__BackingField: {fileID: 4621687436674778207}
-  <Speed>k__BackingField: 6
+  <WeightTransitionSpeed>k__BackingField: 5
+  <Speed>k__BackingField: 10
   <CharacterTargetingOffset>k__BackingField: {x: 0, y: 1.55, z: 0}
+  lookAtBones: 0a00000009000000
+  boneWeightMultipliers:
+  - 1
+  - 0.5
 --- !u!1 &2986210682719602384
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,6 +963,31 @@ MonoBehaviour:
     <Animator>k__BackingField: {fileID: 6453623000234550772}
     <CharacterController>k__BackingField: {fileID: 5115704636555227210}
     <CharacterCore>k__BackingField: {fileID: 2895659091404197368}
+  lookAtBones:
+  - humanBone: 10
+    target: {fileID: 7385866524462690004}
+    weight: 1
+    aimAxis: {x: 0, y: 0, z: 1}
+    upAxis: {x: 0, y: 1, z: 0}
+    maxAngle: 180
+    useAdvancedConstraints: 0
+    minVerticalAngle: 0
+    maxVerticalAngle: 0
+    minHorizontalAngle: 0
+    maxHorizontalAngle: 0
+    bone: {fileID: 0}
+  - humanBone: 9
+    target: {fileID: 7385866524462690004}
+    weight: 0.5
+    aimAxis: {x: 0, y: 0, z: 1}
+    upAxis: {x: 0, y: 1, z: 0}
+    maxAngle: 60
+    useAdvancedConstraints: 0
+    minVerticalAngle: 0
+    maxVerticalAngle: 0
+    minHorizontalAngle: 0
+    maxHorizontalAngle: 0
+    bone: {fileID: 0}
 --- !u!114 &2826338849064805150
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,6 +16,9 @@ public class PlayableGraphCore : ManagedUpdatableObject
     public PlayablesAnimatorController FullBodyAnimatorController { get; private set; }
     public PlayablesLayerController UpperBodyLayerController { get; private set; }
 
+    [SerializeField] private LookAtBoneConfig[] lookAtBones;
+    private LookAtSystem lookAtSystem;
+
     [Inject]
     private void Construct(StatesContainer statesContainer)
     {
@@ -32,9 +35,16 @@ public class PlayableGraphCore : ManagedUpdatableObject
         LayerMixer.SetLayerMaskFromAvatarMask(1, statesContainer.GetAvatarMasksSettings().UpperBodyMask);
         LayerMixer.SetInputWeight(UpperBodyLayerMixer1, 1f);
         LayerMixer.SetLayerAdditive(1, true);
-        
+      
+        Playable finalPlayable = LayerMixer;
+        if (lookAtBones != null && lookAtBones.Length > 0)
+        {
+            lookAtSystem = new LookAtSystem(lookAtBones, CoreData.Animator);
+            finalPlayable = lookAtSystem.Initialize(Graph, LayerMixer);
+        }
+       
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
-        playableOutput.SetSourcePlayable(LayerMixer);
+        playableOutput.SetSourcePlayable(finalPlayable);
         
         InitializeParts();
         
@@ -53,15 +63,28 @@ public class PlayableGraphCore : ManagedUpdatableObject
         UpperBodyLayerController.OnUpdate();
     }
     
+    public override void OnManagedLateUpdate()
+    {
+        lookAtSystem?.Update();
+    }
+    
     protected override void OnDisable()
     {
         base.OnDisable();
+       
+        lookAtSystem?.Dispose();
+        
         Graph.Destroy();
     }
-
-    public void EnableRootMotion(bool enable)
+    
+    public void SetLookAtBoneWeight(HumanBodyBones humanBone, float weight)
     {
-        CoreData.Animator.enabled = enable;
+        lookAtSystem?.SetBoneWeight(humanBone, weight);
+    }
+    
+    public float GetLookAtBoneWeight(HumanBodyBones humanBone)
+    {
+        return lookAtSystem?.GetBoneWeight(humanBone) ?? 0f;
     }
 }
 
