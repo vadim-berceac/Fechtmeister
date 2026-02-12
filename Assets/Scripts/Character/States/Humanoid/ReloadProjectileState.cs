@@ -11,6 +11,9 @@ public class ReloadProjectileState : State
         Transitions = new List<Transition<CharacterCore>>()
         {
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
+            new(c => c.CharacterInputHandler.IsAimBlock 
+                     && c.Inventory.WeaponSystem.WeaponInstanceIsRanged &&
+                     c.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "LoadState"),
             new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
         };
     }

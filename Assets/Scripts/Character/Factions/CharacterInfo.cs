@@ -6,6 +6,7 @@ public class CharacterInfo
     public CharacterCore Core { get; set; }
     public HealthComponent Health { get; set; }
     public Faction OriginalFaction { get; set; }
+    public bool IsPlayerControlled { get; set; }
 
     public CharacterInfo(string name, FactionsEnum factionType, CharacterCore core, HealthComponent health)
     {
@@ -31,10 +32,12 @@ public class CharacterInfo
     {
         if (isPlayerControlled)
         {
+            IsPlayerControlled = true;
             OriginalFaction = Faction;
             SetFactionType(FactionsEnum.Player);
             return;
         }
+        IsPlayerControlled = false;
         SetFactionType(OriginalFaction.FactionType);
     }
 }

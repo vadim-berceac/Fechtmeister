@@ -23,7 +23,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 65ee48d30e867fa4f81f9fff1d12a870, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
-  <TargetingRigWeight>k__BackingField: 1
+  <ItemTargetingRigWeight>k__BackingField: 0
+  <AimRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 5

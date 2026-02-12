@@ -4,7 +4,6 @@ public interface IEquppiedItemData : ISimpleItemData
 {
     public ItemsPositions.Occupied ItemPosition { get; set; }
     public BoneData[] BoneData { get; set; }
-    public IKBoneData IKBoneData { get; set; }
     public ItemDecorationData[] ItemDecorationData { get; set; }
 }
 

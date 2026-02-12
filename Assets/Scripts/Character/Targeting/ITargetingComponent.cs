@@ -21,6 +21,24 @@ public interface ITargetingComponent
     public void ShowTargetName(Transform target, bool show);
 }
 
+public interface ITargetRigWeightController
+{
+    /// <summary>
+    /// Устанавливает желаемый вес рига (0-1)
+    /// </summary>
+    public void SetDesiredWeight(float weight);
+    
+    /// <summary>
+    /// Получает текущий вес рига
+    /// </summary>
+    public float GetCurrentWeight();
+    
+    /// <summary>
+    /// Мгновенно включает/выключает рига без плавного перехода
+    /// </summary>
+    public void SetLookAtEnabled(bool enabled);
+}
+
 public static class TargetingComponentExtensions
 {
     

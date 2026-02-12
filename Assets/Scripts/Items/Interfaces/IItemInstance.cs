@@ -5,7 +5,6 @@ public interface IItemInstance
 {
     public IEquppiedItemData EquppiedItemData { get; set; }
     public Transform Instance { get; set; }
-    public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
     public Animator Animator { get; set; }
@@ -55,12 +54,6 @@ public static class IItemInstanceExtensions
             Object.Destroy(decoration.gameObject);
         }
         itemInstance.ItemDecorations = null;
-    }
-
-    public static Transform TryToFindIKBoneTransform(this IItemInstance itemInstance)
-    {
-        return itemInstance.EquppiedItemData.IKBoneData.IKBoneName.IsEmpty()? null 
-            : itemInstance.Instance.FindChildRecursive(itemInstance.EquppiedItemData.IKBoneData.IKBoneName);
     }
 }
 

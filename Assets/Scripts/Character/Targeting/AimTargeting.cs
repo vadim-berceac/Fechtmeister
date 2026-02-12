@@ -1,91 +1,133 @@
 using Unity.Behavior;
 using UnityEngine;
 
-public class AimTargeting : MonoBehaviour
+public class AimTargeting : ManagedUpdatableObject
 {
-   [SerializeField] private BehaviorGraphAgent agent;
-   [SerializeField] private PlayableGraphCore graphCore;
+    [SerializeField] private BehaviorGraphAgent agent;
+    [SerializeField] private CharacterCore characterCore;
+    [SerializeField] private PlayableGraphCore graphCore;
+    [SerializeField] private CharacterInfoComponent characterInfo;
 
-   private BlackboardVariable<HealthComponent> _targetHealth;
-   private Transform _currentTargetTransform;
-   
-   private void Start()
-   {
-      var blackboard = agent.BlackboardReference;
-      
-      if (blackboard.GetVariable("CurrentTarget", out _targetHealth))
-      {
-         // Подписываемся БЕЗ параметров
-         _targetHealth.OnValueChanged += OnTargetChanged;
-         
-         // Обрабатываем начальное значение
-         if (_targetHealth.Value != null)
-         {
-            SetTarget(_targetHealth.Value);
-         }
-      }
-      else
-      {
-         Debug.LogWarning("Variable 'CurrentTarget' not found on Blackboard!");
-      }
-   }
+    [Header("LookAt Bones")]
+    [SerializeField] private HumanBodyBones[] lookAtBones = new HumanBodyBones[]
+    {
+        HumanBodyBones.Spine,
+        HumanBodyBones.Chest,
+        HumanBodyBones.UpperChest
+    };
+
+    [SerializeField] private float[] boneWeightMultipliers = new float[]
+    {
+        0.3f,
+        0.5f,
+        1f
+    };
+
+    [SerializeField, Tooltip("Transition duration in seconds")]
+    private float transitionDuration = 0.3f;
+
+    private BlackboardVariable<HealthComponent> _targetHealthBlackBoard;
+    private HealthComponent _targetHealth;
     
-   private void OnDestroy()
-   {
-      if (_targetHealth != null)
-      {
-         _targetHealth.OnValueChanged -= OnTargetChanged;
-      }
-   }
+    private float[] _currentBoneWeights;
+    private float[] _targetBoneWeights;
 
-   // ИСПРАВЛЕНИЕ: метод БЕЗ параметров
-   private void OnTargetChanged()
-   {
-      // Читаем текущее значение из переменной
-      HealthComponent newTarget = _targetHealth.Value;
-      
-      Debug.Log($"Target changed to: {newTarget?.name ?? "null"}");
-      
-      if (newTarget != null)
-      {
-         SetTarget(newTarget);
-      }
-      else
-      {
-         ClearTarget();
-      }
-   }
-   
-   private void SetTarget(HealthComponent target)
-   {
-      _currentTargetTransform = target.transform;
-      
-      if (graphCore != null)
-      {
-         graphCore.SetLookAtBoneWeight(HumanBodyBones.Head, 1f);
-         graphCore.SetLookAtBoneWeight(HumanBodyBones.Neck, 0.5f);
-         graphCore.SetLookAtBoneWeight(HumanBodyBones.Spine, 0.3f);
-      }
-      
-      Debug.Log($"Aiming at: {target.name}");
-   }
-   
-   private void ClearTarget()
-   {
-      _currentTargetTransform = null;
-      
-      if (graphCore != null)
-      {
-         graphCore.SetLookAtBoneWeight(HumanBodyBones.Head, 0f);
-         graphCore.SetLookAtBoneWeight(HumanBodyBones.Neck, 0f);
-         graphCore.SetLookAtBoneWeight(HumanBodyBones.Spine, 0f);
-      }
-      
-      Debug.Log("Target cleared");
-   }
-   
-   public Transform GetCurrentTarget()
-   {
-      return _currentTargetTransform;
-   }
+    private void Start()
+    {
+        _currentBoneWeights = new float[lookAtBones.Length];
+        _targetBoneWeights = new float[lookAtBones.Length];
+        
+        var blackboard = agent.BlackboardReference;
+        
+        if (blackboard.GetVariable("CurrentTarget", out _targetHealthBlackBoard))
+        {
+            _targetHealth = _targetHealthBlackBoard.Value;
+            _targetHealthBlackBoard.OnValueChanged += OnTargetChanged;
+        }
+    }
+
+    public override void OnManagedUpdate()
+    {
+        UpdateTargetWeights();
+        InterpolateWeights();
+        ApplyBoneWeights();
+        MoveRigTarget();
+    }
+
+    private void MoveRigTarget()
+    {
+        if (characterInfo.CharacterInfo.IsPlayerControlled)
+        {
+            PlayerMovement();
+            return;
+        }
+        AIMovement();
+    }
+
+    private void AIMovement()
+    {
+        //двигаем цель для aim (transform этого объекта) к _targetHealth (если он есть) - без камеры
+    }
+
+    private void PlayerMovement()
+    {
+        Debug.Log(characterInfo.CharacterInfo.IsPlayerControlled);
+        //двигаем цель для aim (transform этого объекта) с помощью камеры
+    }
+    
+    private void OnDestroy()
+    {
+        if (_targetHealthBlackBoard != null)
+        {
+            _targetHealthBlackBoard.OnValueChanged -= OnTargetChanged;
+        }
+    }
+
+    private void OnTargetChanged()
+    {
+        _targetHealth = _targetHealthBlackBoard.Value;
+    }
+
+    private void UpdateTargetWeights()
+    {
+        if (graphCore == null) return;
+        if (characterCore?.CurrentState == null) return;
+
+        var desiredWeight = characterCore.CurrentState.AimRigWeight;
+       
+        if (_targetHealth == null && !characterInfo.CharacterInfo.IsPlayerControlled)
+        {
+            desiredWeight = 0f;
+        }
+
+        // Обновляем целевые веса
+        for (var i = 0; i < lookAtBones.Length && i < boneWeightMultipliers.Length; i++)
+        {
+            _targetBoneWeights[i] = desiredWeight * boneWeightMultipliers[i];
+        }
+    }
+
+    private void InterpolateWeights()
+    {
+        float speed = 1f / transitionDuration;
+        
+        for (var i = 0; i < _currentBoneWeights.Length && i < _targetBoneWeights.Length; i++)
+        {
+            _currentBoneWeights[i] = Mathf.Lerp(
+                _currentBoneWeights[i], 
+                _targetBoneWeights[i], 
+                speed * Time.deltaTime
+            );
+        }
+    }
+
+    private void ApplyBoneWeights()
+    {
+        if (graphCore == null) return;
+        
+        for (var i = 0; i < lookAtBones.Length && i < _currentBoneWeights.Length; i++)
+        {
+            graphCore.SetLookAtBoneWeight(lookAtBones[i], _currentBoneWeights[i]);
+        }
+    }
 }

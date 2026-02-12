@@ -14,6 +14,9 @@ public struct BoneLookAtData
     public Vector3 aimAxis;
     public Vector3 upAxis;
     
+    // Новое: оффсет вращения в локальном пространстве кости
+    public Quaternion rotationOffset;
+    
     [Range(0f, 180f)]
     public float maxAngle;
     
@@ -44,6 +47,10 @@ public class LookAtBoneConfig
     public Vector3 aimAxis = Vector3.forward;
     public Vector3 upAxis = Vector3.up;
     
+    [Header("Rotation Offset")]
+    [Tooltip("Additional rotation offset applied after LookAt (in degrees)")]
+    public Vector3 rotationOffsetEuler = Vector3.zero;
+    
     [Header("Angle Limits")]
     [Range(0f, 180f)]
     public float maxAngle = 90f;
@@ -68,6 +75,10 @@ public class LookAtBoneConfig
     
     [HideInInspector]
     public NativeArray<Vector3> targetPosArray;
+    
+    // Кешированный quaternion для оффсета
+    [HideInInspector]
+    public Quaternion cachedRotationOffset;
 }
 
 public struct MultiLookAtJob : IAnimationJob
@@ -106,6 +117,9 @@ public struct MultiLookAtJob : IAnimationJob
             targetRot *= Quaternion.Inverse(offset);
         }
         
+        // Применяем оффсет вращения
+        targetRot *= bone.rotationOffset;
+        
         // Применяем ограничения ОТНОСИТЕЛЬНО текущей ротации
         targetRot = ApplyConstraints(currentRot, targetRot, bone);
         
@@ -114,7 +128,7 @@ public struct MultiLookAtJob : IAnimationJob
     
     private Quaternion ApplyConstraints(Quaternion current, Quaternion target, BoneLookAtData bone)
     {
-        // Общее ограничение угла - это работает правильно
+        // Общее ограничение угла
         if (bone.maxAngle > 0f && bone.maxAngle < 180f)
         {
             float angle = Quaternion.Angle(current, target);
@@ -124,12 +138,10 @@ public struct MultiLookAtJob : IAnimationJob
             }
         }
         
-        // ИСПРАВЛЕННЫЕ ограничения по осям
-        // Вычисляем ОТНОСИТЕЛЬНУЮ ротацию (разницу между current и target)
+        // Ограничения по осям
         if (bone.minVerticalAngle < bone.maxVerticalAngle || 
             bone.minHorizontalAngle < bone.maxHorizontalAngle)
         {
-            // Получаем относительную ротацию
             Quaternion relativeRotation = Quaternion.Inverse(current) * target;
             Vector3 euler = relativeRotation.eulerAngles;
             
@@ -138,7 +150,6 @@ public struct MultiLookAtJob : IAnimationJob
             if (euler.y > 180f) euler.y -= 360f;
             if (euler.z > 180f) euler.z -= 360f;
             
-            // Ограничиваем углы
             bool clamped = false;
             
             if (bone.minVerticalAngle < bone.maxVerticalAngle)
@@ -161,7 +172,6 @@ public struct MultiLookAtJob : IAnimationJob
                 }
             }
             
-            // Если были ограничения - пересчитываем target
             if (clamped)
             {
                 relativeRotation = Quaternion.Euler(euler);

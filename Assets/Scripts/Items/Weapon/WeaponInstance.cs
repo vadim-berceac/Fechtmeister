@@ -4,7 +4,6 @@ public class WeaponInstance : IItemInstance
 {
     public IEquppiedItemData EquppiedItemData { get; set; }
     public Transform Instance { get; set; }
-    public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
     public Animator Animator { get; set; }
@@ -37,8 +36,6 @@ public class WeaponInstance : IItemInstance
         }
         
         Instance = Object.Instantiate(EquppiedItemData.EquippedModelPrefab).transform;
-        
-        IKBoneTransform = this.TryToFindIKBoneTransform();
 
         ItemControlComponent = new WeaponController(_owner, (WeaponData)EquppiedItemData, _sceneCharacterContainer);
 

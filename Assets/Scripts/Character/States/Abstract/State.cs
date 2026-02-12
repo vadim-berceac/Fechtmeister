@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class State : ScriptableObject
@@ -12,7 +11,8 @@ public abstract class State : ScriptableObject
     [field: Header("Targeting")]
     [field: SerializeField] protected bool AllowItemTargeting { get; set; }
     [field: SerializeField] protected bool FixOnItemTarget {get; private set;}
-    [field: SerializeField, Range(0f, 1f)] public float TargetingRigWeight {get; private set;} 
+    [field: SerializeField, Range(0f, 1f)] public float ItemTargetingRigWeight {get; private set;}
+    [field: SerializeField, Range(0f, 1f)] public float AimRigWeight {get; private set;} 
     
     [field: Header("Input")]
     [field: SerializeField] public bool AllowSwitchWeaponInstance { get; set; }

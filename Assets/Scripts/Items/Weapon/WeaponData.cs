@@ -14,7 +14,6 @@ public class WeaponData : ScriptableObject, IEquppiedItemData
     [field: SerializeField] public int AnimationType { get; set; }
     [field: SerializeField] public AttackCounterSettings AttackCounterSettings { get; set; }
     [field: SerializeField] public BoneData[] BoneData { get; set; }
-    [field: SerializeField] public IKBoneData IKBoneData { get; set; }
     [field: SerializeField] public ItemDecorationData[] ItemDecorationData { get; set; }
 }
 

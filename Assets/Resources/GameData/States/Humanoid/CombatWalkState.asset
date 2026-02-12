@@ -22,10 +22,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 390986653c2bc2949b659978a80b9d14, type: 2}
   - {fileID: 11400000, guid: 79f7650006e25114093e57c36c73e930, type: 2}
   <AllowItemTargeting>k__BackingField: 0
-  <AllowCharacterTargeting>k__BackingField: 1
-  <FixOnCharacterTarget>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
-  <TargetingRigWeight>k__BackingField: 1
+  <ItemTargetingRigWeight>k__BackingField: 0
+  <AimRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 15
@@ -37,3 +36,4 @@ MonoBehaviour:
   <Height>k__BackingField: 0
   <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0
+  <FastAttackAllowed>k__BackingField: 1

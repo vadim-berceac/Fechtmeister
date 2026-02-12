@@ -20,9 +20,6 @@ public class LookAtSystem
         this.animator = animator;
     }
     
-    /// <summary>
-    /// Инициализация и интеграция в граф
-    /// </summary>
     public AnimationScriptPlayable Initialize(PlayableGraph graph, Playable sourcePlayable)
     {
         if (boneConfigs == null || boneConfigs.Length == 0)
@@ -31,10 +28,8 @@ public class LookAtSystem
             return default;
         }
         
-        // Создаем массив данных
         bonesData = new NativeArray<BoneLookAtData>(boneConfigs.Length, Allocator.Persistent);
         
-        // Инициализация костей
         for (int i = 0; i < boneConfigs.Length; i++)
         {
             var config = boneConfigs[i];
@@ -53,6 +48,9 @@ public class LookAtSystem
                 config.targetPosArray[0] = config.target.position;
             }
             
+            // Кешируем quaternion оффсета
+            config.cachedRotationOffset = Quaternion.Euler(config.rotationOffsetEuler);
+            
             bonesData[i] = new BoneLookAtData
             {
                 boneHandle = animator.BindStreamTransform(config.bone),
@@ -60,6 +58,7 @@ public class LookAtSystem
                 weight = config.weight,
                 aimAxis = config.aimAxis,
                 upAxis = config.upAxis,
+                rotationOffset = config.cachedRotationOffset,
                 maxAngle = config.maxAngle,
                 minVerticalAngle = config.useAdvancedConstraints ? config.minVerticalAngle : -180f,
                 maxVerticalAngle = config.useAdvancedConstraints ? config.maxVerticalAngle : 180f,
@@ -68,16 +67,13 @@ public class LookAtSystem
             };
         }
         
-        // Создаем Job
         var lookAtJob = new MultiLookAtJob
         {
             bones = bonesData
         };
         
-        // Создаем Playable
         lookAtPlayable = AnimationScriptPlayable.Create(graph, lookAtJob, 1);
         
-        // Подключаем источник
         graph.Connect(sourcePlayable, 0, lookAtPlayable, 0);
         lookAtPlayable.SetInputWeight(0, 1f);
         
@@ -86,14 +82,10 @@ public class LookAtSystem
         return lookAtPlayable;
     }
     
-    /// <summary>
-    /// Обновление данных (вызывать каждый кадр)
-    /// </summary>
     public void Update()
     {
         if (!isInitialized || !lookAtPlayable.IsValid()) return;
         
-        // Обновляем данные костей
         for (int i = 0; i < boneConfigs.Length; i++)
         {
             var config = boneConfigs[i];
@@ -108,7 +100,14 @@ public class LookAtSystem
                 config.targetPosArray[0] = config.target.position;
             }
             
-            // Обновляем параметры
+            // Проверяем изменился ли оффсет
+            Quaternion newOffset = Quaternion.Euler(config.rotationOffsetEuler);
+            if (Quaternion.Angle(config.cachedRotationOffset, newOffset) > 0.001f)
+            {
+                config.cachedRotationOffset = newOffset;
+                data.rotationOffset = newOffset;
+            }
+            
             data.weight = config.weight;
             data.maxAngle = config.maxAngle;
             
@@ -130,15 +129,11 @@ public class LookAtSystem
             bonesData[i] = data;
         }
         
-        // Применяем к Job
         var job = lookAtPlayable.GetJobData<MultiLookAtJob>();
         job.bones = bonesData;
         lookAtPlayable.SetJobData(job);
     }
     
-    /// <summary>
-    /// Очистка ресурсов
-    /// </summary>
     public void Dispose()
     {
         if (boneConfigs != null)
@@ -162,9 +157,6 @@ public class LookAtSystem
     
     // ==================== PUBLIC API ====================
     
-    /// <summary>
-    /// Установить вес для кости
-    /// </summary>
     public void SetBoneWeight(HumanBodyBones humanBone, float weight)
     {
         if (!isInitialized || boneConfigs == null) return;
@@ -176,9 +168,6 @@ public class LookAtSystem
         }
     }
     
-    /// <summary>
-    /// Получить текущий вес кости
-    /// </summary>
     public float GetBoneWeight(HumanBodyBones humanBone)
     {
         if (!isInitialized || boneConfigs == null) return 0f;
@@ -189,6 +178,35 @@ public class LookAtSystem
             return boneConfigs[index].weight;
         }
         return 0f;
+    }
+    
+    /// <summary>
+    /// Установить оффсет вращения для кости
+    /// </summary>
+    public void SetBoneRotationOffset(HumanBodyBones humanBone, Vector3 eulerOffset)
+    {
+        if (!isInitialized || boneConfigs == null) return;
+        
+        int index = GetBoneIndex(humanBone);
+        if (index >= 0)
+        {
+            boneConfigs[index].rotationOffsetEuler = eulerOffset;
+        }
+    }
+    
+    /// <summary>
+    /// Получить текущий оффсет вращения кости
+    /// </summary>
+    public Vector3 GetBoneRotationOffset(HumanBodyBones humanBone)
+    {
+        if (!isInitialized || boneConfigs == null) return Vector3.zero;
+        
+        int index = GetBoneIndex(humanBone);
+        if (index >= 0)
+        {
+            return boneConfigs[index].rotationOffsetEuler;
+        }
+        return Vector3.zero;
     }
     
     private int GetBoneIndex(HumanBodyBones humanBone)
