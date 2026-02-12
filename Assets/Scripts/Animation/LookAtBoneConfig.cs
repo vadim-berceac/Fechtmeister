@@ -99,12 +99,14 @@ public struct MultiLookAtJob : IAnimationJob
         Quaternion currentRot = bone.boneHandle.GetRotation(stream);
         Quaternion targetRot = Quaternion.LookRotation(direction, bone.upAxis);
         
+        // Компенсация оси
         if (bone.aimAxis != Vector3.forward)
         {
             Quaternion offset = Quaternion.FromToRotation(bone.aimAxis, Vector3.forward);
             targetRot *= Quaternion.Inverse(offset);
         }
         
+        // Применяем ограничения ОТНОСИТЕЛЬНО текущей ротации
         targetRot = ApplyConstraints(currentRot, targetRot, bone);
         
         bone.boneHandle.SetRotation(stream, Quaternion.Slerp(currentRot, targetRot, bone.weight));
@@ -112,6 +114,7 @@ public struct MultiLookAtJob : IAnimationJob
     
     private Quaternion ApplyConstraints(Quaternion current, Quaternion target, BoneLookAtData bone)
     {
+        // Общее ограничение угла - это работает правильно
         if (bone.maxAngle > 0f && bone.maxAngle < 180f)
         {
             float angle = Quaternion.Angle(current, target);
@@ -121,25 +124,49 @@ public struct MultiLookAtJob : IAnimationJob
             }
         }
         
+        // ИСПРАВЛЕННЫЕ ограничения по осям
+        // Вычисляем ОТНОСИТЕЛЬНУЮ ротацию (разницу между current и target)
         if (bone.minVerticalAngle < bone.maxVerticalAngle || 
             bone.minHorizontalAngle < bone.maxHorizontalAngle)
         {
-            Vector3 euler = target.eulerAngles;
+            // Получаем относительную ротацию
+            Quaternion relativeRotation = Quaternion.Inverse(current) * target;
+            Vector3 euler = relativeRotation.eulerAngles;
             
+            // Нормализация от -180 до 180
             if (euler.x > 180f) euler.x -= 360f;
             if (euler.y > 180f) euler.y -= 360f;
+            if (euler.z > 180f) euler.z -= 360f;
+            
+            // Ограничиваем углы
+            bool clamped = false;
             
             if (bone.minVerticalAngle < bone.maxVerticalAngle)
             {
-                euler.x = Mathf.Clamp(euler.x, bone.minVerticalAngle, bone.maxVerticalAngle);
+                float clampedX = Mathf.Clamp(euler.x, bone.minVerticalAngle, bone.maxVerticalAngle);
+                if (Mathf.Abs(clampedX - euler.x) > 0.001f)
+                {
+                    euler.x = clampedX;
+                    clamped = true;
+                }
             }
             
             if (bone.minHorizontalAngle < bone.maxHorizontalAngle)
             {
-                euler.y = Mathf.Clamp(euler.y, bone.minHorizontalAngle, bone.maxHorizontalAngle);
+                float clampedY = Mathf.Clamp(euler.y, bone.minHorizontalAngle, bone.maxHorizontalAngle);
+                if (Mathf.Abs(clampedY - euler.y) > 0.001f)
+                {
+                    euler.y = clampedY;
+                    clamped = true;
+                }
             }
             
-            target = Quaternion.Euler(euler);
+            // Если были ограничения - пересчитываем target
+            if (clamped)
+            {
+                relativeRotation = Quaternion.Euler(euler);
+                target = current * relativeRotation;
+            }
         }
         
         return target;
