@@ -1,6 +1,16 @@
 using Unity.Behavior;
 using UnityEngine;
 
+[System.Serializable]
+public struct AimBoneConfig
+{
+    public HumanBodyBones bone;
+    [Range(0f, 1f)]
+    public float weightMultiplier;
+    [Tooltip("Rotation offset in degrees (X, Y, Z)")]
+    public Vector3 rotationOffset;
+}
+
 public class AimTargeting : ManagedUpdatableObject
 {
     [SerializeField] private BehaviorGraphAgent agent;
@@ -8,19 +18,12 @@ public class AimTargeting : ManagedUpdatableObject
     [SerializeField] private PlayableGraphCore graphCore;
     [SerializeField] private CharacterInfoComponent characterInfo;
 
-    [Header("LookAt Bones")]
-    [SerializeField] private HumanBodyBones[] lookAtBones = new HumanBodyBones[]
+    [Header("Aim Bones Configuration")]
+    [SerializeField] private AimBoneConfig[] aimBones = new AimBoneConfig[]
     {
-        HumanBodyBones.Spine,
-        HumanBodyBones.Chest,
-        HumanBodyBones.UpperChest
-    };
-
-    [SerializeField] private float[] boneWeightMultipliers = new float[]
-    {
-        0.3f,
-        0.5f,
-        1f
+        new AimBoneConfig { bone = HumanBodyBones.Spine, weightMultiplier = 0.3f, rotationOffset = Vector3.zero },
+        new AimBoneConfig { bone = HumanBodyBones.Chest, weightMultiplier = 0.5f, rotationOffset = Vector3.zero },
+        new AimBoneConfig { bone = HumanBodyBones.UpperChest, weightMultiplier = 1f, rotationOffset = Vector3.zero }
     };
 
     [SerializeField, Tooltip("Transition duration in seconds")]
@@ -34,8 +37,8 @@ public class AimTargeting : ManagedUpdatableObject
 
     private void Start()
     {
-        _currentBoneWeights = new float[lookAtBones.Length];
-        _targetBoneWeights = new float[lookAtBones.Length];
+        _currentBoneWeights = new float[aimBones.Length];
+        _targetBoneWeights = new float[aimBones.Length];
         
         var blackboard = agent.BlackboardReference;
         
@@ -44,6 +47,9 @@ public class AimTargeting : ManagedUpdatableObject
             _targetHealth = _targetHealthBlackBoard.Value;
             _targetHealthBlackBoard.OnValueChanged += OnTargetChanged;
         }
+        
+        // Применяем начальные оффсеты
+        ApplyRotationOffsets();
     }
 
     public override void OnManagedUpdate()
@@ -101,9 +107,9 @@ public class AimTargeting : ManagedUpdatableObject
         }
 
         // Обновляем целевые веса
-        for (var i = 0; i < lookAtBones.Length && i < boneWeightMultipliers.Length; i++)
+        for (var i = 0; i < aimBones.Length; i++)
         {
-            _targetBoneWeights[i] = desiredWeight * boneWeightMultipliers[i];
+            _targetBoneWeights[i] = desiredWeight * aimBones[i].weightMultiplier;
         }
     }
 
@@ -125,9 +131,30 @@ public class AimTargeting : ManagedUpdatableObject
     {
         if (graphCore == null) return;
         
-        for (var i = 0; i < lookAtBones.Length && i < _currentBoneWeights.Length; i++)
+        for (var i = 0; i < aimBones.Length && i < _currentBoneWeights.Length; i++)
         {
-            graphCore.SetLookAtBoneWeight(lookAtBones[i], _currentBoneWeights[i]);
+            graphCore.SetLookAtBoneWeight(aimBones[i].bone, _currentBoneWeights[i]);
         }
     }
+    
+    private void ApplyRotationOffsets()
+    {
+        if (graphCore == null) return;
+        
+        for (var i = 0; i < aimBones.Length; i++)
+        {
+            graphCore.SetLookAtBoneRotationOffset(aimBones[i].bone, aimBones[i].rotationOffset);
+        }
+    }
+
+#if UNITY_EDITOR
+    // Применяем оффсеты при изменении в инспекторе
+    private void OnValidate()
+    {
+        if (Application.isPlaying && graphCore != null)
+        {
+            ApplyRotationOffsets();
+        }
+    }
+#endif
 }

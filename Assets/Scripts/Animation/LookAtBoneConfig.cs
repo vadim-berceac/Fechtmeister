@@ -14,7 +14,7 @@ public struct BoneLookAtData
     public Vector3 aimAxis;
     public Vector3 upAxis;
     
-    // Новое: оффсет вращения в локальном пространстве кости
+    // Оффсет вращения (управляется извне через API)
     public Quaternion rotationOffset;
     
     [Range(0f, 180f)]
@@ -47,10 +47,6 @@ public class LookAtBoneConfig
     public Vector3 aimAxis = Vector3.forward;
     public Vector3 upAxis = Vector3.up;
     
-    [Header("Rotation Offset")]
-    [Tooltip("Additional rotation offset applied after LookAt (in degrees)")]
-    public Vector3 rotationOffsetEuler = Vector3.zero;
-    
     [Header("Angle Limits")]
     [Range(0f, 180f)]
     public float maxAngle = 90f;
@@ -75,10 +71,6 @@ public class LookAtBoneConfig
     
     [HideInInspector]
     public NativeArray<Vector3> targetPosArray;
-    
-    // Кешированный quaternion для оффсета
-    [HideInInspector]
-    public Quaternion cachedRotationOffset;
 }
 
 public struct MultiLookAtJob : IAnimationJob

@@ -17,10 +17,9 @@ MonoBehaviour:
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: be6edac405581344d8453f6d07782a94, type: 2}
   <AllowItemTargeting>k__BackingField: 1
-  <AllowCharacterTargeting>k__BackingField: 1
-  <FixOnCharacterTarget>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
-  <TargetingRigWeight>k__BackingField: 1
+  <ItemTargetingRigWeight>k__BackingField: 0.7
+  <AimRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 1
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 15

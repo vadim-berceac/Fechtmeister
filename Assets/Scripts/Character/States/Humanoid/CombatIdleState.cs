@@ -15,7 +15,13 @@ public class CombatIdleState : MovementState
             new (c => Mathf.Abs(c.CharacterInputHandler.InputX) > 0 || Mathf.Abs(c.CharacterInputHandler.InputY) > 0, "CombatWalkState"),
             new (c => c.CharacterInputHandler.IsAttack && !c.Inventory.WeaponSystem.WeaponInstanceIsRanged 
                                                                && c.GraphCore.UpperBodyLayerController.IsComplete(), "FastAttackState"),
-            new (c => c.CharacterInputHandler.IsAimBlock && c.Inventory.WeaponSystem.WeaponInstanceIsRanged, "LoadState"),
+            new(character => character.CharacterInputHandler.IsAimBlock 
+                             && character.Inventory.WeaponSystem.WeaponInstanceIsRanged &&
+                             !character.Inventory.ProjectileSystem.IsProjectileLoaded 
+                             && character.Inventory.ProjectileSystem.HasProjectiles(), "ReloadProjectileState"),
+            new(character => character.CharacterInputHandler.IsAimBlock 
+                             && character.Inventory.WeaponSystem.WeaponInstanceIsRanged &&
+                             character.Inventory.ProjectileSystem.IsProjectileLoaded, "LoadState"),
             new (c => c.CharacterInputHandler.IsJump, "JumpState"),
             new (c => !c.Gravity.Grounded, "FallState"),
         };

@@ -10,6 +10,7 @@ public class LookAtSystem
     
     private AnimationScriptPlayable lookAtPlayable;
     private NativeArray<BoneLookAtData> bonesData;
+    private NativeArray<Quaternion> boneRotationOffsets; // Отдельное хранилище оффсетов
     private bool isInitialized;
     
     public bool IsInitialized => isInitialized;
@@ -29,6 +30,7 @@ public class LookAtSystem
         }
         
         bonesData = new NativeArray<BoneLookAtData>(boneConfigs.Length, Allocator.Persistent);
+        boneRotationOffsets = new NativeArray<Quaternion>(boneConfigs.Length, Allocator.Persistent);
         
         for (int i = 0; i < boneConfigs.Length; i++)
         {
@@ -48,8 +50,8 @@ public class LookAtSystem
                 config.targetPosArray[0] = config.target.position;
             }
             
-            // Кешируем quaternion оффсета
-            config.cachedRotationOffset = Quaternion.Euler(config.rotationOffsetEuler);
+            // Инициализируем оффсет как identity
+            boneRotationOffsets[i] = Quaternion.identity;
             
             bonesData[i] = new BoneLookAtData
             {
@@ -58,7 +60,7 @@ public class LookAtSystem
                 weight = config.weight,
                 aimAxis = config.aimAxis,
                 upAxis = config.upAxis,
-                rotationOffset = config.cachedRotationOffset,
+                rotationOffset = Quaternion.identity,
                 maxAngle = config.maxAngle,
                 minVerticalAngle = config.useAdvancedConstraints ? config.minVerticalAngle : -180f,
                 maxVerticalAngle = config.useAdvancedConstraints ? config.maxVerticalAngle : 180f,
@@ -100,14 +102,8 @@ public class LookAtSystem
                 config.targetPosArray[0] = config.target.position;
             }
             
-            // Проверяем изменился ли оффсет
-            Quaternion newOffset = Quaternion.Euler(config.rotationOffsetEuler);
-            if (Quaternion.Angle(config.cachedRotationOffset, newOffset) > 0.001f)
-            {
-                config.cachedRotationOffset = newOffset;
-                data.rotationOffset = newOffset;
-            }
-            
+            // Применяем оффсет из внешнего хранилища
+            data.rotationOffset = boneRotationOffsets[i];
             data.weight = config.weight;
             data.maxAngle = config.maxAngle;
             
@@ -152,6 +148,11 @@ public class LookAtSystem
             bonesData.Dispose();
         }
         
+        if (boneRotationOffsets.IsCreated)
+        {
+            boneRotationOffsets.Dispose();
+        }
+        
         isInitialized = false;
     }
     
@@ -190,7 +191,7 @@ public class LookAtSystem
         int index = GetBoneIndex(humanBone);
         if (index >= 0)
         {
-            boneConfigs[index].rotationOffsetEuler = eulerOffset;
+            boneRotationOffsets[index] = Quaternion.Euler(eulerOffset);
         }
     }
     
@@ -204,7 +205,7 @@ public class LookAtSystem
         int index = GetBoneIndex(humanBone);
         if (index >= 0)
         {
-            return boneConfigs[index].rotationOffsetEuler;
+            return boneRotationOffsets[index].eulerAngles;
         }
         return Vector3.zero;
     }

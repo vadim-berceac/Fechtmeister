@@ -49,11 +49,16 @@ MonoBehaviour:
   characterCore: {fileID: 2895659091404197368}
   graphCore: {fileID: 4521586255099012928}
   characterInfo: {fileID: 6778292738789931375}
-  lookAtBones: 070000000800000036000000
-  boneWeightMultipliers:
-  - 1
-  - 1
-  - 1
+  aimBones:
+  - bone: 7
+    weightMultiplier: 0.3
+    rotationOffset: {x: 0, y: 60, z: 0}
+  - bone: 8
+    weightMultiplier: 0.5
+    rotationOffset: {x: 0, y: 65, z: 0}
+  - bone: 54
+    weightMultiplier: 1
+    rotationOffset: {x: 0, y: 80, z: -5.5}
   transitionDuration: 0.3
 --- !u!1 &1648636202949433666
 GameObject:
@@ -1025,7 +1030,6 @@ MonoBehaviour:
     weight: 0.6
     aimAxis: {x: 0, y: 0, z: 1}
     upAxis: {x: 0, y: 1, z: 0}
-    rotationOffsetEuler: {x: 0, y: 0, z: 0}
     maxAngle: 90
     useAdvancedConstraints: 0
     minVerticalAngle: 0
@@ -1033,13 +1037,11 @@ MonoBehaviour:
     minHorizontalAngle: 0
     maxHorizontalAngle: 0
     bone: {fileID: 0}
-    cachedRotationOffset: {x: 0, y: 0, z: 0, w: 0}
   - humanBone: 9
     target: {fileID: 7385866524462690004}
     weight: 0.25
     aimAxis: {x: 0, y: 0, z: 1}
     upAxis: {x: 0, y: 1, z: 0}
-    rotationOffsetEuler: {x: 0, y: 0, z: 0}
     maxAngle: 60
     useAdvancedConstraints: 0
     minVerticalAngle: 0
@@ -1047,13 +1049,11 @@ MonoBehaviour:
     minHorizontalAngle: 0
     maxHorizontalAngle: 0
     bone: {fileID: 0}
-    cachedRotationOffset: {x: 0, y: 0, z: 0, w: 0}
   - humanBone: 7
     target: {fileID: 2828173811682197161}
     weight: 1
     aimAxis: {x: 0, y: 0, z: 1}
     upAxis: {x: 0, y: 1, z: 0}
-    rotationOffsetEuler: {x: 0, y: 75, z: 0}
     maxAngle: 75
     useAdvancedConstraints: 1
     minVerticalAngle: -40
@@ -1061,13 +1061,11 @@ MonoBehaviour:
     minHorizontalAngle: -55
     maxHorizontalAngle: 55
     bone: {fileID: 0}
-    cachedRotationOffset: {x: 0, y: 0, z: 0, w: 0}
   - humanBone: 8
     target: {fileID: 2828173811682197161}
     weight: 1
     aimAxis: {x: 0, y: 0, z: 1}
     upAxis: {x: 0, y: 1, z: 0}
-    rotationOffsetEuler: {x: 0, y: 75, z: 0}
     maxAngle: 75
     useAdvancedConstraints: 1
     minVerticalAngle: -40
@@ -1075,13 +1073,11 @@ MonoBehaviour:
     minHorizontalAngle: -55
     maxHorizontalAngle: 55
     bone: {fileID: 0}
-    cachedRotationOffset: {x: 0, y: 0, z: 0, w: 0}
   - humanBone: 54
     target: {fileID: 2828173811682197161}
     weight: 1
     aimAxis: {x: 0, y: 0, z: 1}
     upAxis: {x: 0, y: 1, z: 0}
-    rotationOffsetEuler: {x: 0, y: 79, z: -6}
     maxAngle: 75
     useAdvancedConstraints: 1
     minVerticalAngle: -20
@@ -1089,7 +1085,6 @@ MonoBehaviour:
     minHorizontalAngle: -55
     maxHorizontalAngle: 55
     bone: {fileID: 0}
-    cachedRotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &2826338849064805150
 MonoBehaviour:
   m_ObjectHideFlags: 0

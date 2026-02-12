@@ -86,6 +86,16 @@ public class PlayableGraphCore : ManagedUpdatableObject
     {
         return lookAtSystem?.GetBoneWeight(humanBone) ?? 0f;
     }
+    
+    public void SetLookAtBoneRotationOffset(HumanBodyBones humanBone, Vector3 eulerOffset)
+    {
+        lookAtSystem?.SetBoneRotationOffset(humanBone, eulerOffset);
+    }
+    
+    public Vector3 GetLookAtBoneRotationOffset(HumanBodyBones humanBone)
+    {
+        return lookAtSystem?.GetBoneRotationOffset(humanBone) ?? Vector3.zero;
+    }
 }
 
 [System.Serializable]

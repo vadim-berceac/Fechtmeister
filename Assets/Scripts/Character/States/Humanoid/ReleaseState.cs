@@ -11,9 +11,15 @@ public class ReleaseState : State
         Transitions = new List<Transition<CharacterCore>>()
         {
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
-            new(c => c.CharacterInputHandler.IsAimBlock 
-                     && c.Inventory.WeaponSystem.WeaponInstanceIsRanged &&
-                     c.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "LoadState"),
+            new(character => character.CharacterInputHandler.IsAimBlock 
+                             && character.Inventory.WeaponSystem.WeaponInstanceIsRanged &&
+                             character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() &&
+                             !character.Inventory.ProjectileSystem.IsProjectileLoaded 
+                              && character.Inventory.ProjectileSystem.HasProjectiles(), "ReloadProjectileState"),
+            new(character => character.CharacterInputHandler.IsAimBlock 
+                             && character.Inventory.WeaponSystem.WeaponInstanceIsRanged &&
+                             character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() &&
+                             character.Inventory.ProjectileSystem.IsProjectileLoaded, "LoadState"),
             new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
         };
     }
