@@ -21,8 +21,8 @@ MonoBehaviour:
   <ItemTargetingRigWeight>k__BackingField: 0
   <AimRigWeight>k__BackingField: 1
   <AllowSwitchWeaponInstance>k__BackingField: 0
-  <RotationByCamera>k__BackingField: 1
-  <RotationSpeed>k__BackingField: 2
+  <RotationByCamera>k__BackingField: 0
+  <RotationSpeed>k__BackingField: 0
   <UseGravity>k__BackingField: 1
   <FallSpeedMultiplier>k__BackingField: 1
   <GroundLayer>k__BackingField:

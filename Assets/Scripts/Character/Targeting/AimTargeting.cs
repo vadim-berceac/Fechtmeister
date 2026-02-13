@@ -1,5 +1,7 @@
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.Playables;
+using Zenject;
 
 [System.Serializable]
 public struct AimBoneConfig
@@ -31,9 +33,21 @@ public class AimTargeting : ManagedUpdatableObject
 
     private BlackboardVariable<HealthComponent> _targetHealthBlackBoard;
     private HealthComponent _targetHealth;
+    private Transform _cameraTransform;
+    private Transform _aimTargetTransform;
+
+    private const float AimDistance = 10f;
+    private const float AimSmoothSpeed = 15f;
     
     private float[] _currentBoneWeights;
     private float[] _targetBoneWeights;
+
+    [Inject]
+    private void Construct(SceneCamera sceneCamera)
+    {
+        _cameraTransform = sceneCamera.SceneCameraData.MainCamera;
+        _aimTargetTransform = transform;
+    }
 
     private void Start()
     {
@@ -47,8 +61,7 @@ public class AimTargeting : ManagedUpdatableObject
             _targetHealth = _targetHealthBlackBoard.Value;
             _targetHealthBlackBoard.OnValueChanged += OnTargetChanged;
         }
-        
-        // Применяем начальные оффсеты
+    
         ApplyRotationOffsets();
     }
 
@@ -64,21 +77,25 @@ public class AimTargeting : ManagedUpdatableObject
     {
         if (characterInfo.CharacterInfo.IsPlayerControlled)
         {
-            PlayerMovement();
+            PlayerAimMovement();
             return;
         }
-        AIMovement();
+        AIAimMovement();
     }
 
-    private void AIMovement()
+    private void AIAimMovement()
     {
         //двигаем цель для aim (transform этого объекта) к _targetHealth (если он есть) - без камеры
     }
 
-    private void PlayerMovement()
+    private void PlayerAimMovement()
     {
-        Debug.Log(characterInfo.CharacterInfo.IsPlayerControlled);
-        //двигаем цель для aim (transform этого объекта) с помощью камеры
+        var targetPosition = _cameraTransform.position + _cameraTransform.forward * AimDistance;
+    
+        _aimTargetTransform.position = Vector3.Lerp(transform.position,
+            targetPosition, AimSmoothSpeed * Time.deltaTime);
+        _aimTargetTransform.rotation = Quaternion.Slerp(transform.rotation,
+            _cameraTransform.rotation, AimSmoothSpeed * Time.deltaTime);
     }
     
     private void OnDestroy()
@@ -106,7 +123,6 @@ public class AimTargeting : ManagedUpdatableObject
             desiredWeight = 0f;
         }
 
-        // Обновляем целевые веса
         for (var i = 0; i < aimBones.Length; i++)
         {
             _targetBoneWeights[i] = desiredWeight * aimBones[i].weightMultiplier;
@@ -115,7 +131,7 @@ public class AimTargeting : ManagedUpdatableObject
 
     private void InterpolateWeights()
     {
-        float speed = 1f / transitionDuration;
+        var speed = 1f / transitionDuration;
         
         for (var i = 0; i < _currentBoneWeights.Length && i < _targetBoneWeights.Length; i++)
         {
@@ -148,7 +164,6 @@ public class AimTargeting : ManagedUpdatableObject
     }
 
 #if UNITY_EDITOR
-    // Применяем оффсеты при изменении в инспекторе
     private void OnValidate()
     {
         if (Application.isPlaying && graphCore != null)
