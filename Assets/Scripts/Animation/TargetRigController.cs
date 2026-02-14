@@ -20,15 +20,11 @@ public class TargetRigController : ManagedUpdatableObject, ITargetRigWeightContr
 
     [field: SerializeField] public Vector3 CharacterTargetingOffset { get; set; } = new Vector3(0f, 2f, 0f);
 
-    [Header("LookAt Bones")]
-    [SerializeField] private HumanBodyBones[] lookAtBones = new HumanBodyBones[]
+    [Header("Aim Bones Configuration")]
+    [SerializeField] private AimBoneConfig[] aimBones = new AimBoneConfig[]
     {
-        HumanBodyBones.Head
-    };
-
-    [SerializeField] private float[] boneWeightMultipliers = new float[]
-    {
-        1f
+        new AimBoneConfig { bone = HumanBodyBones.Head, weightMultiplier = 1f, rotationOffset = Vector3.zero },
+        new AimBoneConfig { bone = HumanBodyBones.Neck, weightMultiplier = 0.5f, rotationOffset = Vector3.zero },
     };
 
     private Transform _cachedTransform;
@@ -105,7 +101,7 @@ public class TargetRigController : ManagedUpdatableObject, ITargetRigWeightContr
 
     private void UpdateLookAtWeights()
     {
-        float targetWeight = GetDesiredWeight();
+        var targetWeight = GetDesiredWeight();
 
         _currentTargetWeight = Mathf.Lerp(
             _currentTargetWeight, 
@@ -113,10 +109,10 @@ public class TargetRigController : ManagedUpdatableObject, ITargetRigWeightContr
             WeightTransitionSpeed * Time.deltaTime
         );
 
-        for (int i = 0; i < lookAtBones.Length && i < boneWeightMultipliers.Length; i++)
+        for (var i = 0; i < aimBones.Length; i++)
         {
-            float boneWeight = _currentTargetWeight * boneWeightMultipliers[i];
-            GraphCore.SetLookAtBoneWeight(lookAtBones[i], boneWeight);
+            var boneWeight = _currentTargetWeight * aimBones[i].weightMultiplier;
+            GraphCore.SetLookAtBoneWeight(aimBones[i].bone, boneWeight);
         }
     }
 

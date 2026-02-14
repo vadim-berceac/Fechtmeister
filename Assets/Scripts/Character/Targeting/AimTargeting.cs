@@ -1,6 +1,7 @@
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Serialization;
 using Zenject;
 
 [System.Serializable]
@@ -27,6 +28,8 @@ public class AimTargeting : ManagedUpdatableObject
         new AimBoneConfig { bone = HumanBodyBones.Chest, weightMultiplier = 0.5f, rotationOffset = Vector3.zero },
         new AimBoneConfig { bone = HumanBodyBones.UpperChest, weightMultiplier = 1f, rotationOffset = Vector3.zero }
     };
+    
+    [SerializeField] private Vector3 botsAimOffset = new Vector3(1.5f, 1.5f, 0f);
 
     [SerializeField, Tooltip("Transition duration in seconds")]
     private float transitionDuration = 0.3f;
@@ -85,7 +88,33 @@ public class AimTargeting : ManagedUpdatableObject
 
     private void AIAimMovement()
     {
-        //двигаем цель для aim (transform этого объекта) к _targetHealth (если он есть) - без камеры
+        if (_targetHealth == null)
+        {
+            var neutralPosition = transform.position + transform.forward * AimDistance;
+    
+            _aimTargetTransform.position = Vector3.Lerp(
+                _aimTargetTransform.position,
+                neutralPosition, 
+                AimSmoothSpeed * Time.deltaTime
+            );
+    
+            _aimTargetTransform.rotation = Quaternion.Slerp(
+                _aimTargetTransform.rotation,
+                transform.rotation, 
+                AimSmoothSpeed * Time.deltaTime
+            );
+    
+            return;
+        }
+
+        var targetPosition = _targetHealth.transform.position + 
+                             _targetHealth.transform.TransformDirection(botsAimOffset);
+
+        _aimTargetTransform.position = Vector3.Lerp(
+            _aimTargetTransform.position,
+            targetPosition, 
+            AimSmoothSpeed * Time.deltaTime
+        );
     }
 
     private void PlayerAimMovement()

@@ -17,7 +17,7 @@ public class PlayableGraphCore : ManagedUpdatableObject
     public PlayablesLayerController UpperBodyLayerController { get; private set; }
 
     [SerializeField] private LookAtBoneConfig[] lookAtBones;
-    private LookAtSystem lookAtSystem;
+    private LookAtSystem _lookAtSystem;
 
     [Inject]
     private void Construct(StatesContainer statesContainer)
@@ -39,8 +39,8 @@ public class PlayableGraphCore : ManagedUpdatableObject
         Playable finalPlayable = LayerMixer;
         if (lookAtBones != null && lookAtBones.Length > 0)
         {
-            lookAtSystem = new LookAtSystem(lookAtBones, CoreData.Animator);
-            finalPlayable = lookAtSystem.Initialize(Graph, LayerMixer);
+            _lookAtSystem = new LookAtSystem(lookAtBones, CoreData.Animator);
+            finalPlayable = _lookAtSystem.Initialize(Graph, LayerMixer);
         }
        
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
@@ -65,36 +65,36 @@ public class PlayableGraphCore : ManagedUpdatableObject
     
     public override void OnManagedLateUpdate()
     {
-        lookAtSystem?.Update();
+        _lookAtSystem?.Update();
     }
     
     protected override void OnDisable()
     {
         base.OnDisable();
        
-        lookAtSystem?.Dispose();
+        _lookAtSystem?.Dispose();
         
         Graph.Destroy();
     }
     
     public void SetLookAtBoneWeight(HumanBodyBones humanBone, float weight)
     {
-        lookAtSystem?.SetBoneWeight(humanBone, weight);
+        _lookAtSystem?.SetBoneWeight(humanBone, weight);
     }
     
     public float GetLookAtBoneWeight(HumanBodyBones humanBone)
     {
-        return lookAtSystem?.GetBoneWeight(humanBone) ?? 0f;
+        return _lookAtSystem?.GetBoneWeight(humanBone) ?? 0f;
     }
     
     public void SetLookAtBoneRotationOffset(HumanBodyBones humanBone, Vector3 eulerOffset)
     {
-        lookAtSystem?.SetBoneRotationOffset(humanBone, eulerOffset);
+        _lookAtSystem?.SetBoneRotationOffset(humanBone, eulerOffset);
     }
     
     public Vector3 GetLookAtBoneRotationOffset(HumanBodyBones humanBone)
     {
-        return lookAtSystem?.GetBoneRotationOffset(humanBone) ?? Vector3.zero;
+        return _lookAtSystem?.GetBoneRotationOffset(humanBone) ?? Vector3.zero;
     }
 }
 

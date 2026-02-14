@@ -1199,75 +1199,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1001 &432500470
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: _Editor_OnValidateTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2895659091404197368, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: <IsAI>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2986210682719602384, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_Name
-      value: Character (5)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7201767013415629698, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: <CharacterPersonalityData>k__BackingField
-      value: 
-      objectReference: {fileID: 11400000, guid: ac34780fbc9fde9449ed323672ff59da, type: 2}
-    - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -10.83
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 16.126347
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7096876
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7045166
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 89.581
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
 --- !u!1 &432559116
 GameObject:
   m_ObjectHideFlags: 0
@@ -2350,6 +2281,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: finalScaleReference
+      value: 0.89293563
+      objectReference: {fileID: 0}
+    - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: _Editor_OnValidateTrigger
       value: 1
       objectReference: {fileID: 0}
@@ -2418,6 +2353,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: finalScaleReference
+      value: 0.8929356
+      objectReference: {fileID: 0}
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: _Editor_OnValidateTrigger
       value: 1
@@ -4878,6 +4817,5 @@ SceneRoots:
   - {fileID: 1160649874}
   - {fileID: 1135646092}
   - {fileID: 764244014}
-  - {fileID: 432500470}
   - {fileID: 1443084191}
   - {fileID: 2001373545}

@@ -59,6 +59,7 @@ MonoBehaviour:
   - bone: 54
     weightMultiplier: 1
     rotationOffset: {x: 0, y: 80, z: -5.5}
+  botsAimOffset: {x: 0, y: 1.2, z: 0}
   transitionDuration: 0.3
 --- !u!1 &1648636202949433666
 GameObject:
@@ -157,10 +158,13 @@ MonoBehaviour:
   <WeightTransitionSpeed>k__BackingField: 5
   <Speed>k__BackingField: 10
   <CharacterTargetingOffset>k__BackingField: {x: 0, y: 1.55, z: 0}
-  lookAtBones: 0a00000009000000
-  boneWeightMultipliers:
-  - 1
-  - 0.5
+  aimBones:
+  - bone: 10
+    weightMultiplier: 1
+    rotationOffset: {x: 0, y: 0, z: 0}
+  - bone: 9
+    weightMultiplier: 0.5
+    rotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &2986210682719602384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,7 +1379,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &146796155715666347
 Transform:
   m_ObjectHideFlags: 0
@@ -1386,8 +1390,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.32, y: 0.32, z: 0.32}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2828173811682197161}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1424,7 +1428,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: c2e40fa84d53ccd428f640eac126b1fb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
