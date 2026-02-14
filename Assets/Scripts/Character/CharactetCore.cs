@@ -13,7 +13,7 @@ public class CharacterCore : ManagedUpdatableObject
     [field: SerializeField] public TargetingSettings TargetingSettings { get; set; }
     [field: SerializeField] public LedgeDetectionSettings LedgeDetectionSettings { get; set; }
     [field: SerializeField] public BehaviorNewInput BehaviorNewInput { get; private set; }
-    
+    [field: SerializeField] public Transform AimTargetTransform { get; private set; }
     public SceneCamera SceneCamera { get; private set; }
     public CharacterInputHandler CharacterInputHandler { get; private set; }
     public Transform CashedTransform { get; private set; }

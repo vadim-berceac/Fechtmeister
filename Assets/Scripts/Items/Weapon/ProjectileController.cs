@@ -48,13 +48,13 @@ public class ProjectileController : MonoBehaviour
         _weaponData = weaponData;
     }
 
-    public void Launch(Collider parent, int accuracy)
+    public void Launch(Collider parent, Transform aimTargetTransform, int accuracy)
     {
         _parent = parent;
         _parentHealth = parent.GetComponentInParent<HealthComponent>();
         _threatNotified = false;
-        
-        var direction = GetDirectionPitch();
+        _transform.parent = null;
+        var direction = GetDirection(aimTargetTransform);
         var maxSpreadAngle = _data.LaunchSettings.MaxSpreadAngles; 
         var spreadAngle = maxSpreadAngle * (1f - accuracy / 100f);
         var randomCircle = Random.insideUnitCircle.normalized;
@@ -75,14 +75,10 @@ public class ProjectileController : MonoBehaviour
         Destroy(gameObject, _data.LaunchSettings.Lifetime);
     }
 
-    private Vector3 GetDirectionPitch()
+    private Vector3 GetDirection(Transform aimTargetTransform)
     {
-        // получать направление от форварда персонажа к цели
-        // чтобы сделать возможной стрельбу вверх и вниз
-        // стрельба влево и вправо уже реализована разворотом всего персонажа
-        // отдельные анимации для стрельбы прямо вверх и вниз есть (для лука по крайней мере)
-        // возможно прицеливание в этой ситуации лучше всего привязать к LookAction интерфейса инпута
-        return _transform.forward;
+        var direction = (aimTargetTransform.position - _transform.position).normalized;
+        return direction;
     }
 
     private void FixedUpdate()

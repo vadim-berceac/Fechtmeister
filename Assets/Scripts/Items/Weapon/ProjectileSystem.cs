@@ -95,7 +95,8 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
 
         _projectileController.transform.SetParent(null);
 
-        _projectileController.Launch(_characterCore.LocomotionSettings.CharacterCollider, accuracy);
+        _projectileController.Launch(_characterCore.LocomotionSettings.CharacterCollider,
+            _characterCore.AimTargetTransform, accuracy);
         SetProjectileLoaded(false);
         _projectileController = null;
 
