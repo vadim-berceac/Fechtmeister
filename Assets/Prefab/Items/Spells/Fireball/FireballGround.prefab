@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1397602241892240, guid: 193cf1e59d4c0e44fa30acf094379063, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1728307411276914, guid: 193cf1e59d4c0e44fa30acf094379063, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1925481177651670, guid: 193cf1e59d4c0e44fa30acf094379063, type: 3}
       propertyPath: m_Name
       value: FireballGround
@@ -54,6 +62,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4278501022115968, guid: 193cf1e59d4c0e44fa30acf094379063, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699084622286952932, guid: 193cf1e59d4c0e44fa30acf094379063, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
