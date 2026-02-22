@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -34,7 +33,9 @@ public class PlayablesAnimatorController
     private int _currentSlot;
     private bool _actionTimeReached;
     private float _previousNormalizedTime;
-    private float _defaultAnimationSpeed;
+
+    private float _speedMultiplier = 1f;
+    private float _defaultAnimationSpeed = 1f;
 
     public PlayablesAnimatorController(PlayableGraphCore playableGraph)
     {
@@ -43,7 +44,7 @@ public class PlayablesAnimatorController
 
     public void SetAnimationState(State state, int animationBlendParamValue)
     {
-        _currentBlendConfig = state.Clips.FirstOrDefault(b => (int)b.ParamValue == animationBlendParamValue);
+        _currentBlendConfig = System.Linq.Enumerable.FirstOrDefault(state.Clips, b => (int)b.ParamValue == animationBlendParamValue);
         CurrentAnimationBlendParamValue = animationBlendParamValue;
 
         if (_currentBlendConfig == null)
@@ -76,7 +77,9 @@ public class PlayablesAnimatorController
         {
             var clip = _currentBlendConfig.Clips[i];
             var clipPlayable = AnimationClipPlayable.Create(_playableGraphCore.Graph, clip.Clip);
-            clipPlayable.SetSpeed(clip.Speed);
+
+            // Применяем базовую скорость клипа с учётом текущего множителя
+            clipPlayable.SetSpeed(clip.Speed * _speedMultiplier);
 
             if (!clip.Clip.isLooping)
                 clipPlayable.SetDuration(clip.Clip.length);
@@ -130,8 +133,8 @@ public class PlayablesAnimatorController
 
         _isMoveTransitioning = false;
         _moveTransitionTime = 0f;
-        _isClipTransitioning = false;   
-        _clipTransitionTime = 0f;     
+        _isClipTransitioning = false;
+        _clipTransitionTime = 0f;
         _targetClipIndex = -1;
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
@@ -165,6 +168,9 @@ public class PlayablesAnimatorController
         _previousNormalizedTime = 0f;
     }
 
+    /// <summary>
+    /// Доделать смешивание
+    /// </summary>
     public void BlendCurrentAnimationStateClips(float byValue)
     {
         if (_currentBlendConfig == null || !_currentBlendMixer.IsValid())
@@ -243,7 +249,41 @@ public class PlayablesAnimatorController
             Debug.LogError($"Current slot {_currentSlot} is invalid after transition!");
     }
 
-    // --- Helpers ---
+    // --- Speed ---
+
+    private void SetSpeed(float value)
+    {
+        if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
+            return;
+
+        _defaultAnimationSpeed = _speedMultiplier;
+        _speedMultiplier = value;
+        ApplySpeedMultiplier(_speedMultiplier);
+    }
+
+    private void ResetSpeed()
+    {
+        if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
+            return;
+
+        _speedMultiplier = _defaultAnimationSpeed;
+        ApplySpeedMultiplier(_speedMultiplier);
+    }
+
+    private void ApplySpeedMultiplier(float multiplier)
+    {
+        var count = _currentBlendMixer.GetInputCount();
+        for (var i = 0; i < count; i++)
+        {
+            var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(i);
+            if (!clipPlayable.IsValid()) continue;
+
+            // Применяем multiplier поверх базовой скорости каждого клипа из конфига
+            clipPlayable.SetSpeed(_currentBlendConfig.Clips[i].Speed * multiplier);
+        }
+    }
+
+    // --- Weights ---
 
     private void ComputeBlendWeights1D(float byValue)
     {
@@ -337,16 +377,13 @@ public class PlayablesAnimatorController
         for (var i = 0; i < count; i++)
         {
             var w = Mathf.Lerp(_currentWeights[i], _targetWeights[i], t);
-            _currentWeights[i] = w; // временно используем как буфер
+            _currentWeights[i] = w;
             sum += w;
         }
 
-        // нормализуем если нужно
         var invSum = Mathf.Abs(sum - 1f) <= 0.001f ? 1f : (sum > 0f ? 1f / sum : 0f);
         for (var i = 0; i < count; i++)
-        {
             _currentBlendMixer.SetInputWeight(i, _currentWeights[i] * invSum);
-        }
     }
 
     private void FinalizeTransition(ref bool transitionFlag)
@@ -368,6 +405,8 @@ public class PlayablesAnimatorController
         }
     }
 
+    // --- Clip helpers ---
+
     private int GetActiveClipIndex()
     {
         var count = _currentBlendMixer.GetInputCount();
@@ -386,6 +425,25 @@ public class PlayablesAnimatorController
 
         return bestWeight > 0f ? bestIndex : -1;
     }
+
+    private static bool IsClipFinished(AnimationClipPlayable playable, AnimationClip clip)
+    {
+        if (clip.isLooping) return false;
+        return playable.GetTime() >= playable.GetDuration();
+    }
+
+    private static float ComputeNormalizedTime(AnimationClipPlayable playable, AnimationClip clip)
+    {
+        var duration = playable.GetDuration();
+        if (duration <= 0.0) return 0f;
+
+        var time = playable.GetTime();
+        return clip.isLooping
+            ? (float)((time % duration) / duration)
+            : Mathf.Clamp01((float)(time / duration));
+    }
+
+    // --- Action time ---
 
     private void UpdateActionTimeFlag()
     {
@@ -428,28 +486,13 @@ public class PlayablesAnimatorController
         _previousNormalizedTime = currentNormalized;
     }
 
-    private static bool IsClipFinished(AnimationClipPlayable playable, AnimationClip clip)
-    {
-        if (clip.isLooping) return false;
-        return playable.GetTime() >= playable.GetDuration();
-    }
-
-    private static float ComputeNormalizedTime(AnimationClipPlayable playable, AnimationClip clip)
-    {
-        var duration = playable.GetDuration();
-        if (duration <= 0.0) return 0f;
-
-        var time = playable.GetTime();
-        return clip.isLooping
-            ? (float)((time % duration) / duration)
-            : Mathf.Clamp01((float)(time / duration));
-    }
-
     private void ResetActionTime()
     {
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
     }
+
+    // --- Public API ---
 
     public bool IsCurrentClipFinished()
     {
@@ -477,16 +520,6 @@ public class PlayablesAnimatorController
         if (!clipPlayable.IsValid()) return 0f;
 
         return ComputeNormalizedTime(clipPlayable, _currentBlendConfig.Clips[activeClipIndex].Clip);
-    }
-
-    public void SetSpeed(float value)
-    {
-        // TODO: реализовать
-    }
-
-    public void ResetSpeed()
-    {
-        // TODO: реализовать
     }
 
     public bool HasReachedActionTime() => _actionTimeReached;

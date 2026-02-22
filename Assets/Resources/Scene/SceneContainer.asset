@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneContainer
   <Scenes>k__BackingField:
   - <SceneName>k__BackingField: Castle
-  - <SceneName>k__BackingField: Cage
+  - <SceneName>k__BackingField: Castle2
   - <SceneName>k__BackingField: Menu

@@ -1,6 +1,3 @@
-using Unity.Burst;
-using Unity.Collections;
-using Unity.Jobs;
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
@@ -12,34 +9,19 @@ public class ProjectileController : MonoBehaviour
     private HealthComponent _parentHealth;
     private Transform _transform;
     private readonly Collider[] _hitResults = new Collider[5];
-    private readonly Collider[] _threatResults = new Collider[10]; 
+    private readonly Collider[] _threatResults = new Collider[10];
     private bool _stuck;
+    private bool _threatNotified;
 
-    private NativeArray<Vector3> _velArray;
-    private NativeArray<Vector3> _posArray;
-
-    
-    private const float ThreatDetectionRadius = 10f; 
-    private LayerMask _characterLayerMask; 
-    
-    private bool _threatNotified; 
+    private const float ThreatDetectionRadius = 10f;
+    private LayerMask _characterLayerMask;
 
     private void Start()
     {
         _transform = transform;
-        _velArray = new NativeArray<Vector3>(1, Allocator.Persistent);
-        _posArray = new NativeArray<Vector3>(1, Allocator.Persistent);
-      
-        if (_characterLayerMask == 0)
-        {
-            _characterLayerMask = LayerMask.GetMask("Character");
-        }
-    }
 
-    private void OnDestroy()
-    {
-        if (_velArray.IsCreated) _velArray.Dispose();
-        if (_posArray.IsCreated) _posArray.Dispose();
+        if (_characterLayerMask == 0)
+            _characterLayerMask = LayerMask.GetMask("Character");
     }
 
     public void SetParams(ProjectileData data, WeaponData weaponData)
@@ -54,9 +36,9 @@ public class ProjectileController : MonoBehaviour
         _parentHealth = parent.GetComponentInParent<HealthComponent>();
         _threatNotified = false;
         _transform.parent = null;
-        var direction = GetDirection(aimTargetTransform);
-        var maxSpreadAngle = _data.LaunchSettings.MaxSpreadAngles; 
-        var spreadAngle = maxSpreadAngle * (1f - accuracy / 100f);
+
+        var direction = (aimTargetTransform.position - _transform.position).normalized;
+        var spreadAngle = _data.LaunchSettings.MaxSpreadAngles * (1f - accuracy / 100f);
         var randomCircle = Random.insideUnitCircle.normalized;
 
         var right = Vector3.Cross(direction, Vector3.up).normalized;
@@ -64,72 +46,50 @@ public class ProjectileController : MonoBehaviour
             right = Vector3.Cross(direction, Vector3.forward).normalized;
 
         var up = Vector3.Cross(right, direction).normalized;
-
         var offsetDir = (right * randomCircle.x + up * randomCircle.y).normalized;
-
         var spreadRotation = Quaternion.AngleAxis(Random.Range(0f, spreadAngle), offsetDir);
         var finalDirection = (spreadRotation * direction).normalized;
 
         _velocity = finalDirection * _data.WeaponParams.AttackSpeed;
 
-        Destroy(gameObject, _data.LaunchSettings.Lifetime);
-    }
+        // ✅ Фикс: сразу устанавливаем правильный поворот, не ждём следующий FixedUpdate
+        _transform.rotation = Quaternion.LookRotation(finalDirection);
 
-    private Vector3 GetDirection(Transform aimTargetTransform)
-    {
-        var direction = (aimTargetTransform.position - _transform.position).normalized;
-        return direction;
+        Destroy(gameObject, _data.LaunchSettings.Lifetime);
     }
 
     private void FixedUpdate()
     {
-        if (_stuck || _velocity.magnitude < 0.1f) return;
+        if (_stuck || _velocity.sqrMagnitude < 0.01f) return;
 
-        RunPhysicsJob();
+        RunPhysics();
         UpdateRotation();
-        DetectThreatsNearby(); 
+        DetectThreatsNearby();
         DetectCollisions();
     }
-    
-    private void RunPhysicsJob()
+
+    private void RunPhysics()
     {
         var dt = Time.fixedDeltaTime;
-        
-        _velArray[0] = _velocity;
-        _posArray[0] = _transform.position;
-
-        var job = new ProjectileJob
-        {
-            velocity = _velArray,
-            position = _posArray,
-            gravity = _data.LaunchSettings.Gravity,
-            drag = _data.LaunchSettings.Drag,
-            deltaTime = dt
-        };
-
-        var handle = job.Schedule();
-        handle.Complete();
-        
-        _velocity = _velArray[0];
-        _transform.position = _posArray[0];
+        _velocity += _data.LaunchSettings.Gravity * dt * Vector3.up;
+        _velocity *= Mathf.Exp(-_data.LaunchSettings.Drag * dt);
+        _transform.position += _velocity * dt;
     }
-   
+
     private void UpdateRotation()
     {
-        if (_velocity.magnitude > 0.1f)
-        {
+        if (_velocity.sqrMagnitude > 0.01f)
             _transform.rotation = Quaternion.LookRotation(_velocity);
-        }
     }
-    
+
     private void DetectThreatsNearby()
     {
         if (_threatNotified) return;
-    
+
         var hitCount = Physics.OverlapSphereNonAlloc(
-            _transform.position, 
+            _transform.position,
             ThreatDetectionRadius,
-            _threatResults, 
+            _threatResults,
             _characterLayerMask
         );
 
@@ -140,22 +100,25 @@ public class ProjectileController : MonoBehaviour
 
             var damageable = hit.GetComponent<IDamageable>();
             if (damageable == null) continue;
-        
-            if (damageable.Equals(_parentHealth)) continue;
+
+            var hitHealth = hit.GetComponentInParent<HealthComponent>();
+            if (hitHealth == _parentHealth) continue;
 
             damageable.OnDamageAttempt?.Invoke(_parent.transform);
         }
-    
-        _threatNotified = true; 
+
+        _threatNotified = true;
     }
-    
+
     private void DetectCollisions()
     {
         var center = _transform.position + _transform.forward * _data.WeaponParams.HitBoxForwardOffset;
         var halfExtents = _data.WeaponParams.HitBoxSize * 0.5f;
-        var orientation = _transform.rotation;
 
-        var hitCount = Physics.OverlapBoxNonAlloc(center, halfExtents, _hitResults, orientation, _data.LaunchSettings.LayerMask);
+        var hitCount = Physics.OverlapBoxNonAlloc(
+            center, halfExtents, _hitResults,
+            _transform.rotation, _data.LaunchSettings.LayerMask
+        );
 
         for (var i = 0; i < hitCount; i++)
         {
@@ -166,7 +129,7 @@ public class ProjectileController : MonoBehaviour
             return;
         }
     }
-    
+
     private void HandleHit(Collider hit)
     {
         var damaged = hit.GetComponent<HitBodyPart>();
@@ -174,14 +137,12 @@ public class ProjectileController : MonoBehaviour
 
         _velocity = Vector3.zero;
         _stuck = true;
-        
+
         var closest = hit.ClosestPoint(_transform.position);
         _transform.position = closest - hitDirection * _data.LaunchSettings.StickOffset;
 
-        if (damaged == null)
-        {
-           return;
-        }
+        if (damaged == null) return;
+
         var totalDamage = _data.WeaponParams.Damage + _weaponData.WeaponParams.Damage;
         damaged.Damage(totalDamage, _data.WeaponParams.DamageType, _parent.transform);
 
@@ -196,30 +157,6 @@ public class ProjectileController : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-    }
-
-    [BurstCompile]
-    private struct ProjectileJob : IJob
-    {
-        public NativeArray<Vector3> velocity;
-        public NativeArray<Vector3> position;
-
-        public float gravity;
-        public float drag;
-        public float deltaTime;
-
-        public void Execute()
-        {
-            var vel = velocity[0];
-            var pos = position[0];
-
-            vel += gravity * deltaTime * Vector3.up;
-            vel *= Mathf.Exp(-drag * deltaTime);
-            pos += vel * deltaTime;
-
-            velocity[0] = vel;
-            position[0] = pos;
         }
     }
 }
