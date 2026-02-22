@@ -235,8 +235,6 @@ public class PlayablesAnimatorController
         _moveTransitionTime = 0f;
         _actionTimeReached = false;
         _previousNormalizedTime = 0f;
-
-        _playableGraphCore.Graph.Evaluate();
     }
 
     public void OnUpdate(float deltaTime)
