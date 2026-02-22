@@ -141,7 +141,7 @@ public class ProjectileController : MonoBehaviour
             var damageable = hit.GetComponent<IDamageable>();
             if (damageable == null) continue;
         
-            if (damageable == _parentHealth) continue;
+            if (damageable.Equals(_parentHealth)) continue;
 
             damageable.OnDamageAttempt?.Invoke(_parent.transform);
         }

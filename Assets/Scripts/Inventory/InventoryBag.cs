@@ -38,6 +38,12 @@ public class InventoryBag : ICellContainer
         _cells[cellIndex].AddItem(data, amount);
     }
 
+    public int GetQuantity(ISimpleItemData data)
+    {
+        var cellIndex = GetCorrectIndex(data);
+        return _cells[cellIndex].Quantity;
+    }
+
     public void RemoveItem(ISimpleItemData data, int amount)
     {
         var cellIndex = _cells.IndexOf(GetCell(data));

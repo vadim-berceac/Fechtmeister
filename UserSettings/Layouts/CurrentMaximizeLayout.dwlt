@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 98
+  controlID: 2408
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 39
+  controlID: 2409
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 40
+  controlID: 2410
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
@@ -247,9 +247,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 90cfffff
-      m_LastClickedID: -12400
-      m_ExpandedIDs: beddffff50f6ffffe0faffff
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: c4c4fcffe4e4fcffd005fdffa20ffdff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -340,7 +340,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 160.40002}
     m_SelectedIDs: 62ed0000
     m_LastClickedID: 60770
-    m_ExpandedIDs: 00000000b4dc0000
+    m_ExpandedIDs: 0000000024b9020000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -369,7 +369,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000b4dc0000
+    m_ExpandedIDs: 0000000024b9020000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -470,7 +470,7 @@ MonoBehaviour:
     m_CachedPref: 151
     m_ControlHash: 1412526313
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 55098
+  m_LastInspectedObjectInstanceID: 79724
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -607,7 +607,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 46570100
     m_LastClickedID: 87878
-    m_ExpandedIDs: 00000000b4dc0000
+    m_ExpandedIDs: 0000000024b9020000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -636,7 +636,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000b4dc0000
+    m_ExpandedIDs: 0000000024b9020000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1231,9 +1231,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: -16.641666, y: 4.2218094, z: 16.266844}
+    m_Target: {x: -27.612543, y: -0.92705655, z: 19.750937}
     speed: 2
-    m_Value: {x: -16.641666, y: 4.2218094, z: 16.266844}
+    m_Value: {x: -27.612543, y: -0.92705655, z: 19.750937}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1279,13 +1279,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.1576033, y: -0.829319, z: 0.289027, w: -0.451843}
+    m_Target: {x: -0.10538012, y: -0.36370724, z: 0.041296348, w: -0.9247903}
     speed: 2
-    m_Value: {x: -0.15757906, y: -0.8291915, z: 0.28898257, w: -0.45177352}
+    m_Value: {x: -0.105362706, y: -0.36364716, z: 0.041289527, w: -0.92463756}
   m_Size:
-    m_Target: 0.6912808
+    m_Target: 3.6373067
     speed: 2
-    m_Value: 0.6912808
+    m_Value: 3.6373067
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1338,8 +1338,8 @@ MonoBehaviour:
     y: 668
     width: 1575.2
     height: 355.19995
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 101, y: 126}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 14}
@@ -1397,7 +1397,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Animation
+    - Assets/Prefab/Items/Weapon/Ranged/Arrow_Fire
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1407,16 +1407,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts/Animation
+  - Assets/Prefab/Items/Weapon/Ranged/Arrow_Fire
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\GitHub\Fechtmeister
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 62.80005}
-    m_SelectedIDs: 72fb0000
-    m_LastClickedID: 64370
-    m_ExpandedIDs: 00000000b4dc000098df000000ca9a3b
+    scrollPos: {x: 0, y: 202.80005}
+    m_SelectedIDs: e0bb0200
+    m_LastClickedID: 179168
+    m_ExpandedIDs: 0000000024b902002eb9020030b90200d0bb0200dcbb0200ecbb0200febb020050da020066da020000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1445,7 +1445,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000b4dc0000
+    m_ExpandedIDs: 0000000024b9020000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1471,24 +1471,24 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 62fa0000
-    m_LastClickedInstanceID: 64098
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: bcd1000060d500008cef000058ef000078ef000082ca000088ef000082ef000088ca0000d8cf0000b0ef0000f0c2000082c3000034c3000010c4000024c500005eca00001edc00005adc000096dc0000e6e300001eba0000ecec0000f6eb0000ceee00002ec400008aca000044d800003ab80000f4d60000fad6000006d7000068090100961401001e0a0100c21f0600420b01002205010094ee0000240d0100dad5000016fe00006cf900009ad50000980f02004ad7000030d900008cf70000940d01006aff0000a400010032db00009ebc0000a6db00002c32010030320100a0f5000042ba0000d0db0000b21601000adb0000f8da000064110200542502005a250200e6de00005cef000070da000072da000074da000076da000078da000084f0000088f00000a2da0000a4da0000a6da00006a7201006e720100b0da000090da00005ac500007c2a0100500a0100560a0100e6fe0000721001000ce000000e080100825601008a560100344a010086560100745501008e560100c450010058460100be9101001ce50000d2ba010086530100f05201007ebe010006e70000b6960400de7d0100442c0100502c01005017010074170100a8020100fe2d0100daff0000b8010100de6f0100deeb0000e4eb00004ad50000646f0100626f010042ec00000000000068ad010040b40200
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Quiver_Magic_View
+      m_OriginalName: Quiver_Magic_View
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 79888
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
       m_ClientGUIView: {fileID: 13}
@@ -1577,7 +1577,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 64098
+  m_LastSelectedObjectID: 63628
 --- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1682,13 +1682,31 @@ MonoBehaviour:
   - rid: 2599208722269208719
   - rid: 2599208722269208720
   - rid: 2599208722269208721
+  - rid: 2143866587198259436
   - rid: 2599208722269208722
   - rid: 2599208722269208723
+  - rid: 2143866587198259437
+  - rid: 2143866587198259438
   m_CallstackRecordMode: 1
   m_ClearOnPlay: 0
   references:
     version: 2
     RefIds:
+    - rid: 2143866587198259436
+      type: {class: MemoryProfilerModule, ns: Unity.Entities.Editor, asm: Unity.Entities.Editor}
+      data:
+        m_Identifier: Unity.Entities.Editor.MemoryProfilerModule, Unity.Entities.Editor,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - rid: 2143866587198259437
+      type: {class: StructuralChangesProfilerModule, ns: Unity.Entities.Editor, asm: Unity.Entities.Editor}
+      data:
+        m_Identifier: Unity.Entities.Editor.StructuralChangesProfilerModule, Unity.Entities.Editor,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - rid: 2143866587198259438
+      type: {class: RuntimeContentManagerProfilerModule, ns: , asm: Unity.Entities.Editor}
+      data:
+        m_Identifier: RuntimeContentManagerProfilerModule, Unity.Entities.Editor,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     - rid: 2599208722269208710
       type: {class: CPUProfilerModule, ns: UnityEditorInternal.Profiling, asm: UnityEditor.CoreModule}
       data:
@@ -2698,8 +2716,8 @@ MonoBehaviour:
     y: 0
     width: 472.80005
     height: 1023.19995
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 21}
   m_Panes:
   - {fileID: 21}
