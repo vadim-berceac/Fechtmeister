@@ -27,7 +27,7 @@ public class CharacterCore : ManagedUpdatableObject
     public Counter AttackCounter { get; private set; }
     public CurrentSpeed CurrentSpeed { get; private set; }
     public StateTimer StateTimer { get; private set; }
-    public Action OnStateChanged;
+    public Action<State> OnStateChanged;
     
     public CharacterGravity Gravity { get; private set; }
     

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3398091672807551234}
   - component: {fileID: 9160218615659502272}
   - component: {fileID: 1740616883018091168}
+  - component: {fileID: -44775136939861082}
   m_Layer: 8
   m_Name: Bow0View
   m_TagString: Untagged
@@ -105,7 +106,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0.7, z: 0.15}
-  - {x: 0, y: 0, z: 0.15}
+  - {x: 0, y: 0, z: 0}
   - {x: 0, y: -0.7, z: 0.15}
   m_Parameters:
     serializedVersion: 3
@@ -166,6 +167,23 @@ LineRenderer:
   m_UseWorldSpace: 0
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &-44775136939861082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8388745960378279721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 479e58c7c10242845848a23ae99629dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bow
+  lineRenderer: {fileID: 1740616883018091168}
+  tensionForce: 0
+  tensionOffset: {x: 0, y: -0.1, z: 0.65}
+  tensionClip: {fileID: 8300000, guid: 989d0aa0e11ab754cb88b7506459cba0, type: 3}
+  releaseClip: {fileID: 8300000, guid: d3ebe2613ffb8c34e81f02bcad6d1835, type: 3}
 --- !u!1001 &7680008077312296342
 PrefabInstance:
   m_ObjectHideFlags: 0

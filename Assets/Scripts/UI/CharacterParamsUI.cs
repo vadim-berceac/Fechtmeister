@@ -40,7 +40,7 @@ public class CharacterParamsUI : MonoBehaviour
         ShowWindow(true);
         UpdateText();
         UpdateSlider(_selectedCharacter.Health.CurrentHealth);
-        UpdateState();
+        UpdateState(character.Core.CurrentState);
     }
 
     private void ShowWindow(bool show)
@@ -84,14 +84,14 @@ public class CharacterParamsUI : MonoBehaviour
         Text.text = _selectedCharacter.gameObject.name;
     }
 
-    private void UpdateState()
+    private void UpdateState(State state)
     {
-        if (_selectedCharacter == null || _selectedCharacter.CurrentState == null)
+        if (state == null)
         {
             DebugText.text = "";
             return;
         }
-        DebugText.text = _selectedCharacter.CurrentState.name;
+        DebugText.text = state.name;
     }
 
     private void OnDisable()

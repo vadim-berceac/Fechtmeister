@@ -39,7 +39,7 @@ public abstract class State : ScriptableObject
    
     public virtual void EnterState(CharacterCore character)
     {
-        character.OnStateChanged?.Invoke();
+        character.OnStateChanged?.Invoke(this);
         
         character.TargetingSystem.AllowItemTargeting(AllowItemTargeting);
         
