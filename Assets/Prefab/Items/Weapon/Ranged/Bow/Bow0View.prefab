@@ -106,7 +106,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0.7, z: 0.15}
-  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0.15}
   - {x: 0, y: -0.7, z: 0.15}
   m_Parameters:
     serializedVersion: 3
@@ -181,6 +181,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bow
   lineRenderer: {fileID: 1740616883018091168}
   tensionForce: 0
+  tensionDelay: 0.6
+  tensionTime: 0.77
+  stringRestPosition: {x: 0, y: 0, z: 0.15}
   tensionOffset: {x: 0, y: -0.1, z: 0.65}
   tensionClip: {fileID: 8300000, guid: 989d0aa0e11ab754cb88b7506459cba0, type: 3}
   releaseClip: {fileID: 8300000, guid: d3ebe2613ffb8c34e81f02bcad6d1835, type: 3}
