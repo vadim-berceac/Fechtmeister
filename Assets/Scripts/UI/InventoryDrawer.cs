@@ -15,8 +15,7 @@ public class InventoryDrawer : MonoBehaviour
     {
         UpdateInventoryCells();
     }
-
-    [BurstCompile]
+    
     private void UpdateInventoryCells()
     {
        UpdateInventoryBag();
@@ -25,8 +24,7 @@ public class InventoryDrawer : MonoBehaviour
        UpdateProjectiles();
        UpdateMoney();
     }
-
-    [BurstCompile]
+    
     public void UpdateInventoryBag()
     {
         ClearButtonsSet(InventoryBagButtons);
@@ -42,8 +40,7 @@ public class InventoryDrawer : MonoBehaviour
             }
         }
     }
-
-    [BurstCompile]
+    
     public void UpdateWeaponSystem()
     {
         ClearButtonsSet(InventoryWeaponButtons);
@@ -57,8 +54,7 @@ public class InventoryDrawer : MonoBehaviour
             }
         }
     }
-
-    [BurstCompile]
+    
     public void UpdateArmorSystem()
     {
         ClearButtonsSet(InventoryArmorButtons);
@@ -72,8 +68,7 @@ public class InventoryDrawer : MonoBehaviour
             }
         }
     }
-
-    [BurstCompile]
+    
     public void UpdateProjectiles()
     {
         ClearButtonsSet(InventoryProjectilesButtons);
@@ -83,14 +78,12 @@ public class InventoryDrawer : MonoBehaviour
             InventoryUI.CurrentCharacter.Inventory.ProjectileSystem.GetCell(instance.Data).Quantity);
         Debug.Log($"{instance.Quantity} {instance.Data == null}");
     }
-
-    [BurstCompile]
+    
     public void UpdateMoney()
     {
         Debug.Log($"Показываю Money {InventoryUI.CurrentCharacter.name}");
     }
 
-    [BurstCompile]
     private void ClearButtonsSet(InventoryButton[] buttons)
     {
         foreach (var button in buttons)

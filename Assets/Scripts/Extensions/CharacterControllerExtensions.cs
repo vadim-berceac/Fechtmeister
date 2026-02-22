@@ -3,7 +3,6 @@ using UnityEngine;
 
 public static class CharacterControllerExtensions
 {
-    [BurstCompile]
     public static float GetHorizontalAngle(this CharacterController characterController, Transform target)
     {
         if (target == null)
@@ -20,7 +19,6 @@ public static class CharacterControllerExtensions
         return angle;
     }
     
-    [BurstCompile]
     public static float GetVerticalAngle(this CharacterController characterController, Transform target)
     {
         if (target == null)

@@ -21,7 +21,6 @@ public class NameUI : MonoBehaviour
       _equppiedItemData = equppiedItem;
    }
    
-   [BurstCompile]
    private void SetValues()
    {
       if (_equppiedItemData == null)

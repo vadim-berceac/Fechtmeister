@@ -3,7 +3,6 @@ using UnityEngine;
 
 public static class TransformExtensions
 {
-    [BurstCompile]
     public static Transform FindChildRecursive(this Transform transform, string name)
     {
         foreach (Transform child in transform)

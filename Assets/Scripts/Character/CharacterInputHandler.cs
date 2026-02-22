@@ -48,7 +48,6 @@ public class CharacterInputHandler : IInputHandler
         Subscribe();
     }
     
-    [BurstCompile]
     public void SmoothInput(float deltaTime)
     {
         if (InputSet == null || _characterInputSet == null)

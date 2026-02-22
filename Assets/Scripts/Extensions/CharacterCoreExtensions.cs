@@ -3,7 +3,6 @@ using UnityEngine;
 
 public static class CharacterCoreExtensions
 {
-    [BurstCompile]
     public static void UpdateRotation(this CharacterCore character, Vector3 rotation, float rotationSpeed)
     {
         if (character.SceneCamera.Target != character.CashedTransform)
@@ -17,10 +16,10 @@ public static class CharacterCoreExtensions
             character.CashedTransform.rotation = targetRotation;
             return;
         }
-        character.CashedTransform.rotation = Quaternion.Slerp(character.CashedTransform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        character.CashedTransform.rotation = Quaternion.Slerp(character.CashedTransform.rotation, 
+            targetRotation, Time.deltaTime * rotationSpeed);
     }
-    
-    [BurstCompile]
+ 
     public static bool CheckIsGrounded(this CharacterCore character, bool useGravity, int layerMask)
     {
         if (!useGravity)
@@ -34,7 +33,6 @@ public static class CharacterCoreExtensions
         return hitsCount > 0;
     }
     
-    [BurstCompile]
     public static void UpdateFallDetection(this CharacterCore character,  bool useGravity)
     {
         if (!useGravity)

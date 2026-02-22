@@ -41,8 +41,6 @@ public interface ITargetRigWeightController
 
 public static class TargetingComponentExtensions
 {
-    
-    [BurstCompile]
     public static Transform GetFirstTarget(this ITargetingComponent component)
     {
         return component.Targets.FirstOrDefault();
@@ -67,22 +65,19 @@ public static class TargetingComponentExtensions
         }
         component.Targets.Clear(); 
     }
-    
-    [BurstCompile]
+   
     public static float GetHorizontalAngleToFirstTarget(this ITargetingComponent component)
     {
         var target = component.GetFirstTarget();
         return component.CharacterController.GetHorizontalAngle(target);
     }
-    
-    [BurstCompile]
+   
     public static float GetVerticalAngleToFirstTarget(this ITargetingComponent component)
     {
         var target = component.GetFirstTarget();
         return component.CharacterController.GetVerticalAngle(target);
     }
     
-    [BurstCompile]
     public static void AddTarget(this ITargetingComponent component, Transform target)
     {
         component.Targets.Add(target);
@@ -94,7 +89,6 @@ public static class TargetingComponentExtensions
         }
     }
 
-    [BurstCompile]
     public static void RemoveTarget(this ITargetingComponent component, Transform target)
     {
         component.Targets.Remove(target);
@@ -105,8 +99,7 @@ public static class TargetingComponentExtensions
             component.ShowTargetName(target,false);
         }
     }
-    
-    [BurstCompile]
+   
     public static void Check(this ITargetingComponent component, Collider other)
     {
         if (!component.IsAllowed)
