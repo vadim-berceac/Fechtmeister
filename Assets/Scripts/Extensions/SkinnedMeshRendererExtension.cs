@@ -29,7 +29,7 @@ public static class SkinnedMeshRendererExtension
         oldSkin.bones = newBones;
     }
     
-    public static void ApplySkin(this SkinnedMeshRenderer targetRenderer, SkinData skinData)
+    public static void ApplySkin(this SkinnedMeshRenderer targetRenderer, SkinData skinData, Animator animator)
     {
         if (skinData == null || targetRenderer == null) return;
        
@@ -41,6 +41,14 @@ public static class SkinnedMeshRendererExtension
         if (skinData.SkinMaterial != null)
         {
             targetRenderer.sharedMaterial = skinData.SkinMaterial;
+        }
+        
+        foreach (var decoration in skinData.Decorations)
+        {
+            var part = Object.Instantiate(decoration.ItemPrefab).transform;
+            var boneData = decoration.BoneData;
+            animator.AttachTransformSource(part, boneData.BonesType, boneData.Position, 
+                boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
         }
     }
 }

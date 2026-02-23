@@ -6,13 +6,15 @@ public class CharacterSkinHandler
 {
     private const string BlankSkinnedMeshName = "blankSkinnedMesh";
     private readonly Transform _transform;
+    private readonly Animator _animator;
     private readonly CharacterSkinData _characterSkinData;
     private SkinnedMeshRenderer _blankRenderer;
     private List<SkinnedMeshRenderer> _renderersInstances;
 
-    public CharacterSkinHandler(Transform transform, CharacterPersonalityData characterPersonalityData)
+    public CharacterSkinHandler(Transform transform, CharacterPersonalityData characterPersonalityData, Animator animator)
     {
         _transform = transform;
+        _animator = animator;
         _characterSkinData = characterPersonalityData.CharacterSkinDataSettings.PrimarySkin;
         _transform.gameObject.name = characterPersonalityData.NamingSettings.CharacterName;
         
@@ -32,7 +34,7 @@ public class CharacterSkinHandler
     private void SetupBaseSkin()
     {
         _transform.localScale = new Vector3(_characterSkinData.SizeMode, _characterSkinData.SizeMode,_characterSkinData.SizeMode);
-        _blankRenderer.ApplySkin(_characterSkinData.SkinData[0]);
+        _blankRenderer.ApplySkin(_characterSkinData.SkinData[0], _animator);
         _renderersInstances.Add(_blankRenderer);
     }
     
@@ -44,7 +46,7 @@ public class CharacterSkinHandler
         {
             var newRendererObject = Object.Instantiate(_blankRenderer, _blankRenderer.transform.parent);
             _renderersInstances.Add(newRendererObject);
-            newRendererObject.ApplySkin(_characterSkinData.SkinData[i]);
+            newRendererObject.ApplySkin(_characterSkinData.SkinData[i], _animator);
         }
     }
 
@@ -55,7 +57,7 @@ public class CharacterSkinHandler
         {
             if (renderer.name.Contains(BlankSkinnedMeshName))
             {
-                renderer.ApplySkin(null);
+                renderer.ApplySkin(null, _animator);
                 continue;
             }
             Object.Destroy(renderer.gameObject);

@@ -36,6 +36,8 @@ public class PlayablesAnimatorController
 
     private float _speedMultiplier = 1f;
     private float _defaultAnimationSpeed = 1f;
+    
+    private const float DominantWeightThreshold = 0.5f;
 
     public PlayablesAnimatorController(PlayableGraphCore playableGraph)
     {
@@ -78,7 +80,6 @@ public class PlayablesAnimatorController
             var clip = _currentBlendConfig.Clips[i];
             var clipPlayable = AnimationClipPlayable.Create(_playableGraphCore.Graph, clip.Clip);
 
-            // Применяем базовую скорость клипа с учётом текущего множителя
             clipPlayable.SetSpeed(clip.Speed * _speedMultiplier);
 
             if (!clip.Clip.isLooping)
@@ -168,9 +169,7 @@ public class PlayablesAnimatorController
         _previousNormalizedTime = 0f;
     }
 
-    /// <summary>
-    /// Доделать смешивание
-    /// </summary>
+   
     public void BlendCurrentAnimationStateClips(float byValue)
     {
         if (_currentBlendConfig == null || !_currentBlendMixer.IsValid())
@@ -278,7 +277,6 @@ public class PlayablesAnimatorController
             var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(i);
             if (!clipPlayable.IsValid()) continue;
 
-            // Применяем multiplier поверх базовой скорости каждого клипа из конфига
             clipPlayable.SetSpeed(_currentBlendConfig.Clips[i].Speed * multiplier);
         }
     }
@@ -426,6 +424,25 @@ public class PlayablesAnimatorController
         return bestWeight > 0f ? bestIndex : -1;
     }
 
+    private int GetDominantClipIndex()
+    {
+        var count = _currentBlendMixer.GetInputCount();
+        var bestIndex = -1;
+        var bestWeight = -1f;
+
+        for (var i = 0; i < count; i++)
+        {
+            var w = _currentBlendMixer.GetInputWeight(i);
+            if (w > bestWeight)
+            {
+                bestWeight = w;
+                bestIndex = i;
+            }
+        }
+
+        return bestWeight >= DominantWeightThreshold ? bestIndex : -1;
+    }
+
     private static bool IsClipFinished(AnimationClipPlayable playable, AnimationClip clip)
     {
         if (clip.isLooping) return false;
@@ -453,21 +470,21 @@ public class PlayablesAnimatorController
             return;
         }
 
-        var activeClipIndex = GetActiveClipIndex();
-        if (activeClipIndex == -1)
+        var dominantClipIndex = GetDominantClipIndex();
+        if (dominantClipIndex == -1)
         {
             ResetActionTime();
             return;
         }
 
-        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
+        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(dominantClipIndex);
         if (!clipPlayable.IsValid())
         {
             ResetActionTime();
             return;
         }
 
-        var blendClip = _currentBlendConfig.Clips[activeClipIndex];
+        var blendClip = _currentBlendConfig.Clips[dominantClipIndex];
         var currentNormalized = ComputeNormalizedTime(clipPlayable, blendClip.Clip);
 
         if (IsClipFinished(clipPlayable, blendClip.Clip))
@@ -499,13 +516,13 @@ public class PlayablesAnimatorController
         if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
             return false;
 
-        var activeClipIndex = GetActiveClipIndex();
-        if (activeClipIndex == -1) return false;
+        var dominantClipIndex = GetDominantClipIndex();
+        if (dominantClipIndex == -1) return false;
 
-        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
+        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(dominantClipIndex);
         if (!clipPlayable.IsValid()) return false;
 
-        return IsClipFinished(clipPlayable, _currentBlendConfig.Clips[activeClipIndex].Clip);
+        return IsClipFinished(clipPlayable, _currentBlendConfig.Clips[dominantClipIndex].Clip);
     }
 
     public float GetCurrentClipNormalizedTime()
@@ -513,13 +530,13 @@ public class PlayablesAnimatorController
         if (!_currentBlendMixer.IsValid() || _currentBlendConfig == null)
             return 0f;
 
-        var activeClipIndex = GetActiveClipIndex();
-        if (activeClipIndex == -1) return 0f;
+        var dominantClipIndex = GetDominantClipIndex();
+        if (dominantClipIndex == -1) return 0f;
 
-        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(activeClipIndex);
+        var clipPlayable = (AnimationClipPlayable)_currentBlendMixer.GetInput(dominantClipIndex);
         if (!clipPlayable.IsValid()) return 0f;
 
-        return ComputeNormalizedTime(clipPlayable, _currentBlendConfig.Clips[activeClipIndex].Clip);
+        return ComputeNormalizedTime(clipPlayable, _currentBlendConfig.Clips[dominantClipIndex].Clip);
     }
 
     public bool HasReachedActionTime() => _actionTimeReached;

@@ -67,7 +67,7 @@ public class CharacterCore : ManagedUpdatableObject
         StatesSet = statesContainer.GetStateSet(PresetLoader.CharacterPersonalityData.StateMachineType);
         CharacterColliderSizer = new CharacterColliderSizer(PresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin,
             LocomotionSettings.CharacterCollider, LocomotionSettings.CharacterController);
-        SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData);
+        SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData, GraphCore.CoreData.Animator);
         TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting);
         LedgeDetection = new LedgeDetection(LedgeDetectionSettings);
         AttackCounter = new Counter();
