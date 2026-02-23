@@ -41,6 +41,7 @@ MonoBehaviour:
   <SpawnSound>k__BackingField: {fileID: 8300000, guid: 9daf4e1918ba3a24c9c1cfdc0c823e4d, type: 3}
   <FlySound>k__BackingField: {fileID: 8300000, guid: 673633e3bfd998e48815b82d2a8dec2a, type: 3}
   <ImpactSound>k__BackingField: {fileID: 8300000, guid: 9fc70ac313918db4ba82d055ccd61fe4, type: 3}
+  <TrailPrefab>k__BackingField: {fileID: 3417348039576045214, guid: 8a530ee1f0ae31c4eb5d66e43ee66070, type: 3}
   <BoneData>k__BackingField:
   - <UseBone>k__BackingField: 1
     <BonesType>k__BackingField: 18

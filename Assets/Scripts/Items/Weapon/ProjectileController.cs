@@ -17,6 +17,8 @@ public class ProjectileController : MonoBehaviour
     private const float ThreatDetectionRadius = 10f;
     private LayerMask _characterLayerMask;
 
+    private GameObject _trail;
+
     private void Start()
     {
         _transform = transform;
@@ -40,6 +42,11 @@ public class ProjectileController : MonoBehaviour
         _parentHealth = parent.GetComponentInParent<HealthComponent>();
         _threatNotified = false;
         _transform.parent = null;
+
+        if (_data.TrailPrefab != null)
+        {
+            _trail = Instantiate(_data.TrailPrefab, _transform);
+        }
 
         var direction = (aimTargetTransform.position - _transform.position).normalized;
         var spreadAngle = _data.LaunchSettings.MaxSpreadAngles * (1f - accuracy / 100f);
@@ -190,6 +197,8 @@ public class ProjectileController : MonoBehaviour
         _transform.position = closest - hitDirection * _data.LaunchSettings.StickOffset;
         
         PlaySound(_audioSource, _data.ImpactSound, _transform);
+        
+        if (_trail) _trail.SetActive(false);
 
         if (damaged == null) return;
 

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefaultSubState
   <EnterTransitionDuration>k__BackingField: 0
   <ApplyRootMotion>k__BackingField: 0
-  <Clips>k__BackingField: []
+  <Clips>k__BackingField:
+  - {fileID: 11400000, guid: 7a166fee24650d14d89617f72d4b6018, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <ItemTargetingRigWeight>k__BackingField: 0

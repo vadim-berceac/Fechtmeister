@@ -25,7 +25,7 @@ public class PlayableGraphCore : ManagedUpdatableObject
         Graph = PlayableGraph.Create("General Graph");
         LayerMixer = AnimationLayerMixerPlayable.Create(Graph, 2);
         FullBodyLayerMixer0 = AnimationMixerPlayable.Create(Graph, CoreData.GeneralMixerCount);
-        UpperBodyLayerMixer1 = AnimationMixerPlayable.Create(Graph, 1);
+        UpperBodyLayerMixer1 = AnimationMixerPlayable.Create(Graph, 2); 
         
         Graph.Connect(FullBodyLayerMixer0, 0, LayerMixer, 0);
         Graph.Connect(UpperBodyLayerMixer1, 0, LayerMixer, 1);
@@ -34,7 +34,7 @@ public class PlayableGraphCore : ManagedUpdatableObject
        
         LayerMixer.SetLayerMaskFromAvatarMask(1, statesContainer.GetAvatarMasksSettings().UpperBodyMask);
         LayerMixer.SetInputWeight(UpperBodyLayerMixer1, 1f);
-        LayerMixer.SetLayerAdditive(1, true);
+        LayerMixer.SetLayerAdditive(1, false);
       
         Playable finalPlayable = LayerMixer;
         if (lookAtBones != null && lookAtBones.Length > 0)
@@ -54,7 +54,7 @@ public class PlayableGraphCore : ManagedUpdatableObject
     private void InitializeParts()
     {
         FullBodyAnimatorController = new PlayablesAnimatorController(this);
-        UpperBodyLayerController = new PlayablesLayerController(Graph, UpperBodyLayerMixer1);
+        UpperBodyLayerController = new PlayablesLayerController(Graph, UpperBodyLayerMixer1, LayerMixer, 1);
     }
     
     public override void OnManagedUpdate()

@@ -45,7 +45,7 @@ public class WeaponOnSubState : State
     public override void ExitState(CharacterCore character)
     {
         base.ExitState(character);
-        character.GraphCore.UpperBodyLayerController.StopAnimationSubState();
+        //character.GraphCore.UpperBodyLayerController.StopAnimationSubState();
         character.Inventory.WeaponOn();
     }
 }

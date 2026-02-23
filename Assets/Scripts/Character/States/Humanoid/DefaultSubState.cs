@@ -7,7 +7,10 @@ public class DefaultSubState : State
 {
     public override void EnterState(CharacterCore character)
     {
-        
+        base.EnterState(character);
+        character.GraphCore.UpperBodyLayerController.PlayAnimationSubState(this, 
+            0, 0);
+        character.GraphCore.UpperBodyLayerController.StopAnimationSubState();
     }
     
     public override void FixedUpdateState(CharacterCore character)

@@ -40,10 +40,4 @@ public class FastAttackSubState : State
             character.GraphCore.UpperBodyLayerController.ModifyCurrentWeight(- Time.deltaTime * 2);
         }
     }
-    
-    public override void ExitState(CharacterCore character)
-    {
-        base.ExitState(character);
-        character.GraphCore.UpperBodyLayerController.StopAnimationSubState();
-    }
 }
