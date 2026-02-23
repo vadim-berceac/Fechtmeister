@@ -12,6 +12,7 @@ public class ProjectileController : MonoBehaviour
     private readonly Collider[] _threatResults = new Collider[10];
     private bool _stuck;
     private bool _threatNotified;
+    private AudioSource _audioSource; // ✅
 
     private const float ThreatDetectionRadius = 10f;
     private LayerMask _characterLayerMask;
@@ -51,11 +52,43 @@ public class ProjectileController : MonoBehaviour
         var finalDirection = (spreadRotation * direction).normalized;
 
         _velocity = finalDirection * _data.WeaponParams.AttackSpeed;
-
-        // ✅ Фикс: сразу устанавливаем правильный поворот, не ждём следующий FixedUpdate
         _transform.rotation = Quaternion.LookRotation(finalDirection);
 
         Destroy(gameObject, _data.LaunchSettings.Lifetime);
+
+        PlayFlySound();
+    }
+    
+    private void PlayFlySound()
+    {
+        if (_data.FlySound == null) return;
+
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioSource.clip = _data.FlySound;
+        _audioSource.loop = true;
+        _audioSource.volume = 0.2f;
+        _audioSource.spatialBlend = 1f;
+        _audioSource.rolloffMode = AudioRolloffMode.Custom;
+        _audioSource.minDistance = 1f;   
+        _audioSource.maxDistance = 30f;  
+        _audioSource.SetCustomCurve(
+            AudioSourceCurveType.CustomRolloff,
+            AnimationCurve.EaseInOut(0f, 1f, 1f, 0f) 
+        );
+        _audioSource.Play();
+    }
+    
+    private void PlayImpactSound()
+    {
+        if (_audioSource != null)
+        {
+            _audioSource.Stop();
+            _audioSource.loop = false;
+        }
+
+        if (_data.ImpactSound == null) return;
+
+        AudioSource.PlayClipAtPoint(_data.ImpactSound, _transform.position);
     }
 
     private void FixedUpdate()
@@ -140,6 +173,9 @@ public class ProjectileController : MonoBehaviour
 
         var closest = hit.ClosestPoint(_transform.position);
         _transform.position = closest - hitDirection * _data.LaunchSettings.StickOffset;
+
+        // ✅ Звук попадания — до возможного Destroy
+        PlayImpactSound();
 
         if (damaged == null) return;
 
