@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8d4e64e144f9f840bd6c365ed4528e1, type: 3}
-  m_Name: WeaponOffState
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 11500000, guid: 03f7d19e72d18bc4ea62f97b79864bfa, type: 3}
+  m_Name: WeaponOffSubState
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponOffSubState
   <EnterTransitionDuration>k__BackingField: 0.3
-  <ApplyRootMotion>k__BackingField: 1
+  <ApplyRootMotion>k__BackingField: 0
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: 667e0446ff043c942ba56ea9b624ac96, type: 2}
   - {fileID: 11400000, guid: 0b662f033d8dcb94abde50c5c52a48d5, type: 2}
@@ -22,15 +22,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 06d9e76da894dc04591a2b5060ffbe6a, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
-  <TargetingRigWeight>k__BackingField: 1
+  <ItemTargetingRigWeight>k__BackingField: 0
+  <AimRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
-  <UseGravity>k__BackingField: 1
+  <UseGravity>k__BackingField: 0
   <FallSpeedMultiplier>k__BackingField: 1
   <GroundLayer>k__BackingField:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   <Height>k__BackingField: 0
   <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0

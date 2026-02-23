@@ -11,7 +11,7 @@ public class CombatIdleState : MovementState
         Transitions = new List<Transition<CharacterCore>>()
         {
             new (c => c.Health.IsHitReactionEnabled, "GetHitState"),
-            new (c => c.Inventory.WeaponSystem.CanUnDrawWeapon(), "WeaponOffState"),
+            new (character => !character.Inventory.IsWeaponOn, "IdleState"),
             new (c => Mathf.Abs(c.CharacterInputHandler.InputX) > 0 || Mathf.Abs(c.CharacterInputHandler.InputY) > 0, "CombatWalkState"),
             new (c => c.CharacterInputHandler.IsAttack && !c.Inventory.WeaponSystem.WeaponInstanceIsRanged 
                                                                && c.GraphCore.UpperBodyLayerController.IsComplete(), "FastAttackState"),
@@ -25,5 +25,15 @@ public class CombatIdleState : MovementState
             new (c => c.CharacterInputHandler.IsJump, "JumpState"),
             new (c => !c.Gravity.Grounded, "FallState"),
         };
+    }
+    
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        if (character.Inventory.WeaponSystem.CanUnDrawWeapon() 
+            && character.GraphCore.UpperBodyLayerController.IsComplete())
+        {
+            character.SetSubState(character.StatesSet.GetState("WeaponOffSubState"));
+        } 
     }
 }

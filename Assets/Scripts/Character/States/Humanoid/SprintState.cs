@@ -11,10 +11,20 @@ public class SprintState : MovementState
             new(character => (character.Health.IsHitReactionEnabled), "GetHitState"),
             new(character => (!character.CharacterInputHandler.IsRun), "RunState"),
             new(character => (character.CharacterInputHandler.TargetInputMagnitude < 0.2f), "SprintStopState"),
-            new(character => (character.Inventory.WeaponSystem.CanDrawWeapon()), "WeaponOnState"),
+            new(character => (character.Inventory.IsWeaponOn), "CombatSprintState"),
             new(character => (character.CharacterInputHandler.IsJump), "JumpState"),
             new(character => (!character.Gravity.Grounded), "FallState"),
             new(character => (character.CharacterInputHandler.IsInventoryOpen), "InventoryState"),
         };
+    }
+    
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        if (character.Inventory.WeaponSystem.CanDrawWeapon() 
+            && character.GraphCore.UpperBodyLayerController.IsComplete())
+        {
+            character.SetSubState(character.StatesSet.GetState("WeaponOnSubState"));
+        } 
     }
 }

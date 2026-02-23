@@ -14,10 +14,20 @@ public class WalkState : MovementState
             new(character => (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
                               Mathf.Abs(character.CharacterInputHandler.InputY) == 0), "IdleState"),
             new(character => (character.CharacterInputHandler.IsRun && character.Health.CurrentHealthNormalized >= 0.5), "RunState"),
-            new(character => (character.Inventory.WeaponSystem.CanDrawWeapon()), "WeaponOnState"),
+            new(character => (character.Inventory.IsWeaponOn), "CombatWalkState"),
             new(character => (character.CharacterInputHandler.IsJump), "JumpState"),
             new(character => (!character.Gravity.Grounded), "FallState"),
             new(character => (character.CharacterInputHandler.IsInventoryOpen), "InventoryState"),
         };
+    }
+
+    protected override void CheckAction(CharacterCore character)
+    {
+        base.CheckAction(character);
+        if (character.Inventory.WeaponSystem.CanDrawWeapon() 
+            && character.GraphCore.UpperBodyLayerController.IsComplete())
+        {
+            character.SetSubState(character.StatesSet.GetState("WeaponOnSubState"));
+        } 
     }
 }
