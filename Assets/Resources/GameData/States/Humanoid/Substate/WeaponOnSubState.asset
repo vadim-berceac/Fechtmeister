@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 898818de57534284ca1e481023245828, type: 3}
   m_Name: WeaponOnSubState
   m_EditorClassIdentifier: Assembly-CSharp::WeaponOnSubState
-  <EnterTransitionDuration>k__BackingField: 0.3
+  <EnterTransitionDuration>k__BackingField: 0.05
   <ApplyRootMotion>k__BackingField: 0
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: 8a55b8d0198eed44a8980b22295ee1b6, type: 2}

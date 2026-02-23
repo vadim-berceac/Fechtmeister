@@ -20,9 +20,12 @@ public class ProjectileController : MonoBehaviour
     private void Start()
     {
         _transform = transform;
+        _audioSource = gameObject.AddComponent<AudioSource>();
 
         if (_characterLayerMask == 0)
             _characterLayerMask = LayerMask.GetMask("Character");
+        
+        PlaySound(_audioSource, _data.SpawnSound, _transform);
     }
 
     public void SetParams(ProjectileData data, WeaponData weaponData)
@@ -63,7 +66,6 @@ public class ProjectileController : MonoBehaviour
     {
         if (_data.FlySound == null) return;
 
-        _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.clip = _data.FlySound;
         _audioSource.loop = true;
         _audioSource.volume = 0.2f;
@@ -78,17 +80,30 @@ public class ProjectileController : MonoBehaviour
         _audioSource.Play();
     }
     
-    private void PlayImpactSound()
+    // private void PlayImpactSound()
+    // {
+    //     if (_audioSource != null)
+    //     {
+    //         _audioSource.Stop();
+    //         _audioSource.loop = false;
+    //     }
+    //
+    //     if (_data.ImpactSound == null) return;
+    //
+    //     AudioSource.PlayClipAtPoint(_data.ImpactSound, _transform.position);
+    // }
+    
+    private static void PlaySound(AudioSource audioSource, AudioClip clip, Transform pos)
     {
-        if (_audioSource != null)
+        if (audioSource != null)
         {
-            _audioSource.Stop();
-            _audioSource.loop = false;
+            audioSource.Stop();
+            audioSource.loop = false;
         }
 
-        if (_data.ImpactSound == null) return;
+        if (clip == null) return;
 
-        AudioSource.PlayClipAtPoint(_data.ImpactSound, _transform.position);
+        AudioSource.PlayClipAtPoint(clip, pos.position);
     }
 
     private void FixedUpdate()
@@ -173,9 +188,8 @@ public class ProjectileController : MonoBehaviour
 
         var closest = hit.ClosestPoint(_transform.position);
         _transform.position = closest - hitDirection * _data.LaunchSettings.StickOffset;
-
-        // ✅ Звук попадания — до возможного Destroy
-        PlayImpactSound();
+        
+        PlaySound(_audioSource, _data.ImpactSound, _transform);
 
         if (damaged == null) return;
 

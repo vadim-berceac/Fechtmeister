@@ -38,6 +38,7 @@ MonoBehaviour:
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: b25c1596f6fcfdf4c854fb6aed358dd0, type: 3}
   <EquippedModelPrefab>k__BackingField: {fileID: 6651120253240216896, guid: 845175908cf540f458c60e619ef2c7be, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 4008575852445660223, guid: b45b8b25893fb024eb094994da2c9e3e, type: 3}
+  <SpawnSound>k__BackingField: {fileID: 8300000, guid: 9daf4e1918ba3a24c9c1cfdc0c823e4d, type: 3}
   <FlySound>k__BackingField: {fileID: 8300000, guid: 673633e3bfd998e48815b82d2a8dec2a, type: 3}
   <ImpactSound>k__BackingField: {fileID: 8300000, guid: 9fc70ac313918db4ba82d055ccd61fe4, type: 3}
   <BoneData>k__BackingField:

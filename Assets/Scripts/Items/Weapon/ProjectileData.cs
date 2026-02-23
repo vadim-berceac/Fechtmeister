@@ -10,6 +10,7 @@ public class ProjectileData : ScriptableObject, IEquppiedItemData
     [field: SerializeField] public Sprite ItemIcon { get; set; }
     [field: SerializeField] public GameObject EquippedModelPrefab { get; set; }
     [field: SerializeField] public GameObject GroundedModelPrefab { get; set; }
+    [field: SerializeField] public AudioClip SpawnSound { get; set; }
     [field: SerializeField] public AudioClip FlySound { get; set; }
     [field: SerializeField] public AudioClip ImpactSound { get; set; }
     [field: SerializeField] public BoneData[] BoneData { get; set; }
