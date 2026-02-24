@@ -9,8 +9,8 @@ public class SprintState : MovementState
         Transitions = new List<Transition<CharacterCore>>()
         {
             new(character => (character.Health.IsHitReactionEnabled), "GetHitState"),
-            new(character => (!character.CharacterInputHandler.IsRun), "RunState"),
-            new(character => (character.CharacterInputHandler.TargetInputMagnitude < 0.2f), "SprintStopState"),
+            new(character => (character.CharacterInputHandler.TargetInputMagnitude < 0.2f 
+                              || !character.CharacterInputHandler.IsRun), "SprintStopState"),
             new(character => (character.Inventory.IsWeaponOn), "CombatSprintState"),
             new(character => (character.CharacterInputHandler.IsJump), "JumpState"),
             new(character => (!character.Gravity.Grounded), "FallState"),

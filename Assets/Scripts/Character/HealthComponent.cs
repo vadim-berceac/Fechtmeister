@@ -17,23 +17,10 @@ public class HealthComponent : MonoBehaviour, IDamageable
         get => CurrentHealth / MaxHealth;
         set => CurrentHealth = Mathf.Clamp01(value) * MaxHealth;
     }
-    
-    private bool _isHitReactionEnabled;
+   
     private Coroutine _hitReactionCoroutine;
     
-    public bool IsHitReactionEnabled
-    {
-        get
-        {
-            if (_isHitReactionEnabled)
-            {
-                _isHitReactionEnabled = false;
-                return true;
-            }
-            return false;
-        }
-        set{}
-    }
+    public bool IsHitReactionEnabled { get; set; }
     
     public bool IsDestroyed { get; set; }
     public Dictionary<DamageTypes, int> DamageResistances { get; set; } = new();
@@ -134,7 +121,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
     
         Debug.Log($"[Health] Hit reaction ENABLED at {Time.frameCount}");
         OnHitReaction?.Invoke(true);
-        _isHitReactionEnabled = true;
+        IsHitReactionEnabled = true;
         _hitReactionCoroutine = StartCoroutine(ResetHitReactionAfterDelay());
     }
 
@@ -142,7 +129,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
     {
         yield return new WaitForSeconds(HitReactionTime);
         
-        _isHitReactionEnabled = false;
+        IsHitReactionEnabled = false;
         OnHitReaction?.Invoke(false);
         _hitReactionCoroutine = null;
     }
@@ -161,11 +148,11 @@ public class HealthComponent : MonoBehaviour, IDamageable
         }
         StopCoroutine(_hitReactionCoroutine);
         _hitReactionCoroutine = null;
-        if (!_isHitReactionEnabled)
+        if (!IsHitReactionEnabled)
         {
             return;
         }
-        _isHitReactionEnabled = false;
+        IsHitReactionEnabled = false;
         OnHitReaction?.Invoke(false);
     }
 }

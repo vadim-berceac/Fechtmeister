@@ -90,15 +90,14 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
         _projectileController = null;
     }
 
-    public void Shot(int accuracy)
+    public void Shot()
     {
         if (_projectileController == null) return;
 
         _projectileController.transform.SetParent(null);
         _projectileController.Launch(
             _characterCore.LocomotionSettings.CharacterCollider,
-            _characterCore.AimTargetTransform,
-            accuracy
+            _characterCore.AimTargetTransform
         );
 
         SetProjectileLoaded(false);

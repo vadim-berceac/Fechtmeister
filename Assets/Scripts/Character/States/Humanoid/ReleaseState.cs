@@ -28,6 +28,6 @@ public class ReleaseState : State
     {
         base.EnterState(character);
         character.SetAnimationByWeaponIndex(this);
-        character.Inventory.ProjectileSystem.Shot(character.PresetLoader.CharacterPersonalityData.AccuracySettings.ShootingAccuracy);
+        character.Inventory.ProjectileSystem.Shot();
     }
 }

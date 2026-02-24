@@ -19,8 +19,8 @@ MonoBehaviour:
     <PreferredDistance>k__BackingField: 0
     <HitBoxSize>k__BackingField: {x: 0.1, y: 0.1, z: 0.3}
     <HitBoxForwardOffset>k__BackingField: 0.3
-    <WhooshSounds>k__BackingField: {fileID: 0}
-    <HitSounds>k__BackingField: {fileID: 0}
+    <WhooshSounds>k__BackingField: {fileID: 11400000, guid: abce1e46dad211542ae293c7b3b465ed, type: 2}
+    <HitSounds>k__BackingField: {fileID: 11400000, guid: 6c40010efa1c0cb489d6eb7d96532e3b, type: 2}
     <WastingCharges>k__BackingField:
       <WastingCharges>k__BackingField: 0
       <ChargesPerUse>k__BackingField: 0
@@ -39,8 +39,6 @@ MonoBehaviour:
   <EquippedModelPrefab>k__BackingField: {fileID: 6651120253240216896, guid: 731efbc3ec282a24081648521b8a22bb, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 4008575852445660223, guid: 33c21e9d0e12ba04ea767b2dbad21db0, type: 3}
   <SpawnSound>k__BackingField: {fileID: 8300000, guid: 9daf4e1918ba3a24c9c1cfdc0c823e4d, type: 3}
-  <FlySound>k__BackingField: {fileID: 8300000, guid: 673633e3bfd998e48815b82d2a8dec2a, type: 3}
-  <ImpactSound>k__BackingField: {fileID: 8300000, guid: 9fc70ac313918db4ba82d055ccd61fe4, type: 3}
   <TrailPrefab>k__BackingField: {fileID: 3417348039576045214, guid: 8a530ee1f0ae31c4eb5d66e43ee66070, type: 3}
   <BoneData>k__BackingField:
   - <UseBone>k__BackingField: 1

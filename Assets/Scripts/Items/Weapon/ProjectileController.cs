@@ -12,7 +12,7 @@ public class ProjectileController : MonoBehaviour
     private readonly Collider[] _threatResults = new Collider[10];
     private bool _stuck;
     private bool _threatNotified;
-    private AudioSource _audioSource; // ✅
+    private AudioSource _audioSource;
 
     private const float ThreatDetectionRadius = 10f;
     private LayerMask _characterLayerMask;
@@ -26,7 +26,7 @@ public class ProjectileController : MonoBehaviour
 
         if (_characterLayerMask == 0)
             _characterLayerMask = LayerMask.GetMask("Character");
-        
+
         PlaySound(_audioSource, _data.SpawnSound, _transform);
     }
 
@@ -36,7 +36,7 @@ public class ProjectileController : MonoBehaviour
         _weaponData = weaponData;
     }
 
-    public void Launch(Collider parent, Transform aimTargetTransform, int accuracy)
+    public void Launch(Collider parent, Transform aimTargetTransform)
     {
         _parent = parent;
         _parentHealth = parent.GetComponentInParent<HealthComponent>();
@@ -44,62 +44,36 @@ public class ProjectileController : MonoBehaviour
         _transform.parent = null;
 
         if (_data.TrailPrefab != null)
-        {
             _trail = Instantiate(_data.TrailPrefab, _transform);
-        }
 
         var direction = (aimTargetTransform.position - _transform.position).normalized;
-        var spreadAngle = _data.LaunchSettings.MaxSpreadAngles * (1f - accuracy / 100f);
-        var randomCircle = Random.insideUnitCircle.normalized;
 
-        var right = Vector3.Cross(direction, Vector3.up).normalized;
-        if (right == Vector3.zero)
-            right = Vector3.Cross(direction, Vector3.forward).normalized;
-
-        var up = Vector3.Cross(right, direction).normalized;
-        var offsetDir = (right * randomCircle.x + up * randomCircle.y).normalized;
-        var spreadRotation = Quaternion.AngleAxis(Random.Range(0f, spreadAngle), offsetDir);
-        var finalDirection = (spreadRotation * direction).normalized;
-
-        _velocity = finalDirection * _data.WeaponParams.AttackSpeed;
-        _transform.rotation = Quaternion.LookRotation(finalDirection);
+        _velocity = direction * _data.WeaponParams.AttackSpeed;
+        _transform.rotation = Quaternion.LookRotation(direction);
 
         Destroy(gameObject, _data.LaunchSettings.Lifetime);
 
         PlayFlySound();
     }
-    
+
     private void PlayFlySound()
     {
-        if (_data.FlySound == null) return;
+        if (_data.WeaponParams.WhooshSounds== null) return;
 
-        _audioSource.clip = _data.FlySound;
+        _audioSource.clip = _data.WeaponParams.WhooshSounds.GetRandomClip();
         _audioSource.loop = true;
         _audioSource.volume = 0.2f;
         _audioSource.spatialBlend = 1f;
         _audioSource.rolloffMode = AudioRolloffMode.Custom;
-        _audioSource.minDistance = 1f;   
-        _audioSource.maxDistance = 30f;  
+        _audioSource.minDistance = 1f;
+        _audioSource.maxDistance = 30f;
         _audioSource.SetCustomCurve(
             AudioSourceCurveType.CustomRolloff,
-            AnimationCurve.EaseInOut(0f, 1f, 1f, 0f) 
+            AnimationCurve.EaseInOut(0f, 1f, 1f, 0f)
         );
         _audioSource.Play();
     }
-    
-    // private void PlayImpactSound()
-    // {
-    //     if (_audioSource != null)
-    //     {
-    //         _audioSource.Stop();
-    //         _audioSource.loop = false;
-    //     }
-    //
-    //     if (_data.ImpactSound == null) return;
-    //
-    //     AudioSource.PlayClipAtPoint(_data.ImpactSound, _transform.position);
-    // }
-    
+
     private static void PlaySound(AudioSource audioSource, AudioClip clip, Transform pos)
     {
         if (audioSource != null)
@@ -195,9 +169,9 @@ public class ProjectileController : MonoBehaviour
 
         var closest = hit.ClosestPoint(_transform.position);
         _transform.position = closest - hitDirection * _data.LaunchSettings.StickOffset;
-        
-        PlaySound(_audioSource, _data.ImpactSound, _transform);
-        
+
+        PlaySound(_audioSource, _data.WeaponParams.HitSounds.GetRandomClip(), _transform);
+
         if (_trail) _trail.SetActive(false);
 
         if (damaged == null) return;
