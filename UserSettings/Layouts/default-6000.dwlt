@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2048
     height: 1079.2001
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -428,9 +428,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 74f40000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: e4f9ffff
+      m_ExpandedIDs: e0faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -521,7 +521,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 354}
     m_SelectedIDs: 6cda0200
     m_LastClickedID: 186988
-    m_ExpandedIDs: 0000000012fe000014fe000016fe000018fe00001afe00001cfe00001efe000020fe000022fe0000
+    m_ExpandedIDs: 00000000b6fd0000b8fd0000bafd0000bcfd0000befd0000c0fd0000c2fd0000c4fd0000c6fd0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -550,7 +550,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000012fe000014fe000016fe000018fe00001afe00001cfe00001efe000020fe000022fe0000
+    m_ExpandedIDs: 00000000b6fd0000b8fd0000bafd0000bcfd0000befd0000c0fd0000c2fd0000c4fd0000c6fd0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -650,7 +650,7 @@ MonoBehaviour:
     m_CachedPref: 151
     m_ControlHash: 1412526313
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 40062
+  m_LastInspectedObjectInstanceID: 66714
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -759,7 +759,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 66}
     m_SelectedIDs: 3e640100
     m_LastClickedID: 91198
-    m_ExpandedIDs: 0000000012fe000014fe000016fe000018fe00001afe00001cfe00001efe000020fe000022fe0000
+    m_ExpandedIDs: 00000000b6fd0000b8fd0000bafd0000bcfd0000befd0000c0fd0000c2fd0000c4fd0000c6fd0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -788,7 +788,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000012fe000014fe000016fe000018fe00001afe00001cfe00001efe000020fe000022fe0000
+    m_ExpandedIDs: 00000000b6fd0000b8fd0000bafd0000bcfd0000befd0000c0fd0000c2fd0000c4fd0000c6fd0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1518,7 +1518,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/GameData/Items/Projectiles
+    - Assets/Scripts/Character/States/Humanoid/SubStates
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1528,16 +1528,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Resources/GameData/Items/Projectiles
+  - Assets/Scripts/Character/States/Humanoid/SubStates
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\GitHub\Fechtmeister
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 888.4}
-    m_SelectedIDs: ac2e0100
-    m_LastClickedID: 77484
-    m_ExpandedIDs: 0000000012fe000014fe000016fe000018fe00001afe00001cfe00001efe000020fe000022fe000078010100a0010100a80101006c22010086220100882201001e28010020280100402801006228010064280100522a01006c2a010000ca9a3b
+    scrollPos: {x: 0, y: 728.4}
+    m_SelectedIDs: 26040100
+    m_LastClickedID: 66598
+    m_ExpandedIDs: 00000000b6fd0000b8fd0000bafd0000bcfd0000befd0000c0fd0000c2fd0000c4fd0000c6fd00004a010100520101005c0101005e010100f8030100120401001e04010000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1566,7 +1566,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000012fe000014fe000016fe000018fe00001afe00001cfe00001efe000020fe000022fe0000
+    m_ExpandedIDs: 00000000b6fd0000b8fd0000bafd0000bcfd0000befd0000c0fd0000c2fd0000c4fd0000c6fd0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
