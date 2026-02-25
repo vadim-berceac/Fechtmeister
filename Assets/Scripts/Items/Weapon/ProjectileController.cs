@@ -46,10 +46,47 @@ public class ProjectileController : MonoBehaviour
         if (_data.TrailPrefab != null)
             _trail = Instantiate(_data.TrailPrefab, _transform);
 
-        var direction = (aimTargetTransform.position - _transform.position).normalized;
+        var targetPos = aimTargetTransform.position;
+        var displacement = targetPos - _transform.position;
+        var upDir = Vector3.up;
+        var horizontal = displacement - Vector3.Project(displacement, upDir);
+        var d = horizontal.magnitude;
+        var h = Vector3.Dot(displacement, upDir);
+        var v = _data.WeaponParams.AttackSpeed;
+        var g = -_data.LaunchSettings.Gravity; 
 
-        _velocity = direction * _data.WeaponParams.AttackSpeed;
-        _transform.rotation = Quaternion.LookRotation(direction);
+        Vector3 launchDirection;
+        if (Mathf.Abs(g) < 0.01f || d < 0.01f)
+        {
+            launchDirection = displacement.normalized;
+        }
+        else
+        {
+            var a = (g * d * d) / (2 * v * v);
+            var b = -d;
+            var c = (g * d * d) / (2 * v * v) + h;
+            var discriminant = b * b - 4 * a * c;
+
+            if (discriminant < 0)
+            {
+                launchDirection = displacement.normalized;
+            }
+            else
+            {
+                var sqrtD = Mathf.Sqrt(discriminant);
+                var tanTheta1 = (-b + sqrtD) / (2 * a);
+                var tanTheta2 = (-b - sqrtD) / (2 * a);
+
+                var tanTheta = Mathf.Abs(tanTheta1) < Mathf.Abs(tanTheta2) ? tanTheta1 : tanTheta2;
+
+                var theta = Mathf.Atan(tanTheta);
+                var horizDir = horizontal.normalized;
+                launchDirection = horizDir * Mathf.Cos(theta) + upDir * Mathf.Sin(theta);
+            }
+        }
+
+        _velocity = launchDirection * v;
+        _transform.rotation = Quaternion.LookRotation(launchDirection);
 
         Destroy(gameObject, _data.LaunchSettings.Lifetime);
 
@@ -134,6 +171,7 @@ public class ProjectileController : MonoBehaviour
             if (hitHealth == _parentHealth) continue;
 
             damageable.OnDamageAttempt?.Invoke(_parent.transform);
+            break;
         }
 
         _threatNotified = true;

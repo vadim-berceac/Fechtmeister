@@ -22,7 +22,7 @@ public class GetHitState : State
     public override void EnterState(CharacterCore character)
     {
         base.EnterState(character);
-        Debug.Log($"{character.name} Entered GetHitState");
+        character.Health.IsHitReactionEnabled = false;
         var itemInstanceData = (WeaponData)character.Inventory.WeaponSystem.InstanceInHands?.EquppiedItemData;
         var animType = character.Inventory.IsWeaponOn ? itemInstanceData.AnimationType : 0;
         character.GraphCore.FullBodyAnimatorController.SetAnimationState(this, animType);
