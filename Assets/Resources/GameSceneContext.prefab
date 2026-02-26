@@ -113,9 +113,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6b5a9cadfdae94abe53e5362a9851c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneContainerPrefab: {fileID: 5353713140493449594, guid: 404b9a08983899748a9dbbc06e634338, type: 3}
-  updateSystemPrefab: {fileID: 1058465358048970329, guid: 8dc1e005dfd9d224d869e43151331ae3, type: 3}
   sceneInterfacePrefab: {fileID: 6561582354121653514, guid: e0d77a5ef1bcb20478e24510d5897fbc, type: 3}
+  statesContainer: {fileID: 11400000, guid: 77db23b965ed29b4a9bb7c88347e6af8, type: 2}
+  sceneCharacterContainer: {fileID: 11400000, guid: cfc834c8329bbc5449ec0b749d15e999, type: 2}
+  gameWindowContainer: {fileID: 11400000, guid: e5e71c9231dbf1f448eeff8402f87753, type: 2}
+  updateSystem: {fileID: 11400000, guid: ed20bca438c0da646b8b92db1058dee6, type: 2}
+  visionSystem: {fileID: 11400000, guid: a4b71a3ee87b4f44eac59930906d840c, type: 2}
 --- !u!114 &291068911580769870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,8 +131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbab190f61692e47bd8b6286c95b866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5723462628442055753, guid: e3d35347d0e559b48bd8694438397cd4, type: 3}
-  prefab1: {fileID: 1236556745925984725, guid: afd11a5ca2b8d9448b5d1f54c1a1eef0, type: 3}
+  pointGrassWind: {fileID: 11400000, guid: 1feaaf438e9c2d84bba3474d1e9aee6a, type: 2}
+  pointGrassDisplacementManager: {fileID: 11400000, guid: 7098f964a8e24b04f8801c37c510654b, type: 2}
 --- !u!114 &-8851382270737187299
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,9 +1,8 @@
 using System.Linq;
-using Unity.Burst;
 using UnityEngine;
 
-[BurstCompile]
-public class StatesContainer : MonoBehaviour
+[CreateAssetMenu(fileName = "StatesContainer", menuName = "Zenject/StatesContainer")]
+public class StatesContainer : ScriptableObject
 {
    [field: SerializeField] private AvatarMasksSettings avatarMasksSettings;
    [field: SerializeField] private StatesSet[] statesSets;

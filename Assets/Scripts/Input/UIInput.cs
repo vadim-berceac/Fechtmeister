@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
-public class UIInput : MonoBehaviour, IUIInputSet
+[CreateAssetMenu(fileName = "UIInput", menuName = "Zenject/UIInput")]
+public class UIInput : ScriptableObject
 {
    [SerializeField] private InputActionAsset inputActionAsset;
    [SerializeField] private UIActionsNames uiActionsNames;
@@ -26,7 +28,8 @@ public class UIInput : MonoBehaviour, IUIInputSet
    public event Action<Vector2> OnPoint;
    public event Action<Vector2> OnScrollWheelValue;
 
-   private void Awake()
+   [Inject]
+   private void Construct()
    {
       FindActions();
       Enable();

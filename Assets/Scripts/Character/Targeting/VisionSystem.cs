@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class VisionSystem : ManagedUpdatableObject
+[CreateAssetMenu(fileName = "VisionSystem", menuName = "Zenject/VisionSystem")]
+public class VisionSystem: ScriptableObject, ITickable
 {
     [Header("Vision Settings")]
     [SerializeField] private float _defaultVisionRadius = 15f;
@@ -28,72 +29,59 @@ public class VisionSystem : ManagedUpdatableObject
         _characterContainer = characterContainer;
         _spatialGrid = new SpatialGrid(_cellSize);
         
+        _updateTimer = 0f;
+        _updateCounter = 0;
+        _gridDirty = true;
+    
         if (_enableDebug)
             Debug.Log("[VisionSystem] Constructed and initialized");
     }
-    
-    public override void OnManagedUpdate()
+
+    public void Tick()
     {
         _updateTimer += Time.deltaTime;
         
         if (_updateTimer >= _updateInterval)
         {
             _updateTimer = 0f;
-            _gridDirty = true; // Помечаем что нужно обновить
+            _gridDirty = true; 
         }
     }
     
     private void UpdateSpatialGrid()
     {
         _spatialGrid.Clear();
-        
+    
         var characters = _characterContainer.GetCharacters();
-        
-        if (_enableDebug && _updateCounter % 10 == 0)
-        {
-            Debug.Log($"[VisionSystem] Grid update #{_updateCounter}. Total characters: {characters.Count}");
-        }
-        
+    
         foreach (var kvp in characters)
         {
             var character = kvp.Value;
-            if (character?.Core?.transform == null)
-            {
-                if (_enableDebug)
-                    Debug.LogWarning($"[VisionSystem] Character has null Core or Transform!");
-                continue;
-            }
-            
+        
+            if (character == null || character.Core == null) continue;
+            if (!character.Core) continue; // Unity == null для destroyed объектов
+        
             var position = character.Core.transform.position;
             _spatialGrid.Add(position, character);
-            
-            if (_enableDebug && _updateCounter % 10 == 0)
-            {
-                Debug.Log($"  - {character.Name} ({character.Faction?.Name ?? "NULL_FACTION"}) at {position}");
-            }
         }
-        
+    
         _updateCounter++;
         _gridDirty = false;
     }
-    
-    // Обновляем сетку перед использованием, если она устарела
+   
     private void EnsureGridUpdated()
     {
-        if (_gridDirty)
-        {
+        if (_gridDirty && _spatialGrid != null && _characterContainer != null)
             UpdateSpatialGrid();
-        }
     }
-    
-    // Найти ближайшего ВРАЖДЕБНОГО и ЖИВОГО персонажа в поле зрения
+ 
     public CharacterInfo GetClosestHostileCharacter(
         CharacterInfo observer, 
         float? visionRadius = null,
         float? visionAngle = null,
         bool checkLineOfSight = true)
     {
-        EnsureGridUpdated(); // Обновляем сетку перед поиском
+        EnsureGridUpdated(); 
         
         if (observer == null)
         {
@@ -139,21 +127,11 @@ public class VisionSystem : ManagedUpdatableObject
         foreach (var character in nearbyCharacters)
         {
             if (character == observer) continue;
-            
-            if (character?.Faction == null)
-            {
-                if (_enableDebug)
-                    Debug.LogWarning($"[VisionSystem] Character {character?.Name ?? "NULL"} has NULL Faction!");
-                continue;
-            }
-            
-            // Проверка на живую цель
-            if (character.Health == null || character.Health.IsDestroyed)
-            {
-                if (_enableDebug)
-                    Debug.Log($"[VisionSystem]   Skipping {character.Name} - dead or no health component");
-                continue;
-            }
+    
+            if (character == null || !character.Core) continue;
+    
+            if (character?.Faction == null) continue;
+            if (character.Health == null || character.Health.IsDestroyed) continue;
             
             bool isHostile = observerFaction.IsHostileTo(character.Faction);
             
@@ -488,10 +466,7 @@ public class SpatialGrid
     
     public void Clear()
     {
-        foreach (var cell in _grid.Values)
-        {
-            cell.Clear();
-        }
+        _grid.Clear(); 
     }
     
     public void Add(Vector3 position, CharacterInfo character)
