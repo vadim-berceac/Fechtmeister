@@ -22,8 +22,6 @@ public partial class AttackTargetAction : Action
     private bool _isRangedWeapon;
     private bool _isAiming;
     private bool _aimBlockActivated;
-    private bool _shotFired;
-    private int _releaseBlockFrame;
     private float _lastAttackTime = -999f;
     private float _aimStartTime;
     private const float CooldownBuffer = 0.1f;
@@ -41,8 +39,6 @@ public partial class AttackTargetAction : Action
     
         _isAiming = false;
         _aimBlockActivated = false;
-        _shotFired = false;
-        _releaseBlockFrame = -1;
         _aimStartTime = 0f;
 
         return Status.Running;
@@ -65,31 +61,19 @@ public partial class AttackTargetAction : Action
         var targetPos = targetTransform.position;
         var distance = (currentPos - targetPos).magnitude;
     
-        if (!_isAiming && !_shotFired)
-        {
-            var followStatus = CheckFollowing(distance);
-            if (followStatus == Status.Failure)
-            {
-                SetAttackingFlag(false);
-                return Status.Failure;
-            }
-        }
-    
         RotateToTarget(targetPos, currentPos);
     
-        if (_isAiming || _shotFired)
+        if (_isAiming)
         {
             SetAttackingFlag(true);
             HandleAiming();
             _inputSystem.SimulateMove(Vector2.zero);
-            LevelTransform(_selfTransform);
             return Status.Running;
         }
     
         SetAttackingFlag(false);
-        HandlePositioning(targetPos, currentPos, distance);
+        HandlePositioning(distance);
         CheckAttackConditions();
-        LevelTransform(_selfTransform);
     
         return Status.Running;
     }
@@ -108,25 +92,14 @@ public partial class AttackTargetAction : Action
             _aimBlockActivated = true;
         }
         
-        float aimDuration = Time.time - _aimStartTime;
+        var aimDuration = Time.time - _aimStartTime;
         
-        if (aimDuration >= AimTime.Value && !_shotFired)
+        if (aimDuration < AimTime.Value)
         {
-            _inputSystem.SimulateAttack();
-            _shotFired = true;
-            _releaseBlockFrame = Time.frameCount + 2;
-            _lastAttackTime = Time.time;
             return;
         }
-        
-        if (_shotFired && Time.frameCount >= _releaseBlockFrame)
-        {
-            _inputSystem.SimulateBlock();
-            _aimBlockActivated = false;
-            _shotFired = false;
-            _isAiming = false;
-            _aimStartTime = 0f;
-        }
+        _inputSystem.SimulateAttack();
+        _lastAttackTime = Time.time;
     }
 
     private Status CheckTarget()
@@ -138,17 +111,6 @@ public partial class AttackTargetAction : Action
             return Status.Success;
         }
         return Status.Failure;
-    }
-
-    private Status CheckFollowing(float distance)
-    {
-        if (distance > _attackRange * 1.2f)
-        {
-            _inputSystem.SimulateMove(Vector2.zero);
-            StopAiming();
-            return Status.Failure;
-        }
-        return Status.Success;
     }
 
     private void RotateToTarget(Vector3 targetPos, Vector3 currentPos)
@@ -167,7 +129,7 @@ public partial class AttackTargetAction : Action
         );
     }
 
-    private void HandlePositioning(Vector3 targetPos, Vector3 currentPos, float distance)
+    private void HandlePositioning(float distance)
     {
         if (distance > _attackRange * 0.9f)
         {
@@ -188,7 +150,7 @@ public partial class AttackTargetAction : Action
         if (_isAiming)
             return;
         
-        float effectiveCooldown = _isRangedWeapon 
+        var effectiveCooldown = _isRangedWeapon 
             ? AttackCooldown.Value + CooldownBuffer 
             : AttackCooldown.Value;
         
@@ -225,18 +187,9 @@ public partial class AttackTargetAction : Action
             _aimBlockActivated = false;
         }
         _isAiming = false;
-        _shotFired = false;
         _aimStartTime = 0f;
     }
-
-    private void LevelTransform(Transform transform)
-    {
-        var euler = transform.eulerAngles;
-        euler.x = 0;
-        euler.z = 0;
-        transform.eulerAngles = euler;
-    }
-
+    
     protected override void OnEnd()
     {
         if (_inputSystem != null)
