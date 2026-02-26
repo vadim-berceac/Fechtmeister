@@ -22,16 +22,14 @@ namespace MicahW.PointGrass {
 
         [Inject]
         private void Construct() {
-            if (instance != null) { Destroy(this); }
-            else {
-                instance = this;
+            instance = this;
 
-                objectsBuffer = new ComputeBuffer(maxDisplacerCount, ObjectData.stride);
-                displacers = new List<PointGrassDisplacer>();
+            objectsBuffer = new ComputeBuffer(maxDisplacerCount, ObjectData.stride);
+            displacers = new List<PointGrassDisplacer>();
 
-                OnInitialize?.Invoke(this);
-            }
+            OnInitialize?.Invoke(this);
         }
+        
         private void OnDisable() {
             if (instance == this) {
                 instance = null;
