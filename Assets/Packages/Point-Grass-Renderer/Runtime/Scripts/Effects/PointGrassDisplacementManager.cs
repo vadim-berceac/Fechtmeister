@@ -1,13 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
+using Zenject;
 
 namespace MicahW.PointGrass {
     using static PointGrassCommon;
 
-    public class PointGrassDisplacementManager : MonoBehaviour {
+    [CreateAssetMenu(fileName = "PointGrassDisplacementManager", menuName = "Zenject/PointGrassDisplacementManager")]
+    public class PointGrassDisplacementManager : ScriptableObject, ILateTickable {
         public static PointGrassDisplacementManager instance;
 
         private ComputeBuffer objectsBuffer;
@@ -19,7 +20,8 @@ namespace MicahW.PointGrass {
         public delegate void DisplacementDelegate(PointGrassDisplacementManager manager);
         public static event DisplacementDelegate OnInitialize;
 
-        private void Awake() {
+        [Inject]
+        private void Construct() {
             if (instance != null) { Destroy(this); }
             else {
                 instance = this;
@@ -39,7 +41,7 @@ namespace MicahW.PointGrass {
             }
         }
 
-        private void LateUpdate() { UpdateBuffer(); }
+        public void LateTick() { UpdateBuffer(); }
 
         // Update the compute buffer with the displacers' data
         private void UpdateBuffer() {

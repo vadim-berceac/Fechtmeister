@@ -3,9 +3,12 @@ using Zenject;
 
 public class UIInputInstaller : MonoInstaller
 {
-    [SerializeField] private GameObject uiInputPrefab;
+    [SerializeField] private UIInput uiInput;
     public override void InstallBindings()
     {
-        Container.BindInterfacesTo<IUIInputSet>().FromComponentInNewPrefab(uiInputPrefab).AsSingle().NonLazy();
+        Container.BindInterfacesTo<UIInput>()
+            .FromScriptableObject(uiInput)
+            .AsSingle()
+            .NonLazy();
     }
 }

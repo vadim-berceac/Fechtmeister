@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SceneCharacterContainer : MonoBehaviour
+[CreateAssetMenu(fileName = "SceneCharacterContainer", menuName = "Zenject/SceneCharacterContainer")]
+public class SceneCharacterContainer : ScriptableObject
 {
    private readonly Dictionary<Collider, CharacterInfo> _chars = new ();
    private CharacterInfo _currentCharacter;

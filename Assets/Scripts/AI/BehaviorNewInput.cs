@@ -135,6 +135,7 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
 
     protected override void OnDisable()
     {
+        CentralizedUpdateSystem.Instance.Unregister(this);
         Unsubscribe();
     }
 }

@@ -1,12 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameWindowContainer : MonoBehaviour
+[CreateAssetMenu(fileName = "GameWindowContainer", menuName = "Zenject/GameWindowContainer")]
+public class GameWindowContainer : ScriptableObject
 {
-    public HashSet<IGameWindow> GameWindows { get; set; }
-
-    private void Awake()
-    {
-        GameWindows = new HashSet<IGameWindow>();
-    }
+    public HashSet<IGameWindow> GameWindows { get; private set; } = new HashSet<IGameWindow>();
 }

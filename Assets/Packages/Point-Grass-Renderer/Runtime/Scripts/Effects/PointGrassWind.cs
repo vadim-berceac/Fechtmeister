@@ -1,12 +1,13 @@
 using UnityEngine;
+using Zenject;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 namespace MicahW.PointGrass {
-    
-    [ExecuteAlways]
-    public class PointGrassWind : MonoBehaviour {
+   
+    [CreateAssetMenu(fileName = "PointGrassWind", menuName = "Zenject/PointGrassWind")]
+    public class PointGrassWind : ScriptableObject, ILateTickable {
         [Tooltip("The scale of the sampled noise")] 
         public float windScale = 1f;
         
@@ -42,7 +43,8 @@ namespace MicahW.PointGrass {
         private float editorUpdateAccumulator = 0f;
 #endif
 
-        private void Awake() {
+        [Inject]
+        private void Construct() {
             InitializeShaderIDs();
         }
 
@@ -91,7 +93,7 @@ namespace MicahW.PointGrass {
         }
 #endif
 
-        private void LateUpdate() {
+        public void LateTick() {
 #if UNITY_EDITOR
             if (!Application.isPlaying) return;
 #endif
@@ -111,9 +113,11 @@ namespace MicahW.PointGrass {
             currentNoisePosition.x += windScroll.x * deltaTime;
             currentNoisePosition.y += windScroll.y * deltaTime;
             currentNoisePosition.z += windScroll.z * deltaTime;
-            
+    
+            needsUpdate = true; 
+    
             CheckForChanges();
-            
+    
             if (needsUpdate) {
                 UpdateShaderProperties();
                 needsUpdate = false;
@@ -182,20 +186,5 @@ namespace MicahW.PointGrass {
             currentNoisePosition = Vector3.zero;
             needsUpdate = true;
         }
-
-#if UNITY_EDITOR
-        private void OnDrawGizmosSelected() {
-            Gizmos.color = Color.cyan;
-            Vector3 start = transform.position;
-            Vector3 end = start + windDirection.normalized * 5f;
-            Gizmos.DrawLine(start, end);
-            Gizmos.DrawSphere(end, 0.2f);
-            
-            // Визуализация скорости прокрутки
-            Gizmos.color = Color.yellow;
-            Vector3 scrollEnd = start + windScroll.normalized * 3f;
-            Gizmos.DrawLine(start, scrollEnd);
-        }
-#endif
     }
 }

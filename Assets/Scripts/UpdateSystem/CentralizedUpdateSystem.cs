@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class CentralizedUpdateSystem : MonoBehaviour
+[CreateAssetMenu(fileName = "CentralizedUpdateSystem", menuName = "Zenject/CentralizedUpdateSystem")]
+public class CentralizedUpdateSystem : ScriptableObject, ITickable, IFixedTickable, ILateTickable
 {
     public static CentralizedUpdateSystem Instance { get; private set; }
 
@@ -33,20 +35,16 @@ public class CentralizedUpdateSystem : MonoBehaviour
     private int lodUpdateInterval = 10;
     private int lodUpdateCounter = 0;
 
-    private void Awake()
+    [Inject]
+    private void Construct()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
         Instance = this;
 
         if (mainCamera == null)
             mainCamera = Camera.main;
     }
 
-    private void Update()
+    public void Tick()
     {
         frameCounter++;
         lodUpdateCounter++;
@@ -81,7 +79,7 @@ public class CentralizedUpdateSystem : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    public void FixedTick()
     {
         updateBuffer.Clear();
         updateBuffer.AddRange(allObjects);
@@ -103,7 +101,7 @@ public class CentralizedUpdateSystem : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
+    public void LateTick()
     {
         updateBuffer.Clear();
         updateBuffer.AddRange(allObjects);
