@@ -12,12 +12,14 @@ public class SceneCamera : MonoBehaviour, IInputHandler
     public Transform Target { get; private set; }
     private float _targetYaw;
     private float _targetPitch;
+    private float _baseYaw;
     public IInputSet InputSet { get; private set; }
     public bool HasTarget { get; private set; }
     public Action OnTargetChanged;
 
     private CameraMode _currentMode;
     private CameraSettings _currentSettings;
+    
 
     private const int HighPriority = 10;
     private const int LowPriority = 0;
@@ -72,7 +74,12 @@ public class SceneCamera : MonoBehaviour, IInputHandler
             _targetYaw += value.x * _currentSettings.RotationCoefficient;
             _targetPitch += value.y * _currentSettings.RotationCoefficient;
         }
-        _targetYaw = _targetYaw.ClampAngle(float.MinValue, float.MaxValue);
+
+        // Клэмп Yaw относительно базового направления
+        var relativeYaw = Mathf.DeltaAngle(_baseYaw, _targetYaw);
+        relativeYaw = Mathf.Clamp(relativeYaw, _currentSettings.LeftClamp, _currentSettings.RightClamp);
+        _targetYaw = _baseYaw + relativeYaw;
+
         _targetPitch = _targetPitch.ClampAngle(_currentSettings.BottomClamp, _currentSettings.TopClamp);
         _trackingTarget.transform.localRotation = Quaternion.Euler(_targetPitch, _targetYaw, 0.0f);
     }
@@ -125,6 +132,11 @@ public class SceneCamera : MonoBehaviour, IInputHandler
             case CameraMode.AimCamera:
                 SetPriorities(scene: LowPriority, character: LowPriority, aim: HighPriority);
                 _currentSettings = SceneCameraData.AimCameraSettings;
+                _baseYaw = Target != null ? Target.eulerAngles.y : 0f;
+                var relativeYaw = Mathf.DeltaAngle(_baseYaw, _targetYaw);
+                relativeYaw = Mathf.Clamp(relativeYaw, _currentSettings.LeftClamp, _currentSettings.RightClamp);
+                _targetYaw = _baseYaw + relativeYaw;
+    
                 _sight.Enable();
                 break;
 
@@ -175,6 +187,8 @@ public struct CameraSettings
     [field: SerializeField] public Vector3 TrackedTargetOffset { get; private set; }
     [field: SerializeField] public float TopClamp { get; private set; }
     [field: SerializeField] public float BottomClamp { get; private set; }
+    [field: SerializeField] public float LeftClamp { get; private set; }   
+    [field: SerializeField] public float RightClamp { get; private set; } 
     [field: SerializeField] public float RotationCoefficient { get; private set; }
     [field: SerializeField] public float Threshold { get; private set; }
 }

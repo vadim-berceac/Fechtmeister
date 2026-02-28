@@ -665,17 +665,23 @@ MonoBehaviour:
       <TrackedTargetOffset>k__BackingField: {x: 0, y: 0, z: 0}
       <TopClamp>k__BackingField: 0
       <BottomClamp>k__BackingField: 0
+      <LeftClamp>k__BackingField: 0
+      <RightClamp>k__BackingField: 0
       <RotationCoefficient>k__BackingField: 0
       <Threshold>k__BackingField: 0
     <FollowCameraSettings>k__BackingField:
       <TrackedTargetOffset>k__BackingField: {x: 0, y: 1.5, z: 0}
       <TopClamp>k__BackingField: 45
       <BottomClamp>k__BackingField: -35
+      <LeftClamp>k__BackingField: -180
+      <RightClamp>k__BackingField: 180
       <RotationCoefficient>k__BackingField: 0.15
       <Threshold>k__BackingField: 1
     <AimCameraSettings>k__BackingField:
       <TrackedTargetOffset>k__BackingField: {x: 0, y: 1.5, z: 0}
       <TopClamp>k__BackingField: 45
       <BottomClamp>k__BackingField: -35
+      <LeftClamp>k__BackingField: -90
+      <RightClamp>k__BackingField: 90
       <RotationCoefficient>k__BackingField: 0.15
       <Threshold>k__BackingField: 1
