@@ -10,12 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 66256069008041927}
   - component: {fileID: 5808856922441684180}
-  - component: {fileID: 4551602330415097794}
-  - component: {fileID: 7346068460212153896}
   - component: {fileID: 9094241518684076676}
   - component: {fileID: 291068911580769870}
-  - component: {fileID: -8851382270737187299}
-  - component: {fileID: 310683302482131105}
   m_Layer: 0
   m_Name: GameSceneContext
   m_TagString: Untagged
@@ -52,12 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 4551602330415097794}
-  - {fileID: 7346068460212153896}
   - {fileID: 9094241518684076676}
   - {fileID: 291068911580769870}
-  - {fileID: -8851382270737187299}
-  - {fileID: 310683302482131105}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -75,32 +67,6 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
---- !u!114 &4551602330415097794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9170412857184828969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1d56f777692b7449b58747f3c7b32e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 4591585380972699952, guid: 2fffb37cd4b252f48b3182cae37038f6, type: 3}
---- !u!114 &7346068460212153896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9170412857184828969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b540ff100669904e88dc7d694833de4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 7247451778068900314, guid: 39e3c4e866b38414496cbb68e08827c9, type: 3}
 --- !u!114 &9094241518684076676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +79,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6b5a9cadfdae94abe53e5362a9851c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 7247451778068900314, guid: 39e3c4e866b38414496cbb68e08827c9, type: 3}
+  inputPrefab: {fileID: 4591585380972699952, guid: 2fffb37cd4b252f48b3182cae37038f6, type: 3}
   sceneInterfacePrefab: {fileID: 6561582354121653514, guid: e0d77a5ef1bcb20478e24510d5897fbc, type: 3}
   statesContainer: {fileID: 11400000, guid: 77db23b965ed29b4a9bb7c88347e6af8, type: 2}
   sceneCharacterContainer: {fileID: 11400000, guid: cfc834c8329bbc5449ec0b749d15e999, type: 2}
@@ -133,28 +101,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointGrassWind: {fileID: 11400000, guid: 1feaaf438e9c2d84bba3474d1e9aee6a, type: 2}
   pointGrassDisplacementManager: {fileID: 11400000, guid: 7098f964a8e24b04f8801c37c510654b, type: 2}
---- !u!114 &-8851382270737187299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9170412857184828969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6782c2b992ab1d440af9fad93688dc77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &310683302482131105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9170412857184828969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1ca3d0177a6c474380f1a49bfde198d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneContainerInstaller
-  _scriptableObject: {fileID: 11400000, guid: 414d0406e031ca644b67d3316a9d2494, type: 2}

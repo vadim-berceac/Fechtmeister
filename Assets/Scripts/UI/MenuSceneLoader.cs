@@ -1,18 +1,10 @@
 using UnityEngine;
-using Zenject;
+using UnityEngine.SceneManagement;
 
 public class MenuSceneLoader : MonoBehaviour
 {
-   private SceneContainer _sceneContainer;
-
-   [Inject]
-   private void Construct(SceneContainer sceneContainer)
-   {
-      _sceneContainer = sceneContainer;
-   }
-
    public void Load(string sceneName)
    {
-      _sceneContainer.LoadScene(sceneName);
+      SceneManager.LoadSceneAsync(sceneName);
    }
 }

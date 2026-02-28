@@ -74,34 +74,46 @@ public class UIInput : ScriptableObject
    
    public void Subscribe()
    {
-      _onSubmit.performed += OnSubmitCTX;
-      _onCancel.performed += OnCancelCTX;
-      _onLeftMouseClick.performed += OnLeftMouseClickCTX;
-      _onRightMouseClick.performed += OnRightMouseClickCTX;
+      if (_onSubmit != null) _onSubmit.performed += OnSubmitCTX;
+      if (_onCancel != null) _onCancel.performed += OnCancelCTX;
+      if (_onLeftMouseClick != null) _onLeftMouseClick.performed += OnLeftMouseClickCTX;
+      if (_onRightMouseClick != null) _onRightMouseClick.performed += OnRightMouseClickCTX;
       
-      _point.performed += OnPointCTX;
-      _point.canceled += OnPointCTXCancel;
+      if (_point != null)
+      {
+         _point.performed += OnPointCTX;
+         _point.canceled += OnPointCTXCancel;
+      }
       
-      _onScrollWheel.performed += OnOnScrollWheelCtx;
-      _onScrollWheel.canceled += OnOnScrollWheelValueCancel;
+      if (_onScrollWheel != null)
+      {
+         _onScrollWheel.performed += OnOnScrollWheelCtx;
+         _onScrollWheel.canceled += OnOnScrollWheelValueCancel;
+      }
       
-      _onPause.performed += OnOnPauseCtx;
+      if (_onPause != null) _onPause.performed += OnOnPauseCtx;
    }
 
    public void Unsubscribe()
    {
-      _onSubmit.performed -= OnSubmitCTX;
-      _onCancel.performed -= OnCancelCTX;
-      _onLeftMouseClick.performed -= OnLeftMouseClickCTX;
-      _onRightMouseClick.performed -= OnRightMouseClickCTX;
+      if (_onSubmit != null) _onSubmit.performed -= OnSubmitCTX;
+      if (_onCancel != null) _onCancel.performed -= OnCancelCTX;
+      if (_onLeftMouseClick != null) _onLeftMouseClick.performed -= OnLeftMouseClickCTX;
+      if (_onRightMouseClick != null) _onRightMouseClick.performed -= OnRightMouseClickCTX;
       
-      _point.performed -= OnPointCTX;
-      _point.canceled -= OnPointCTXCancel;
+      if (_point != null)
+      {
+         _point.performed -= OnPointCTX;
+         _point.canceled -= OnPointCTXCancel;
+      }
       
-      _onScrollWheel.performed -= OnOnScrollWheelCtx;
-      _onScrollWheel.canceled -= OnOnScrollWheelValueCancel;
+      if (_onScrollWheel != null)
+      {
+         _onScrollWheel.performed -= OnOnScrollWheelCtx;
+         _onScrollWheel.canceled -= OnOnScrollWheelValueCancel;
+      }
       
-      _onPause.performed -= OnOnPauseCtx;
+      if (_onPause != null) _onPause.performed -= OnOnPauseCtx;
    }
 
    private void OnSubmitCTX(InputAction.CallbackContext ctx)

@@ -20,5 +20,18 @@ public class AimState : State
     {
         base.EnterState(character);
         character.SetAnimationByWeaponIndex(this);
+        if (!character.IsAI)
+        {
+            character.SceneCamera.SetCameraMode(CameraMode.AimCamera);
+        }
+    }
+
+    public override void ExitState(CharacterCore character)
+    {
+        base.ExitState(character);
+        if (!character.IsAI)
+        {
+            character.SceneCamera.SetCameraMode(CameraMode.FollowCamera);
+        }
     }
 }

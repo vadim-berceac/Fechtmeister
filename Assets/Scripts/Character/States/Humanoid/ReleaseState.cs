@@ -29,5 +29,18 @@ public class ReleaseState : State
         base.EnterState(character);
         character.SetAnimationByWeaponIndex(this);
         character.Inventory.ProjectileSystem.Shot();
+        if (!character.IsAI)
+        {
+            character.SceneCamera.SetCameraMode(CameraMode.AimCamera);
+        }
+    }
+
+    public override void ExitState(CharacterCore character)
+    {
+        base.ExitState(character);
+        if (!character.IsAI)
+        {
+            character.SceneCamera.SetCameraMode(CameraMode.FollowCamera);
+        }
     }
 }

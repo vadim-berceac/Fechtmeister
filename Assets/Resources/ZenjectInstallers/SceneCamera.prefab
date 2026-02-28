@@ -126,8 +126,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2582769505473329116}
+  - component: {fileID: 8719864722744714413}
+  - component: {fileID: 7548921682110652336}
+  - component: {fileID: 4892694989019414838}
   m_Layer: 0
-  m_Name: CharacterAimCamera
+  m_Name: AimCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,6 +151,88 @@ Transform:
   m_Children: []
   m_Father: {fileID: 638580465376420295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8719864722744714413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595675617169912021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 40
+    OrthographicSize: 10
+    NearClipPlane: 0.1
+    FarClipPlane: 500
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 16
+--- !u!114 &7548921682110652336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595675617169912021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625c14eee3ad46c99df7c7c891ef668a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damping: {x: 0, y: 0.2, z: 2}
+  ShoulderOffset: {x: 0.25, y: 0.25, z: 0}
+  VerticalArmLength: 0
+  CameraSide: 1
+  CameraDistance: 1
+  AvoidObstacles:
+    Enabled: 1
+    CollisionFilter:
+      serializedVersion: 2
+      m_Bits: 1
+    IgnoreTag: Player
+    CameraRadius: 0.2
+    DampingIntoCollision: 0.15
+    DampingFromCollision: 0.5
+--- !u!114 &4892694989019414838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595675617169912021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineHardLookAt
+  LookAtOffset: {x: 0, y: -0.2, z: 0}
 --- !u!1 &1091217760459383577
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,11 +652,30 @@ MonoBehaviour:
   <SceneCameraData>k__BackingField:
     <MainCamera>k__BackingField: {fileID: 7352995877908432290}
     <CharacterCamera>k__BackingField: {fileID: 1066199408642122102}
+    <AimCamera>k__BackingField: {fileID: 2582769505473329116}
     <SceneCamera>k__BackingField: {fileID: 3160999561519942610}
     <MainCameraCam>k__BackingField: {fileID: 7046243721985195809}
+    <Brain>k__BackingField: {fileID: 45351579444235981}
+    <DefaultBlendTime>k__BackingField: 1.5
+    <FastBlendTime>k__BackingField: 0.3
+    <SceneCameraController>k__BackingField: {fileID: 6252199178133846124}
     <CharacterCameraController>k__BackingField: {fileID: 8875728143264652359}
-    <TrackedTargetOffset>k__BackingField: {x: 0, y: 1.5, z: 0}
-    <TopClamp>k__BackingField: 45
-    <BottomClamp>k__BackingField: -35
-    <RotationCoefficient>k__BackingField: 0.15
-    <Threshold>k__BackingField: 1
+    <AimCameraController>k__BackingField: {fileID: 8719864722744714413}
+    <SceneCameraSettings>k__BackingField:
+      <TrackedTargetOffset>k__BackingField: {x: 0, y: 0, z: 0}
+      <TopClamp>k__BackingField: 0
+      <BottomClamp>k__BackingField: 0
+      <RotationCoefficient>k__BackingField: 0
+      <Threshold>k__BackingField: 0
+    <FollowCameraSettings>k__BackingField:
+      <TrackedTargetOffset>k__BackingField: {x: 0, y: 1.5, z: 0}
+      <TopClamp>k__BackingField: 45
+      <BottomClamp>k__BackingField: -35
+      <RotationCoefficient>k__BackingField: 0.15
+      <Threshold>k__BackingField: 1
+    <AimCameraSettings>k__BackingField:
+      <TrackedTargetOffset>k__BackingField: {x: 0, y: 1.5, z: 0}
+      <TopClamp>k__BackingField: 45
+      <BottomClamp>k__BackingField: -35
+      <RotationCoefficient>k__BackingField: 0.15
+      <Threshold>k__BackingField: 1

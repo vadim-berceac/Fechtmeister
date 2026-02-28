@@ -6,7 +6,7 @@ public class UIInputInstaller : MonoInstaller
     [SerializeField] private UIInput uiInput;
     public override void InstallBindings()
     {
-        Container.BindInterfacesTo<UIInput>()
+        Container.Bind<UIInput>()
             .FromScriptableObject(uiInput)
             .AsSingle()
             .NonLazy();
