@@ -102,7 +102,7 @@ public class SceneCharacterContainer : ScriptableObject
 
    public void Add(CharacterInfo character)
    {
-      _chars.Add(character.Core.LocomotionSettings.CharacterCollider, character);
+      _chars.Add(character.Core.CapsuleCollider, character);
    }
 
    public void Remove(CharacterInfo character)

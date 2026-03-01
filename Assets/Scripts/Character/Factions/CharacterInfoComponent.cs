@@ -3,18 +3,17 @@ using Zenject;
 
 public class CharacterInfoComponent : MonoBehaviour
 {
-   [SerializeField] private CharacterInfoSettings characterInfoSettings;
    private SceneCharacterContainer _sceneCharacterContainer;
-   public CharacterInfo CharacterInfo { get; set; }
+   public CharacterInfo CharacterInfo { get; private set; }
 
    [Inject]
-   private void Construct(SceneCharacterContainer sceneCharacterContainer)
+   private void Construct(SceneCharacterContainer sceneCharacterContainer, CharacterPresetLoader characterPresetLoader,
+       HealthComponent healthComponent, CharacterCore characterCore)
    {
        _sceneCharacterContainer = sceneCharacterContainer;
        
-       CharacterInfo = new(characterInfoSettings.CharacterPresetLoader.CharacterPersonalityData.NamingSettings.CharacterName,
-           characterInfoSettings.CharacterPresetLoader.CharacterPersonalityData.Faction, characterInfoSettings.Core,
-           characterInfoSettings.Health);
+       CharacterInfo = new(characterPresetLoader.CharacterPersonalityData.NamingSettings.CharacterName,
+           characterPresetLoader.CharacterPersonalityData.Faction, characterCore, healthComponent);
    }
    
    private void OnEnable()
@@ -26,12 +25,4 @@ public class CharacterInfoComponent : MonoBehaviour
    {
        _sceneCharacterContainer.Remove(CharacterInfo);
    }
-}
-
-[System.Serializable]
-public struct CharacterInfoSettings
-{
-   [field: SerializeField] public CharacterPresetLoader CharacterPresetLoader { get; set; }
-   [field: SerializeField] public HealthComponent Health { get; set; }
-   [field: SerializeField] public CharacterCore Core { get; set; }
 }

@@ -131,8 +131,8 @@ public class InventoryButton : MonoBehaviour
         
         if (!CharacterInventory.WeaponSystem.Equip(
             _equppiedItemData as IEquppiedItemData, 
-            character.LocomotionSettings.CharacterCollider,
-            character.GraphCore.CoreData.Animator))
+            character.CapsuleCollider,
+            character.GraphCore.Animator))
         {
             return;
         }
@@ -151,8 +151,8 @@ public class InventoryButton : MonoBehaviour
         
         if (!CharacterInventory.ArmorSystem.Equip(
             _equppiedItemData as IEquppiedItemData,
-            character.LocomotionSettings.CharacterCollider,
-            character.GraphCore.CoreData.Animator))
+            character.CapsuleCollider,
+            character.GraphCore.Animator))
         {
             return;
         }
@@ -170,8 +170,8 @@ public class InventoryButton : MonoBehaviour
         
         if (!CharacterInventory.ProjectileSystem.Equip(
                 _equppiedItemData as IEquppiedItemData,
-                character.LocomotionSettings.CharacterCollider,
-                character.GraphCore.CoreData.Animator))
+                character.CapsuleCollider,
+                character.GraphCore.Animator))
         {
             return;
         }

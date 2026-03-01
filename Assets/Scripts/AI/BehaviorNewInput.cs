@@ -6,15 +6,13 @@ using Action = System.Action;
 
 public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
 {
-    [field: SerializeField] public CharacterInfoComponent CharacterInfo { get; set; }
-    [field: SerializeField] public CharacterCore Core { get; set; }
-    [field: SerializeField] public HealthComponent Health { get; set; }
-    [field: SerializeField] public BehaviorGraphAgent Agent { get; set; }
-    
     [field: Header("Vision Settings")]
     [field: SerializeField] public float VisionRange { get; set; }
     [field: SerializeField] public float VisionAngle { get; set; }
-    
+    public BehaviorGraphAgent Agent { get; set; }
+    public CharacterInfoComponent CharacterInfo { get; set; }
+    public HealthComponent Health { get; set; }
+    public CharacterCore Core { get; set; }
     public event Action OnAttack;
     public event Action OnAimBlock;
     public event Action OnInteract;
@@ -35,9 +33,14 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
     private VisionSystem _visionSystem;
 
     [Inject]
-    private void Construct(VisionSystem visionSystem)
+    private void Construct(VisionSystem visionSystem, HealthComponent healthComponent, CharacterCore characterCore,
+        CharacterInfoComponent characterInfo, BehaviorGraphAgent agent)
     {
         _visionSystem = visionSystem;
+        Health = healthComponent;
+        Core = characterCore;
+        CharacterInfo = characterInfo;
+        Agent = agent;
     }
     
     public void SimulateMove(Vector2 direction) => OnMove?.Invoke(direction);

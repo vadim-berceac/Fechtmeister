@@ -6,14 +6,15 @@ using Zenject;
 public class CharacterCore : ManagedUpdatableObject
 {
     [field: SerializeField] public bool IsAI { get; private set; }
+    [field: SerializeField] public float InputSmoothingSpeed { get; private set; } = 10f;
     [field: SerializeField] public Transform DamagedObject { get; private set; }
-    [field: SerializeField] public PlayableGraphCore GraphCore { get; private set; }
-    [field: SerializeField] public LocomotionSettings LocomotionSettings { get; set; }
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
-    [field: SerializeField] public TargetingSettings TargetingSettings { get; set; }
     [field: SerializeField] public LedgeDetectionSettings LedgeDetectionSettings { get; set; }
-    [field: SerializeField] public BehaviorNewInput BehaviorNewInput { get; private set; }
-    [field: SerializeField] public Transform AimTargetTransform { get; private set; }
+    public BehaviorNewInput BehaviorNewInput { get; private set; }
+    public Transform AimTargetTransform { get; private set; }
+    public PlayableGraphCore GraphCore { get; private set; }
+    public CharacterController CharacterController { get; private set; }
+    public CapsuleCollider CapsuleCollider { get; private set; }
     public SceneCamera SceneCamera { get; private set; }
     public CharacterInputHandler CharacterInputHandler { get; private set; }
     public Transform CashedTransform { get; private set; }
@@ -42,13 +43,20 @@ public class CharacterCore : ManagedUpdatableObject
     public IDamageable Health { get; private set; }
 
     [Inject]
-    private void Construct(SceneCamera sceneCamera, SceneCharacterContainer sceneCharacterContainer,
-        PlayerInput playerInput, StatesContainer statesContainer)
+    private void Construct(SceneCamera sceneCamera, CharacterController characterController, ItemTargeting itemTargeting,
+        SceneCharacterContainer sceneCharacterContainer, CapsuleCollider capsuleCollider, CharacterPresetLoader presetLoader,
+        PlayerInput playerInput, StatesContainer statesContainer, Animator animator, PlayableGraphCore playableGraphCore,
+        BehaviorNewInput behaviorNewInput, AimTargeting aimTargeting)
     {
         SceneCamera = sceneCamera;
+        CharacterController = characterController;
         SceneCharacterContainer = sceneCharacterContainer;
+        CapsuleCollider = capsuleCollider;
         CashedTransform = transform;
-        CharacterInputHandler = new CharacterInputHandler(LocomotionSettings.InputSmoothingSpeed);
+        GraphCore = playableGraphCore;
+        BehaviorNewInput = behaviorNewInput;
+        AimTargetTransform = aimTargeting.transform;
+        CharacterInputHandler = new CharacterInputHandler(InputSmoothingSpeed);
         
         if (!IsAI)
         {
@@ -63,18 +71,18 @@ public class CharacterCore : ManagedUpdatableObject
         
         Gravity = new CharacterGravity();
         
-        PresetLoader = GetComponent<CharacterPresetLoader>();
+        PresetLoader = presetLoader;
         StatesSet = statesContainer.GetStateSet(PresetLoader.CharacterPersonalityData.StateMachineType);
         CharacterColliderSizer = new CharacterColliderSizer(PresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin,
-            LocomotionSettings.CharacterCollider, LocomotionSettings.CharacterController);
-        SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData, GraphCore.CoreData.Animator);
-        TargetingSystem = new CharacterTargetingSystem(TargetingSettings.ItemTargeting);
+            CapsuleCollider, CharacterController);
+        SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData, animator);
+        TargetingSystem = new CharacterTargetingSystem(itemTargeting);
         LedgeDetection = new LedgeDetection(LedgeDetectionSettings);
         AttackCounter = new Counter();
         StateTimer = new StateTimer();
         CurrentSpeed = new CurrentSpeed(CashedTransform);
         
-        Inventory = new Inventory(this, PresetLoader, 3);
+        Inventory = new Inventory(this, animator, PresetLoader, 3);
         Health = GetComponent<IDamageable>();
         Health.Initialize(PresetLoader.CharacterPersonalityData.HealthDataSettings.MaxHealth, 
             PresetLoader.CharacterPersonalityData.HealthDataSettings.CurrentHealthPercentage, 

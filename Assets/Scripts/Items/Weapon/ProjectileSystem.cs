@@ -43,7 +43,7 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
         _projectileController.SetParams(projectileData, weaponData);
 
         var boneData = projectileData.BoneData[0];
-        _characterCore.GraphCore.CoreData.Animator.AttachTransformSource(
+        _characterCore.GraphCore.Animator.AttachTransformSource(
             projectileObject.transform,
             boneData.BonesType,
             boneData.Position,
@@ -96,7 +96,7 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
 
         _projectileController.transform.SetParent(null);
         _projectileController.Launch(
-            _characterCore.LocomotionSettings.CharacterCollider,
+            _characterCore.CapsuleCollider,
             _characterCore.AimTargetTransform
         );
 

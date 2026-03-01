@@ -1,29 +1,36 @@
 using UnityEngine;
+using Zenject;
 
 public class CharacterFootStepsPlayer : MonoBehaviour
 {
-    [field: SerializeField] private CharacterPresetLoader CharacterPresetLoader { get; set; }
-    [field: SerializeField] private Transform LFootTransform { get; set; }
-    [field: SerializeField] private Transform RFootTransform { get; set; }
+    private SfxSet _sfxSet;
+    private Transform _lFootTransform;
+    private Transform _rFootTransform;
+
+    [Inject]
+    private void Construct(CharacterPresetLoader characterPresetLoader, Animator animator)
+    {
+        _sfxSet = characterPresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.StepsBase;
+        _lFootTransform = animator.GetBoneTransform(HumanBodyBones.LeftFoot);
+        _rFootTransform = animator.GetBoneTransform(HumanBodyBones.RightFoot);
+    }
     
     public void LeftStep()
     {
-        if (CharacterPresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.StepsBase == null)
+        if (_sfxSet == null)
         {
             return;
         }
-        PlaySound(LFootTransform.position,
-            CharacterPresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.StepsBase.GetRandomClip());
+        PlaySound(_lFootTransform.position, _sfxSet.GetRandomClip());
     }
 
     public void RightStep()
     {
-        if (CharacterPresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.StepsBase == null)
+        if (_sfxSet == null)
         {
             return;
         }
-        PlaySound(RFootTransform.position,
-            CharacterPresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.StepsBase.GetRandomClip());
+        PlaySound(_rFootTransform.position, _sfxSet.GetRandomClip());
     }
 
     private static void PlaySound(Vector3 position, AudioClip clip)

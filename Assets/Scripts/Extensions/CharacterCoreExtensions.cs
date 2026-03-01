@@ -64,7 +64,7 @@ public static class CharacterCoreExtensions
     public static void MoveLocal(this CharacterCore character, Vector3 direction, float speed)
     {
         var moveDirection = character.CashedTransform.TransformDirection(direction);
-        character.LocomotionSettings.CharacterController.Move(Time.deltaTime * speed * moveDirection);
+        character.CharacterController.Move(Time.deltaTime * speed * moveDirection);
     }
   
     public static void FaceWallNormal(this CharacterCore character, Vector3 wallNormal)
@@ -172,7 +172,7 @@ public static class CharacterCoreExtensions
      {
          var smoothTarget = Vector3.Lerp(currentPosition, targetPosition, 0.2f);
          var moveDelta = smoothTarget - currentPosition;
-         character.LocomotionSettings.CharacterController.Move(moveDelta);
+         character.CharacterController.Move(moveDelta);
          character.FaceWallNormal(wallNormal);
      }
 
@@ -205,7 +205,7 @@ public static class CharacterCoreExtensions
         }
 
         character.CashedTransform.position = snapTarget;
-        character.LocomotionSettings.CharacterController.Move(Vector3.zero);
+        character.CharacterController.Move(Vector3.zero);
         character.FaceWallNormal(wallNormal);
     }
 

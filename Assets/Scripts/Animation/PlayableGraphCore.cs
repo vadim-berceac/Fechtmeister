@@ -7,8 +7,9 @@ using Zenject;
 [BurstCompile]
 public class PlayableGraphCore : ManagedUpdatableObject
 {
-    [field: SerializeField] public PlayableGraphCoreData CoreData { get; set; }
+    [field: SerializeField] public int GeneralMixerCount { get; private set; }
     public PlayableGraph Graph { get; private set; }
+    public Animator Animator { get; private set; }
     public AnimationLayerMixerPlayable LayerMixer { get; private set; }
     public AnimationMixerPlayable FullBodyLayerMixer0 { get; private set; }
     public AnimationMixerPlayable UpperBodyLayerMixer1 { get; private set; }
@@ -20,11 +21,12 @@ public class PlayableGraphCore : ManagedUpdatableObject
     private LookAtSystem _lookAtSystem;
 
     [Inject]
-    private void Construct(StatesContainer statesContainer)
+    private void Construct(StatesContainer statesContainer, Animator animator)
     {
         Graph = PlayableGraph.Create("General Graph");
+        Animator = animator;
         LayerMixer = AnimationLayerMixerPlayable.Create(Graph, 2);
-        FullBodyLayerMixer0 = AnimationMixerPlayable.Create(Graph, CoreData.GeneralMixerCount);
+        FullBodyLayerMixer0 = AnimationMixerPlayable.Create(Graph, GeneralMixerCount);
         UpperBodyLayerMixer1 = AnimationMixerPlayable.Create(Graph, 2); 
         
         Graph.Connect(FullBodyLayerMixer0, 0, LayerMixer, 0);
@@ -39,11 +41,11 @@ public class PlayableGraphCore : ManagedUpdatableObject
         Playable finalPlayable = LayerMixer;
         if (lookAtBones != null && lookAtBones.Length > 0)
         {
-            _lookAtSystem = new LookAtSystem(lookAtBones, CoreData.Animator);
+            _lookAtSystem = new LookAtSystem(lookAtBones, Animator);
             finalPlayable = _lookAtSystem.Initialize(Graph, LayerMixer);
         }
        
-        var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", CoreData.Animator);
+        var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", Animator);
         playableOutput.SetSourcePlayable(finalPlayable);
         
         InitializeParts();
@@ -96,13 +98,4 @@ public class PlayableGraphCore : ManagedUpdatableObject
     {
         return _lookAtSystem?.GetBoneRotationOffset(humanBone) ?? Vector3.zero;
     }
-}
-
-[System.Serializable]
-public struct PlayableGraphCoreData
-{
-    [field: SerializeField] public int GeneralMixerCount { get; private set; }
-    [field: SerializeField] public Animator Animator { get; set; }
-    [field: SerializeField] public CharacterController CharacterController { get; set; }
-    [field: SerializeField] public CharacterCore CharacterCore { get; set; }
 }

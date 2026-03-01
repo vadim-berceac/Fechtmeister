@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 public class Inventory
 {
     public bool IsWeaponOn { get; private set; }
@@ -8,11 +10,14 @@ public class Inventory
     public readonly ProjectileSystem ProjectileSystem;
     public readonly InventoryBag InventoryBag;
     private readonly CharacterCore _characterCore;
+    private readonly Animator _animator;
 
-    public Inventory(CharacterCore characterCore, CharacterPresetLoader characterPresetLoader, int weaponSystemInstancesCount)
+    public Inventory(CharacterCore characterCore, Animator animator, 
+        CharacterPresetLoader characterPresetLoader, int weaponSystemInstancesCount)
     {
         _characterPresetLoader = characterPresetLoader;
         _characterCore = characterCore;
+        _animator = animator;
         WeaponSystem = new WeaponSystem(weaponSystemInstancesCount, characterCore);
 
         ArmorSystem = new ArmorSystem(5, characterCore);
@@ -61,7 +66,7 @@ public class Inventory
                 {
                     continue;
                 }
-                WeaponSystem.Equip(w, _characterCore.LocomotionSettings.CharacterCollider, _characterCore.GraphCore.CoreData.Animator);
+                WeaponSystem.Equip(w, _characterCore.CapsuleCollider, _animator);
             }
             SelectWeaponInstance(0);
         }
@@ -74,7 +79,7 @@ public class Inventory
                 {
                     continue;
                 }
-                ArmorSystem.Equip(a, _characterCore.LocomotionSettings.CharacterCollider, _characterCore.GraphCore.CoreData.Animator);
+                ArmorSystem.Equip(a, _characterCore.CapsuleCollider, _animator);
             }
         }
 
@@ -82,7 +87,7 @@ public class Inventory
         {
             var projectileDataSettings = _characterPresetLoader.CharacterPersonalityData.ProjectilesDataSettings;
             ProjectileSystem.Equip(projectileDataSettings.EquippedProjectiles, 
-                _characterCore.LocomotionSettings.CharacterCollider, _characterCore.GraphCore.CoreData.Animator);
+                _characterCore.CapsuleCollider, _animator);
             ProjectileSystem.AddItem(projectileDataSettings.EquippedProjectiles, projectileDataSettings.AmountOfProjectiles);
         }
     }
