@@ -217,13 +217,13 @@ public class ProjectileController : MonoBehaviour
         var totalDamage = _data.WeaponParams.Damage + _weaponData.WeaponParams.Damage;
         damaged.Damage(totalDamage, _data.WeaponParams.DamageType, _parent.transform);
 
-        if (damaged.HitBodyPartSettings.Health.IsDestroyed)
+        if (damaged.Health.IsDestroyed)
         {
             Destroy(gameObject);
         }
-        else if (damaged.HitBodyPartSettings.Health.IsHitReactionEnabled)
+        else if (damaged.Health.IsHitReactionEnabled)
         {
-            _transform.SetParent(damaged.HitBodyPartSettings.Transform);
+            _transform.SetParent(damaged.Transform);
         }
         else
         {

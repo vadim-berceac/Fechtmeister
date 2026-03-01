@@ -1,27 +1,28 @@
 using UnityEngine;
+using Zenject;
 
 public class HitBodyPart : MonoBehaviour
 {
-    [field: SerializeField] public HitBodyPartSettings HitBodyPartSettings { get; set; }
+    [field: SerializeField] public float DamageMultiplier { get; private set; } = 1.0f;
+    public HealthComponent Health { get; private set; }
+    public Transform Transform { get; private set; }
+
+    [Inject]
+    private void Construct(HealthComponent healthComponent)
+    {
+        Health = healthComponent;
+        Transform = transform;
+    }
     
     public void Damage(float damage, DamageTypes damageType, Transform source = null)
     {
-        var finalDamage = damage * HitBodyPartSettings.DamageMultiplier;
+        var finalDamage = damage * DamageMultiplier;
     
         if (finalDamage <= 0)
         {
             return;
         }
     
-        HitBodyPartSettings.Health.Damage(finalDamage, damageType, source);
+        Health.Damage(finalDamage, damageType, source);
     }
-}
-
-[System.Serializable]
-public struct HitBodyPartSettings
-{
-    [field: SerializeField] public HealthComponent Health { get; private set; }
-    [field: SerializeField] public Collider Col { get; private set; }
-    [field: SerializeField] public Transform Transform { get; private set; }
-    [field: SerializeField] public float DamageMultiplier { get; private set; }
 }
