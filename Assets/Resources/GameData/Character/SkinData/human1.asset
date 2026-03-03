@@ -15,8 +15,8 @@ MonoBehaviour:
   <SkinName>k__BackingField: Human_1
   <SizeMode>k__BackingField: 1
   <SkinData>k__BackingField:
-  - <SkinnedMeshRenderer>k__BackingField: {fileID: 7986814019933463497, guid: 6a43c10c1bcb2434f8fc8937bca4746d, type: 3}
-    <SkinMaterial>k__BackingField: {fileID: 2100000, guid: 63430d5a4edf39e40833d32bdacf9ba3, type: 2}
+  - <SkinPrefab>k__BackingField: {fileID: 3393694852986227888, guid: c2b6774cd281bce4e832c4a48e4dfa4e, type: 3}
+    <Avatar>k__BackingField: {fileID: 9000000, guid: 327e7b22a322a9f4c9dda239418fb225, type: 2}
     <Decorations>k__BackingField: []
   <StepsBase>k__BackingField: {fileID: 11400000, guid: 3f1d7d7d120f7d24b8ce7fecfd0a3fcd, type: 2}
   <BodyHitSounds>k__BackingField: {fileID: 0}

@@ -794,7 +794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: finalScaleReference
-      value: 0.89293575
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1153103242609571977, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: _Editor_OnValidateTrigger
@@ -804,10 +804,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
-    - target: {fileID: 6453623000234550772, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 9000000, guid: 35c568d843b944446b66da4f6dd82b03, type: 3}
     - target: {fileID: 6627438516484931174, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: m_IsActive
       value: 0

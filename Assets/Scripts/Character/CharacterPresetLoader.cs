@@ -10,8 +10,8 @@ public class CharacterPresetLoader : MonoBehaviour
     private void Construct(Animator animator, DiContainer container, ModelTag modelTag, LegsAnimator legsAnimator)
     {
         SetupSkin(modelTag);
-        SetupAvatar();
-        SetupDecorations();
+        SetupAvatar(animator);
+        SetupDecorations(animator);
         animator.Rebind();
         SetupHitBoxes(animator, container);
         SetupLegAnimator(legsAnimator, animator);
@@ -42,6 +42,11 @@ public class CharacterPresetLoader : MonoBehaviour
 
     private void SetupSkin(ModelTag modelTag)
     {
+        while (modelTag.transform.childCount > 0)
+        {
+            Destroy(modelTag.transform.GetChild(0).gameObject);
+        }
+        
         var skins = CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.SkinData;
 
         foreach (var skinData in skins)
@@ -50,14 +55,22 @@ public class CharacterPresetLoader : MonoBehaviour
         }
     }
 
-    private void SetupAvatar()
+    private void SetupAvatar(Animator animator)
     {
-        
+        animator.avatar = CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.SkinData[0].Avatar;
     }
 
-    private void SetupDecorations()
+    private void SetupDecorations(Animator animator)
     {
-        
+        var decorations = CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.SkinData[0].Decorations;
+
+        foreach (var decoration in decorations)
+        {
+            var tr = animator.GetBoneTransform(decoration.BoneData.BonesType);
+            var obj = Instantiate(decoration.ItemPrefab, tr);
+            obj.transform.SetLocalPositionAndRotation(decoration.BoneData.Position, decoration.BoneData.Rotation);
+            obj.transform.localScale = Vector3.one * decoration.BoneData.Scale;
+        }
     }
 
     private void SetupLegAnimator(LegsAnimator legsAnimator, Animator animator)
