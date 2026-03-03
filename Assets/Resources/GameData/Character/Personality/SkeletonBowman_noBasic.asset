@@ -10,32 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35ebbf763e9ad024986abca0e6263e5d, type: 3}
-  m_Name: Skeleton1HWeapon
+  m_Name: SkeletonBowman_noBasic
   m_EditorClassIdentifier: 
   <StateMachineType>k__BackingField: 0
   <NamingSettings>k__BackingField:
-    <CharacterName>k__BackingField: Skeleton 1H Weapon
-  <Faction>k__BackingField: 2
+    <CharacterName>k__BackingField: Skeleton Bowman
+  <Faction>k__BackingField: 0
   <CharacterSkinDataSettings>k__BackingField:
-    <PrimarySkin>k__BackingField: {fileID: 11400000, guid: 62573faa9a6a36a488bba5928ca5db71, type: 2}
+    <PrimarySkin>k__BackingField: {fileID: 11400000, guid: 84ac8c569f897284dbf17fc9df50acbb, type: 2}
   <WeaponDataSettings>k__BackingField:
     <EquippedWeapons>k__BackingField:
+    - {fileID: 11400000, guid: eca9ed13a3b04104e8aec730d663b635, type: 2}
     - {fileID: 11400000, guid: 0d5b7864b639eab4ab9abcd769ab3e6e, type: 2}
   <ArmorDataSettings>k__BackingField:
-    <EquippedArmor>k__BackingField:
-    - {fileID: 11400000, guid: c5947ca9435b33e4ab7348a7d07deb86, type: 2}
+    <EquippedArmor>k__BackingField: []
   <ProjectilesDataSettings>k__BackingField:
-    <EquippedProjectiles>k__BackingField: {fileID: 0}
-    <AmountOfProjectiles>k__BackingField: 1
+    <EquippedProjectiles>k__BackingField: {fileID: 11400000, guid: 254e3277979ddde418dab7b12ba3f470, type: 2}
+    <AmountOfProjectiles>k__BackingField: 10
   <HealthDataSettings>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <CurrentHealthPercentage>k__BackingField: 100
     <HitReactionTriggerValuePercentage>k__BackingField: 15
   <AccuracySettings>k__BackingField:
-    <ShootingAccuracy>k__BackingField: 0
-    <MeleeAccuracy>k__BackingField: 60
-    <MagicAccuracy>k__BackingField: 25
+    <ShootingAccuracy>k__BackingField: 50
+    <MeleeAccuracy>k__BackingField: 0
+    <MagicAccuracy>k__BackingField: 0
   <ResistanceSettings>k__BackingField:
     <Resistances>k__BackingField:
-    - <ResistancePercentage>k__BackingField: 25
+    - <ResistancePercentage>k__BackingField: 10
       <DamageType>k__BackingField: 4

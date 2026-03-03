@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de217b12fc65c1b4a87b3530902ab2bf, type: 3}
+  m_Name: skeleton2_noBasic
+  m_EditorClassIdentifier: 
+  <SkinName>k__BackingField: Skeleton_1
+  <SizeMode>k__BackingField: 1
+  <SkinData>k__BackingField:
+  - <SkinPrefab>k__BackingField: {fileID: 8843435957092687255, guid: 8b395b15430e5f04dac46b8e9b544e19, type: 3}
+    <Avatar>k__BackingField: {fileID: 9000000, guid: 35c568d843b944446b66da4f6dd82b03, type: 3}
+    <Decorations>k__BackingField:
+    - <ItemPrefab>k__BackingField: {fileID: 1925481177651670, guid: b7426c53b2ff72e48b646d5a671e88fa, type: 3}
+      <BoneData>k__BackingField:
+        <UseBone>k__BackingField: 1
+        <BonesType>k__BackingField: 10
+        <Position>k__BackingField: {x: 0.037, y: 0.094, z: 0.067}
+        <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+        <Scale>k__BackingField: 0.1
+        <Active>k__BackingField: 1
+    - <ItemPrefab>k__BackingField: {fileID: 1925481177651670, guid: b7426c53b2ff72e48b646d5a671e88fa, type: 3}
+      <BoneData>k__BackingField:
+        <UseBone>k__BackingField: 1
+        <BonesType>k__BackingField: 10
+        <Position>k__BackingField: {x: -0.037, y: 0.094, z: 0.067}
+        <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+        <Scale>k__BackingField: 0.1
+        <Active>k__BackingField: 1
+  <StepsBase>k__BackingField: {fileID: 11400000, guid: 3f1d7d7d120f7d24b8ce7fecfd0a3fcd, type: 2}
+  <BodyHitSounds>k__BackingField: {fileID: 0}
+  <HitBoxes>k__BackingField:
+  - <Bone>k__BackingField: 7
+    <LayerIndex>k__BackingField: 22
+    <DamageMultiplier>k__BackingField: 1
+    <Include>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 0
+    <Exclude>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    <Center>k__BackingField: {x: 0, y: 0.12, z: 0}
+    <Size>k__BackingField: {x: 0.35, y: 0.59, z: 0.3}
+  - <Bone>k__BackingField: 10
+    <LayerIndex>k__BackingField: 22
+    <DamageMultiplier>k__BackingField: 2
+    <Include>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 0
+    <Exclude>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    <Center>k__BackingField: {x: 0, y: 0.08, z: 0}
+    <Size>k__BackingField: {x: 0.21, y: 0.33, z: 0.21}
+  - <Bone>k__BackingField: 1
+    <LayerIndex>k__BackingField: 22
+    <DamageMultiplier>k__BackingField: 0.75
+    <Include>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 0
+    <Exclude>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    <Center>k__BackingField: {x: 0, y: 0.22, z: 0}
+    <Size>k__BackingField: {x: 0.15, y: 0.5, z: 0.15}
+  - <Bone>k__BackingField: 2
+    <LayerIndex>k__BackingField: 22
+    <DamageMultiplier>k__BackingField: 0.75
+    <Include>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 0
+    <Exclude>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    <Center>k__BackingField: {x: 0, y: 0.22, z: 0}
+    <Size>k__BackingField: {x: 0.15, y: 0.5, z: 0.15}
+  - <Bone>k__BackingField: 3
+    <LayerIndex>k__BackingField: 22
+    <DamageMultiplier>k__BackingField: 0.5
+    <Include>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 0
+    <Exclude>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    <Center>k__BackingField: {x: 0, y: 0.22, z: 0}
+    <Size>k__BackingField: {x: 0.15, y: 0.5, z: 0.15}
+  - <Bone>k__BackingField: 4
+    <LayerIndex>k__BackingField: 22
+    <DamageMultiplier>k__BackingField: 0.5
+    <Include>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 0
+    <Exclude>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    <Center>k__BackingField: {x: 0, y: 0.22, z: 0}
+    <Size>k__BackingField: {x: 0.15, y: 0.5, z: 0.15}
+  - <Bone>k__BackingField: 13
+    <LayerIndex>k__BackingField: 22
+    <DamageMultiplier>k__BackingField: 0.5
+    <Include>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 0
+    <Exclude>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    <Center>k__BackingField: {x: 0, y: 0.22, z: 0}
+    <Size>k__BackingField: {x: 0.15, y: 0.5, z: 0.15}
+  - <Bone>k__BackingField: 14
+    <LayerIndex>k__BackingField: 22
+    <DamageMultiplier>k__BackingField: 0.5
+    <Include>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 0
+    <Exclude>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    <Center>k__BackingField: {x: 0, y: 0.22, z: 0}
+    <Size>k__BackingField: {x: 0.15, y: 0.5, z: 0.15}
+  <SkeletonProfile>k__BackingField: {fileID: 11400000, guid: bc49dffbdaaf0e74f99bfad37d530d5d, type: 2}

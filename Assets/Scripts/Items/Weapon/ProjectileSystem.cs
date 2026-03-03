@@ -43,13 +43,13 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
         _projectileController.SetParams(projectileData, weaponData);
 
         var boneData = projectileData.BoneData[0];
-        _characterCore.GraphCore.Animator.AttachTransformSource(
+        _characterCore.GraphCore.AttachEquipment(
             projectileObject.transform,
             boneData.BonesType,
+            boneData.Active,
             boneData.Position,
             boneData.Rotation.eulerAngles,
             boneData.Scale,
-            boneData.Active,
             boneData.UseBone
         );
 

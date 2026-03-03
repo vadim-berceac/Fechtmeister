@@ -95,16 +95,55 @@ public class PlayableGraphCore : ManagedUpdatableObject
     /// Прикрепить объект к кости. Если в SkeletonProfile есть коррекция для этой кости — применяется поверх переданных значений.
     /// </summary>
     public bool AttachEquipment(Transform source, HumanBodyBones bone, bool enabled,
-        Vector3 position = default, Vector3 rotation = default, float scale = 1f, bool useBone  = true)
+        Vector3 position = default, Vector3 rotation = default, float scale = 1f, bool useBone = true)
     {
         if (_skeletonProfile != null && _skeletonProfile.TryGetBoneCorrection(bone, out var correction))
         {
             position += correction.position;
-            rotation += correction.rotation;
+            rotation = (correction.RotationCorrection * Quaternion.Euler(rotation)).eulerAngles;
             scale *= correction.scale;
         }
 
-        return Animator.AttachTransformSource(source, bone, position, rotation, scale, enabled, useBone);
+        return AttachTransformSource(source, bone, position, rotation, scale, enabled, useBone);
+    }
+    
+    private bool AttachTransformSource(Transform source,
+        HumanBodyBones parentBone, Vector3 position, Vector3 rotation, float scale, bool enabled, bool useBone = true)
+    {
+        if (Animator == null || source == null)
+            return false;
+        
+        var originalCullingMode = Animator.cullingMode;
+    
+        if (Animator.cullingMode != AnimatorCullingMode.AlwaysAnimate)
+        {
+            Animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+        }
+
+        var bone = useBone ? Animator.GetBoneTransform(parentBone) : Animator.transform;
+        if (bone == null)
+        {
+            Animator.cullingMode = originalCullingMode;
+            return false;
+        }
+
+        source.SetParent(bone, false);
+        source.SetLocalPositionAndRotation(position, Quaternion.Euler(rotation));
+
+        var desiredLossy = Vector3.one * scale;
+        var parentLossy = bone.lossyScale;
+
+        source.localScale = new Vector3(
+            desiredLossy.x / parentLossy.x,
+            desiredLossy.y / parentLossy.y,
+            desiredLossy.z / parentLossy.z
+        );
+
+        source.gameObject.SetActive(enabled);
+
+        Animator.cullingMode = originalCullingMode;
+
+        return true;
     }
     
     public override void OnManagedUpdate()
