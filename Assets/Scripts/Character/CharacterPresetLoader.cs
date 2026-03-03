@@ -63,6 +63,8 @@ public class CharacterPresetLoader : MonoBehaviour
     private void SetupLegAnimator(LegsAnimator legsAnimator, Animator animator)
     {
         legsAnimator.Hips = animator.GetBoneTransform(HumanBodyBones.Hips);
+        legsAnimator.Legs[0].InverseHint = true;
+        legsAnimator.Legs[1].InverseHint = true;
         
         legsAnimator.Legs[0].BoneStart = animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg);
         legsAnimator.Legs[1].BoneStart = animator.GetBoneTransform(HumanBodyBones.RightUpperLeg);
