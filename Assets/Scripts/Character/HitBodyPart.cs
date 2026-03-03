@@ -13,6 +13,11 @@ public class HitBodyPart : MonoBehaviour
         Health = healthComponent;
         Transform = transform;
     }
+
+    public void SetDamageMultiplier(float damageMultiplier)
+    {
+        DamageMultiplier = damageMultiplier;
+    }
     
     public void Damage(float damage, DamageTypes damageType, Transform source = null)
     {

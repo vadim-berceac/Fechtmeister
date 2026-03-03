@@ -6,6 +6,8 @@ public class CharacterInstaller : MonoInstaller
 {
     [SerializeField] private GameObject targeting;
     [SerializeField] private GameObject aimTargeting;
+    [SerializeField] private GameObject modelTag;
+
     public override void InstallBindings()
     {
         Container
@@ -65,6 +67,12 @@ public class CharacterInstaller : MonoInstaller
         Container
             .Bind<AimTargeting>()
             .FromInstance(aimTargeting.GetComponent<AimTargeting>())
+            .AsSingle()
+            .NonLazy();
+        
+        Container
+            .Bind<ModelTag>()
+            .FromInstance(modelTag.GetComponent<ModelTag>())
             .AsSingle()
             .NonLazy();
         

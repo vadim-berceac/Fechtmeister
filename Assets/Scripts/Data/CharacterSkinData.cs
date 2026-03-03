@@ -14,6 +14,9 @@ public class CharacterSkinData : ScriptableObject
     [field: Header("Sound")]
     [field: SerializeField] public SfxSet StepsBase { get; private set; }
     [field: SerializeField] public SfxSet BodyHitSounds { get; private set; }
+    
+    [field: Header("HitBoxes")]
+    [field: SerializeField] public HitBoxData[] HitBoxes { get; private set; }
 }
 
 [Serializable]
