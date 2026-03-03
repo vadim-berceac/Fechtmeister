@@ -13,7 +13,8 @@ public interface IItemInstancesContainer
 
 public static class ItemInstancesContainerExtensions
 {
-    public static bool Equip(this IItemInstancesContainer container, IEquppiedItemData equppiedItem, Collider owner, Animator animator)
+    public static bool Equip(this IItemInstancesContainer container, IEquppiedItemData equppiedItem, Collider owner,
+        PlayableGraphCore playableGraphCore)
     {
         if (ContainsInstance(container, equppiedItem) || OccupiedSamePosition(container, equppiedItem))
         {
@@ -31,17 +32,17 @@ public static class ItemInstancesContainerExtensions
         {
             case WeaponData :
                 container.Instances[emptyInstanceIndex] = 
-                    new WeaponInstance(ref equppiedItem, owner, ((WeaponSystem)container).CharacterCore.SceneCharacterContainer, animator);
+                    new WeaponInstance(ref equppiedItem, owner, ((WeaponSystem)container).CharacterCore.SceneCharacterContainer, playableGraphCore);
                 return true;
 
             case ArmorData :
                 container.Instances[emptyInstanceIndex] = 
-                    new ArmorInstance(ref equppiedItem, owner, animator);
+                    new ArmorInstance(ref equppiedItem, owner, playableGraphCore);
                 return true;
             
             case ProjectileData :
                 container.Instances[emptyInstanceIndex] =
-                    new ProjectileInstance(ref equppiedItem, owner, animator);
+                    new ProjectileInstance(ref equppiedItem, owner, playableGraphCore);
                 return true;
 
             default:

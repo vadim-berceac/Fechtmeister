@@ -75,7 +75,7 @@ public class PlayableGraphCore : ManagedUpdatableObject
     /// Прикрепить объект к кости. Если в SkeletonProfile есть коррекция для этой кости — применяется поверх переданных значений.
     /// </summary>
     public bool AttachEquipment(Transform source, HumanBodyBones bone, bool enabled,
-        Vector3 position = default, Vector3 rotation = default, float scale = 1f)
+        Vector3 position = default, Vector3 rotation = default, float scale = 1f, bool useBone  = true)
     {
         if (skeletonProfile != null && skeletonProfile.TryGetBoneCorrection(bone, out var correction))
         {
@@ -84,7 +84,7 @@ public class PlayableGraphCore : ManagedUpdatableObject
             scale *= correction.scale;
         }
 
-        return Animator.AttachTransformSource(source, bone, position, rotation, scale, enabled);
+        return Animator.AttachTransformSource(source, bone, position, rotation, scale, enabled, useBone);
     }
 
     // ==================== LOOK AT ====================

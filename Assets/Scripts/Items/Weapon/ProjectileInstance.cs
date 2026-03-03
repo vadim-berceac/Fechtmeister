@@ -7,16 +7,16 @@ public class ProjectileInstance : IItemInstance
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
-    public Animator Animator { get; set; }
+    public PlayableGraphCore PlayableGraphCore { get; set; }
 
     private Collider _owner;
 
-    public ProjectileInstance(ref IEquppiedItemData equppiedItemData, Collider owner, Animator animator)
+    public ProjectileInstance(ref IEquppiedItemData equppiedItemData, Collider owner, PlayableGraphCore playableGraphCore)
     {
         EquppiedItemData = equppiedItemData;
         equppiedItemData = null;
         _owner = owner;
-        Animator = animator;
+        PlayableGraphCore = playableGraphCore;
 
         CreateInstance();
     }
@@ -37,7 +37,7 @@ public class ProjectileInstance : IItemInstance
         
         var boneData = EquppiedItemData.ItemDecorationData[0].BoneData;
       
-        Animator.AttachTransformSource(Instance, boneData.BonesType, boneData.Position, 
-            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
+        PlayableGraphCore.AttachEquipment(Instance, boneData.BonesType, boneData.Active,boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale,  boneData.UseBone);
     }
 }

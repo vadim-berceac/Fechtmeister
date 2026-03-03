@@ -80,7 +80,7 @@ public class CharacterCore : ManagedUpdatableObject
         StateTimer = new StateTimer();
         CurrentSpeed = new CurrentSpeed(CashedTransform);
         
-        Inventory = new Inventory(this, animator, PresetLoader, 3);
+        Inventory = new Inventory(this, GraphCore, PresetLoader, 3);
         Health = GetComponent<IDamageable>();
         Health.Initialize(PresetLoader.CharacterPersonalityData.HealthDataSettings.MaxHealth, 
             PresetLoader.CharacterPersonalityData.HealthDataSettings.CurrentHealthPercentage, 

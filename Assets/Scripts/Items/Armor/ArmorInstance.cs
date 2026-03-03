@@ -7,16 +7,16 @@ public class ArmorInstance : IItemInstance
     public Transform IKBoneTransform { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
-    public Animator Animator { get; set; }
+    public PlayableGraphCore PlayableGraphCore { get; set; }
 
     private Collider _owner;
 
-    public ArmorInstance(ref IEquppiedItemData equppiedItemData, Collider owner, Animator animator)
+    public ArmorInstance(ref IEquppiedItemData equppiedItemData, Collider owner, PlayableGraphCore playableGraphCore)
     {
         EquppiedItemData = equppiedItemData;
         equppiedItemData = null;
         _owner = owner;
-        Animator = animator;
+        PlayableGraphCore = playableGraphCore;
 
         CreateInstance();
         this.CreateDecorations();
@@ -38,7 +38,7 @@ public class ArmorInstance : IItemInstance
         
         var boneData = EquppiedItemData.BoneData[0];
       
-        Animator.AttachTransformSource(Instance, boneData.BonesType, boneData.Position, 
-            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
+        PlayableGraphCore.AttachEquipment(Instance, boneData.BonesType, boneData.Active, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale, boneData.UseBone);
     }
 }

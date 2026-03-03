@@ -7,7 +7,7 @@ public interface IItemInstance
     public Transform Instance { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
-    public Animator Animator { get; set; }
+    public PlayableGraphCore PlayableGraphCore { get; set; }
     
     public void CreateInstance();
 }
@@ -29,8 +29,8 @@ public static class IItemInstanceExtensions
             var index = itemInstance.EquppiedItemData.ItemDecorationData.IndexOf(decoration);
             var boneData = itemInstance.EquppiedItemData.ItemDecorationData[index].BoneData;
             itemInstance.ItemDecorations[index] = part;
-            itemInstance.Animator.AttachTransformSource(part, boneData.BonesType, boneData.Position, 
-                boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
+            itemInstance.PlayableGraphCore.AttachEquipment(part, boneData.BonesType, boneData.Active, boneData.Position, 
+                boneData.Rotation.eulerAngles, boneData.Scale, boneData.UseBone);
         }
     }
     

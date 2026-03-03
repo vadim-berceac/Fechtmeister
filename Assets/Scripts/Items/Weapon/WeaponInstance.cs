@@ -6,19 +6,19 @@ public class WeaponInstance : IItemInstance
     public Transform Instance { get; set; }
     public Transform[] ItemDecorations { get; set; }
     public IItemControlComponent ItemControlComponent { get; set; }
-    public Animator Animator { get; set; }
+    public PlayableGraphCore PlayableGraphCore { get; set; }
 
     private readonly Collider _owner;
     private readonly SceneCharacterContainer _sceneCharacterContainer;
     
     public WeaponInstance(ref IEquppiedItemData equppiedItemData, Collider owner,
-        SceneCharacterContainer sceneCharacterContainer, Animator animator)
+        SceneCharacterContainer sceneCharacterContainer, PlayableGraphCore playableGraphCore)
     {
         EquppiedItemData = equppiedItemData;
         equppiedItemData = null;
         _owner = owner;
         _sceneCharacterContainer = sceneCharacterContainer;
-        Animator = animator;
+        PlayableGraphCore = playableGraphCore;
         
         CreateInstance();
         this.CreateDecorations();
@@ -41,8 +41,8 @@ public class WeaponInstance : IItemInstance
 
         var boneData = EquppiedItemData.BoneData[1];
       
-        Animator.AttachTransformSource(Instance, boneData.BonesType, boneData.Position, 
-            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
+        PlayableGraphCore.AttachEquipment(Instance, boneData.BonesType, boneData.Active, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale,  boneData.UseBone);
     }
 
     public void ResetAction()

@@ -10,14 +10,14 @@ public class Inventory
     public readonly ProjectileSystem ProjectileSystem;
     public readonly InventoryBag InventoryBag;
     private readonly CharacterCore _characterCore;
-    private readonly Animator _animator;
+    private readonly PlayableGraphCore _playableGraphCore;
 
-    public Inventory(CharacterCore characterCore, Animator animator, 
+    public Inventory(CharacterCore characterCore, PlayableGraphCore playableGraphCore, 
         CharacterPresetLoader characterPresetLoader, int weaponSystemInstancesCount)
     {
         _characterPresetLoader = characterPresetLoader;
         _characterCore = characterCore;
-        _animator = animator;
+        _playableGraphCore = playableGraphCore;
         WeaponSystem = new WeaponSystem(weaponSystemInstancesCount, characterCore);
 
         ArmorSystem = new ArmorSystem(5, characterCore);
@@ -45,15 +45,17 @@ public class Inventory
     public void WeaponOn()
     {
         var boneData = WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[0];
-        IsWeaponOn = WeaponSystem.InstanceInHands.Animator.AttachTransformSource(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
-            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
+        IsWeaponOn = WeaponSystem.InstanceInHands.PlayableGraphCore.AttachEquipment(WeaponSystem.InstanceInHands.Instance,
+            boneData.BonesType,boneData.Active, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale, boneData.UseBone);
     }
 
     public void WeaponOff()
     {
         var boneData = WeaponSystem.InstanceInHands.EquppiedItemData.BoneData[1];
-        IsWeaponOn = !WeaponSystem.InstanceInHands.Animator.AttachTransformSource(WeaponSystem.InstanceInHands.Instance, boneData.BonesType, boneData.Position, 
-            boneData.Rotation.eulerAngles, boneData.Scale, boneData.Active, boneData.UseBone);
+        IsWeaponOn = !WeaponSystem.InstanceInHands.PlayableGraphCore.AttachEquipment(WeaponSystem.InstanceInHands.Instance,
+            boneData.BonesType, boneData.Active, boneData.Position, 
+            boneData.Rotation.eulerAngles, boneData.Scale, boneData.UseBone);
     }
 
     private void InitEquipment()
@@ -66,7 +68,7 @@ public class Inventory
                 {
                     continue;
                 }
-                WeaponSystem.Equip(w, _characterCore.CapsuleCollider, _animator);
+                WeaponSystem.Equip(w, _characterCore.CapsuleCollider, _playableGraphCore);
             }
             SelectWeaponInstance(0);
         }
@@ -79,7 +81,7 @@ public class Inventory
                 {
                     continue;
                 }
-                ArmorSystem.Equip(a, _characterCore.CapsuleCollider, _animator);
+                ArmorSystem.Equip(a, _characterCore.CapsuleCollider, _playableGraphCore);
             }
         }
 
@@ -87,7 +89,7 @@ public class Inventory
         {
             var projectileDataSettings = _characterPresetLoader.CharacterPersonalityData.ProjectilesDataSettings;
             ProjectileSystem.Equip(projectileDataSettings.EquippedProjectiles, 
-                _characterCore.CapsuleCollider, _animator);
+                _characterCore.CapsuleCollider, _playableGraphCore);
             ProjectileSystem.AddItem(projectileDataSettings.EquippedProjectiles, projectileDataSettings.AmountOfProjectiles);
         }
     }
