@@ -804,6 +804,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 4521586255099012928, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
+      propertyPath: skeletonProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: bc49dffbdaaf0e74f99bfad37d530d5d, type: 2}
     - target: {fileID: 6627438516484931174, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: m_IsActive
       value: 0
