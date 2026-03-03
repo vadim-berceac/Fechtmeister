@@ -36,7 +36,7 @@ public class CharacterCore : ManagedUpdatableObject
     public SceneCharacterContainer SceneCharacterContainer { get; private set; }
     public CharacterColliderSizer CharacterColliderSizer { get; private set; }
     public CharacterPresetLoader PresetLoader { get; private set; }
-    public CharacterSkinHandler SkinHandler { get; private set; }
+    //public CharacterSkinHandler SkinHandler { get; private set; }
     public CharacterTargetingSystem TargetingSystem { get; private set; }
     public LedgeDetection LedgeDetection { get; private set; }
     public Inventory Inventory { get; private set; }
@@ -75,7 +75,7 @@ public class CharacterCore : ManagedUpdatableObject
         StatesSet = statesContainer.GetStateSet(PresetLoader.CharacterPersonalityData.StateMachineType);
         CharacterColliderSizer = new CharacterColliderSizer(PresetLoader.CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin,
             CapsuleCollider, CharacterController);
-        SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData, animator);
+        //SkinHandler = new CharacterSkinHandler(CashedTransform, PresetLoader.CharacterPersonalityData, animator);
         TargetingSystem = new CharacterTargetingSystem(itemTargeting);
         LedgeDetection = new LedgeDetection(LedgeDetectionSettings);
         AttackCounter = new Counter();

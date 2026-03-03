@@ -207,7 +207,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5239678104759798995}
   - {fileID: 8063541232575220997}
   - {fileID: 3168332981557282967}
   - {fileID: 7385866524462690004}
@@ -550,14 +549,14 @@ MonoBehaviour:
     LegStretchMultiplier: 1
     CustomLegAnimating: {fileID: 0}
     FootPitchOffset: 0
-    BoneStart: {fileID: 7834507351097922875}
-    BoneMid: {fileID: 3171387916457102821}
-    BoneEnd: {fileID: 1635148872285805462}
+    BoneStart: {fileID: 0}
+    BoneMid: {fileID: 0}
+    BoneEnd: {fileID: 0}
     Side: 1
     OppositeLegIndex: 1
     RaycastPrecision: 0
     UseFeet: 1
-    BoneFeet: {fileID: 8044901978733196553}
+    BoneFeet: {fileID: 0}
     FeetSensitivity: 0.5
     InverseHint: 0
     AnkleToHeel: {x: -0.00043042464, y: -0.000020592473, z: -0.0058229137}
@@ -581,14 +580,14 @@ MonoBehaviour:
     LegStretchMultiplier: 1
     CustomLegAnimating: {fileID: 0}
     FootPitchOffset: 0
-    BoneStart: {fileID: 4495384537193536376}
-    BoneMid: {fileID: 234030840949171682}
-    BoneEnd: {fileID: 7441098579300056464}
+    BoneStart: {fileID: 0}
+    BoneMid: {fileID: 0}
+    BoneEnd: {fileID: 0}
     Side: 2
     OppositeLegIndex: 0
     RaycastPrecision: 0
     UseFeet: 1
-    BoneFeet: {fileID: 5137652178395483460}
+    BoneFeet: {fileID: 0}
     FeetSensitivity: 0.5
     InverseHint: 0
     AnkleToHeel: {x: 0.00043437607, y: -0.000019742874, z: -0.005820328}
@@ -845,41 +844,41 @@ MonoBehaviour:
   _EditorExtraCategory: 2
   setupPose:
     MainHipsPose:
-      SourceTransform: {fileID: 353323341690956871}
+      SourceTransform: {fileID: 0}
       RotationInRoot: {x: 7.094059e-11, y: 0.000001847744, z: -0.000043849737, w: 1}
       PositionInRoot: {x: -0.00013405863, y: 0.9948463, z: -0.020007644}
     HipsPoses: []
     LegPoses:
     - UpperLegPose:
-        SourceTransform: {fileID: 7834507351097922875}
+        SourceTransform: {fileID: 0}
         RotationInRoot: {x: -0.008403117, y: 0.073103525, z: 0.99727714, w: 0.0048451223}
         PositionInRoot: {x: -0.09137864, y: 0.9282824, z: -0.020561337}
       LowerLegPose:
-        SourceTransform: {fileID: 3171387916457102821}
+        SourceTransform: {fileID: 0}
         RotationInRoot: {x: -0.010213236, y: -0.10336843, z: 0.99458605, w: -0.0030423624}
         PositionInRoot: {x: -0.095800914, y: 0.5266464, z: 0.03860322}
       AnklePose:
-        SourceTransform: {fileID: 1635148872285805462}
+        SourceTransform: {fileID: 0}
         RotationInRoot: {x: -0.0023833383, y: 0.7008737, z: 0.7132367, w: -0.008018811}
         PositionInRoot: {x: -0.0972348, y: 0.042612433, z: 0.09171635}
       FeetPose:
-        SourceTransform: {fileID: 8044901978733196553}
+        SourceTransform: {fileID: 0}
         RotationInRoot: {x: 0.01193291, y: 0.5198239, z: 0.85381234, w: 0.025407206}
         PositionInRoot: {x: -0.09236427, y: 0.11466074, z: -0.047933664}
     - UpperLegPose:
-        SourceTransform: {fileID: 4495384537193536376}
+        SourceTransform: {fileID: 0}
         RotationInRoot: {x: 0.008406416, y: 0.073110476, z: 0.9972767, w: -0.0048455824}
         PositionInRoot: {x: 0.09111042, y: 0.92828226, z: -0.020561509}
       LowerLegPose:
-        SourceTransform: {fileID: 234030840949171682}
+        SourceTransform: {fileID: 0}
         RotationInRoot: {x: 0.010216626, y: -0.103375874, z: 0.99458534, w: 0.003043298}
         PositionInRoot: {x: 0.09553331, y: 0.5266472, z: 0.038608614}
       AnklePose:
-        SourceTransform: {fileID: 7441098579300056464}
+        SourceTransform: {fileID: 0}
         RotationInRoot: {x: 0.0020957524, y: 0.70088476, z: 0.71322984, w: 0.007716968}
         PositionInRoot: {x: 0.096966356, y: 0.04261452, z: 0.09171559}
       FeetPose:
-        SourceTransform: {fileID: 5137652178395483460}
+        SourceTransform: {fileID: 0}
         RotationInRoot: {x: -0.011932585, y: 0.51982397, z: 0.85381216, w: -0.0254081}
         PositionInRoot: {x: 0.09209553, y: 0.11466265, z: -0.047934372}
   ExtraSetupPoses: []
@@ -888,7 +887,7 @@ MonoBehaviour:
   FeetYOffset: 0
   FeetLengthAdjust: 0
   baseTransform: {fileID: 8531776840989775669}
-  Hips: {fileID: 353323341690956871}
+  Hips: {fileID: 0}
   ScaleReferenceMode: 1
   finalScaleReference: 0.8929356
   finalScaleReferenceSqrt: 0.1
@@ -1124,7 +1123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <IsAI>k__BackingField: 0
   <InputSmoothingSpeed>k__BackingField: 10
-  <DamagedObject>k__BackingField: {fileID: 5343873234729745239}
+  <DamagedObject>k__BackingField: {fileID: 0}
   <GravitySettings>k__BackingField:
     <GroundOffset>k__BackingField: {x: 0, y: -0.8, z: 0}
     <CheckSphereRadius>k__BackingField: 0.4
@@ -1243,7 +1242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterInstaller
   targeting: {fileID: 6483530982931849024}
   aimTargeting: {fileID: 780240033684124498}
-  modelTag: {fileID: 6483530982931849024}
+  modelTag: {fileID: 3522789514910723480}
 --- !u!1 &3522789514910723480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1530,148 +1529,4 @@ MonoBehaviour:
     <SpringPrefab>k__BackingField: {fileID: 319775987781469637, guid: 90050b5ef12a7df4b9bd12a58d286237, type: 3}
     <CharacterRigidBody>k__BackingField: {fileID: 340282855121904361}
     <CharacterTransform>k__BackingField: {fileID: 8531776840989775669}
-    <DeformationBodyTransform>k__BackingField: {fileID: 5239678104759798995}
---- !u!1001 &8440596200874845257
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 8531776840989775669}
-    m_Modifications:
-    - target: {fileID: 1500307540213012391, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: <HitBodyPartSettings>k__BackingField.<Health>k__BackingField
-      value: 
-      objectReference: {fileID: 2826338849064805150}
-    - target: {fileID: 3536276283466718998, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: <HitBodyPartSettings>k__BackingField.<Health>k__BackingField
-      value: 
-      objectReference: {fileID: 2826338849064805150}
-    - target: {fileID: 3954097059593843232, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_Name
-      value: AnimationBones2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4006799888322322176, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: <HitBodyPartSettings>k__BackingField.<Health>k__BackingField
-      value: 
-      objectReference: {fileID: 2826338849064805150}
-    - target: {fileID: 4331306366225014202, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: <HitBodyPartSettings>k__BackingField.<Health>k__BackingField
-      value: 
-      objectReference: {fileID: 2826338849064805150}
-    - target: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5209538916272158941, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: <HitBodyPartSettings>k__BackingField.<Health>k__BackingField
-      value: 
-      objectReference: {fileID: 2826338849064805150}
-    - target: {fileID: 7015134277518141064, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: <HitBodyPartSettings>k__BackingField.<Health>k__BackingField
-      value: 
-      objectReference: {fileID: 2826338849064805150}
-    - target: {fileID: 7926810965511915242, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: <HitBodyPartSettings>k__BackingField.<Health>k__BackingField
-      value: 
-      objectReference: {fileID: 2826338849064805150}
-    - target: {fileID: 9213365958478028673, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-      propertyPath: <HitBodyPartSettings>k__BackingField.<Health>k__BackingField
-      value: 
-      objectReference: {fileID: 2826338849064805150}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
---- !u!4 &234030840949171682 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8510805252988649899, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &353323341690956871 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8197752208997992462, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1635148872285805462 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7174852931384115167, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &3171387916457102821 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6422147394909792684, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4495384537193536376 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5422850640241786673, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5137652178395483460 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3634298151456631053, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5239678104759798995 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4437196821335484570, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5343873234729745239 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4542520013761847070, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7441098579300056464 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1326048672521116121, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7834507351097922875 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1845006259767013746, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8044901978733196553 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1911283534628294976, guid: 805c683a9c7a91c45835ea96ae2c895d, type: 3}
-  m_PrefabInstance: {fileID: 8440596200874845257}
-  m_PrefabAsset: {fileID: 0}
+    <DeformationBodyTransform>k__BackingField: {fileID: 8063541232575220997}

@@ -1,3 +1,4 @@
+using FIMSpace.FProceduralAnimation;
 using Unity.Behavior;
 using UnityEngine;
 using Zenject;
@@ -10,6 +11,18 @@ public class CharacterInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        Container
+            .Bind<ModelTag>()
+            .FromInstance(modelTag.GetComponent<ModelTag>())
+            .AsSingle()
+            .NonLazy();
+        
+        Container
+            .Bind<CharacterPresetLoader>()
+            .FromInstance(GetComponentInParent<CharacterPresetLoader>())
+            .AsSingle()
+            .NonLazy();
+        
         Container
             .Bind<CharacterController>()
             .FromInstance(GetComponentInParent<CharacterController>())
@@ -31,6 +44,12 @@ public class CharacterInstaller : MonoInstaller
         Container
             .Bind<CharacterCore>()
             .FromInstance(GetComponentInParent<CharacterCore>())
+            .AsSingle()
+            .NonLazy();
+        
+        Container
+            .Bind<LegsAnimator>()
+            .FromInstance(GetComponentInParent<LegsAnimator>())
             .AsSingle()
             .NonLazy();
         
@@ -67,18 +86,6 @@ public class CharacterInstaller : MonoInstaller
         Container
             .Bind<AimTargeting>()
             .FromInstance(aimTargeting.GetComponent<AimTargeting>())
-            .AsSingle()
-            .NonLazy();
-        
-        Container
-            .Bind<ModelTag>()
-            .FromInstance(modelTag.GetComponent<ModelTag>())
-            .AsSingle()
-            .NonLazy();
-        
-        Container
-            .Bind<CharacterPresetLoader>()
-            .FromInstance(GetComponentInParent<CharacterPresetLoader>())
             .AsSingle()
             .NonLazy();
         

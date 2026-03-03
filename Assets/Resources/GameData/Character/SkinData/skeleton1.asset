@@ -17,6 +17,7 @@ MonoBehaviour:
   <SkinData>k__BackingField:
   - <SkinnedMeshRenderer>k__BackingField: {fileID: -5818889320171079249, guid: 35c568d843b944446b66da4f6dd82b03, type: 3}
     <SkinMaterial>k__BackingField: {fileID: 2100000, guid: 7885617d836395341bbfdfcc67a896a8, type: 2}
+    <SkinPrefab>k__BackingField: {fileID: 8843435957092687255, guid: 8b395b15430e5f04dac46b8e9b544e19, type: 3}
     <Decorations>k__BackingField:
     - <ItemPrefab>k__BackingField: {fileID: 1925481177651670, guid: b7426c53b2ff72e48b646d5a671e88fa, type: 3}
       <BoneData>k__BackingField:

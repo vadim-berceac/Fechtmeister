@@ -24,5 +24,6 @@ public class SkinData
 {
     [field: SerializeField] public SkinnedMeshRenderer SkinnedMeshRenderer{ get; private set; }
     [field: SerializeField] public Material SkinMaterial { get; private set; }
+    [field: SerializeField] public GameObject SkinPrefab { get; private set; }
     [field: SerializeField] public ItemDecorationData[] Decorations { get; private set; }
 }
