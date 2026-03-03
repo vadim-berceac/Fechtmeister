@@ -17,6 +17,9 @@ public class CharacterSkinData : ScriptableObject
     
     [field: Header("HitBoxes")]
     [field: SerializeField] public HitBoxData[] HitBoxes { get; private set; }
+    
+    [field: Header("CorrectionData")]
+    [field: SerializeField] public SkeletonProfile SkeletonProfile { get; private set; }
 }
 
 [Serializable]

@@ -1,7 +1,5 @@
 using Unity.Behavior;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.Serialization;
 using Zenject;
 
 [System.Serializable]
@@ -56,16 +54,18 @@ public class AimTargeting : ManagedUpdatableObject
     {
         _currentBoneWeights = new float[aimBones.Length];
         _targetBoneWeights = new float[aimBones.Length];
-        
+
         var blackboard = agent.BlackboardReference;
-        
         if (blackboard.GetVariable("CurrentTarget", out _targetHealthBlackBoard))
         {
             _targetHealth = _targetHealthBlackBoard.Value;
             _targetHealthBlackBoard.OnValueChanged += OnTargetChanged;
         }
-    
-        ApplyRotationOffsets();
+
+        if (graphCore.IsLookAtInitialized)
+            ApplyRotationOffsets();
+        else
+            graphCore.OnLookAtInitialized += ApplyRotationOffsets;
     }
 
     public override void OnManagedUpdate()
@@ -130,9 +130,10 @@ public class AimTargeting : ManagedUpdatableObject
     private void OnDestroy()
     {
         if (_targetHealthBlackBoard != null)
-        {
             _targetHealthBlackBoard.OnValueChanged -= OnTargetChanged;
-        }
+
+        if (graphCore != null)
+            graphCore.OnLookAtInitialized -= ApplyRotationOffsets;
     }
 
     private void OnTargetChanged()

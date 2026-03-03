@@ -1,3 +1,4 @@
+using System;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -10,6 +11,8 @@ public class PlayableGraphCore : ManagedUpdatableObject
     [field: SerializeField] public int GeneralMixerCount { get; private set; }
     public PlayableGraph Graph { get; private set; }
     public Animator Animator { get; private set; }
+    public event Action OnLookAtInitialized;
+    public bool IsLookAtInitialized => _lookAtSystem != null && _lookAtSystem.IsInitialized;
     public AnimationLayerMixerPlayable LayerMixer { get; private set; }
     public AnimationMixerPlayable FullBodyLayerMixer0 { get; private set; }
     public AnimationMixerPlayable UpperBodyLayerMixer1 { get; private set; }
@@ -18,12 +21,15 @@ public class PlayableGraphCore : ManagedUpdatableObject
     public PlayablesLayerController UpperBodyLayerController { get; private set; }
 
     [SerializeField] private LookAtBoneConfig[] lookAtBones;
-    [SerializeField] private SkeletonProfile skeletonProfile;
+    private SkeletonProfile _skeletonProfile;
     private LookAtSystem _lookAtSystem;
-
+    
     [Inject]
-    private void Construct(StatesContainer statesContainer, Animator animator)
+    private void Construct(StatesContainer statesContainer, Animator animator, CharacterPresetLoader characterPresetLoader)
     {
+        _skeletonProfile = characterPresetLoader.CharacterPersonalityData
+            .CharacterSkinDataSettings.PrimarySkin.SkeletonProfile;
+
         Graph = PlayableGraph.Create("General Graph");
         Animator = animator;
         LayerMixer = AnimationLayerMixerPlayable.Create(Graph, 2);
@@ -39,20 +45,36 @@ public class PlayableGraphCore : ManagedUpdatableObject
         LayerMixer.SetInputWeight(UpperBodyLayerMixer1, 1f);
         LayerMixer.SetLayerAdditive(1, false);
 
-        Playable finalPlayable = LayerMixer;
-        if (lookAtBones != null && lookAtBones.Length > 0)
-        {
-            _lookAtSystem = new LookAtSystem(lookAtBones, Animator);
-            finalPlayable = _lookAtSystem.Initialize(Graph, LayerMixer);
-            ApplySkeletonProfileLookAt();
-        }
-
         var playableOutput = AnimationPlayableOutput.Create(Graph, "Animation", Animator);
-        playableOutput.SetSourcePlayable(finalPlayable);
+        playableOutput.SetSourcePlayable(LayerMixer); 
 
         InitializeParts();
 
         Graph.Play();
+    }
+
+    private void Start()
+    {
+        InitializeLookAt();
+    }
+
+    public void InitializeLookAt()
+    {
+        if (lookAtBones == null || lookAtBones.Length == 0) return;
+        if (Animator.avatar == null)
+        {
+            Debug.LogWarning("PlayableGraphCore.InitializeLookAt: Avatar is still null!");
+            return;
+        }
+
+        _lookAtSystem = new LookAtSystem(lookAtBones, Animator);
+
+        var finalPlayable = _lookAtSystem.Initialize(Graph, LayerMixer);
+        var output = Graph.GetOutput(0);
+        output.SetSourcePlayable(finalPlayable);
+
+        ApplySkeletonProfileLookAt();
+        OnLookAtInitialized?.Invoke();
     }
 
     private void InitializeParts()
@@ -63,13 +85,11 @@ public class PlayableGraphCore : ManagedUpdatableObject
 
     private void ApplySkeletonProfileLookAt()
     {
-        if (skeletonProfile == null || _lookAtSystem == null) return;
+        if (_skeletonProfile == null || _lookAtSystem == null) return;
 
-        foreach (var offset in skeletonProfile.lookAtOffsets)
+        foreach (var offset in _skeletonProfile.lookAtOffsets)
             _lookAtSystem.SetBoneRotationOffset(offset.bone, offset.eulerOffset);
     }
-
-    // ==================== EQUIPMENT ====================
 
     /// <summary>
     /// Прикрепить объект к кости. Если в SkeletonProfile есть коррекция для этой кости — применяется поверх переданных значений.
@@ -77,7 +97,7 @@ public class PlayableGraphCore : ManagedUpdatableObject
     public bool AttachEquipment(Transform source, HumanBodyBones bone, bool enabled,
         Vector3 position = default, Vector3 rotation = default, float scale = 1f, bool useBone  = true)
     {
-        if (skeletonProfile != null && skeletonProfile.TryGetBoneCorrection(bone, out var correction))
+        if (_skeletonProfile != null && _skeletonProfile.TryGetBoneCorrection(bone, out var correction))
         {
             position += correction.position;
             rotation += correction.rotation;
@@ -86,9 +106,7 @@ public class PlayableGraphCore : ManagedUpdatableObject
 
         return Animator.AttachTransformSource(source, bone, position, rotation, scale, enabled, useBone);
     }
-
-    // ==================== LOOK AT ====================
-
+    
     public override void OnManagedUpdate()
     {
         FullBodyAnimatorController.OnUpdate(Time.deltaTime);
@@ -111,8 +129,7 @@ public class PlayableGraphCore : ManagedUpdatableObject
 
     public Vector3 GetLookAtBoneRotationOffset(HumanBodyBones humanBone)
         => _lookAtSystem?.GetBoneRotationOffset(humanBone) ?? Vector3.zero;
-
-    // ==================== LIFECYCLE ====================
+    
 
     protected override void OnDisable()
     {

@@ -7,7 +7,8 @@ public class CharacterPresetLoader : MonoBehaviour
     [field: SerializeField] public CharacterPersonalityData CharacterPersonalityData { get; set; }
     
     [Inject]
-    private void Construct(Animator animator, DiContainer container, ModelTag modelTag, LegsAnimator legsAnimator)
+    private void Construct(Animator animator, DiContainer container, ModelTag modelTag, LegsAnimator legsAnimator,
+        PlayableGraphCore playableGraphCore)
     {
         SetupSkin(modelTag);
         SetupAvatar(animator);

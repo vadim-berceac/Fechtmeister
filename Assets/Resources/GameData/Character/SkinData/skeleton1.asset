@@ -125,3 +125,4 @@ MonoBehaviour:
       m_Bits: 4294967295
     <Center>k__BackingField: {x: 0, y: 0.22, z: 0}
     <Size>k__BackingField: {x: 0.15, y: 0.5, z: 0.15}
+  <SkeletonProfile>k__BackingField: {fileID: 0}
