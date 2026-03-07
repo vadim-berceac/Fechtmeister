@@ -15,7 +15,10 @@ public class CharacterPresetLoader : MonoBehaviour
         SetupDecorations(animator);
         animator.Rebind();
         SetupHitBoxes(animator, container);
-        SetupLegAnimator(legsAnimator, animator);
+        if (legsAnimator != null)
+        {
+            SetupLegAnimator(legsAnimator, animator);
+        }
     }
 
     private void SetupHitBoxes(Animator animator, DiContainer container)

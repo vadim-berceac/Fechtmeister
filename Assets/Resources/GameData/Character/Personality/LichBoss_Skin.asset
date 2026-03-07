@@ -10,30 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35ebbf763e9ad024986abca0e6263e5d, type: 3}
-  m_Name: SkeletonMage
+  m_Name: LichBoss_Skin
   m_EditorClassIdentifier: 
   <StateMachineType>k__BackingField: 0
   <NamingSettings>k__BackingField:
-    <CharacterName>k__BackingField: Skeleton Mage
-  <Faction>k__BackingField: 0
+    <CharacterName>k__BackingField: The Lich Boss
+  <Faction>k__BackingField: 3
   <CharacterSkinDataSettings>k__BackingField:
-    <PrimarySkin>k__BackingField: {fileID: 11400000, guid: 62573faa9a6a36a488bba5928ca5db71, type: 2}
+    <PrimarySkin>k__BackingField: {fileID: 11400000, guid: 29af625a3eb47604b818d6c4c1de6f9e, type: 2}
   <WeaponDataSettings>k__BackingField:
     <EquippedWeapons>k__BackingField:
-    - {fileID: 11400000, guid: 159af632270c9c04986683904c272c76, type: 2}
+    - {fileID: 11400000, guid: 6e295187551266944b89dfa635dc3643, type: 2}
   <ArmorDataSettings>k__BackingField:
     <EquippedArmor>k__BackingField: []
   <ProjectilesDataSettings>k__BackingField:
     <EquippedProjectiles>k__BackingField: {fileID: 0}
     <AmountOfProjectiles>k__BackingField: 1
   <HealthDataSettings>k__BackingField:
-    <MaxHealth>k__BackingField: 100
+    <MaxHealth>k__BackingField: 5000
     <CurrentHealthPercentage>k__BackingField: 100
-    <HitReactionTriggerValuePercentage>k__BackingField: 10
+    <HitReactionTriggerValuePercentage>k__BackingField: 100
   <AccuracySettings>k__BackingField:
-    <ShootingAccuracy>k__BackingField: 0
-    <MeleeAccuracy>k__BackingField: 0
-    <MagicAccuracy>k__BackingField: 75
+    <ShootingAccuracy>k__BackingField: 50
+    <MeleeAccuracy>k__BackingField: 50
+    <MagicAccuracy>k__BackingField: 50
   <ResistanceSettings>k__BackingField:
     <Resistances>k__BackingField:
     - <ResistancePercentage>k__BackingField: 10
