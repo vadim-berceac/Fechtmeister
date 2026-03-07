@@ -318,6 +318,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2895659091404197368, guid: 3ae526ec5143291458cf08a2fcfe840f, type: 3}
+      propertyPath: <IsAI>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2986210682719602384, guid: 3ae526ec5143291458cf08a2fcfe840f, type: 3}
       propertyPath: m_Name
       value: Boss

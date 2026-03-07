@@ -17,6 +17,9 @@ public class CombatIdleState : MovementState
                                                                && c.GraphCore.UpperBodyLayerController.IsComplete(), "FastAttackState"),
             new(character => character.CharacterInputHandler.IsAimBlock 
                              && character.Inventory.WeaponSystem.WeaponInstanceIsRanged &&
+                             character.IsBoss, "LoadState"),
+            new(character => character.CharacterInputHandler.IsAimBlock 
+                             && character.Inventory.WeaponSystem.WeaponInstanceIsRanged &&
                              !character.Inventory.ProjectileSystem.IsProjectileLoaded 
                              && character.Inventory.ProjectileSystem.HasProjectiles(), "ReloadProjectileState"),
             new(character => character.CharacterInputHandler.IsAimBlock 

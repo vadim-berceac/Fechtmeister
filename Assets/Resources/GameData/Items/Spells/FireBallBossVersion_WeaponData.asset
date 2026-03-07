@@ -38,9 +38,9 @@ MonoBehaviour:
   <BoneData>k__BackingField:
   - <UseBone>k__BackingField: 0
     <BonesType>k__BackingField: 0
-    <Position>k__BackingField: {x: 0, y: 0.45, z: 0.7}
+    <Position>k__BackingField: {x: 0, y: 0.3, z: 0.7}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 1}
-    <Scale>k__BackingField: 8
+    <Scale>k__BackingField: 6
     <Active>k__BackingField: 1
   - <UseBone>k__BackingField: 1
     <BonesType>k__BackingField: 0

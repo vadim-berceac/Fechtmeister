@@ -16,6 +16,7 @@ MonoBehaviour:
   <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: d1c08c10b4bd242438651b0e8144b179, type: 2}
+  - {fileID: 11400000, guid: c7714c3231885ff41b41fdab9f3dfc7f, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <ItemTargetingRigWeight>k__BackingField: 0

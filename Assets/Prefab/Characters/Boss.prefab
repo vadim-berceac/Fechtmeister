@@ -51,13 +51,16 @@ MonoBehaviour:
   aimBones:
   - bone: 7
     weightMultiplier: 0.3
-    rotationOffset: {x: 0, y: 60, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
   - bone: 8
     weightMultiplier: 0.5
-    rotationOffset: {x: 0, y: 65, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
   - bone: 54
     weightMultiplier: 1
-    rotationOffset: {x: 0, y: 80, z: -5.5}
+    rotationOffset: {x: 0, y: 0, z: 0}
+  - bone: 10
+    weightMultiplier: 1
+    rotationOffset: {x: 0, y: 0, z: 0}
   botsAimOffset: {x: 0, y: 1.2, z: 0}
   transitionDuration: 0.3
 --- !u!1 &1648636202949433666
@@ -349,6 +352,9 @@ MonoBehaviour:
   - rid: 4500087333863031052
   - rid: 4500087333863031053
   - rid: 2143866375665877413
+  - rid: 3693662151442694247
+  - rid: 3693662151442694248
+  - rid: 3693662151442694249
   m_OriginalGraph: {fileID: 0}
   m_IsInitialised: 0
   m_IsStarted: 0
@@ -363,6 +369,30 @@ MonoBehaviour:
           m_Value1: 7750103555757273826
         Name: CharacterCore
         m_Value: {fileID: 2895659091404197368}
+    - rid: 3693662151442694247
+      type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 2287121218209708727
+          m_Value1: 4773044055147986518
+        Name: IsInCombat
+        m_Value: 1
+    - rid: 3693662151442694248
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 14760480134787845309
+          m_Value1: 12219004044568479268
+        Name: WanderRadius
+        m_Value: 0
+    - rid: 3693662151442694249
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 2443913963356679840
+          m_Value1: 1096145468088958725
+        Name: MoveSpeed
+        m_Value: 0
     - rid: 4500087333253021778
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -426,7 +456,7 @@ MonoBehaviour:
   <GeneralMixerCount>k__BackingField: 2
   lookAtBones:
   - humanBone: 10
-    target: {fileID: 7385866524462690004}
+    target: {fileID: 2828173811682197161}
     weight: 0.6
     aimAxis: {x: 0, y: 0, z: 1}
     upAxis: {x: 0, y: 1, z: 0}
@@ -438,7 +468,7 @@ MonoBehaviour:
     maxHorizontalAngle: 0
     bone: {fileID: 0}
   - humanBone: 9
-    target: {fileID: 7385866524462690004}
+    target: {fileID: 2828173811682197161}
     weight: 0.25
     aimAxis: {x: 0, y: 0, z: 1}
     upAxis: {x: 0, y: 1, z: 0}
@@ -511,6 +541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsAI>k__BackingField: 1
+  <IsBoss>k__BackingField: 1
   <InputSmoothingSpeed>k__BackingField: 10
   <DamagedObject>k__BackingField: {fileID: 0}
   <GravitySettings>k__BackingField:

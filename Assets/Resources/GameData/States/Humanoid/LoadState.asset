@@ -16,10 +16,11 @@ MonoBehaviour:
   <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: 5b1a0fb27ddeeac4ea0ae73a1e1045b9, type: 2}
+  - {fileID: 11400000, guid: de2ba288cde940f44ad60f8e133d7c38, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <ItemTargetingRigWeight>k__BackingField: 0
-  <AimRigWeight>k__BackingField: 0.5
+  <AimRigWeight>k__BackingField: 1
   <AllowSwitchWeaponInstance>k__BackingField: 0
   <RotationByCamera>k__BackingField: 1
   <RotationSpeed>k__BackingField: 1
