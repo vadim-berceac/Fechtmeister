@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
@@ -8,7 +9,7 @@ public class ProjectileController : MonoBehaviour
     private Collider _parent;
     private HealthComponent _parentHealth;
     private Transform _transform;
-    private readonly Collider[] _hitResults = new Collider[5];
+    private readonly Collider[] _hitResults    = new Collider[5];
     private readonly Collider[] _threatResults = new Collider[10];
     private bool _stuck;
     private bool _threatNotified;
@@ -18,10 +19,15 @@ public class ProjectileController : MonoBehaviour
     private LayerMask _characterLayerMask;
 
     private GameObject _trail;
-
+    
+    private HealthComponent _homingTarget;
+    private float _homingTimer;   
+    private float _acquireTimer;   
+    private bool  _homingActive;
+   
     private void Start()
     {
-        _transform = transform;
+        _transform  = transform;
         _audioSource = gameObject.AddComponent<AudioSource>();
 
         if (_characterLayerMask == 0)
@@ -32,28 +38,34 @@ public class ProjectileController : MonoBehaviour
 
     public void SetParams(ProjectileData data, WeaponData weaponData)
     {
-        _data = data;
+        _data       = data;
         _weaponData = weaponData;
     }
 
     public void Launch(Collider parent, Transform aimTargetTransform)
     {
-        _parent = parent;
+        _parent       = parent;
         _parentHealth = parent.GetComponentInParent<HealthComponent>();
         _threatNotified = false;
         _transform.parent = null;
 
         if (_data.TrailPrefab != null)
             _trail = Instantiate(_data.TrailPrefab, _transform);
-
-        var targetPos = aimTargetTransform.position;
+      
+        var h = _data.HomingSettings;
+        _homingActive = h.Enabled && h.Duration > 0f;
+        _homingTimer  = 0f;
+        _acquireTimer = 0f;
+        _homingTarget = null;
+       
+        var targetPos    = aimTargetTransform.position;
         var displacement = targetPos - _transform.position;
-        var upDir = Vector3.up;
-        var horizontal = displacement - Vector3.Project(displacement, upDir);
+        var upDir        = Vector3.up;
+        var horizontal   = displacement - Vector3.Project(displacement, upDir);
         var d = horizontal.magnitude;
-        var h = Vector3.Dot(displacement, upDir);
+        var hDist = Vector3.Dot(displacement, upDir);
         var v = _data.WeaponParams.AttackSpeed;
-        var g = -_data.LaunchSettings.Gravity; 
+        var g = -_data.LaunchSettings.Gravity;
 
         Vector3 launchDirection;
         if (Mathf.Abs(g) < 0.01f || d < 0.01f)
@@ -64,7 +76,7 @@ public class ProjectileController : MonoBehaviour
         {
             var a = (g * d * d) / (2 * v * v);
             var b = -d;
-            var c = (g * d * d) / (2 * v * v) + h;
+            var c = (g * d * d) / (2 * v * v) + hDist;
             var discriminant = b * b - 4 * a * c;
 
             if (discriminant < 0)
@@ -73,55 +85,92 @@ public class ProjectileController : MonoBehaviour
             }
             else
             {
-                var sqrtD = Mathf.Sqrt(discriminant);
+                var sqrtD    = Mathf.Sqrt(discriminant);
                 var tanTheta1 = (-b + sqrtD) / (2 * a);
                 var tanTheta2 = (-b - sqrtD) / (2 * a);
-
-                var tanTheta = Mathf.Abs(tanTheta1) < Mathf.Abs(tanTheta2) ? tanTheta1 : tanTheta2;
-
-                var theta = Mathf.Atan(tanTheta);
-                var horizDir = horizontal.normalized;
+                var tanTheta  = Mathf.Abs(tanTheta1) < Mathf.Abs(tanTheta2) ? tanTheta1 : tanTheta2;
+                var theta     = Mathf.Atan(tanTheta);
+                var horizDir  = horizontal.normalized;
                 launchDirection = horizDir * Mathf.Cos(theta) + upDir * Mathf.Sin(theta);
             }
         }
 
-        _velocity = launchDirection * v;
+        _velocity          = launchDirection * v;
         _transform.rotation = Quaternion.LookRotation(launchDirection);
 
         Destroy(gameObject, _data.LaunchSettings.Lifetime);
-
         PlayFlySound();
     }
 
-    private void PlayFlySound()
+    private HealthComponent FindNearestHomingTarget()
     {
-        if (_data.WeaponParams.WhooshSounds== null) return;
-
-        _audioSource.clip = _data.WeaponParams.WhooshSounds.GetRandomClip();
-        _audioSource.loop = true;
-        _audioSource.volume = 0.2f;
-        _audioSource.spatialBlend = 1f;
-        _audioSource.rolloffMode = AudioRolloffMode.Custom;
-        _audioSource.minDistance = 1f;
-        _audioSource.maxDistance = 30f;
-        _audioSource.SetCustomCurve(
-            AudioSourceCurveType.CustomRolloff,
-            AnimationCurve.EaseInOut(0f, 1f, 1f, 0f)
+        var settings  = _data.HomingSettings;
+        var hitCount  = Physics.OverlapSphereNonAlloc(
+            _transform.position,
+            settings.SearchRadius,
+            _threatResults,
+            _characterLayerMask
         );
-        _audioSource.Play();
-    }
 
-    private static void PlaySound(AudioSource audioSource, AudioClip clip, Transform pos)
-    {
-        if (audioSource != null)
+        HealthComponent best     = null;
+        float           bestDist = float.MaxValue;
+
+        for (var i = 0; i < hitCount; i++)
         {
-            audioSource.Stop();
-            audioSource.loop = false;
+            var col = _threatResults[i];
+            if (col == null || col == _parent) continue;
+
+            var health = col.GetComponentInParent<HealthComponent>();
+            if (health == null || health == _parentHealth) continue;
+            if (health.IsDestroyed) continue;
+
+            var damageable = col.GetComponent<IDamageable>();
+            if (damageable == null) continue;
+
+            var dist = (_transform.position - col.transform.position).sqrMagnitude;
+            if (dist < bestDist)
+            {
+                bestDist = dist;
+                best     = health;
+            }
         }
 
-        if (clip == null) return;
+        return best;
+    }
 
-        AudioSource.PlayClipAtPoint(clip, pos.position);
+    private void UpdateHoming(float dt)
+    {
+        var settings = _data.HomingSettings;
+
+        if (_acquireTimer < settings.AcquireDelay)
+        {
+            _acquireTimer += dt;
+            return;
+        }
+
+        if (_homingTimer >= settings.Duration)
+        {
+            _homingActive = false;
+            return;
+        }
+
+        _homingTimer += dt;
+
+        if (_homingTarget == null || _homingTarget.IsDestroyed)
+            _homingTarget = FindNearestHomingTarget();
+
+        if (_homingTarget == null) return;
+
+        var aimPoint = _homingTarget.DamagedObject != null
+            ? _homingTarget.DamagedObject.position
+            : _homingTarget.transform.position;
+        var toTarget = (aimPoint - _transform.position).normalized;
+        var currentDir   = _velocity.normalized;
+        var speed        = _velocity.magnitude;
+        var maxAngle     = settings.TurnSpeed * dt;     
+
+        var newDir       = Vector3.RotateTowards(currentDir, toTarget, maxAngle, 0f);
+        _velocity        = newDir * speed;
     }
 
     private void FixedUpdate()
@@ -129,6 +178,7 @@ public class ProjectileController : MonoBehaviour
         if (_stuck || _velocity.sqrMagnitude < 0.01f) return;
 
         RunPhysics();
+        if (_homingActive) UpdateHoming(Time.fixedDeltaTime);
         UpdateRotation();
         DetectThreatsNearby();
         DetectCollisions();
@@ -153,10 +203,8 @@ public class ProjectileController : MonoBehaviour
         if (_threatNotified) return;
 
         var hitCount = Physics.OverlapSphereNonAlloc(
-            _transform.position,
-            ThreatDetectionRadius,
-            _threatResults,
-            _characterLayerMask
+            _transform.position, ThreatDetectionRadius,
+            _threatResults, _characterLayerMask
         );
 
         for (var i = 0; i < hitCount; i++)
@@ -179,7 +227,7 @@ public class ProjectileController : MonoBehaviour
 
     private void DetectCollisions()
     {
-        var center = _transform.position + _transform.forward * _data.WeaponParams.HitBoxForwardOffset;
+        var center      = _transform.position + _transform.forward * _data.WeaponParams.HitBoxForwardOffset;
         var halfExtents = _data.WeaponParams.HitBoxSize * 0.5f;
 
         var hitCount = Physics.OverlapBoxNonAlloc(
@@ -199,11 +247,11 @@ public class ProjectileController : MonoBehaviour
 
     private void HandleHit(Collider hit)
     {
-        var damaged = hit.GetComponent<HitBodyPart>();
+        var damaged      = hit.GetComponent<HitBodyPart>();
         var hitDirection = _velocity.normalized;
 
         _velocity = Vector3.zero;
-        _stuck = true;
+        _stuck    = true;
 
         var closest = hit.ClosestPoint(_transform.position);
         _transform.position = closest - hitDirection * _data.LaunchSettings.StickOffset;
@@ -218,16 +266,40 @@ public class ProjectileController : MonoBehaviour
         damaged.Damage(totalDamage, _data.WeaponParams.DamageType, _parent.transform);
 
         if (damaged.Health.IsDestroyed)
-        {
             Destroy(gameObject);
-        }
         else if (damaged.Health.IsHitReactionEnabled)
-        {
             _transform.SetParent(damaged.Transform);
-        }
         else
-        {
             Destroy(gameObject);
+    }
+
+    private void PlayFlySound()
+    {
+        if (_data.WeaponParams.WhooshSounds == null) return;
+
+        _audioSource.clip         = _data.WeaponParams.WhooshSounds.GetRandomClip();
+        _audioSource.loop         = true;
+        _audioSource.volume       = 0.2f;
+        _audioSource.spatialBlend = 1f;
+        _audioSource.rolloffMode  = AudioRolloffMode.Custom;
+        _audioSource.minDistance  = 1f;
+        _audioSource.maxDistance  = 30f;
+        _audioSource.SetCustomCurve(
+            AudioSourceCurveType.CustomRolloff,
+            AnimationCurve.EaseInOut(0f, 1f, 1f, 0f)
+        );
+        _audioSource.Play();
+    }
+
+    private static void PlaySound(AudioSource audioSource, AudioClip clip, Transform pos)
+    {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+            audioSource.loop = false;
         }
+
+        if (clip == null) return;
+        AudioSource.PlayClipAtPoint(clip, pos.position);
     }
 }

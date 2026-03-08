@@ -13,32 +13,38 @@ MonoBehaviour:
   m_Name: FireballProjectile
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileData
   <WeaponParams>k__BackingField:
-    <Damage>k__BackingField: 30
+    <Damage>k__BackingField: 10
     <DamageType>k__BackingField: 5
-    <AttackSpeed>k__BackingField: 20
+    <AttackSpeed>k__BackingField: 13
     <PreferredDistance>k__BackingField: 0
     <HitBoxSize>k__BackingField: {x: 0.1, y: 0.1, z: 0.3}
     <HitBoxForwardOffset>k__BackingField: 0.3
-    <WhooshSounds>k__BackingField: {fileID: 11400000, guid: abce1e46dad211542ae293c7b3b465ed, type: 2}
-    <HitSounds>k__BackingField: {fileID: 11400000, guid: 6c40010efa1c0cb489d6eb7d96532e3b, type: 2}
+    <WhooshSounds>k__BackingField: {fileID: 11400000, guid: 1df887e468471e3438c41d593a22ff87, type: 2}
+    <HitSounds>k__BackingField: {fileID: 11400000, guid: 265bd748139fb224cb965e467ff2514e, type: 2}
     <WastingCharges>k__BackingField:
       <WastingCharges>k__BackingField: 0
       <ChargesPerUse>k__BackingField: 0
   <LaunchSettings>k__BackingField:
     <StickOffset>k__BackingField: 0.05
-    <Gravity>k__BackingField: -3
+    <Gravity>k__BackingField: -1.5
     <Drag>k__BackingField: 0.5
     <MaxSpreadAngles>k__BackingField: 7.5
     <Lifetime>k__BackingField: 5
     <LayerMask>k__BackingField:
       serializedVersion: 2
       m_Bits: 4194305
+  <HomingSettings>k__BackingField:
+    <Enabled>k__BackingField: 1
+    <Duration>k__BackingField: 0.3
+    <TurnSpeed>k__BackingField: 15
+    <SearchRadius>k__BackingField: 10
+    <AcquireDelay>k__BackingField: 0.2
   <ItemName>k__BackingField: FireBallProjectile
   <ItemDescription>k__BackingField: FireBallProjectile
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: b25c1596f6fcfdf4c854fb6aed358dd0, type: 3}
   <EquippedModelPrefab>k__BackingField: {fileID: 1925481177651670, guid: 193cf1e59d4c0e44fa30acf094379063, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 4008575852445660223, guid: b45b8b25893fb024eb094994da2c9e3e, type: 3}
-  <SpawnSound>k__BackingField: {fileID: 8300000, guid: 9daf4e1918ba3a24c9c1cfdc0c823e4d, type: 3}
+  <SpawnSound>k__BackingField: {fileID: 8300000, guid: 96ffa23d17c700447943d5f97077c8d2, type: 3}
   <TrailPrefab>k__BackingField: {fileID: 3417348039576045214, guid: 8a530ee1f0ae31c4eb5d66e43ee66070, type: 3}
   <BoneData>k__BackingField:
   - <UseBone>k__BackingField: 0

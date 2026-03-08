@@ -5,6 +5,7 @@ public class ProjectileData : ScriptableObject, IEquppiedItemData
 {
     [field: SerializeField] public WeaponParams WeaponParams { get; set; }
     [field: SerializeField] public LaunchSettings LaunchSettings { get; set; }
+    [field: SerializeField] public HomingSettings HomingSettings { get; set; }
     [field: SerializeField] public string ItemName { get; set; }
     [field: SerializeField] public string ItemDescription { get; set; }
     [field: SerializeField] public Sprite ItemIcon { get; set; }
@@ -28,4 +29,14 @@ public struct LaunchSettings
     [field: SerializeField, Range (0.01f, 20f)] public float MaxSpreadAngles { get; set; }
     [field: SerializeField] public float Lifetime { get; set; }
     [field: SerializeField] public LayerMask LayerMask { get; set; }
+}
+
+[System.Serializable]
+public struct HomingSettings
+{
+    [field: SerializeField] public bool Enabled          { get; set; }
+    [field: SerializeField] public float Duration        { get; set; } 
+    [field: SerializeField] public float TurnSpeed       { get; set; } 
+    [field: SerializeField] public float SearchRadius    { get; set; } 
+    [field: SerializeField] public float AcquireDelay   { get; set; } 
 }
