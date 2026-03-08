@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FireBallBossVersion_WeaponData
   m_EditorClassIdentifier: 
   <WeaponParams>k__BackingField:
-    <Damage>k__BackingField: 50
+    <Damage>k__BackingField: 10
     <DamageType>k__BackingField: 5
     <AttackSpeed>k__BackingField: 0
     <PreferredDistance>k__BackingField: 20
@@ -41,8 +41,8 @@ MonoBehaviour:
     <Position>k__BackingField: {x: 0, y: 0.3, z: 0.7}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 1}
     <Scale>k__BackingField: 6
-    <Active>k__BackingField: 1
-  - <UseBone>k__BackingField: 1
+    <Active>k__BackingField: 0
+  - <UseBone>k__BackingField: 0
     <BonesType>k__BackingField: 0
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 1}
