@@ -24,6 +24,7 @@ public class ProjectileData : ScriptableObject, IEquppiedItemData
 public struct LaunchSettings
 {
     [field: SerializeField] public float StickOffset { get; set; }
+    [field: SerializeField] public bool DestroyOnHit { get; set; }
     [field: SerializeField] public float Gravity { get; set; }
     [field: SerializeField] public float Drag { get; set; }
     [field: SerializeField, Range (0.01f, 20f)] public float MaxSpreadAngles { get; set; }

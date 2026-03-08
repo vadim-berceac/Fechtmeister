@@ -40,7 +40,3 @@ MonoBehaviour:
     <Resistances>k__BackingField:
     - <ResistancePercentage>k__BackingField: 10
       <DamageType>k__BackingField: 4
-    - <ResistancePercentage>k__BackingField: 50
-      <DamageType>k__BackingField: 6
-    - <ResistancePercentage>k__BackingField: 30
-      <DamageType>k__BackingField: 5

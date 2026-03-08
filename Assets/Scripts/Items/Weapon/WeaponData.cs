@@ -28,6 +28,7 @@ public struct WeaponParams
     [field: SerializeField] public float HitBoxForwardOffset { get; set; }
     [field: SerializeField] public SfxSet WhooshSounds { get; set; }
     [field: SerializeField] public SfxSet HitSounds { get; set; }
+    [field: SerializeField] public GameObject HitParticlePrefab { get; set; }
     [field: SerializeField] public WastingChargesSettings WastingCharges { get; set; }
 }
 

@@ -164,13 +164,22 @@ public class ProjectileController : MonoBehaviour
         var aimPoint = _homingTarget.DamagedObject != null
             ? _homingTarget.DamagedObject.position
             : _homingTarget.transform.position;
-        var toTarget = (aimPoint - _transform.position).normalized;
-        var currentDir   = _velocity.normalized;
-        var speed        = _velocity.magnitude;
-        var maxAngle     = settings.TurnSpeed * dt;     
+        
+        var speed = _velocity.magnitude;
+        if (speed > 0.01f)
+        {
+            var dist         = (aimPoint - _transform.position).magnitude;
+            var timeToTarget = dist / speed;
+            var gravityDrop  = 0.5f * Mathf.Abs(_data.LaunchSettings.Gravity) * timeToTarget * timeToTarget;
+            aimPoint        += Vector3.up * gravityDrop;
+        }
 
-        var newDir       = Vector3.RotateTowards(currentDir, toTarget, maxAngle, 0f);
-        _velocity        = newDir * speed;
+        var toTarget   = (aimPoint - _transform.position).normalized;
+        var currentDir = _velocity.normalized;
+        var maxAngle   = settings.TurnSpeed * dt;
+
+        var newDir = Vector3.RotateTowards(currentDir, toTarget, maxAngle, 0f);
+        _velocity  = newDir * speed;
     }
 
     private void FixedUpdate()
@@ -247,7 +256,9 @@ public class ProjectileController : MonoBehaviour
 
     private void HandleHit(Collider hit)
     {
-        var damaged      = hit.GetComponent<HitBodyPart>();
+        var damaged = hit.GetComponent<HitBodyPart>();
+    
+        Debug.Log($"[Projectile] Hit: {hit.name} | HitBodyPart: {damaged != null} | Layer: {LayerMask.LayerToName(hit.gameObject.layer)}");
         var hitDirection = _velocity.normalized;
 
         _velocity = Vector3.zero;
@@ -257,6 +268,21 @@ public class ProjectileController : MonoBehaviour
         _transform.position = closest - hitDirection * _data.LaunchSettings.StickOffset;
 
         PlaySound(_audioSource, _data.WeaponParams.HitSounds.GetRandomClip(), _transform);
+        
+        if (_data.WeaponParams.HitParticlePrefab != null)
+        {
+            var fx = Instantiate(
+                _data.WeaponParams.HitParticlePrefab,
+                _transform.position,
+                _transform.rotation
+            );
+    
+            var ps = fx.GetComponent<ParticleSystem>();
+            if (ps != null)
+                Destroy(fx, ps.main.duration + ps.main.startLifetime.constantMax);
+            else
+                Destroy(fx, 5f);
+        }
 
         if (_trail) _trail.SetActive(false);
 
@@ -265,12 +291,18 @@ public class ProjectileController : MonoBehaviour
         var totalDamage = _data.WeaponParams.Damage + _weaponData.WeaponParams.Damage;
         damaged.Damage(totalDamage, _data.WeaponParams.DamageType, _parent.transform);
 
-        if (damaged.Health.IsDestroyed)
+        if (damaged.Health.IsDestroyed || _data.LaunchSettings.DestroyOnHit)
+        {
             Destroy(gameObject);
+        }
         else if (damaged.Health.IsHitReactionEnabled)
+        {
             _transform.SetParent(damaged.Transform);
+        }
         else
+        {
             Destroy(gameObject);
+        }
     }
 
     private void PlayFlySound()
