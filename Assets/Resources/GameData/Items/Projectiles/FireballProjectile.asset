@@ -26,17 +26,17 @@ MonoBehaviour:
       <ChargesPerUse>k__BackingField: 0
   <LaunchSettings>k__BackingField:
     <StickOffset>k__BackingField: 0.05
-    <Gravity>k__BackingField: -9.81
+    <Gravity>k__BackingField: -3
     <Drag>k__BackingField: 0.5
     <MaxSpreadAngles>k__BackingField: 7.5
-    <Lifetime>k__BackingField: 60
+    <Lifetime>k__BackingField: 5
     <LayerMask>k__BackingField:
       serializedVersion: 2
       m_Bits: 4194305
   <ItemName>k__BackingField: FireBallProjectile
   <ItemDescription>k__BackingField: FireBallProjectile
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: b25c1596f6fcfdf4c854fb6aed358dd0, type: 3}
-  <EquippedModelPrefab>k__BackingField: {fileID: 6651120253240216896, guid: 845175908cf540f458c60e619ef2c7be, type: 3}
+  <EquippedModelPrefab>k__BackingField: {fileID: 1925481177651670, guid: 193cf1e59d4c0e44fa30acf094379063, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 4008575852445660223, guid: b45b8b25893fb024eb094994da2c9e3e, type: 3}
   <SpawnSound>k__BackingField: {fileID: 8300000, guid: 9daf4e1918ba3a24c9c1cfdc0c823e4d, type: 3}
   <TrailPrefab>k__BackingField: {fileID: 3417348039576045214, guid: 8a530ee1f0ae31c4eb5d66e43ee66070, type: 3}
@@ -45,7 +45,7 @@ MonoBehaviour:
     <BonesType>k__BackingField: 0
     <Position>k__BackingField: {x: 0, y: 0.3, z: 0.7}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 1}
-    <Scale>k__BackingField: 6
+    <Scale>k__BackingField: 2.5
     <Active>k__BackingField: 1
   <ItemDecorationData>k__BackingField:
   - <ItemPrefab>k__BackingField: {fileID: 4008575852445660223, guid: eb04a484b80901c43a07ca90c21f706f, type: 3}
