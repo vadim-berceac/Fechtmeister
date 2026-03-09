@@ -37,7 +37,7 @@ MonoBehaviour:
       m_Bits: 4194305
   <HomingSettings>k__BackingField:
     <Enabled>k__BackingField: 1
-    <Duration>k__BackingField: 0.5
+    <Duration>k__BackingField: 1.2
     <TurnSpeed>k__BackingField: 15
     <SearchRadius>k__BackingField: 10
     <AcquireDelay>k__BackingField: 0.2

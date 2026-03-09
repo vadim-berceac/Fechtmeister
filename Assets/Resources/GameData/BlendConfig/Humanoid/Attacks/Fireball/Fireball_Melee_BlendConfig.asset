@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa173714b11dd8842bdaecaa815f267a, type: 3}
-  m_Name: Fireball_Attack_BlendConfig
+  m_Name: Fireball_Melee_BlendConfig
   m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
-  <ParamValue>k__BackingField: 2
+  <ParamValue>k__BackingField: 6
   <Clips>k__BackingField:
-  - <Clip>k__BackingField: {fileID: 7400000, guid: f1613afb92638e743bace9a9392b5ee7, type: 3}
-    <ParamValue>k__BackingField: 6
+  - <Clip>k__BackingField: {fileID: -203655887218126122, guid: 309a460887e19b14b8c70ffc9597e9ec, type: 3}
+    <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 1
+    <Speed>k__BackingField: 0.3
+    <ActionTime>k__BackingField: 0.3
+  - <Clip>k__BackingField: {fileID: -1795801472205322672, guid: 309a460887e19b14b8c70ffc9597e9ec, type: 3}
+    <ParamValue>k__BackingField: 1
+    <ParamPosition>k__BackingField: {x: 0, y: 0}
+    <Speed>k__BackingField: 0.3
     <ActionTime>k__BackingField: 0.3

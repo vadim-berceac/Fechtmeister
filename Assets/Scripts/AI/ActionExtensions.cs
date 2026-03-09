@@ -287,4 +287,14 @@ public static class ActionExtensions
         }
         return ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData).RangeType != RangeTypes.Melee;
     }
+
+    public static RangeTypes GetRangeTypes(this Action action, CharacterCore character)
+    {
+        if (character.Inventory.WeaponSystem.InstanceInHands == null)
+        {
+            return RangeTypes.Melee;
+        }
+
+        return ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData).RangeType;
+    }
 }

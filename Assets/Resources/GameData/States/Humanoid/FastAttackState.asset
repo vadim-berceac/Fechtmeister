@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0101849051c0ad8489c216350a866d9e, type: 3}
   m_Name: FastAttackState
   m_EditorClassIdentifier: 
-  <EnterTransitionDuration>k__BackingField: 0.05
+  <EnterTransitionDuration>k__BackingField: 0.1
   <ApplyRootMotion>k__BackingField: 1
   <Clips>k__BackingField:
   - {fileID: 11400000, guid: 047f756252aeab84687de3b8912f4532, type: 2}
   - {fileID: 11400000, guid: 4b9af6f30bb271c40825f1a59a6cbdd1, type: 2}
   - {fileID: 11400000, guid: ad5210f2e6e8ab846a1dca0f000f299c, type: 2}
-  - {fileID: 11400000, guid: 482b6ef72eaa6f34e98d1c1e9615e90a, type: 2}
+  - {fileID: 11400000, guid: f43e594225d287a4a9f475344e38b2dd, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <ItemTargetingRigWeight>k__BackingField: 0

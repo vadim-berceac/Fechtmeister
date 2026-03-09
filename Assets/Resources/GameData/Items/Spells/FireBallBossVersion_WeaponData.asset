@@ -19,8 +19,8 @@ MonoBehaviour:
     <PreferredDistance>k__BackingField: 20
     <HitBoxSize>k__BackingField: {x: 0, y: 0, z: 0}
     <HitBoxForwardOffset>k__BackingField: 0
-    <WhooshSounds>k__BackingField: {fileID: 0}
-    <HitSounds>k__BackingField: {fileID: 0}
+    <WhooshSounds>k__BackingField: {fileID: 11400000, guid: 1df887e468471e3438c41d593a22ff87, type: 2}
+    <HitSounds>k__BackingField: {fileID: 11400000, guid: 265bd748139fb224cb965e467ff2514e, type: 2}
     <HitParticlePrefab>k__BackingField: {fileID: 0}
     <WastingCharges>k__BackingField:
       <WastingCharges>k__BackingField: 2
@@ -34,19 +34,7 @@ MonoBehaviour:
   <RangeType>k__BackingField: 2
   <AnimationType>k__BackingField: 6
   <AttackCounterSettings>k__BackingField:
-    <AttacksCount>k__BackingField: 3
-    <AttacksResetDelay>k__BackingField: 5
-  <BoneData>k__BackingField:
-  - <UseBone>k__BackingField: 0
-    <BonesType>k__BackingField: 0
-    <Position>k__BackingField: {x: 0, y: 0.3, z: 0.7}
-    <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 1}
-    <Scale>k__BackingField: 6
-    <Active>k__BackingField: 0
-  - <UseBone>k__BackingField: 0
-    <BonesType>k__BackingField: 0
-    <Position>k__BackingField: {x: 0, y: 0, z: 0}
-    <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 1}
-    <Scale>k__BackingField: 1
-    <Active>k__BackingField: 0
+    <AttacksCount>k__BackingField: 2
+    <AttacksResetDelay>k__BackingField: 15
+  <BoneData>k__BackingField: []
   <ItemDecorationData>k__BackingField: []
