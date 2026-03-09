@@ -11,32 +11,35 @@ public partial class AttackTargetAction : Action
 {
     [SerializeReference] public BlackboardVariable<HealthComponent> CurrentTarget;
     [SerializeReference] public BlackboardVariable<CharacterCore> CharacterCore;
-    [SerializeReference] public BlackboardVariable<float> MixedRangeMeleeRange;
     [SerializeReference] public BlackboardVariable<float> AttackCooldown;
     [SerializeReference] public BlackboardVariable<float> RotationSpeed;
     [SerializeReference] public BlackboardVariable<float> AimTime;
-    [SerializeReference] public BlackboardVariable<bool> IsAttacking;
+    [SerializeReference] public BlackboardVariable<bool> IsAttacking; 
 
     private BehaviorNewInput _inputSystem;
     private Transform _selfTransform;
-    private RangeTypes _rangeType;
-
+    private float _attackRange;
+    private bool _isRangedWeapon;
     private bool _isAiming;
-    private bool _shotFired;
-    private float _aimStartTime;
+    private bool _aimBlockActivated;
     private float _lastAttackTime = -999f;
-
+    private float _aimStartTime;
     private const float CooldownBuffer = 0.1f;
 
     protected override Status OnStart()
     {
         if (_inputSystem == null)
             _inputSystem = GameObject.GetComponent<BehaviorNewInput>();
+        
         if (_selfTransform == null)
             _selfTransform = GameObject.transform;
-
-        _rangeType = this.GetRangeTypes(CharacterCore.Value);
-        _shotFired = false;
+    
+        _attackRange = this.GetAttackRange(CharacterCore.Value);
+        _isRangedWeapon = this.IsWeaponRanged(CharacterCore.Value);
+    
+        _isAiming = false;
+        _aimBlockActivated = false;
+        _aimStartTime = 0f;
 
         return Status.Running;
     }
@@ -45,104 +48,155 @@ public partial class AttackTargetAction : Action
     {
         if (_inputSystem == null || !_inputSystem.IsEnabled)
             return Status.Failure;
-
-        if (CurrentTarget.Value == null || CurrentTarget.Value.IsDestroyed)
+    
+        var targetStatus = CheckTarget();
+        if (targetStatus == Status.Success)
         {
-            Cleanup();
+            SetAttackingFlag(false);
             return Status.Success;
         }
-
-        float distance = (_selfTransform.position - CurrentTarget.Value.transform.position).magnitude;
-
-        // inMeleeRange — единственный источник истины для Mixed, вычисляется из сырой дистанции
-        bool inMeleeRange = _rangeType == RangeTypes.Melee ||
-                            (_rangeType == RangeTypes.Mixed && distance <= MixedRangeMeleeRange.Value);
-
-        RotateToTarget();
-        _inputSystem.SimulateMove(Vector2.zero);
-
-        // Выстрел был в прошлом фрейме — теперь снимаем блок
-        if (_shotFired)
-        {
-            _shotFired = false;
-            StopAiming();
-            _lastAttackTime = Time.time;
-        }
-
-        // Фаза прицеливания — не прерываем, даём выстрелу произойти.
+    
+        var targetTransform = CurrentTarget.Value.transform;
+        var currentPos = _selfTransform.position;
+        var targetPos = targetTransform.position;
+        var distance = (currentPos - targetPos).magnitude;
+    
+        RotateToTarget(targetPos, currentPos);
+    
         if (_isAiming)
         {
             SetAttackingFlag(true);
-            if (!_inputSystem.IsAimBlockActive)
-                _inputSystem.SimulateBlock();
-            if (Time.time - _aimStartTime >= AimTime.Value)
-            {
-                _inputSystem.SimulateAttack();
-                _shotFired = true; // StopAiming в следующем фрейме
-            }
+            HandleAiming();
+            _inputSystem.SimulateMove(Vector2.zero);
             return Status.Running;
         }
-
+    
         SetAttackingFlag(false);
-
-        float cooldown = inMeleeRange
-            ? AttackCooldown.Value
-            : AttackCooldown.Value + CooldownBuffer;
-
-        if (Time.time - _lastAttackTime < cooldown)
-            return Status.Running;
-
-        if (inMeleeRange)
-        {
-            _inputSystem.SimulateAttack();
-            _lastAttackTime = Time.time;
-        }
-        else
-        {
-            StartAiming();
-        }
-
+        HandlePositioning(distance);
+        CheckAttackConditions();
+    
         return Status.Running;
     }
 
-    private void StartAiming()
+    private void SetAttackingFlag(bool isAttacking)
     {
-        if (_inputSystem.IsAimBlockActive)
-            _inputSystem.SimulateBlock(); // OFF — сброс до чистого состояния
-        _inputSystem.SimulateBlock();     // ON
+        if (IsAttacking != null)
+            IsAttacking.Value = isAttacking;
+    }
+
+    private void HandleAiming()
+    {
+        if (!_aimBlockActivated)
+        {
+            _inputSystem.SimulateBlock();
+            _aimBlockActivated = true;
+        }
+        
+        var aimDuration = Time.time - _aimStartTime;
+        
+        if (aimDuration < AimTime.Value)
+        {
+            return;
+        }
+        _inputSystem.SimulateAttack();
+        _lastAttackTime = Time.time;
+    }
+
+    private Status CheckTarget()
+    {
+        if (CurrentTarget.Value == null || CurrentTarget.Value.IsDestroyed)
+        {
+            _inputSystem.SimulateMove(Vector2.zero);
+            StopAiming();
+            return Status.Success;
+        }
+        return Status.Failure;
+    }
+
+    private void RotateToTarget(Vector3 targetPos, Vector3 currentPos)
+    {
+        var direction = (targetPos - currentPos).normalized;
+        var horizontalDirection = new Vector3(direction.x, 0, direction.z).normalized;
+        
+        if (horizontalDirection.magnitude <= 0.1f)
+            return;
+        
+        var targetRotation = Quaternion.LookRotation(horizontalDirection);
+        _selfTransform.rotation = Quaternion.Slerp(
+            _selfTransform.rotation, 
+            targetRotation, 
+            RotationSpeed.Value * Time.deltaTime
+        );
+    }
+
+    private void HandlePositioning(float distance)
+    {
+        if (distance > _attackRange * 0.9f)
+        {
+            _inputSystem.SimulateMove(Vector2.up * 0.5f);
+        }
+        else if (distance < _attackRange * 0.5f)
+        {
+            _inputSystem.SimulateMove(Vector2.down * 0.5f);
+        }
+        else
+        {
+            _inputSystem.SimulateMove(Vector2.zero);
+        }
+    }
+
+    private void CheckAttackConditions()
+    {
+        if (_isAiming)
+            return;
+        
+        var effectiveCooldown = _isRangedWeapon 
+            ? AttackCooldown.Value + CooldownBuffer 
+            : AttackCooldown.Value;
+        
+        if (Time.time - _lastAttackTime < effectiveCooldown)
+            return;
+        
+        if (!_isRangedWeapon)
+        {
+            BeginMeleeAttack();
+        }
+        else 
+        {
+            BeginRangedAttack();
+        }
+    }
+
+    private void BeginMeleeAttack()
+    {
+        _inputSystem.SimulateAttack();
+        _lastAttackTime = Time.time;
+    }
+
+    private void BeginRangedAttack()
+    {
         _isAiming = true;
         _aimStartTime = Time.time;
     }
 
     private void StopAiming()
     {
-        if (_inputSystem.IsAimBlockActive)
-            _inputSystem.SimulateBlock(); // OFF
+        if (_aimBlockActivated)
+        {
+            _inputSystem.SimulateBlock();
+            _aimBlockActivated = false;
+        }
         _isAiming = false;
         _aimStartTime = 0f;
     }
-
-    private void RotateToTarget()
+    
+    protected override void OnEnd()
     {
-        var dir = CurrentTarget.Value.transform.position - _selfTransform.position;
-        dir.y = 0f;
-        if (dir.sqrMagnitude < 0.01f) return;
-        _selfTransform.rotation = Quaternion.Slerp(
-            _selfTransform.rotation,
-            Quaternion.LookRotation(dir.normalized),
-            RotationSpeed.Value * Time.deltaTime);
-    }
-
-    private void SetAttackingFlag(bool value)
-    {
-        if (IsAttacking != null)
-            IsAttacking.Value = value;
-    }
-
-    private void Cleanup()
-    {
+        if (_inputSystem != null)
+        {
+            _inputSystem.SimulateMove(Vector2.zero);
+            StopAiming();
+        }
         SetAttackingFlag(false);
     }
-
-    protected override void OnEnd() => Cleanup();
 }
