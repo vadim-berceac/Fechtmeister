@@ -21,6 +21,7 @@ public interface IDamageable
         Transform damagedObject, ResistanceSettings resistanceSettings);
     public bool CheckForResistance(float damageValue, DamageTypes damageType);
     public void Damage(float damage, DamageTypes damageType, Transform source = null);
+    public void EnableHitParts(bool enable);
     public void Heal(float heal);
     public void SetHitReactionThreshold(float hitReactionThreshold);
     public void SetMaxHealth(float newMaxHealth);

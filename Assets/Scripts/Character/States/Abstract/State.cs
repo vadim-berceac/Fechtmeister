@@ -35,6 +35,9 @@ public abstract class State : ScriptableObject
     [field: Header("Inventory")]
     [field: SerializeField] public bool UseInventory {get; private set;}
     
+    [field: Header("Boss only Settings")]
+    [field: SerializeField] public bool EnableBossHitParts {get; private set;}
+    
     protected  List<Transition<CharacterCore>> Transitions { get;  set; }
    
     public virtual void EnterState(CharacterCore character)
@@ -47,6 +50,11 @@ public abstract class State : ScriptableObject
         
         character.StateTimer.ResetTime();
         character.StateTimer.SetActionIsPossible(true);
+
+        if (character.IsBoss)
+        {
+            character.Health.EnableHitParts(EnableBossHitParts);
+        }
     }
 
     public virtual void UpdateState(CharacterCore character)
@@ -102,5 +110,9 @@ public abstract class State : ScriptableObject
         character.CharacterInputHandler.ResetInputBuffer();
         character.TargetingSystem.AllowItemTargeting(false);
         character.CharacterColliderSizer.SetSize(SizeMode.Full, SizeMode.Full);
+        if (character.IsBoss)
+        {
+            character.Health.EnableHitParts(false);
+        }
     }
 }

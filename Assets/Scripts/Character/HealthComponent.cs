@@ -11,6 +11,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
     public float MaxHealth { get; set; }
     public float CurrentHealth { get; set; }
     public float HitReactionThresholdPercentage { get; set; }
+    public HitBodyPart[] HitParts { get; set; }
     
     public float CurrentHealthNormalized
     {
@@ -39,6 +40,21 @@ public class HealthComponent : MonoBehaviour, IDamageable
         DamagedObject = damagedObject;
         
         SetResistance(resistanceSettings);
+    }
+
+    public void SetBodyParts(HitBodyPart[] hitParts)
+    {
+        HitParts = hitParts;
+    }
+
+    public void EnableHitParts(bool enable)
+    {
+        if(HitParts == null) return;
+        
+        foreach (var part in HitParts)
+        {
+            part.Activate(enable);
+        }
     }
 
     public void SetResistance(ResistanceSettings resistanceSettings)

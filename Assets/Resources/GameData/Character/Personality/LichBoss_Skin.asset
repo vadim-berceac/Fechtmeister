@@ -27,18 +27,12 @@ MonoBehaviour:
     <EquippedProjectiles>k__BackingField: {fileID: 11400000, guid: 1be2bc8cba1ccf74aa8ad7c10c6f2432, type: 2}
     <AmountOfProjectiles>k__BackingField: 99
   <HealthDataSettings>k__BackingField:
-    <MaxHealth>k__BackingField: 5000
+    <MaxHealth>k__BackingField: 500
     <CurrentHealthPercentage>k__BackingField: 100
-    <HitReactionTriggerValuePercentage>k__BackingField: 100
+    <HitReactionTriggerValuePercentage>k__BackingField: 15
   <AccuracySettings>k__BackingField:
     <ShootingAccuracy>k__BackingField: 50
     <MeleeAccuracy>k__BackingField: 50
     <MagicAccuracy>k__BackingField: 50
   <ResistanceSettings>k__BackingField:
-    <Resistances>k__BackingField:
-    - <ResistancePercentage>k__BackingField: 10
-      <DamageType>k__BackingField: 4
-    - <ResistancePercentage>k__BackingField: 50
-      <DamageType>k__BackingField: 6
-    - <ResistancePercentage>k__BackingField: 30
-      <DamageType>k__BackingField: 5
+    <Resistances>k__BackingField: []

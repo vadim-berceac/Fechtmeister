@@ -21,6 +21,11 @@ public class FastAttackState : State
         character.SetAnimationByWeaponIndex(this);
         character.GraphCore.FullBodyAnimatorController.SetAnimationStateClip(character.AttackCounter.GetValue());
         ((WeaponInstance)character.Inventory.WeaponSystem.InstanceInHands).ResetAction();
+        
+        character.GraphCore.UpperBodyLayerController.ResetActionTime();
+        character.Inventory.ProjectileSystem.ReturnProjectile((WeaponData)character.
+            Inventory.WeaponSystem.InstanceInHands.EquppiedItemData);
+        character.Inventory.ProjectileSystem.SetProjectileLoaded(false);
     }
     
     protected override void CheckAction(CharacterCore character)

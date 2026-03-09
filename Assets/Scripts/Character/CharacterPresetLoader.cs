@@ -8,40 +8,52 @@ public class CharacterPresetLoader : MonoBehaviour
     
     [Inject]
     private void Construct(Animator animator, DiContainer container, ModelTag modelTag, LegsAnimator legsAnimator,
-        PlayableGraphCore playableGraphCore)
+        PlayableGraphCore playableGraphCore, HealthComponent healthComponent)
     {
         SetupSkin(modelTag);
         SetupAvatar(animator);
         SetupDecorations(animator);
         animator.Rebind();
-        SetupHitBoxes(animator, container);
+        SetupHitBoxes(animator, container, healthComponent);
         if (legsAnimator != null)
         {
             SetupLegAnimator(legsAnimator, animator);
         }
     }
 
-    private void SetupHitBoxes(Animator animator, DiContainer container)
+    private void SetupHitBoxes(Animator animator, DiContainer container, HealthComponent healthComponent)
     {
-        var hitBoxes = CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.HitBoxes;
+        var hitBoxesData = CharacterPersonalityData.CharacterSkinDataSettings.PrimarySkin.HitBoxes;
+        var parts = new HitBodyPart[hitBoxesData.Length];
 
-        foreach (var hitBox in hitBoxes)
+        for (var i = 0; i < hitBoxesData.Length; i++)
         {
-            var tr = animator.GetBoneTransform(hitBox.Bone);
+            var tr = animator.GetBoneTransform(hitBoxesData[i].Bone);
             var obj = tr.gameObject;
             var col = obj.AddComponent<BoxCollider>();
             var bodyPart = obj.AddComponent<HitBodyPart>();
-            
-            obj.layer = hitBox.LayerIndex;
-            
-            col.size = hitBox.Size;
-            col.center = hitBox.Center;
-            col.excludeLayers = hitBox.Exclude;
-            col.includeLayers = hitBox.Include;
-            
+
+            if (hitBoxesData[i].VisualPrefab != null)
+            {
+                var visualObj = Instantiate(hitBoxesData[i].VisualPrefab, obj.transform);
+                visualObj.transform.localPosition = hitBoxesData[i].Center;
+                bodyPart.SetVisual(visualObj);
+            }
+        
+            obj.layer = hitBoxesData[i].LayerIndex;
+        
+            col.size = hitBoxesData[i].Size;
+            col.center = hitBoxesData[i].Center;
+            col.excludeLayers = hitBoxesData[i].Exclude;
+            col.includeLayers = hitBoxesData[i].Include;
+        
             container.Inject(bodyPart);
-            bodyPart.SetDamageMultiplier(hitBox.DamageMultiplier);
+            bodyPart.SetDamageMultiplier(hitBoxesData[i].DamageMultiplier);
+        
+            parts[i] = bodyPart;
         }
+        healthComponent.SetBodyParts(parts);
+        healthComponent.EnableHitParts(true);
     }
 
     private void SetupSkin(ModelTag modelTag)
