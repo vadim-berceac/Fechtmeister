@@ -15,7 +15,7 @@ MonoBehaviour:
   <StateMachineType>k__BackingField: 0
   <NamingSettings>k__BackingField:
     <CharacterName>k__BackingField: Skeleton Bowman
-  <Faction>k__BackingField: 0
+  <Faction>k__BackingField: 3
   <CharacterSkinDataSettings>k__BackingField:
     <PrimarySkin>k__BackingField: {fileID: 11400000, guid: 62573faa9a6a36a488bba5928ca5db71, type: 2}
   <WeaponDataSettings>k__BackingField:

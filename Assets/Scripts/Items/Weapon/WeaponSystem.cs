@@ -37,7 +37,7 @@ public class WeaponSystem : IItemInstancesContainer
 
         SelectedInstanceNotEmpty = true;
         InstanceInHands = Instances[itemIndex];
-        WeaponInstanceIsRanged = ((WeaponData)InstanceInHands.EquppiedItemData).IsRanged;
+        WeaponInstanceIsRanged = ((WeaponData)InstanceInHands.EquppiedItemData).RangeType != RangeTypes.Melee;
         OnWeaponInHandsSelected?.Invoke((WeaponData)InstanceInHands.EquppiedItemData);
     }
 

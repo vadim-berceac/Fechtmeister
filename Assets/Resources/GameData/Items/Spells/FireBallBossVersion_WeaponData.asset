@@ -21,6 +21,7 @@ MonoBehaviour:
     <HitBoxForwardOffset>k__BackingField: 0
     <WhooshSounds>k__BackingField: {fileID: 0}
     <HitSounds>k__BackingField: {fileID: 0}
+    <HitParticlePrefab>k__BackingField: {fileID: 0}
     <WastingCharges>k__BackingField:
       <WastingCharges>k__BackingField: 2
       <ChargesPerUse>k__BackingField: 25
@@ -30,7 +31,7 @@ MonoBehaviour:
   <EquippedModelPrefab>k__BackingField: {fileID: 1925481177651670, guid: 193cf1e59d4c0e44fa30acf094379063, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 2849456751479878699, guid: f7ba7b8f5f7c29a4c932ed097764e4ac, type: 3}
   <ItemPosition>k__BackingField: 6
-  <IsRanged>k__BackingField: 1
+  <RangeType>k__BackingField: 2
   <AnimationType>k__BackingField: 6
   <AttackCounterSettings>k__BackingField:
     <AttacksCount>k__BackingField: 3

@@ -10,7 +10,7 @@ public class WeaponData : ScriptableObject, IEquppiedItemData
     [field: SerializeField] public GameObject EquippedModelPrefab { get; set; }
     [field: SerializeField] public GameObject GroundedModelPrefab { get; set; }
     [field: SerializeField] public ItemsPositions.Occupied ItemPosition { get; set; }
-    [field: SerializeField] public bool IsRanged { get; set; }
+    [field: SerializeField] public RangeTypes RangeType { get; set; }
     [field: SerializeField] public int AnimationType { get; set; }
     [field: SerializeField] public AttackCounterSettings AttackCounterSettings { get; set; }
     [field: SerializeField] public BoneData[] BoneData { get; set; }
@@ -45,4 +45,11 @@ public enum WastingCharges
     Projectiles,
     Mana,
     Health
+}
+
+public enum RangeTypes
+{
+    Melee = 0,
+    Ranged = 1,
+    Mixed = 2
 }

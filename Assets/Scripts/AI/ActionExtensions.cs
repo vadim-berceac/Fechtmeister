@@ -285,6 +285,6 @@ public static class ActionExtensions
         {
             return false;
         }
-        return ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData).IsRanged;
+        return ((WeaponData)character.Inventory.WeaponSystem.InstanceInHands.EquppiedItemData).RangeType != RangeTypes.Melee;
     }
 }
