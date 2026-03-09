@@ -12,7 +12,7 @@ public class ReloadProjectileState : State
         {
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(c => c.CharacterInputHandler.IsAimBlock 
-                     && c.Inventory.WeaponSystem.WeaponInstanceIsRanged &&
+                     && c.Inventory.WeaponSystem.RangeType != RangeTypes.Melee &&
                      c.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "LoadState"),
             new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
         };

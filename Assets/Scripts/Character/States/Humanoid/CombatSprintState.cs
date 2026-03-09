@@ -16,7 +16,7 @@ public class CombatSprintState : MovementState
             new (character => !character.Inventory.IsWeaponOn, "SprintState"),
             new(character => character.CharacterInputHandler.IsJump, "JumpState"),
             new(character => !character.Gravity.Grounded, "FallState"),
-            new (c => c.CharacterInputHandler.IsAimBlock && c.Inventory.WeaponSystem.WeaponInstanceIsRanged 
+            new (c => c.CharacterInputHandler.IsAimBlock && c.Inventory.WeaponSystem.RangeType != RangeTypes.Melee 
                                                          && c.Inventory.ProjectileSystem.HasProjectiles(), "LoadState"),
             new(character => character.CharacterInputHandler.IsJump, "JumpState"),
         };

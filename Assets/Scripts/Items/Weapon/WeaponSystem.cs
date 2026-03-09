@@ -10,7 +10,7 @@ public class WeaponSystem : IItemInstancesContainer
     public Action<IEquppiedItemData> OnItemUnEquipped { get; set; }
     public Action<WeaponData> OnWeaponInHandsSelected { get; set; }
     public StateTimer StateTimer { get; set; }
-    public bool WeaponInstanceIsRanged { get; private set; }
+    public RangeTypes RangeType { get; private set; }
     public CharacterCore CharacterCore { get; private set; }
     public bool SelectedInstanceNotEmpty;
 
@@ -37,7 +37,7 @@ public class WeaponSystem : IItemInstancesContainer
 
         SelectedInstanceNotEmpty = true;
         InstanceInHands = Instances[itemIndex];
-        WeaponInstanceIsRanged = ((WeaponData)InstanceInHands.EquppiedItemData).RangeType != RangeTypes.Melee;
+        RangeType = ((WeaponData)InstanceInHands.EquppiedItemData).RangeType;
         OnWeaponInHandsSelected?.Invoke((WeaponData)InstanceInHands.EquppiedItemData);
     }
 
