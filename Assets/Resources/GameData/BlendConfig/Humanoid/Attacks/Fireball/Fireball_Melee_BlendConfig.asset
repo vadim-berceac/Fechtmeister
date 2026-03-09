@@ -17,10 +17,10 @@ MonoBehaviour:
   - <Clip>k__BackingField: {fileID: -203655887218126122, guid: 309a460887e19b14b8c70ffc9597e9ec, type: 3}
     <ParamValue>k__BackingField: 0
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 0.3
+    <Speed>k__BackingField: 0.55
     <ActionTime>k__BackingField: 0.3
   - <Clip>k__BackingField: {fileID: -1795801472205322672, guid: 309a460887e19b14b8c70ffc9597e9ec, type: 3}
     <ParamValue>k__BackingField: 1
     <ParamPosition>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField: 0.3
+    <Speed>k__BackingField: 0.55
     <ActionTime>k__BackingField: 0.3

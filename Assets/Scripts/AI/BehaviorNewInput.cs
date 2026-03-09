@@ -30,6 +30,7 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
     public int SelectedWeapon { get; set; }
     public bool IsInCombatMode { get; private set; }
     private bool _isSubscribed;
+    public bool IsAimBlockActive { get; private set; }
     private VisionSystem _visionSystem;
 
     [Inject]
@@ -47,7 +48,11 @@ public class BehaviorNewInput : ManagedUpdatableObject, ICharacterInputSet
     public void SimulateLook(Vector2 direction) => OnLook?.Invoke(direction);
     public void SimulateAttack() => OnAttack?.Invoke();
     public void SimulateJump() => OnJump?.Invoke();
-    public void SimulateBlock() => OnAimBlock?.Invoke();
+    public void SimulateBlock()
+    {
+        IsAimBlockActive = !IsAimBlockActive;
+        OnAimBlock?.Invoke();
+    }
     public void SimulateInteract() => OnInteract?.Invoke();
     public void SimulateSneak() => OnSneak?.Invoke();
     public void SwitchRunMode() => OnRun?.Invoke();
