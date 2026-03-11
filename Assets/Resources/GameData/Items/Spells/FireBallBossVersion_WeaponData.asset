@@ -17,8 +17,8 @@ MonoBehaviour:
     <DamageType>k__BackingField: 5
     <AttackSpeed>k__BackingField: 0
     <PreferredDistance>k__BackingField: 20
-    <HitBoxSize>k__BackingField: {x: 5, y: 5, z: 5}
-    <HitBoxForwardOffset>k__BackingField: 0
+    <HitBoxSize>k__BackingField: {x: 5, y: 5, z: 6}
+    <HitBoxForwardOffset>k__BackingField: 3
     <WhooshSounds>k__BackingField: {fileID: 11400000, guid: 1df887e468471e3438c41d593a22ff87, type: 2}
     <HitSounds>k__BackingField: {fileID: 11400000, guid: 265bd748139fb224cb965e467ff2514e, type: 2}
     <HitParticlePrefab>k__BackingField: {fileID: 0}

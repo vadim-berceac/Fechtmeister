@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ebbf763e9ad024986abca0e6263e5d, type: 3}
+  m_Name: HumanRifleMan
+  m_EditorClassIdentifier: 
+  <StateMachineType>k__BackingField: 0
+  <NamingSettings>k__BackingField:
+    <CharacterName>k__BackingField: Rio
+  <Faction>k__BackingField: 0
+  <CharacterSkinDataSettings>k__BackingField:
+    <PrimarySkin>k__BackingField: {fileID: 11400000, guid: dc4eba110da0be843bc35351ab03938e, type: 2}
+  <WeaponDataSettings>k__BackingField:
+    <EquippedWeapons>k__BackingField:
+    - {fileID: 11400000, guid: eca9ed13a3b04104e8aec730d663b635, type: 2}
+    - {fileID: 11400000, guid: 90a5fbd0af02283429d5dbf52ca16f68, type: 2}
+  <ArmorDataSettings>k__BackingField:
+    <EquippedArmor>k__BackingField:
+    - {fileID: 11400000, guid: ef59711369b1dbd4c8c894144b05fabc, type: 2}
+  <ProjectilesDataSettings>k__BackingField:
+    <EquippedProjectiles>k__BackingField: {fileID: 11400000, guid: 254e3277979ddde418dab7b12ba3f470, type: 2}
+    <AmountOfProjectiles>k__BackingField: 10
+  <HealthDataSettings>k__BackingField:
+    <MaxHealth>k__BackingField: 100
+    <CurrentHealthPercentage>k__BackingField: 100
+    <HitReactionTriggerValuePercentage>k__BackingField: 0
+  <AccuracySettings>k__BackingField:
+    <ShootingAccuracy>k__BackingField: 0
+    <MeleeAccuracy>k__BackingField: 0
+    <MagicAccuracy>k__BackingField: 75
+  <ResistanceSettings>k__BackingField:
+    <Resistances>k__BackingField:
+    - <ResistancePercentage>k__BackingField: 10
+      <DamageType>k__BackingField: 4
