@@ -20,7 +20,7 @@ MonoBehaviour:
     <PrimarySkin>k__BackingField: {fileID: 11400000, guid: dc4eba110da0be843bc35351ab03938e, type: 2}
   <WeaponDataSettings>k__BackingField:
     <EquippedWeapons>k__BackingField:
-    - {fileID: 11400000, guid: eca9ed13a3b04104e8aec730d663b635, type: 2}
+    - {fileID: 11400000, guid: df33abc1948710e45a41ec54cd437e57, type: 2}
     - {fileID: 11400000, guid: 90a5fbd0af02283429d5dbf52ca16f68, type: 2}
   <ArmorDataSettings>k__BackingField:
     <EquippedArmor>k__BackingField:

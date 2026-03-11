@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa173714b11dd8842bdaecaa815f267a, type: 3}
+  m_Name: Sprint_Rifle_BlendConfig
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
+  <ParamValue>k__BackingField: 7
+  <Clips>k__BackingField:
+  - <Clip>k__BackingField: {fileID: 3094330708855449807, guid: 5a0e32c255e96fa4294a09f20c564818, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 0, y: 0.5}
+    <Speed>k__BackingField: 1.3
+    <ActionTime>k__BackingField: 0
+  - <Clip>k__BackingField: {fileID: 3094330708855449807, guid: f2713866a3b7c484eb322653260adc9c, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 0.5, y: 0.5}
+    <Speed>k__BackingField: 1.3
+    <ActionTime>k__BackingField: 0
+  - <Clip>k__BackingField: {fileID: 3094330708855449807, guid: d06bf066b1472584b83fa33f98d3499e, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: -0.5, y: 0.5}
+    <Speed>k__BackingField: 1.3
+    <ActionTime>k__BackingField: 0
+  - <Clip>k__BackingField: {fileID: 7400010, guid: 154a724602422044c91070a5f3c67c11, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 0, y: -0.5}
+    <Speed>k__BackingField: 1.3
+    <ActionTime>k__BackingField: 0
+  - <Clip>k__BackingField: {fileID: 7400014, guid: 154a724602422044c91070a5f3c67c11, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 0.5, y: -0.5}
+    <Speed>k__BackingField: 1.3
+    <ActionTime>k__BackingField: 0
+  - <Clip>k__BackingField: {fileID: 7400012, guid: 154a724602422044c91070a5f3c67c11, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: -0.5, y: -0.5}
+    <Speed>k__BackingField: 1.3
+    <ActionTime>k__BackingField: 0
+  - <Clip>k__BackingField: {fileID: 3094330708855449807, guid: 87c884e7a62eba6499574e0593663ba2, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 1, y: 0}
+    <Speed>k__BackingField: 1.3
+    <ActionTime>k__BackingField: 0
+  - <Clip>k__BackingField: {fileID: 3094330708855449807, guid: 17eb721b405a2864b84ea7c088d6bf02, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: -1, y: 0}
+    <Speed>k__BackingField: 1.3
+    <ActionTime>k__BackingField: 0

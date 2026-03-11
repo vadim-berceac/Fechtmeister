@@ -20,6 +20,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8c3d29091287aca498903cc9353f291d, type: 2}
   - {fileID: 11400000, guid: 44ffe2708d9541f4f86ebe55f149bd81, type: 2}
   - {fileID: 11400000, guid: 06d9e76da894dc04591a2b5060ffbe6a, type: 2}
+  - {fileID: 11400000, guid: 6d374879aec0b854cb7e5f2fef6b8233, type: 2}
   <AllowItemTargeting>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
   <ItemTargetingRigWeight>k__BackingField: 0
@@ -35,3 +36,4 @@ MonoBehaviour:
   <Height>k__BackingField: 0
   <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0
+  <EnableBossHitParts>k__BackingField: 0

@@ -11,8 +11,8 @@ MonoImporter:
   assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
-  productId: 147875
-  packageName: Human Crafting Animations
-  packageVersion: 2.2.1
-  assetPath: Assets/Kevin Iglesias/Human Animations/Scripts/SpineProxy.cs
-  uploadId: 762229
+  productId: 180600
+  packageName: Human Soldier Animations
+  packageVersion: 2.0
+  assetPath: Assets/Scripts/Animation/SpineProxy.cs
+  uploadId: 832664

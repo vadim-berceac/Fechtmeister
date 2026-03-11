@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d986c9d13b35d94489cd77f093f1dd32, type: 3}
+  m_Name: Rifle_WeaponData
+  m_EditorClassIdentifier: 
+  <WeaponParams>k__BackingField:
+    <Damage>k__BackingField: 10
+    <DamageType>k__BackingField: 4
+    <AttackSpeed>k__BackingField: 0
+    <PreferredDistance>k__BackingField: 30
+    <HitBoxSize>k__BackingField: {x: 0, y: 0, z: 0}
+    <HitBoxForwardOffset>k__BackingField: 0
+    <WhooshSounds>k__BackingField: {fileID: 11400000, guid: 1df887e468471e3438c41d593a22ff87, type: 2}
+    <HitSounds>k__BackingField: {fileID: 11400000, guid: 265bd748139fb224cb965e467ff2514e, type: 2}
+    <HitParticlePrefab>k__BackingField: {fileID: 0}
+    <WastingCharges>k__BackingField:
+      <WastingCharges>k__BackingField: 1
+      <ChargesPerUse>k__BackingField: 1
+  <ItemName>k__BackingField: Rifle
+  <ItemDescription>k__BackingField: Rifle
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: 1a148081fdd60a74c81a669f72fc93d5, type: 3}
+  <EquippedModelPrefab>k__BackingField: {fileID: 8405259486204665566, guid: c4293af4e5ce2624b9490f41b2fd3e3b, type: 3}
+  <GroundedModelPrefab>k__BackingField: {fileID: 2849456751479878699, guid: f7ba7b8f5f7c29a4c932ed097764e4ac, type: 3}
+  <ItemPosition>k__BackingField: 6
+  <RangeType>k__BackingField: 1
+  <AnimationType>k__BackingField: 7
+  <AttackCounterSettings>k__BackingField:
+    <AttacksCount>k__BackingField: 2
+    <AttacksResetDelay>k__BackingField: 15
+  <BoneData>k__BackingField:
+  - <UseBone>k__BackingField: 1
+    <BonesType>k__BackingField: 18
+    <Position>k__BackingField: {x: -0.009, y: 0.073, z: 0.02}
+    <Rotation>k__BackingField: {x: -0.52455115, y: 0.45713985, z: 0.5153326, w: 0.50030136}
+    <Scale>k__BackingField: 1
+    <Active>k__BackingField: 1
+  - <UseBone>k__BackingField: 1
+    <BonesType>k__BackingField: 7
+    <Position>k__BackingField: {x: 0.2, y: 0.384, z: -0.104}
+    <Rotation>k__BackingField: {x: 0.44636232, y: -0.66145986, z: 0.26616716, w: 0.5407278}
+    <Scale>k__BackingField: 1
+    <Active>k__BackingField: 1
+  <ItemDecorationData>k__BackingField: []

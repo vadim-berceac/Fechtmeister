@@ -896,7 +896,7 @@ PrefabInstance:
     - target: {fileID: 7201767013415629698, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: <CharacterPersonalityData>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: ac34780fbc9fde9449ed323672ff59da, type: 2}
+      objectReference: {fileID: 11400000, guid: 49de0fd5f7341014988f8b9a5d87f634, type: 2}
     - target: {fileID: 8531776840989775669, guid: e1ee60f3a04790d4d8fc5746b22bf635, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.198969
