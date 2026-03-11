@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Cinemachine;
+using Zenject;
 
 public class BossHitWave : MonoBehaviour
 {
@@ -13,20 +15,23 @@ public class BossHitWave : MonoBehaviour
    
    [SerializeField] private ParticleSystem particle;
    [SerializeField] private AudioSource audioSource;
+   
+   
+   [SerializeField] private float shakeIntensity = 1f;
 
+   private CinemachineImpulseSource _cameraShakeSource;
    private const string AttackStateName = "FastAttackState";
    private State _attackState;
    private bool _subscribed;
    private Collider _waveCollider;
    private Coroutine _hitCoroutine;
 
-   private void Start()
+   [Inject]
+   private void Construct(CinemachineImpulseSource cameraShakeSource)
    {
+      _cameraShakeSource = cameraShakeSource;
+      
       _waveCollider = GetComponent<Collider>();
-      if (_waveCollider == null)
-      {
-         Debug.LogError("BossHitWave: Collider not found on this GameObject!");
-      }
       
       bossCore.OnStateChanged += OnStateChanged;
    }
@@ -71,9 +76,24 @@ public class BossHitWave : MonoBehaviour
       {
          // Коллайдеры пересекаются - наносим урон
          playerHealth.Damage(damage, DamageTypes.Fire);
+         
+         // Проигрываем эффект тряски камеры только при попадании
+         PlayCameraShake();
       }
       
       _hitCoroutine = null;
+   }
+
+   private void PlayCameraShake()
+   {
+      if (_cameraShakeSource != null)
+      {
+         _cameraShakeSource.GenerateImpulse(shakeIntensity);
+      }
+      else
+      {
+         Debug.LogWarning("BossHitWave: CinemachineImpulseSource not assigned!");
+      }
    }
 
    private void OnDestroy()
