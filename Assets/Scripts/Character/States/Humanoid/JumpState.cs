@@ -10,6 +10,7 @@ public class JumpState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new (c => c.Health.IsDestroyed, "DeathState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => !character.Gravity.Grounded
                              && character.GraphCore.FullBodyAnimatorController.GetCurrentClipNormalizedTime() > 0.5, "FallState"),

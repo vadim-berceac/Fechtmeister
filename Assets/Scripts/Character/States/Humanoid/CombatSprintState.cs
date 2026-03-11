@@ -10,6 +10,7 @@ public class CombatSprintState : MovementState
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new (c => c.Health.IsDestroyed, "DeathState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => character.CharacterInputHandler.TargetInputMagnitude < 0.2f 
                              || !character.CharacterInputHandler.IsRun, "SprintStopState"),

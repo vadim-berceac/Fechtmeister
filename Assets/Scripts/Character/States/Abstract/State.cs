@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,6 +40,7 @@ public abstract class State : ScriptableObject
     [field: SerializeField] public bool EnableBossHitParts {get; private set;}
     
     protected  List<Transition<CharacterCore>> Transitions { get;  set; }
+    public Action ActionTime;
    
     public virtual void EnterState(CharacterCore character)
     {

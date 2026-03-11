@@ -31,12 +31,10 @@ MonoBehaviour:
   <HealthDataSettings>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <CurrentHealthPercentage>k__BackingField: 100
-    <HitReactionTriggerValuePercentage>k__BackingField: 0
+    <HitReactionTriggerValuePercentage>k__BackingField: 33
   <AccuracySettings>k__BackingField:
     <ShootingAccuracy>k__BackingField: 0
     <MeleeAccuracy>k__BackingField: 0
     <MagicAccuracy>k__BackingField: 75
   <ResistanceSettings>k__BackingField:
-    <Resistances>k__BackingField:
-    - <ResistancePercentage>k__BackingField: 10
-      <DamageType>k__BackingField: 4
+    <Resistances>k__BackingField: []

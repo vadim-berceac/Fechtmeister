@@ -21,11 +21,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e300949f025bf464ab5813143727bd47, type: 2}
   - {fileID: 11400000, guid: fb1606c73869d494892a5972756c3667, type: 2}
   - {fileID: 11400000, guid: 1bae2c6bad0a34640aeb07d6ff39b294, type: 2}
+  - {fileID: 11400000, guid: c519d61f0c5b2994fa2f514122ac3f7b, type: 2}
   <AllowItemTargeting>k__BackingField: 0
-  <AllowCharacterTargeting>k__BackingField: 0
-  <FixOnCharacterTarget>k__BackingField: 0
   <FixOnItemTarget>k__BackingField: 0
-  <TargetingRigWeight>k__BackingField: 0
+  <ItemTargetingRigWeight>k__BackingField: 0
+  <AimRigWeight>k__BackingField: 0
   <AllowSwitchWeaponInstance>k__BackingField: 0
   <RotationByCamera>k__BackingField: 0
   <RotationSpeed>k__BackingField: 0
@@ -36,5 +36,5 @@ MonoBehaviour:
     m_Bits: 1
   <Height>k__BackingField: 2
   <Radius>k__BackingField: 2
-  <SetCapsuleToTrigger>k__BackingField: 1
   <UseInventory>k__BackingField: 0
+  <EnableBossHitParts>k__BackingField: 0

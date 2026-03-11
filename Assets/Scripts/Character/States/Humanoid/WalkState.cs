@@ -10,6 +10,7 @@ public class WalkState : MovementState
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new (c => c.Health.IsDestroyed, "DeathState"),
             new(character => (character.Health.IsHitReactionEnabled), "GetHitState"),
             new(character => (Mathf.Abs(character.CharacterInputHandler.InputX) == 0 &&
                               Mathf.Abs(character.CharacterInputHandler.InputY) == 0), "IdleState"),

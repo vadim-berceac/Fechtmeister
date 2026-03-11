@@ -10,6 +10,7 @@ public class FastAttackState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new (c => c.Health.IsDestroyed, "DeathState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
         };
@@ -33,6 +34,7 @@ public class FastAttackState : State
         base.CheckAction(character);
         if (character.GraphCore.FullBodyAnimatorController.HasReachedActionTime() && character.StateTimer.ActionIsPossible())
         {
+            if(character.IsBoss) ActionTime?.Invoke();
             character.Inventory.WeaponSystem.InstanceInHands.ItemControlComponent.Use();
             character.StateTimer.SetActionIsPossible(false);
             character.GraphCore.FullBodyAnimatorController.ResetActionTimeFlag();

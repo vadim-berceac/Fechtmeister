@@ -8,6 +8,7 @@ public class RunState: MovementState
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
+            new (c => c.Health.IsDestroyed, "DeathState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => !character.CharacterInputHandler.IsRun, "WalkState"),
             new(character => (character.Inventory.IsWeaponOn), "CombatRunState"),

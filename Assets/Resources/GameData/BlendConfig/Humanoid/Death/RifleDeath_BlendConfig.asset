@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa173714b11dd8842bdaecaa815f267a, type: 3}
+  m_Name: RifleDeath_BlendConfig
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationBlendConfig
+  <ParamValue>k__BackingField: 7
+  <Clips>k__BackingField:
+  - <Clip>k__BackingField: {fileID: -6298473264308222846, guid: 467a90ea10589e644a7cd6578adc8fb7, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 0, y: 0}
+    <Speed>k__BackingField: 1
+    <ActionTime>k__BackingField: 0.8
+  - <Clip>k__BackingField: {fileID: 2380356937864621665, guid: 0cb83b431585ddc44a255ff05953bd56, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 0, y: 0}
+    <Speed>k__BackingField: 1
+    <ActionTime>k__BackingField: 0.8
+  - <Clip>k__BackingField: {fileID: -1568351655152431163, guid: b570f64014a3c4c4cb76eb9b291370ce, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 0, y: 0}
+    <Speed>k__BackingField: 1
+    <ActionTime>k__BackingField: 0.8
+  - <Clip>k__BackingField: {fileID: 547498851181339065, guid: c04004846f3d15342bea3b9ae37d82bd, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 0, y: 0}
+    <Speed>k__BackingField: 1
+    <ActionTime>k__BackingField: 0.8
+  - <Clip>k__BackingField: {fileID: 6521434335614159403, guid: a4eba0bf9f660ea4bb9c9d4f0b6049cc, type: 3}
+    <ParamValue>k__BackingField: 0
+    <ParamPosition>k__BackingField: {x: 0, y: 0}
+    <Speed>k__BackingField: 1
+    <ActionTime>k__BackingField: 0.8
