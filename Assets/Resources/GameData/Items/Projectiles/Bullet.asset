@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd3f5a7539fec34ab96893512fb8504, type: 3}
+  m_Name: Bullet
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileData
+  <WeaponParams>k__BackingField:
+    <Damage>k__BackingField: 30
+    <DamageType>k__BackingField: 4
+    <AttackSpeed>k__BackingField: 60
+    <PreferredDistance>k__BackingField: 0
+    <HitBoxSize>k__BackingField: {x: 0.1, y: 0.1, z: 0.3}
+    <HitBoxForwardOffset>k__BackingField: 0.3
+    <WhooshSounds>k__BackingField: {fileID: 11400000, guid: abce1e46dad211542ae293c7b3b465ed, type: 2}
+    <HitSounds>k__BackingField: {fileID: 11400000, guid: 6c40010efa1c0cb489d6eb7d96532e3b, type: 2}
+    <HitParticlePrefab>k__BackingField: {fileID: 0}
+    <WastingCharges>k__BackingField:
+      <WastingCharges>k__BackingField: 0
+      <ChargesPerUse>k__BackingField: 0
+  <LaunchSettings>k__BackingField:
+    <StickOffset>k__BackingField: 0.05
+    <DestroyOnHit>k__BackingField: 0
+    <Gravity>k__BackingField: -9.81
+    <Drag>k__BackingField: 0.5
+    <MaxSpreadAngles>k__BackingField: 7.5
+    <Lifetime>k__BackingField: 60
+    <LayerMask>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 4194305
+  <HomingSettings>k__BackingField:
+    <Enabled>k__BackingField: 0
+    <Duration>k__BackingField: 0
+    <TurnSpeed>k__BackingField: 0
+    <SearchRadius>k__BackingField: 0
+    <AcquireDelay>k__BackingField: 0
+  <ItemName>k__BackingField: Bullet
+  <ItemDescription>k__BackingField: Bullet
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: 8fb41e818d5b60741ab39b80f5ee11eb, type: 3}
+  <EquippedModelPrefab>k__BackingField: {fileID: 6651120253240216896, guid: 731efbc3ec282a24081648521b8a22bb, type: 3}
+  <GroundedModelPrefab>k__BackingField: {fileID: 4008575852445660223, guid: 33c21e9d0e12ba04ea767b2dbad21db0, type: 3}
+  <SpawnSound>k__BackingField: {fileID: 8300000, guid: 9daf4e1918ba3a24c9c1cfdc0c823e4d, type: 3}
+  <TrailPrefab>k__BackingField: {fileID: 3417348039576045214, guid: 8a530ee1f0ae31c4eb5d66e43ee66070, type: 3}
+  <BoneData>k__BackingField:
+  - <UseBone>k__BackingField: 0
+    <BonesType>k__BackingField: 18
+    <Position>k__BackingField: {x: -0.035, y: 0.407, z: 0.1}
+    <Rotation>k__BackingField: {x: -0.65829486, y: -0.049934536, z: -0.036286276, w: 0.7502251}
+    <Scale>k__BackingField: 1
+    <Active>k__BackingField: 0
+  <ItemDecorationData>k__BackingField:
+  - <ItemPrefab>k__BackingField: {fileID: 4008575852445660223, guid: eb04a484b80901c43a07ca90c21f706f, type: 3}
+    <BoneData>k__BackingField:
+      <UseBone>k__BackingField: 0
+      <BonesType>k__BackingField: 8
+      <Position>k__BackingField: {x: 0.131, y: -0.04, z: -0.137}
+      <Rotation>k__BackingField: {x: 0.20250289, y: 0.67748994, z: -0.20250289, w: 0.6774898}
+      <Scale>k__BackingField: 1
+      <Active>k__BackingField: 0

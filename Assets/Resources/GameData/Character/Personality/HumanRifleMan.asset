@@ -26,8 +26,8 @@ MonoBehaviour:
     <EquippedArmor>k__BackingField:
     - {fileID: 0}
   <ProjectilesDataSettings>k__BackingField:
-    <EquippedProjectiles>k__BackingField: {fileID: 0}
-    <AmountOfProjectiles>k__BackingField: 1
+    <EquippedProjectiles>k__BackingField: {fileID: 11400000, guid: e6780e26639534345941f241e157b2bf, type: 2}
+    <AmountOfProjectiles>k__BackingField: 99
   <HealthDataSettings>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <CurrentHealthPercentage>k__BackingField: 100
