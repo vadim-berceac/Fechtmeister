@@ -32,7 +32,7 @@ public class RifleIdleAimSubState : State
             character.SetSubState(character.StatesSet.GetState("RifleShootingSubState"));
         }
 
-        if (character.Health.IsDestroyed)
+        if (character.Health.IsDestroyed || character.Inventory.WeaponSystem.CanUnDrawWeapon())
         {
             character.SetSubState(character.StatesSet.GetState("DefaultSubState"));
         }

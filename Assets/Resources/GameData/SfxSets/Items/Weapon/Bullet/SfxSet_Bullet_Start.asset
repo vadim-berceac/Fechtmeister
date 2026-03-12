@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: SfxSet_Bullet_Start
   m_EditorClassIdentifier: Assembly-CSharp::SfxSet
   sfxData:
-  - <Clip>k__BackingField: {fileID: 8300000, guid: f9517356afb533a41b9e7cb6f155031e, type: 3}
+  - <Clip>k__BackingField: {fileID: 8300000, guid: 347702581d49a4148a0a346ede6fd66f, type: 3}
