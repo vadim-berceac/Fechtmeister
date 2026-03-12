@@ -749,6 +749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07379e4ad00a1744cbf4085a1adf3d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossHitVawe
+  cameraShakeSource: {fileID: 1721355076}
   bossCore: {fileID: 2121182080}
   delay: 0.25
   damage: 10

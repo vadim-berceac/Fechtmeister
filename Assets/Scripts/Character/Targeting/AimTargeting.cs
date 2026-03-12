@@ -146,7 +146,9 @@ public class AimTargeting : ManagedUpdatableObject
         if (graphCore == null) return;
         if (characterCore?.CurrentState == null) return;
 
-        var desiredWeight = characterCore.CurrentState.AimRigWeight;
+        var desiredWeight = characterCore.Inventory.WeaponSystem.AnimationType == 7 
+            ? characterCore.CurrentSubState.AimRigWeight
+            : characterCore.CurrentState.AimRigWeight;
        
         if (_targetHealth == null && !characterInfo.CharacterInfo.IsPlayerControlled)
         {

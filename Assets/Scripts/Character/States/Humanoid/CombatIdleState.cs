@@ -22,10 +22,14 @@ public class CombatIdleState : MovementState
             new(character => character.CharacterInputHandler.IsAimBlock 
                              && character.Inventory.WeaponSystem.RangeType != RangeTypes.Melee &&
                              !character.Inventory.ProjectileSystem.IsProjectileLoaded 
-                             && character.Inventory.ProjectileSystem.HasProjectiles(), "ReloadProjectileState"),
+                             && character.Inventory.ProjectileSystem.HasProjectiles()
+                             && character.Inventory.WeaponSystem.AnimationType != 7,
+                    "ReloadProjectileState"),
             new(character => character.CharacterInputHandler.IsAimBlock 
                              && character.Inventory.WeaponSystem.RangeType != RangeTypes.Melee &&
-                             character.Inventory.ProjectileSystem.IsProjectileLoaded, "LoadState"),
+                             character.Inventory.ProjectileSystem.IsProjectileLoaded
+                             && character.Inventory.WeaponSystem.AnimationType != 7, 
+                    "LoadState"),
             new (c => c.CharacterInputHandler.IsJump, "JumpState"),
             new (c => !c.Gravity.Grounded, "FallState"),
         };

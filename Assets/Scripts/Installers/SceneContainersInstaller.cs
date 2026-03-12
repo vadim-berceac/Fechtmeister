@@ -49,6 +49,5 @@ public class SceneContainersInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<InventoryDrawer>().FromComponentsInHierarchy().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<Sight>().FromComponentsInHierarchy().AsSingle().NonLazy();
         Container.Bind<SceneCamera>().FromComponentInNewPrefab(cameraPrefab).AsSingle().NonLazy();
-        Container.Bind<CinemachineImpulseSource>().FromComponentInHierarchy().AsSingle().NonLazy();
     }
 }

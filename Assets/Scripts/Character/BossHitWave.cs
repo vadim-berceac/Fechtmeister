@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using Unity.Cinemachine;
-using Zenject;
 
 public class BossHitWave : MonoBehaviour
 {
+   [SerializeField] private CinemachineImpulseSource cameraShakeSource;
    [SerializeField] private CharacterCore bossCore;
    
    [SerializeField] private float delay;
@@ -19,18 +19,15 @@ public class BossHitWave : MonoBehaviour
    
    [SerializeField] private float shakeIntensity = 1f;
 
-   private CinemachineImpulseSource _cameraShakeSource;
+   
    private const string AttackStateName = "FastAttackState";
    private State _attackState;
    private bool _subscribed;
    private Collider _waveCollider;
    private Coroutine _hitCoroutine;
-
-   [Inject]
-   private void Construct(CinemachineImpulseSource cameraShakeSource)
+   
+   private void Awake ()
    {
-      _cameraShakeSource = cameraShakeSource;
-      
       _waveCollider = GetComponent<Collider>();
       
       bossCore.OnStateChanged += OnStateChanged;
@@ -86,9 +83,9 @@ public class BossHitWave : MonoBehaviour
 
    private void PlayCameraShake()
    {
-      if (_cameraShakeSource != null)
+      if (cameraShakeSource != null)
       {
-         _cameraShakeSource.GenerateImpulse(shakeIntensity);
+         cameraShakeSource.GenerateImpulse(shakeIntensity);
       }
       else
       {

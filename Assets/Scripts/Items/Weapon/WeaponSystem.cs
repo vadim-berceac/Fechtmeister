@@ -11,6 +11,7 @@ public class WeaponSystem : IItemInstancesContainer
     public Action<WeaponData> OnWeaponInHandsSelected { get; set; }
     public StateTimer StateTimer { get; set; }
     public RangeTypes RangeType { get; private set; }
+    public int AnimationType { get; private set; }
     public CharacterCore CharacterCore { get; private set; }
     public bool SelectedInstanceNotEmpty;
 
@@ -37,7 +38,9 @@ public class WeaponSystem : IItemInstancesContainer
 
         SelectedInstanceNotEmpty = true;
         InstanceInHands = Instances[itemIndex];
-        RangeType = ((WeaponData)InstanceInHands.EquppiedItemData).RangeType;
+        var weapon = ((WeaponData)InstanceInHands.EquppiedItemData);
+        RangeType = weapon.RangeType;
+        AnimationType = weapon.AnimationType;
         OnWeaponInHandsSelected?.Invoke((WeaponData)InstanceInHands.EquppiedItemData);
     }
 

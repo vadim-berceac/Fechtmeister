@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f5a3bb1e612978468f7b84fc111d096, type: 3}
+  m_Name: RifleIdleAimSubState
+  m_EditorClassIdentifier: Assembly-CSharp::RifleIdleAimSubState
+  <EnterTransitionDuration>k__BackingField: 0.1
+  <ApplyRootMotion>k__BackingField: 0
+  <Clips>k__BackingField:
+  - {fileID: 11400000, guid: 4982c2f2c456d9b4981de2504516b5d6, type: 2}
+  <AllowItemTargeting>k__BackingField: 0
+  <FixOnItemTarget>k__BackingField: 0
+  <ItemTargetingRigWeight>k__BackingField: 0
+  <AimRigWeight>k__BackingField: 1
+  <AllowSwitchWeaponInstance>k__BackingField: 0
+  <RotationByCamera>k__BackingField: 0
+  <RotationSpeed>k__BackingField: 0
+  <UseGravity>k__BackingField: 1
+  <FallSpeedMultiplier>k__BackingField: 1
+  <GroundLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 1
+  <Height>k__BackingField: 0
+  <Radius>k__BackingField: 0
+  <UseInventory>k__BackingField: 0
+  <EnableBossHitParts>k__BackingField: 0

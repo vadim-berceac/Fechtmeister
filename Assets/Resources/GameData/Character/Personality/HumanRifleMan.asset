@@ -21,13 +21,13 @@ MonoBehaviour:
   <WeaponDataSettings>k__BackingField:
     <EquippedWeapons>k__BackingField:
     - {fileID: 11400000, guid: df33abc1948710e45a41ec54cd437e57, type: 2}
-    - {fileID: 11400000, guid: 90a5fbd0af02283429d5dbf52ca16f68, type: 2}
+    - {fileID: 11400000, guid: 0d5b7864b639eab4ab9abcd769ab3e6e, type: 2}
   <ArmorDataSettings>k__BackingField:
     <EquippedArmor>k__BackingField:
-    - {fileID: 11400000, guid: ef59711369b1dbd4c8c894144b05fabc, type: 2}
+    - {fileID: 0}
   <ProjectilesDataSettings>k__BackingField:
-    <EquippedProjectiles>k__BackingField: {fileID: 11400000, guid: 254e3277979ddde418dab7b12ba3f470, type: 2}
-    <AmountOfProjectiles>k__BackingField: 10
+    <EquippedProjectiles>k__BackingField: {fileID: 0}
+    <AmountOfProjectiles>k__BackingField: 1
   <HealthDataSettings>k__BackingField:
     <MaxHealth>k__BackingField: 100
     <CurrentHealthPercentage>k__BackingField: 100

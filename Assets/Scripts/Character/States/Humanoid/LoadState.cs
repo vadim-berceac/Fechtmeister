@@ -11,7 +11,6 @@ public class LoadState : State
         Transitions = new List<Transition<CharacterCore>>()
         {
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
-            //new(character => character.IsBoss, "AimState"),
             new(character => !character.Inventory.ProjectileSystem.IsProjectileLoaded 
                              && character.Inventory.ProjectileSystem.HasProjectiles(), "ReloadProjectileState"),
             new(character => character.Gravity.Grounded && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished() 
