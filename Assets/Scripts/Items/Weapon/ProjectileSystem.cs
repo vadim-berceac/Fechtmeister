@@ -39,7 +39,13 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
         var projectileData = (ProjectileData)Instances[0].EquppiedItemData;
 
         var projectileObject = Object.Instantiate(projectileData.EquippedModelPrefab);
-        _projectileController = projectileObject.AddComponent<ProjectileController>();
+    
+        _projectileController = projectileObject.GetComponent<ProjectileController>();
+        if (_projectileController == null)
+        {
+            _projectileController = projectileObject.AddComponent<ProjectileController>();
+        }
+    
         _projectileController.SetParams(projectileData, weaponData);
 
         var boneData = projectileData.BoneData[0];
@@ -59,10 +65,6 @@ public class ProjectileSystem : InventoryBag, IItemInstancesContainer
                 break;
             case WastingCharges.Projectiles:
                 RemoveItem(projectileData, weaponData.WeaponParams.WastingCharges.ChargesPerUse);
-                break;
-            case WastingCharges.Mana:
-                break;
-            case WastingCharges.Health:
                 break;
         }
     }

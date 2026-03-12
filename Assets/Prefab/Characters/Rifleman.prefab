@@ -51,13 +51,13 @@ MonoBehaviour:
   aimBones:
   - bone: 7
     weightMultiplier: 0.3
-    rotationOffset: {x: 0, y: 35, z: 0}
+    rotationOffset: {x: 0, y: 34, z: 0}
   - bone: 8
     weightMultiplier: 0.5
-    rotationOffset: {x: 0, y: 40, z: 0}
+    rotationOffset: {x: 0, y: 39, z: 0}
   - bone: 54
     weightMultiplier: 1
-    rotationOffset: {x: 0, y: 45, z: 0}
+    rotationOffset: {x: 0, y: 44, z: 0}
   botsAimOffset: {x: 0, y: 1.2, z: 0}
   transitionDuration: 0.3
 --- !u!1 &1648636202949433666

@@ -28,7 +28,9 @@ public class ProjectileController : MonoBehaviour
     private void Start()
     {
         _transform  = transform;
-        _audioSource = gameObject.AddComponent<AudioSource>();
+        
+        if(_audioSource == null)
+            _audioSource = gameObject.AddComponent<AudioSource>();
 
         if (_characterLayerMask == 0)
             _characterLayerMask = LayerMask.GetMask("Character");
@@ -44,6 +46,12 @@ public class ProjectileController : MonoBehaviour
 
     public void Launch(Collider parent, Transform aimTargetTransform)
     {
+        if (_transform == null)
+            _transform = transform;
+        
+        if(_audioSource == null)
+            _audioSource = gameObject.AddComponent<AudioSource>();
+
         _parent       = parent;
         _parentHealth = parent.GetComponentInParent<HealthComponent>();
         _threatNotified = false;

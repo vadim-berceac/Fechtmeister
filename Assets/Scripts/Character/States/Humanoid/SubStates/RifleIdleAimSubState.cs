@@ -19,6 +19,18 @@ public class RifleIdleAimSubState : State
     {
        
     }
+    
+    protected override void CheckAction(CharacterCore character)
+    {
+        if (
+            character.Inventory.IsWeaponOn 
+            && character.Inventory.WeaponSystem.RangeType != RangeTypes.Melee
+            && character.CharacterInputHandler.IsAttack
+            )
+        {
+            character.SetSubState(character.StatesSet.GetState("RifleShootingSubState"));
+        }
+    }
 
     public override void ExitState(CharacterCore character)
     {

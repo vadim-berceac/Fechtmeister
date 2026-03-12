@@ -15,7 +15,7 @@ MonoBehaviour:
   <WeaponParams>k__BackingField:
     <Damage>k__BackingField: 30
     <DamageType>k__BackingField: 4
-    <AttackSpeed>k__BackingField: 60
+    <AttackSpeed>k__BackingField: 300
     <PreferredDistance>k__BackingField: 0
     <HitBoxSize>k__BackingField: {x: 0.1, y: 0.1, z: 0.3}
     <HitBoxForwardOffset>k__BackingField: 0.3
@@ -46,15 +46,15 @@ MonoBehaviour:
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: 8fb41e818d5b60741ab39b80f5ee11eb, type: 3}
   <EquippedModelPrefab>k__BackingField: {fileID: 6651120253240216896, guid: 731efbc3ec282a24081648521b8a22bb, type: 3}
   <GroundedModelPrefab>k__BackingField: {fileID: 4008575852445660223, guid: 33c21e9d0e12ba04ea767b2dbad21db0, type: 3}
-  <SpawnSound>k__BackingField: {fileID: 8300000, guid: 9daf4e1918ba3a24c9c1cfdc0c823e4d, type: 3}
+  <SpawnSound>k__BackingField: {fileID: 0}
   <TrailPrefab>k__BackingField: {fileID: 3417348039576045214, guid: 8a530ee1f0ae31c4eb5d66e43ee66070, type: 3}
   <BoneData>k__BackingField:
-  - <UseBone>k__BackingField: 0
+  - <UseBone>k__BackingField: 1
     <BonesType>k__BackingField: 18
     <Position>k__BackingField: {x: -0.035, y: 0.407, z: 0.1}
     <Rotation>k__BackingField: {x: -0.65829486, y: -0.049934536, z: -0.036286276, w: 0.7502251}
     <Scale>k__BackingField: 1
-    <Active>k__BackingField: 0
+    <Active>k__BackingField: 1
   <ItemDecorationData>k__BackingField:
   - <ItemPrefab>k__BackingField: {fileID: 4008575852445660223, guid: eb04a484b80901c43a07ca90c21f706f, type: 3}
     <BoneData>k__BackingField:

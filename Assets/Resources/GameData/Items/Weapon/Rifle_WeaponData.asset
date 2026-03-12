@@ -34,8 +34,8 @@ MonoBehaviour:
   <RangeType>k__BackingField: 1
   <AnimationType>k__BackingField: 7
   <AttackCounterSettings>k__BackingField:
-    <AttacksCount>k__BackingField: 2
-    <AttacksResetDelay>k__BackingField: 15
+    <AttacksCount>k__BackingField: 0
+    <AttacksResetDelay>k__BackingField: 0
   <BoneData>k__BackingField:
   - <UseBone>k__BackingField: 1
     <BonesType>k__BackingField: 18
