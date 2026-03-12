@@ -53,7 +53,6 @@ public class RifleShootingSubState : State
         {
             character.SceneCamera.SetCameraMode(CameraMode.FollowCamera);
         }
-        character.CharacterInputHandler.ResetInputBuffer();
     }
 
     private void LoadAndShoot(CharacterCore character)
@@ -62,5 +61,8 @@ public class RifleShootingSubState : State
         character.Inventory.ProjectileSystem.TakeProjectile((WeaponData)character
             .Inventory.WeaponSystem.InstanceInHands.EquppiedItemData);
         character.Inventory.ProjectileSystem.Shot();
+        character.CharacterInputHandler.ResetInputBuffer();
+        
+        Debug.Log("dwe");
     }
 }

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
@@ -195,11 +194,20 @@ public class ProjectileController : MonoBehaviour
     {
         if (_stuck || _velocity.sqrMagnitude < 0.01f) return;
 
-        RunPhysics();
-        if (_homingActive) UpdateHoming(Time.fixedDeltaTime);
-        UpdateRotation();
+        // Сделай несколько шагов физики с проверкой коллизий в каждом
+        int substeps = 3;
+        var dt = Time.fixedDeltaTime / substeps;
+    
+        for (int i = 0; i < substeps; i++)
+        {
+            if (DetectCollisions()) return; // если попал - выходим
+        
+            RunPhysics_Substep(dt);
+            if (_homingActive) UpdateHoming(dt);
+            UpdateRotation();
+        }
+    
         DetectThreatsNearby();
-        DetectCollisions();
     }
 
     private void RunPhysics()
@@ -243,32 +251,27 @@ public class ProjectileController : MonoBehaviour
         _threatNotified = true;
     }
 
-    private void DetectCollisions()
+    private bool DetectCollisions()
     {
-        var center = _transform.position + _transform.forward * _data.WeaponParams.HitBoxForwardOffset;
-        var halfExtents = _data.WeaponParams.HitBoxSize * 0.5f;
+        var radius = 0.15f;
     
-        var moveDistance = _velocity.magnitude * Time.fixedDeltaTime;
-        var moveDirection = _velocity.normalized;
-    
-        var hitCount = Physics.BoxCastNonAlloc(
-            center,
-            halfExtents,
-            moveDirection,
-            _castResults,
-            _transform.rotation,
-            moveDistance,
-            _data.LaunchSettings.LayerMask
-        );
-
-        for (var i = 0; i < hitCount; i++)
+        if (Physics.SphereCast(_transform.position, radius, _velocity.normalized, 
+                out RaycastHit hit, _velocity.magnitude * Time.fixedDeltaTime, _data.LaunchSettings.LayerMask))
         {
-            var hit = _castResults[i].collider;
-            if (hit == null || hit.isTrigger || hit == _parent) continue;
-
-            HandleHit(hit);
-            return;
+            if (!hit.collider.isTrigger && hit.collider != _parent)
+            {
+                HandleHit(hit.collider);
+                return true;
+            }
         }
+        return false;
+    }
+
+    private void RunPhysics_Substep(float dt)
+    {
+        _velocity += _data.LaunchSettings.Gravity * dt * Vector3.up;
+        _velocity *= Mathf.Exp(-_data.LaunchSettings.Drag * dt);
+        _transform.position += _velocity * dt;
     }
 
     private void HandleHit(Collider hit)
