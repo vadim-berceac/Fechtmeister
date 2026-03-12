@@ -37,4 +37,4 @@ MonoBehaviour:
   <Height>k__BackingField: 0
   <Radius>k__BackingField: 0
   <UseInventory>k__BackingField: 0
-  <EnableBossHitParts>k__BackingField: 0
+  <EnableBossHitParts>k__BackingField: 1

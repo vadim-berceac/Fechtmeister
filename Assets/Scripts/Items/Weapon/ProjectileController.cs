@@ -13,9 +13,11 @@ public class ProjectileController : MonoBehaviour
     private bool _stuck;
     private bool _threatNotified;
     private AudioSource _audioSource;
-    private readonly RaycastHit[] _castResults = new RaycastHit[5];
 
     private const float ThreatDetectionRadius = 10f;
+    private const float SphereCastRadius = 0.15f;
+    private const int SubstepCount = 3;
+    
     private LayerMask _characterLayerMask;
 
     private GameObject _trail;
@@ -52,6 +54,16 @@ public class ProjectileController : MonoBehaviour
         if(_audioSource == null)
             _audioSource = gameObject.AddComponent<AudioSource>();
 
+        if (_data.WeaponParams.StartSounds)
+        {
+            PlaySound(_audioSource, _data.WeaponParams.StartSounds.GetRandomClip(), _transform);
+        }
+        
+        if (_data.WeaponParams.StartParticlePrefab)
+        {
+            PlayVFX(_data.WeaponParams.StartParticlePrefab);
+        }
+        
         _parent       = parent;
         _parentHealth = parent.GetComponentInParent<HealthComponent>();
         _threatNotified = false;
@@ -194,28 +206,26 @@ public class ProjectileController : MonoBehaviour
     {
         if (_stuck || _velocity.sqrMagnitude < 0.01f) return;
 
-        // Сделай несколько шагов физики с проверкой коллизий в каждом
-        int substeps = 3;
-        var dt = Time.fixedDeltaTime / substeps;
+        var dt = Time.fixedDeltaTime / SubstepCount;
+        var gravity = _data.LaunchSettings.Gravity;
+        var drag = _data.LaunchSettings.Drag;
+        var layerMask = _data.LaunchSettings.LayerMask;
+        var gravityVector = gravity * Vector3.up;
+        var dragExp = Mathf.Exp(-drag * dt);
     
-        for (int i = 0; i < substeps; i++)
+        for (int i = 0; i < SubstepCount; i++)
         {
-            if (DetectCollisions()) return; // если попал - выходим
+            if (DetectCollisions(layerMask)) return;
         
-            RunPhysics_Substep(dt);
+            _velocity += gravityVector * dt;
+            _velocity *= dragExp;
+            _transform.position += _velocity * dt;
+            
             if (_homingActive) UpdateHoming(dt);
-            UpdateRotation();
         }
-    
+        
+        UpdateRotation();
         DetectThreatsNearby();
-    }
-
-    private void RunPhysics()
-    {
-        var dt = Time.fixedDeltaTime;
-        _velocity += _data.LaunchSettings.Gravity * dt * Vector3.up;
-        _velocity *= Mathf.Exp(-_data.LaunchSettings.Drag * dt);
-        _transform.position += _velocity * dt;
     }
 
     private void UpdateRotation()
@@ -251,12 +261,13 @@ public class ProjectileController : MonoBehaviour
         _threatNotified = true;
     }
 
-    private bool DetectCollisions()
+    private bool DetectCollisions(LayerMask layerMask)
     {
-        var radius = 0.15f;
-    
-        if (Physics.SphereCast(_transform.position, radius, _velocity.normalized, 
-                out RaycastHit hit, _velocity.magnitude * Time.fixedDeltaTime, _data.LaunchSettings.LayerMask))
+        var speed = _velocity.magnitude;
+        if (speed < 0.01f) return false;
+        
+        if (Physics.SphereCast(_transform.position, SphereCastRadius, _velocity * (1f / speed), 
+                out RaycastHit hit, speed * Time.fixedDeltaTime / SubstepCount, layerMask))
         {
             if (!hit.collider.isTrigger && hit.collider != _parent)
             {
@@ -267,47 +278,36 @@ public class ProjectileController : MonoBehaviour
         return false;
     }
 
-    private void RunPhysics_Substep(float dt)
-    {
-        _velocity += _data.LaunchSettings.Gravity * dt * Vector3.up;
-        _velocity *= Mathf.Exp(-_data.LaunchSettings.Drag * dt);
-        _transform.position += _velocity * dt;
-    }
-
     private void HandleHit(Collider hit)
     {
         var damaged = hit.GetComponent<HitBodyPart>();
-    
+
         Debug.Log($"[Projectile] Hit: {hit.name} | HitBodyPart: {damaged != null} | Layer: {LayerMask.LayerToName(hit.gameObject.layer)}");
-        var hitDirection = _velocity.normalized;
+        var hitDirection = _velocity.magnitude > 0.01f ? _velocity.normalized : _transform.forward;
 
         _velocity = Vector3.zero;
-        _stuck    = true;
+        _stuck = true;
 
         var closest = hit.ClosestPoint(_transform.position);
         _transform.position = closest - hitDirection * _data.LaunchSettings.StickOffset;
 
         PlaySound(_audioSource, _data.WeaponParams.HitSounds.GetRandomClip(), _transform);
-        
-        if (_data.WeaponParams.HitParticlePrefab != null)
-        {
-            var fx = Instantiate(
-                _data.WeaponParams.HitParticlePrefab,
-                _transform.position,
-                _transform.rotation
-            );
     
-            var ps = fx.GetComponent<ParticleSystem>();
-            if (ps != null)
-                Destroy(fx, ps.main.duration + ps.main.startLifetime.constantMax);
-            else
-                Destroy(fx, 5f);
+        if (_data.WeaponParams.HitParticlePrefab)
+        {
+            PlayVFX(_data.WeaponParams.HitParticlePrefab);
         }
 
         if (_trail) _trail.SetActive(false);
 
-        if (damaged == null) return;
+        // Если нет HitBodyPart (например, столкнулся со стеной/окружением) - просто уничтожаем
+        if (damaged == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        // Если есть HitBodyPart - наносим урон и смотрим на результат
         var totalDamage = _data.WeaponParams.Damage + _weaponData.WeaponParams.Damage;
         damaged.Damage(totalDamage, _data.WeaponParams.DamageType, _parent.transform);
 
@@ -323,6 +323,21 @@ public class ProjectileController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void PlayVFX(GameObject vfxPrefab)
+    {
+        var fx = Instantiate(
+            vfxPrefab,
+            _transform.position,
+            _transform.rotation
+        );
+
+        var ps = fx.GetComponent<ParticleSystem>();
+        if (ps != null)
+            Destroy(fx, ps.main.duration + ps.main.startLifetime.constantMax);
+        else
+            Destroy(fx, 5f);
     }
 
     private void PlayFlySound()
