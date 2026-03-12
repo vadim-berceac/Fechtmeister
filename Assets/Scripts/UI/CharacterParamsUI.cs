@@ -18,7 +18,22 @@ public class CharacterParamsUI : MonoBehaviour
     private void Start()
     {
         CharacterSelector.OnCharacterSelected += OnCharacterSelected;
-        ShowWindow(false);
+        var hasChar = CharacterSelector.SelectedCharacter != null;
+
+        if (hasChar)
+        {
+            _selectedCharacter = CharacterSelector.SelectedCharacter.Core;
+            SubScribe();
+            ShowWindow(true);
+            UpdateText();
+            UpdateSlider(_selectedCharacter.Health.CurrentHealth);
+            UpdateState(CharacterSelector.SelectedCharacter.Core.CurrentState);
+        }
+        else
+        {
+            ShowWindow(false);
+        }
+        
         DebugWindow.SetActive(Debug);
     }
 

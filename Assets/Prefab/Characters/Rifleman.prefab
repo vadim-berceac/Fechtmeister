@@ -1124,6 +1124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <IsAI>k__BackingField: 0
   <IsBoss>k__BackingField: 0
+  <StartInCombatMode>k__BackingField: 1
   <InputSmoothingSpeed>k__BackingField: 10
   <DamagedObject>k__BackingField: {fileID: 5935065817897022429}
   <GravitySettings>k__BackingField:

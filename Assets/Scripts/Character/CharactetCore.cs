@@ -7,6 +7,7 @@ public class CharacterCore : ManagedUpdatableObject
 {
     [field: SerializeField] public bool IsAI { get; private set; }
     [field: SerializeField] public bool IsBoss { get; private set; }
+    [field: SerializeField] public bool StartInCombatMode { get; private set; }
     [field: SerializeField] public float InputSmoothingSpeed { get; private set; } = 10f;
     [field: SerializeField] public Transform DamagedObject { get; private set; }
     [field: SerializeField] public GravitySettings GravitySettings { get; set; }
@@ -56,7 +57,7 @@ public class CharacterCore : ManagedUpdatableObject
         GraphCore = playableGraphCore;
         BehaviorNewInput = behaviorNewInput;
         AimTargetTransform = aimTargeting.transform;
-        CharacterInputHandler = new CharacterInputHandler(InputSmoothingSpeed);
+        CharacterInputHandler = new CharacterInputHandler(InputSmoothingSpeed, StartInCombatMode);
         
         if (!IsAI)
         {

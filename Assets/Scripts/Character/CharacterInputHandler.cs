@@ -24,14 +24,16 @@ public class CharacterInputHandler : IInputHandler
     private float _targetInputX;
     private float _targetInputY;
     
-    private readonly float _smoothingSpeed; 
+    private readonly float _smoothingSpeed;
+    private readonly bool _startInCombatMode;
     
     private bool _isSubscribed;
     public event Action<int> OnWeaponSwitch;
 
-    public CharacterInputHandler(float smoothingSpeed)
+    public CharacterInputHandler(float smoothingSpeed, bool startInCombatMode)
     {
         _smoothingSpeed = smoothingSpeed;
+        _startInCombatMode = startInCombatMode;
     }
 
     public void SetupInputSet(IInputSet inputSet)
@@ -46,6 +48,11 @@ public class CharacterInputHandler : IInputHandler
         InputSet = inputSet;
         _characterInputSet = (ICharacterInputSet)InputSet;
         Subscribe();
+
+        if (_startInCombatMode)
+        {
+            IsWeaponDraw = true;
+        }
     }
     
     public void SmoothInput(float deltaTime)
