@@ -14,6 +14,11 @@ public class RifleIdleAimSubState : State
             character.SceneCamera.SetCameraMode(CameraMode.AimCamera);
         }
     }
+    
+    public override void FixedUpdateState(CharacterCore character)
+    {
+       
+    }
 
     public override void ExitState(CharacterCore character)
     {

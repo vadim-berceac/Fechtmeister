@@ -69,6 +69,12 @@ public class SceneCamera : MonoBehaviour, IInputHandler
     {
         if (Target == null) return;
 
+        // Обновляем baseYaw для режима Aim, чтобы ограничения работали корректно
+        if (_currentMode == CameraMode.AimCamera)
+        {
+            _baseYaw = Target.eulerAngles.y;
+        }
+
         if (value.sqrMagnitude >= _currentSettings.Threshold)
         {
             _targetYaw += value.x * _currentSettings.RotationCoefficient;
