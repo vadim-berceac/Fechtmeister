@@ -14,6 +14,7 @@ public class ProjectileController : MonoBehaviour
     private bool _stuck;
     private bool _threatNotified;
     private AudioSource _audioSource;
+    private readonly RaycastHit[] _castResults = new RaycastHit[5];
 
     private const float ThreatDetectionRadius = 10f;
     private LayerMask _characterLayerMask;
@@ -244,17 +245,25 @@ public class ProjectileController : MonoBehaviour
 
     private void DetectCollisions()
     {
-        var center      = _transform.position + _transform.forward * _data.WeaponParams.HitBoxForwardOffset;
+        var center = _transform.position + _transform.forward * _data.WeaponParams.HitBoxForwardOffset;
         var halfExtents = _data.WeaponParams.HitBoxSize * 0.5f;
-
-        var hitCount = Physics.OverlapBoxNonAlloc(
-            center, halfExtents, _hitResults,
-            _transform.rotation, _data.LaunchSettings.LayerMask
+    
+        var moveDistance = _velocity.magnitude * Time.fixedDeltaTime;
+        var moveDirection = _velocity.normalized;
+    
+        var hitCount = Physics.BoxCastNonAlloc(
+            center,
+            halfExtents,
+            moveDirection,
+            _castResults,
+            _transform.rotation,
+            moveDistance,
+            _data.LaunchSettings.LayerMask
         );
 
         for (var i = 0; i < hitCount; i++)
         {
-            var hit = _hitResults[i];
+            var hit = _castResults[i].collider;
             if (hit == null || hit.isTrigger || hit == _parent) continue;
 
             HandleHit(hit);

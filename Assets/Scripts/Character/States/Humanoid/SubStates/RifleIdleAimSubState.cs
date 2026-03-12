@@ -26,9 +26,15 @@ public class RifleIdleAimSubState : State
             character.Inventory.IsWeaponOn 
             && character.Inventory.WeaponSystem.RangeType != RangeTypes.Melee
             && character.CharacterInputHandler.IsAttack
+            && !character.Health.IsDestroyed
             )
         {
             character.SetSubState(character.StatesSet.GetState("RifleShootingSubState"));
+        }
+
+        if (character.Health.IsDestroyed)
+        {
+            character.SetSubState(character.StatesSet.GetState("DefaultSubState"));
         }
     }
 

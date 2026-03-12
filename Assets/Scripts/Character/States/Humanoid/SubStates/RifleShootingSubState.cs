@@ -29,6 +29,11 @@ public class RifleShootingSubState : State
         {
             character.SetSubState(character.StatesSet.GetState("RifleIdleAimSubState"));
         }
+        
+        if (character.Health.IsDestroyed)
+        {
+            character.SetSubState(character.StatesSet.GetState("DefaultSubState"));
+        }
     }
     
     protected override void CheckAction(CharacterCore character)

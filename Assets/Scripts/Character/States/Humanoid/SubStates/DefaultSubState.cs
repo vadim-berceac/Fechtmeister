@@ -26,7 +26,8 @@ public class DefaultSubState : State
     protected override void CheckAction(CharacterCore character)
     {
         if (character.GraphCore.UpperBodyLayerController.IsComplete() && character.Inventory.IsWeaponOn
-            && character.Inventory.WeaponSystem.AnimationType == 7)
+            && character.Inventory.WeaponSystem.AnimationType == 7
+            && !character.Health.IsDestroyed)
         {
             character.SetSubState(character.StatesSet.GetState("RifleIdleAimSubState"));
         }
