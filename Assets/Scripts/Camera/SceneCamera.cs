@@ -90,23 +90,23 @@ public class SceneCamera : MonoBehaviour, IInputHandler
         _trackingTarget.transform.localRotation = Quaternion.Euler(_targetPitch, _targetYaw, 0.0f);
     }
 
-    public void SetTarget(Transform target)
+    public void SetTarget(Transform target, bool immediate = false)
     {
         if (target == null)
         {
             HasTarget = false;
             Target = null;
-            SetCameraMode(CameraMode.SceneCamera);
+            SetCameraMode(CameraMode.SceneCamera, immediate);
             OnTargetChanged?.Invoke();
             return;
         }
         HasTarget = true;
         Target = target;
-        SetCameraMode(CameraMode.FollowCamera);
+        SetCameraMode(CameraMode.FollowCamera, immediate);
         OnTargetChanged?.Invoke();
     }
-
-    public void SetCameraMode(CameraMode mode)
+    
+    public void SetCameraMode(CameraMode mode, bool immediate = false)
     {
         if (Target == null)
             mode = CameraMode.SceneCamera;
@@ -115,9 +115,17 @@ public class SceneCamera : MonoBehaviour, IInputHandler
             (_currentMode == CameraMode.AimCamera && mode == CameraMode.FollowCamera) ||
             (_currentMode == CameraMode.FollowCamera && mode == CameraMode.AimCamera);
 
-        SceneCameraData.Brain.DefaultBlend.Time = isFastTransition
-            ? SceneCameraData.FastBlendTime
-            : SceneCameraData.DefaultBlendTime;
+        // Если immediate - blend время 0, иначе обычные времена
+        if (immediate)
+        {
+            SceneCameraData.Brain.DefaultBlend.Time = 0f;
+        }
+        else
+        {
+            SceneCameraData.Brain.DefaultBlend.Time = isFastTransition
+                ? SceneCameraData.FastBlendTime
+                : SceneCameraData.DefaultBlendTime;
+        }
 
         ResetPriorities();
 
@@ -142,7 +150,6 @@ public class SceneCamera : MonoBehaviour, IInputHandler
                 var relativeYaw = Mathf.DeltaAngle(_baseYaw, _targetYaw);
                 relativeYaw = Mathf.Clamp(relativeYaw, _currentSettings.LeftClamp, _currentSettings.RightClamp);
                 _targetYaw = _baseYaw + relativeYaw;
-    
                 _sight.Enable();
                 break;
 
@@ -156,7 +163,7 @@ public class SceneCamera : MonoBehaviour, IInputHandler
 
         _currentMode = mode;
     }
-
+    
     private void ResetPriorities()
     {
         SceneCameraData.SceneCameraController.Priority = LowPriority;

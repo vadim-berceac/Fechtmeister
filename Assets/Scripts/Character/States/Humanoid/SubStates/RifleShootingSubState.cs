@@ -62,7 +62,5 @@ public class RifleShootingSubState : State
             .Inventory.WeaponSystem.InstanceInHands.EquppiedItemData);
         character.Inventory.ProjectileSystem.Shot();
         character.CharacterInputHandler.ResetInputBuffer();
-        
-        Debug.Log("dwe");
     }
 }

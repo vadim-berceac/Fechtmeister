@@ -7,13 +7,13 @@ public static class CharacterSelector
     {
         if (value)
         {
-            characterInfo.Core.SceneCamera.SetTarget(characterInfo.Core.CashedTransform);
+            characterInfo.Core.SceneCamera.SetTarget(characterInfo.Core.CashedTransform, immediate: true);
             characterInfo.Core.CharacterInputHandler.SetupInputSet(characterInfo.Core.InputByPlayer);
             characterInfo.ControlledByPlayer(true);
             OnCharacterSelected?.Invoke(characterInfo);
             return;
         }
-        characterInfo.Core.SceneCamera.SetTarget(null);
+        characterInfo.Core.SceneCamera.SetTarget(null, immediate: true);
         characterInfo.Core.CharacterInputHandler.SetupInputSet(null);
         characterInfo.ControlledByPlayer(false);
         OnCharacterSelected?.Invoke(null);

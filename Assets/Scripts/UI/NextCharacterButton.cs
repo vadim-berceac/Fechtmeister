@@ -11,6 +11,14 @@ public class NextCharacterButton : MonoBehaviour
       _sceneCharacterContainer = sceneCharacterContainer;
    }
 
+   private void Start()
+   {
+      if (_sceneCharacterContainer.GetNonAICharacters().Count > 0)
+      {
+         SelectNext();
+      }
+   }
+
    public void SelectNext()
    {
       ResetSelection();
