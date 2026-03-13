@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a0e819c08c8c24c945ae7564bdbcd2, type: 3}
+  m_Name: BossStunState
+  m_EditorClassIdentifier: Assembly-CSharp::BossStunState
+  <EnterTransitionDuration>k__BackingField: 0.2
+  <ApplyRootMotion>k__BackingField: 1
+  <Clips>k__BackingField:
+  - {fileID: 11400000, guid: 463619de4047b744ab3d442906d803f8, type: 2}
+  <AllowItemTargeting>k__BackingField: 0
+  <FixOnItemTarget>k__BackingField: 0
+  <ItemTargetingRigWeight>k__BackingField: 0
+  <AimRigWeight>k__BackingField: 0
+  <AllowSwitchWeaponInstance>k__BackingField: 0
+  <RotationByCamera>k__BackingField: 0
+  <RotationSpeed>k__BackingField: 0
+  <UseGravity>k__BackingField: 1
+  <FallSpeedMultiplier>k__BackingField: 1
+  <GroundLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 1
+  <Height>k__BackingField: 0
+  <Radius>k__BackingField: 0
+  <UseInventory>k__BackingField: 0
+  <EnableBossHitParts>k__BackingField: 0
+  <FastAttackAllowed>k__BackingField: 0

@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 118657796}
   - component: {fileID: 118657795}
   - component: {fileID: 118657794}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 438265743}
   - component: {fileID: 438265742}
   - component: {fileID: 438265741}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -463,7 +463,7 @@ GameObject:
   - component: {fileID: 455432312}
   - component: {fileID: 455432311}
   - component: {fileID: 455432310}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -738,6 +738,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a83515e2df7aba9488b1b78f28ddf43d, type: 3}
+--- !u!114 &1341572376 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2826338849064805150, guid: a83515e2df7aba9488b1b78f28ddf43d, type: 3}
+  m_PrefabInstance: {fileID: 1178184491}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9bfd70f74f1fe94fb31091e0f055ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
+--- !u!143 &1341572385 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 5115704636555227210, guid: a83515e2df7aba9488b1b78f28ddf43d, type: 3}
+  m_PrefabInstance: {fileID: 1178184491}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1721355068
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,7 +802,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 2172658039
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -810,8 +826,8 @@ MonoBehaviour:
   bossCore: {fileID: 2121182080}
   delay: 0.25
   damage: 10
-  playerHealth: {fileID: 0}
-  playerCollider: {fileID: 0}
+  playerHealth: {fileID: 1341572376}
+  playerCollider: {fileID: 1341572385}
   particle: {fileID: 955140966}
   audioSource: {fileID: 1721355075}
   shakeIntensity: 1
@@ -1012,7 +1028,7 @@ GameObject:
   - component: {fileID: 1812379484}
   - component: {fileID: 1812379483}
   - component: {fileID: 1812379482}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

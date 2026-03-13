@@ -27,7 +27,7 @@ MonoBehaviour:
     <EquippedProjectiles>k__BackingField: {fileID: 11400000, guid: 1be2bc8cba1ccf74aa8ad7c10c6f2432, type: 2}
     <AmountOfProjectiles>k__BackingField: 99
   <HealthDataSettings>k__BackingField:
-    <MaxHealth>k__BackingField: 500
+    <MaxHealth>k__BackingField: 1000
     <CurrentHealthPercentage>k__BackingField: 100
     <HitReactionTriggerValuePercentage>k__BackingField: 15
   <AccuracySettings>k__BackingField:

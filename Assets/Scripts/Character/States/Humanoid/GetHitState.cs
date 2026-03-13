@@ -10,7 +10,8 @@ public class GetHitState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new(character => character.Health.IsDestroyed, "DeathState"),
+            new (c => c.Health.IsDestroyed && c.IsBoss, "BossStunState"),
+            new(character => character.Health.IsDestroyed && !character.IsBoss, "DeathState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => character.Inventory.IsWeaponOn 
                              && character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),

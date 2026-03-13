@@ -10,7 +10,8 @@ public class FastAttackState : State
     {
         Transitions = new List<Transition<CharacterCore>>()
         {
-            new (c => c.Health.IsDestroyed, "DeathState"),
+            new (c => c.Health.IsDestroyed && c.IsBoss, "BossStunState"),
+            new (c => c.Health.IsDestroyed && !c.IsBoss, "DeathState"),
             new(character => character.Health.IsHitReactionEnabled, "GetHitState"),
             new(character => character.GraphCore.FullBodyAnimatorController.IsCurrentClipFinished(), "CombatIdleState"),
         };
